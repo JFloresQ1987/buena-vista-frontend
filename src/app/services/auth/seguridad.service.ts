@@ -27,7 +27,14 @@ export class SeguridadService {
       }
     }).pipe(
       tap((res: any) => {
-        this.usuario = new Usuario();
+
+        const { id, usuario, avatar } = res.usuario
+
+        this.usuario = new Usuario(id,
+          usuario,
+          'Jorge Flores Quispe',
+          'jfloresq1987@gmail.com',
+          'img.jpg', ['Administrador']);
         localStorage.setItem('token', res.token);
       }),
       map(res => true),

@@ -10,3 +10,13 @@
 .cursor{
     cursor: pointer;
 }
+
+input.ng-touched.ng-invalid{
+    
+    border-bottom: 1px solid #dc3545 !important;
+}
+
+input.ng-valid{
+    
+    border-bottom: 1px solid #28a745 !important;
+}
