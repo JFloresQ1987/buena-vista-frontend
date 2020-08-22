@@ -14,9 +14,9 @@ const routes: Routes = [
         component: PagesComponent,
         canActivate: [ AuthGuard ],
         children: [
-            { path: 'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' } },
-            { path: 'seguridad/gestion/usuario', component: UsuarioComponent, data: { titulo: 'Usuarios' } },
-            { path: 'seguridad/gestion/rol', component: RolComponent, data: { titulo: 'Roles' } },
+            { path: 'dashboard', component: DashboardComponent, data: { menu: 'Home', item: 'Dashboard' } },
+            { path: 'seguridad/gestion/usuario', component: UsuarioComponent, data: { menu: 'Gestión', item: 'Usuarios' } },
+            { path: 'seguridad/gestion/rol', component: RolComponent, data: { menu: 'Gestión', item: 'Roles' } },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
         ]
     }

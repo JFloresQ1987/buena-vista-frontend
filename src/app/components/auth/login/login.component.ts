@@ -17,7 +17,7 @@ export class LoginComponent {
     usuario: [localStorage.getItem('usuario') || '',
     [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
     clave: ['', Validators.required],
-    recordar: [false]
+    recordar: [localStorage.getItem('usuario') ? true : false]
   });
 
   constructor(private router: Router,
@@ -26,16 +26,22 @@ export class LoginComponent {
 
   login() {
     this.formSubmitted = true;
-    if (!this.form.valid)
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar los información proporcionada.", icon: 'warning'
+      });
       return;
+    }
 
     this.service.login(this.form.value)
       .subscribe((res: any) => {
 
-        if (this.form.get('recordar').value)
+        if (this.form.get('recordar').value) {
           localStorage.setItem('usuario', this.form.get('usuario').value);
-        else
+        }
+        else {
           localStorage.removeItem('usuario');
+        }
 
         this.router.navigateByUrl('/dashboard');
 

@@ -11,14 +11,17 @@ import { Subscription } from 'rxjs';
 })
 export class BreadcrumbsComponent implements OnDestroy {
 
-  public titulo: string;
+  public menu: string;
+  public item: string;
   public tituloSubs: Subscription;
   
   constructor(private router: Router) { 
+    
     this.getArgumentosRuta();
-    this.tituloSubs = this.getArgumentosRuta().subscribe( ({ titulo }) => {
-      this.titulo = titulo;
-      document.title = `Buenavista - ${ titulo }`;
+    this.tituloSubs = this.getArgumentosRuta().subscribe( ({ menu, item }) => {
+      this.menu = menu;
+      this.item = item;
+      document.title = `Buenavista - ${ item }`;
     })
   }  
 
@@ -31,7 +34,7 @@ export class BreadcrumbsComponent implements OnDestroy {
     .pipe(
       filter( event => event instanceof ActivationEnd ),
       filter( ( event: ActivationEnd ) => event.snapshot.firstChild === null ),
-      map( ( event: ActivationEnd ) => event.snapshot.data ),
+      map( ( event: ActivationEnd ) => event.snapshot.data)
     );
   }
 }

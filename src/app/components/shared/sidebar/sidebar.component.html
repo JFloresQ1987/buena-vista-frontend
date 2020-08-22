@@ -8,18 +8,17 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li class="user-profile">
-                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img
-                            src="./assets/images/users/profile.png" alt="user" />
-                        <span class="hide-menu">
-                            Jorge Flores Quispe
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="./assets/images/users/profile.png" alt="user" />
+                        <span class="hide-menu" style="color:#FFFFFF; font-weight: 600; font-size: 14px;">
+                            Cliente XXX XXX
                         </span>
                     </a>
                     <ul aria-expanded="false" class="collapse">
-                        <li><a href="javascript:void()">Ver Perfil </a></li>                        
+                        <li><a href="javascript:void()">Ver Perfil </a></li>
                     </ul>
                 </li>
                 <li class="nav-devider"></li>
-                <li class="nav-small-cap">PERSONAL</li>
+                <li class="nav-small-cap">MÓDULOS</li>
 
                 <li *ngFor="let item of menu">
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
@@ -32,8 +31,7 @@
                     </a>
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let item of item.submenu">
-                            <a [routerLink]="item.url" routerLinkActive="active"
-                                [routerLinkActiveOptions]="{ exact: true }">
+                            <a [routerLink]="item.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                                 {{ item.opcion }}
                             </a>
                         </li>
