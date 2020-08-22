@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Login } from '../../interfaces/auth/login.interface';
 import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
-import { Usuario } from '../../models/auth/usuario.model';
+import { Seguridad } from '../../models/auth/seguridad.model';
 import { environment } from '../../../environments/environment';
 
 const base_url = environment.base_url;
@@ -13,7 +13,7 @@ const base_url = environment.base_url;
 })
 export class SeguridadService {
 
-  public usuario: Usuario;
+  public seguridad: Seguridad;
 
   constructor(private http: HttpClient) { }
 
@@ -28,13 +28,18 @@ export class SeguridadService {
     }).pipe(
       tap((res: any) => {
 
-        const { id, usuario, avatar } = res.usuario
+        const { id, usuario, persona } = res.usuario
 
-        this.usuario = new Usuario(id,
+        this.seguridad = new Seguridad(id,
           usuario,
-          'Jorge Flores Quispe',
-          'jfloresq1987@gmail.com',
-          'img.jpg', ['Administrador']);
+          persona.nombre,
+          persona.apellido_paterno,
+          persona.apellido_materno,
+          persona.fecha_nacimiento,
+          persona.es_masculino,
+          persona.correo_electronico,
+          persona.avatar,
+          ['Administrador']);
         localStorage.setItem('token', res.token);
       }),
       map(res => true),
