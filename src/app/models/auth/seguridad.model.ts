@@ -14,11 +14,11 @@ export class Seguridad {
         public es_masculino?: boolean,
         public correo_electronico?: string,
         public avatar?: string,
-        public roles?: string[]
+        public rol?: string[]
     ) { }    
 
     getNombreCompleto() {
-        return `${this.nombre} ${this.apellido_paterno} ${this.apellido_materno}`;;
+        return `${this.nombre} ${this.apellido_paterno} ${this.apellido_materno}`;
     }
 
     getAvatar() {

@@ -41,6 +41,7 @@ export class SeguridadService {
           persona.avatar,
           ['Administrador']);
         localStorage.setItem('token', res.token);
+        localStorage.setItem('menu', JSON.stringify(res.menu));
       }),
       map(res => true),
       catchError(err => of(false))
@@ -59,5 +60,11 @@ export class SeguridadService {
   logout() {
 
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
+  }
+
+  get rol(): String[] {
+    
+    return this.seguridad.rol || [];
   }
 }
