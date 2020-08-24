@@ -21,11 +21,9 @@ export class SeguridadService {
 
     const token = localStorage.getItem('token') || '';
 
-    return this.http.get(`${base_url}/login/renovar_token`, {
-      headers: {
-        'x-token': token
-      }
-    }).pipe(
+    // console.log(token)
+
+    return this.http.get(`${base_url}/login/renovar_token`).pipe(
       tap((res: any) => {
 
         const { id, usuario, persona } = res.usuario

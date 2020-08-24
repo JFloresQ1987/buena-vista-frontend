@@ -12,8 +12,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
-    PagesRoutingModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    PagesRoutingModule
   ],
   exports: [RouterModule]
 })

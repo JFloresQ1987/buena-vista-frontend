@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class BreadcrumbsComponent implements OnDestroy {
 
+  public modulo: string;
   public menu: string;
   public item: string;
   public tituloSubs: Subscription;
@@ -18,7 +19,10 @@ export class BreadcrumbsComponent implements OnDestroy {
   constructor(private router: Router) { 
     
     this.getArgumentosRuta();
-    this.tituloSubs = this.getArgumentosRuta().subscribe( ({ menu, item }) => {
+    
+    this.tituloSubs = this.getArgumentosRuta().subscribe( ({ modulo, menu, item }) => {
+      
+      this.modulo = modulo;
       this.menu = menu;
       this.item = item;
       document.title = `Buenavista - ${ item }`;
@@ -26,10 +30,12 @@ export class BreadcrumbsComponent implements OnDestroy {
   }  
 
   ngOnDestroy(): void {
+    
     this.tituloSubs.unsubscribe();
   }
 
   getArgumentosRuta() {
+    
     return this.router.events
     .pipe(
       filter( event => event instanceof ActivationEnd ),
