@@ -8,12 +8,19 @@ import { UsuarioComponent } from './seguridad/gestion/usuario/usuario.component'
 import { RolComponent } from './seguridad/gestion/rol/rol.component';
 import { OperacionFinancieraComponent } from './registro/operacion-financiera/operacion-financiera.component';
 import { SocioComponent } from './registro/socio/socio.component';
+import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
 
 const childRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
     data: { modulo: 'Buenavista', menu: 'Home', item: 'Dashboard' }
+  },
+  {
+    path: 'dashboard/socio',
+    component: DashboardSocioComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Buenavista', menu: 'Home', item: 'Perfil del Socio', roles: ["Administrador"] }
   },
   {
     path: 'seguridad/gestion/usuario',

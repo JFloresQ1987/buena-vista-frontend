@@ -14,24 +14,28 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group m-b-10">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" placeholder="Usuario" formControlName="usuario" maxlength="8">
                             <div class="error">
                                 <div class="help-block">
-                                    <p *ngIf="validarCampo('usuario', 'required')">El usuario es obligatorio</p>
-                                    <p *ngIf="validarCampo('usuario', 'minlength')">El usuario es incorrecto min</p>
-                                    <p *ngIf="validarCampo('usuario', 'maxlength')">El usuario es incorrecto max</p>
+                                    <small>
+                                        <p *ngIf="validarCampo('usuario', 'required')">El usuario es un dato obligatorio.</p>
+                                        <p *ngIf="validarCampo('usuario', 'minlength')">Ingrese un usuario correcto.</p>
+                                        <p *ngIf="validarCampo('usuario', 'maxlength')">Ingrese un usuario correcto.</p>
+                                    </small>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group m-b-10">
                         <div class="col-xs-12">
                             <input class="form-control" type="password" placeholder="Clave" formControlName="clave" maxlength="30">
-                            <div class="error">
+                            <div class="error m-b-0">
                                 <div class="help-block">
-                                    <p *ngIf="validarCampo('clave', 'required')">La clave es obligatorio</p>
+                                    <small>    
+                                        <p *ngIf="validarCampo('clave', 'required')">La clave es un dato obligatorio.</p>
+                                    </small>
                                 </div>
                             </div>
                         </div>

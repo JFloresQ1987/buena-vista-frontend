@@ -5,114 +5,205 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+
                 <form class="form-horizontal" [formGroup]="form" (submit)=guardar()>
+
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            DNI:
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="documento_identidad">
-                            <div class="input-group-addon"><i class="ti-credit-card"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('documento_identidad'),
+                            'has-danger': validarError('documento_identidad')
+                        }">
+                            <label class="form-control-label">
+                                DNI: <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('documento_identidad') ? 'form-control-success' : 'form-control-danger'" formControlName="documento_identidad" maxlength="8">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('documento_identidad', 'required')">El documento de identidad es
+                                    un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('documento_identidad', 'minlength')">Ingrese un documento de
+                                    identidad correcto.</p>
+                                <p *ngIf="validarCampo('documento_identidad', 'maxlength')">Ingrese un documento de
+                                    identidad correcto.</p>
+                            </small>
                         </div>
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Nombre
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="nombre">
-                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('nombre'),
+                            'has-danger': validarError('nombre')
+                        }">
+                            <label class="form-control-label">
+                                Nombre: <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('nombre') ? 'form-control-success' : 'form-control-danger'" formControlName="nombre" maxlength="50">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('nombre', 'required')">El nombre es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('nombre', 'maxlength')">Ingrese un nombre correcto.</p>
+                            </small>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Apellido Paterno:
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="apellido_paterno">
-                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('apellido_paterno'),
+                            'has-danger': validarError('apellido_paterno')
+                        }">
+                            <label class="form-control-label">
+                                Apellido paterno: <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('apellido_paterno') ? 'form-control-success' : 'form-control-danger'" formControlName="apellido_paterno" maxlength="50">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('apellido_paterno', 'required')">El apellido paterno es un dato
+                                    obligatorio.</p>
+                                <p *ngIf="validarCampo('apellido_paterno', 'maxlength')">Ingrese un apellido paterno
+                                    correcto.</p>
+                            </small>
                         </div>
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Apellido Materno:
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="apellido_materno">
-                            <div class="input-group-addon"><i class="ti-user"></i></div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Fecha de nacimiento:
-                        </label>
-                        <div class="col-sm-3">
-                            <input class="form-control" type="date" formControlName="fecha_nacimiento">
-                        </div>
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            ¿Masculino?:
-                        </label>
-                        <div class="col-sm-3">
-                            <input id="checkbox33" type="checkbox" formControlName="es_masculino">
-                            <label for="checkbox33"></label>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Número de celular:
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="numero_celular">
-                            <div class="input-group-addon"><i class="ti-mobile"></i></div>
-                        </div>
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Número de teléfono:
-                        </label>
-                        <div class="col-sm-3 input-group">
-                            <input type="text" class="form-control" formControlName="numero_telefono">
-                            <div class="input-group-addon"><i class="ti-mobile"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('apellido_materno'),
+                            'has-danger': validarError('apellido_materno')
+                        }">
+                            <label class="form-control-label">
+                                Apellido materno: <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('apellido_materno') ? 'form-control-success' : 'form-control-danger'" formControlName="apellido_materno" maxlength="50">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('apellido_materno', 'required')">El apellido materno es un dato
+                                    obligatorio.</p>
+                                <p *ngIf="validarCampo('apellido_materno', 'maxlength')">Ingrese un apellido materno
+                                    correcto.</p>
+                            </small>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Correo electrónico:
-                        </label>
-                        <div class="col-sm-9 input-group">
-                            <input type="email" class="form-control" formControlName="correo_electronico">
-                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('fecha_nacimiento'),
+                            'has-danger': validarError('fecha_nacimiento')
+                        }">
+                            <label class="form-control-label">
+                                Fecha de nacimiento:
+                            </label>
+                            <input class="form-control" [ngClass]="validarSuccess('fecha_nacimiento') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_nacimiento" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('fecha_nacimiento', 'required')">La fecha de nacimiento es un
+                                    dato obligatorio.</p>
+                                <p *ngIf="validarCampo('fecha_nacimiento', 'minlength')">Ingrese una fecha de nacimiento
+                                    correcto.</p>
+                                <p *ngIf="validarCampo('fecha_nacimiento', 'maxlength')">Ingrese una fecha de nacimiento
+                                    correcto.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('documento_identidad'),
+                            'has-danger': validarError('documento_identidad')
+                        }">
+                            <label for="inputEmail3" class="col-form-label">
+                                ¿Masculino?:
+                            </label>
+                            <div class="col-sm-12">
+                                <input id="checkbox33" type="checkbox" formControlName="es_masculino">
+                                <label for="checkbox33"></label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Domicilio:
-                        </label>
-                        <div class="col-sm-9 input-group">
-                            <input type="text" class="form-control" formControlName="domicilio">
-                            <div class="input-group-addon"><i class="ti-home"></i></div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('numero_celular'),
+                            'has-danger': validarError('numero_celular')
+                        }">
+                            <label class="form-control-label">
+                                Número de celular:
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('numero_celular') ? 'form-control-success' : 'form-control-danger'" formControlName="numero_celular" maxlength="15">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('numero_celular', 'maxlength')">Ingrese un número de celular
+                                    correcto.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('numero_telefono'),
+                            'has-danger': validarError('numero_telefono')
+                        }">
+                            <label class="form-control-label">
+                                Número de teléfono:
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('numero_telefono') ? 'form-control-success' : 'form-control-danger'" formControlName="numero_telefono" maxlength="15">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('numero_telefono', 'maxlength')">Ingrese un número de teléfono
+                                    correcto.</p>
+                            </small>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Referencia del Domicilio:
-                        </label>
-                        <div class="col-sm-9 input-group">
-                            <input type="text" class="form-control" formControlName="referencia_domicilio">
-                            <div class="input-group-addon"><i class="ti-home"></i></div>
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('correo_electronico'),
+                            'has-danger': validarError('correo_electronico')
+                        }">
+                            <label class="form-control-label">
+                                Correo electrónico:
+                            </label>
+                            <input type="email" class="form-control" [ngClass]="validarSuccess('correo_electronico') ? 'form-control-success' : 'form-control-danger'" formControlName="correo_electronico" maxlength="150">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('correo_electronico', 'email')">Ingrese un correo electronico
+                                    correcto.</p>
+                                <p *ngIf="validarCampo('correo_electronico', 'maxlength')">Ingrese un correo electronico
+                                    correcto.</p>
+                            </small>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Departamento:
-                        </label>
-                        <div class="col-sm-3">
-                            <select class="custom-select col-9" id="inlineFormCustomSelect">
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('domicilio'),
+                            'has-danger': validarError('domicilio')
+                        }">
+                            <label class="form-control-label">
+                                Domicilio:
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('domicilio') ? 'form-control-success' : 'form-control-danger'" formControlName="domicilio" maxlength="200">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('domicilio', 'required')">El domicilio es un dato obligatorio.
+                                </p>
+                                <p *ngIf="validarCampo('domicilio', 'maxlength')">Ingrese un domicilio correcto.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('referencia_domicilio'),
+                            'has-danger': validarError('referencia_domicilio')
+                        }">
+                            <label class="form-control-label">
+                                Referencia del domicilio:
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('referencia_domicilio') ? 'form-control-success' : 'form-control-danger'" formControlName="referencia_domicilio" maxlength="200">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('referencia_domicilio', 'required')">La referencia del domicilio
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('referencia_domicilio', 'maxlength')">Ingrese una referencia del
+                                    domicilio correcto.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('departamento'),
+                            'has-danger': validarError('departamento')
+                        }">
+                            <label class="form-control-label">
+                                Departamento:
+                            </label>
+                            <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('departamento') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
                                 <option selected="">--Seleccionar--</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Provincia:
-                        </label>
-                        <div class="col-sm-3">
-                            <select class="custom-select col-9" id="inlineFormCustomSelect">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('provincia'),
+                            'has-danger': validarError('provincia')
+                        }">
+                            <label class="form-control-label">
+                                Provincia:
+                            </label>
+                            <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('provincia') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
                                 <option selected="">--Seleccionar--</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -121,30 +212,45 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Distrito:
-                        </label>
-                        <div class="col-sm-3">
-                            <select class="custom-select col-9" id="inlineFormCustomSelect">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('distrito'),
+                            'has-danger': validarError('distrito')
+                        }">
+                            <label class="form-control-label">
+                                Distrito:
+                            </label>
+                            <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('distrito') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
                                 <option selected="">--Seleccionar--</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-3 text-left control-label col-form-label">
-                            Comentario:
-                        </label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="5"></textarea>
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('comentario'),
+                            'has-danger': validarError('comentario')
+                        }">
+                            <label class="form-control-label">
+                                Comentario:
+                            </label>
+                            <textarea class="form-control" [ngClass]="validarSuccess('comentario') ? 'form-control-success' : 'form-control-danger'" formControlName="comentario" rows="5"></textarea>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('comentario', 'required')">El comentario es un dato obligatorio.
+                                </p>
+                                <p *ngIf="validarCampo('comentario', 'maxlength')">Ingrese un comentario correcto.</p>
+                            </small>
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group text-right m-b-0">
-                        <div class="offset-sm-3">
-                            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">
+                    <div class="form-group text-right row m-b-0">
+                        <div class="col-sm-12">
+                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                                <i class="fa fa-times-circle"></i>
+                                &nbsp; Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
                                 <i class="fa fa-save"></i>
                                 &nbsp; Guardar
                             </button>
