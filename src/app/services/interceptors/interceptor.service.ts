@@ -15,7 +15,10 @@ export class InterceptorService implements HttpInterceptor {
 
     console.log('Interceptor token')
     const headers = new HttpHeaders ({
-      'x-token': localStorage.getItem('token') || ''
+      'x-token': localStorage.getItem('token') || '',
+      'uid': '1',
+      'usuario': '44684165',
+      'nombre': 'Jorge'
     });
 
     const req_clone = req.clone({

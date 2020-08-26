@@ -20,7 +20,7 @@ const childRoutes: Routes = [
     path: 'dashboard/socio',
     component: DashboardSocioComponent,
     canActivate: [AuthorizationGuard],
-    data: { modulo: 'Buenavista', menu: 'Home', item: 'Perfil del Socio', roles: ["Administrador"] }
+    data: { modulo: 'Buenavista', menu: 'Home', item: 'Perfil del Socio', roles: ["Administrador", "Analista", "Cajero"] }
   },
   {
     path: 'seguridad/gestion/usuario',

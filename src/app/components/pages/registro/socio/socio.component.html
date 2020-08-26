@@ -78,7 +78,7 @@
                             'has-danger': validarError('fecha_nacimiento')
                         }">
                             <label class="form-control-label">
-                                Fecha de nacimiento:
+                                Fecha de nacimiento: <span class="text-danger">(*)</span>
                             </label>
                             <input class="form-control" [ngClass]="validarSuccess('fecha_nacimiento') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_nacimiento" maxlength="10">
                             <small class="form-control-feedback">
@@ -95,7 +95,7 @@
                             'has-danger': validarError('documento_identidad')
                         }">
                             <label for="inputEmail3" class="col-form-label">
-                                ¿Masculino?:
+                                ¿Masculino?: <span class="text-danger">(*)</span>
                             </label>
                             <div class="col-sm-12">
                                 <input id="checkbox33" type="checkbox" formControlName="es_masculino">
@@ -154,7 +154,7 @@
                             'has-danger': validarError('domicilio')
                         }">
                             <label class="form-control-label">
-                                Domicilio:
+                                Domicilio: <span class="text-danger">(*)</span>
                             </label>
                             <input type="text" class="form-control" [ngClass]="validarSuccess('domicilio') ? 'form-control-success' : 'form-control-danger'" formControlName="domicilio" maxlength="200">
                             <small class="form-control-feedback">
@@ -170,7 +170,7 @@
                             'has-danger': validarError('referencia_domicilio')
                         }">
                             <label class="form-control-label">
-                                Referencia del domicilio:
+                                Referencia del domicilio: <span class="text-danger">(*)</span>
                             </label>
                             <input type="text" class="form-control" [ngClass]="validarSuccess('referencia_domicilio') ? 'form-control-success' : 'form-control-danger'" formControlName="referencia_domicilio" maxlength="200">
                             <small class="form-control-feedback">
@@ -233,7 +233,7 @@
                             'has-danger': validarError('comentario')
                         }">
                             <label class="form-control-label">
-                                Comentario:
+                                Comentario: <span class="text-danger">(*)</span>
                             </label>
                             <textarea class="form-control" [ngClass]="validarSuccess('comentario') ? 'form-control-success' : 'form-control-danger'" formControlName="comentario" rows="5"></textarea>
                             <small class="form-control-feedback">
