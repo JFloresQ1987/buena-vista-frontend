@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Seguridad } from '../../models/auth/seguridad.model';
 import { environment } from '../../../environments/environment';
-import { SesionSocioService } from '../shared/sesion-socio.service';
-import { Socio } from 'src/app/models/core/socio.model';
+// import { SesionSocioService } from '../shared/sesion-socio.service';
+// import { Socio } from 'src/app/models/core/socio.model';
 
 const base_url = environment.base_url;
 
@@ -17,8 +17,11 @@ export class SeguridadService {
 
   public seguridad: Seguridad;
 
-  constructor(private http: HttpClient,
-    private sesionSocioService: SesionSocioService) { }
+  constructor(private http: HttpClient/*,
+    private sesionSocioService: SesionSocioService*/) { 
+
+      console.log('entro para buscando seguridad')
+    }
 
   validarToken(): Observable<boolean> {
 
@@ -64,7 +67,7 @@ export class SeguridadService {
     localStorage.removeItem('token');
     localStorage.removeItem('menu');
     localStorage.removeItem('socio');
-    this.sesionSocioService.sesionSocio = new Socio();
+    // this.sesionSocioService.sesionSocio = new Socio();
 
     // sesionSocioService.
   }

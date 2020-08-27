@@ -3,22 +3,30 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, Http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { SeguridadService } from '../auth/seguridad.service';
+import { Seguridad } from 'src/app/models/auth/seguridad.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
 
-  constructor() { }
+  // private seguridad: Seguridad
+  
+  constructor(/*private service: SeguridadService*/) {
+    
+    // this.seguridad = this.service.seguridad
+    console.log('ejecutando inter')
+  };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log('Interceptor token')
     const headers = new HttpHeaders ({
-      'x-token': localStorage.getItem('token') || '',
-      'uid': '1',
-      'usuario': '44684165',
-      'nombre': 'Jorge'
+      'x-token': localStorage.getItem('token') || ''/*,
+      'uid': this.seguridad.id,
+      'usuario': this.seguridad.usuario,
+      'nombre': this.seguridad.nombre*/
     });
 
     const req_clone = req.clone({

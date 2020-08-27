@@ -3,8 +3,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { SeguridadService } from '../services/auth/seguridad.service';
 import { tap } from 'rxjs/operators';
-import { SesionSocioService } from '../services/shared/sesion-socio.service';
-import { Socio } from '../models/core/socio.model';
+// import { SesionSocioService } from '../services/shared/sesion-socio.service';
+// import { Socio } from '../models/core/socio.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { Socio } from '../models/core/socio.model';
 export class AuthGuard implements CanActivate, CanLoad {
 
   constructor(private seguridadService: SeguridadService,
-    private sesionSocioService: SesionSocioService,
+    //private sesionSocioService: SesionSocioService,
     private router: Router) { }
 
   canLoad(route: Route, segments: import("@angular/router").UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {

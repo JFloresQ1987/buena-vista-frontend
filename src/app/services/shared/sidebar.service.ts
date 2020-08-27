@@ -12,5 +12,7 @@ export class SidebarService {
     this.menu = JSON.parse(localStorage.getItem('menu')) || [];
   }  
   
-  constructor() { }
+  constructor() {
+    console.log('entro para buscando side bar')
+   }
 }

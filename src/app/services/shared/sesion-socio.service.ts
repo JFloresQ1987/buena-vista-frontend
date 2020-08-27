@@ -20,6 +20,8 @@ export class SesionSocioService {
 
     // this.sesionSocio = new Socio();
 
+    console.log('entro para buscando xxx')
+
     if (localStorage.getItem('socio')) {
       // console.log('entrooo 111'+localStorage.getItem('socio'))
       this.buscarSocio(localStorage.getItem('socio')).subscribe((res: any) => {

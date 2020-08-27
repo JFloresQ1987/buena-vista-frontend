@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
 
+    this.sesionSocio = new Socio();
     this.seguridadService.logout();
     this.router.navigateByUrl('/login');
   }
@@ -49,17 +50,6 @@ export class HeaderComponent implements OnInit {
       });
       return;
     }
-
-    // this.router.navigateByUrl(`/dashboard/socio/${documento_identidad}`);    
-
-    // this.sesionSocioService.buscarSocio( documento_identidad )
-    //   .pipe(
-    //     tap(existe_socio => {
-    //       console.log(existe_socio);
-    //       if (existe_socio)
-    //         this.router.navigateByUrl('/dashboard/socio');
-    //     })
-    //   );
 
     this.sesionSocioService.buscarSocio(documento_identidad)
       .subscribe((res: any) => {
@@ -116,62 +106,5 @@ export class HeaderComponent implements OnInit {
           });
       });
 
-    // this.sesionSocioService.buscarSocio(documento_identidad)
-    //   .subscribe((res: any) => {
-
-    //     const { persona } = res
-
-    //     // this.sesionSocio = new Socio(
-    //     //   persona.id,
-    //     //   persona.nombre,
-    //     //   persona.apellido_paterno,
-    //     //   persona.apellido_materno,
-    //     //   persona.fecha_nacimiento,
-    //     //   persona.es_masculino,
-    //     //   persona.avatar
-    //     // );
-
-    //     this.sesionSocio.nombre = persona.nombre;
-    //     this.sesionSocio.apellido_paterno = persona.apellido_paterno;
-    //     this.sesionSocio.apellido_materno = persona.apellido_materno;
-
-    //     // localStorage.setItem('socio', res.token);
-    //     // localStorage.setItem('menu', JSON.stringify(res.menu));
-    //     // console.log(this.sesionSocio)
-
-    //     // console.log(existe_socio);
-    //     // if (existe_socio)
-    //     this.router.navigateByUrl('/dashboard/socio');
-
-    //     // }, (err) => {
-
-    //     //   if (err.status === 400)
-    //     //     Swal.fire({
-    //     //       text: err.error.msg, icon: 'warning'
-    //     //     });
-    //     //   else
-    //     //     Swal.fire({
-    //     //       text: err.error.msg, icon: 'error'
-    //     //     });
-    //   });
-    // this.sesionSocioService.buscarSocio(documento_identidad)
-    //   .subscribe((existe_socio: any) => {
-
-    //     // console.log(existe_socio);
-    //     // if (existe_socio)
-    //       this.router.navigateByUrl('/dashboard/socio');
-
-    //   }, (err) => {
-
-    //     if (err.status === 400)
-    //       Swal.fire({
-    //         text: err.error.msg, icon: 'warning'
-    //       });
-    //     else
-    //       Swal.fire({
-    //         text: err.error.msg, icon: 'error'
-    //       });
-    //   });
   }
-
 }
