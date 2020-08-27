@@ -13,7 +13,7 @@ export class DashboardSocioComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // console.log(this.service.sesionSocio)
+    console.log(this.service.sesionSocio)
     
     // this.activatedRoute.params
     // .subscribe(({ documento_identidad }) => {

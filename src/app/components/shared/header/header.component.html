@@ -201,7 +201,7 @@
                                     <div class="u-text">
                                         <h4>{{ seguridad.getNombreCompleto() }}</h4>
                                         <p class="text-muted">{{ seguridad.correo_electronico }}</p>
-                                        <a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">
+                                        <a routerLink="dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-rounded btn-danger btn-sm">
                                             Ver Perfil
                                         </a>
                                     </div>
