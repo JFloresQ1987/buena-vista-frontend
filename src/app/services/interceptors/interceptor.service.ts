@@ -11,22 +11,28 @@ import { Seguridad } from 'src/app/models/auth/seguridad.model';
 })
 export class InterceptorService implements HttpInterceptor {
 
-  // private seguridad: Seguridad
+  private seguridad: Seguridad
   
-  constructor(/*private service: SeguridadService*/) {
+  constructor(private service: SeguridadService) {
     
-    // this.seguridad = this.service.seguridad
-    console.log('ejecutando inter')
+    this.seguridad = this.service.seguridad
+    // console.log('ejecutando inter')
   };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log('Interceptor token')
+
+
     const headers = new HttpHeaders ({
-      'x-token': localStorage.getItem('token') || ''/*,
+      'x-token': localStorage.getItem('token') || '',/*,
       'uid': this.seguridad.id,
       'usuario': this.seguridad.usuario,
       'nombre': this.seguridad.nombre*/
+
+      'id_sesion': this.seguridad ? this.seguridad.id : '0',
+      'usuario_sesion': this.seguridad ? this.seguridad.usuario : '',
+      'nombre_sesion': this.seguridad ? this.seguridad.nombre : ''
     });
 
     const req_clone = req.clone({

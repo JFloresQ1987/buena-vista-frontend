@@ -34,6 +34,6 @@ import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-soci
     SharedModule,
     RouterModule,
     ReactiveFormsModule
-  ]  
+  ]
 })
 export class PagesModule { }
