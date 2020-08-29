@@ -26,7 +26,7 @@ const childRoutes: Routes = [
     path: 'seguridad/gestion/usuario',
     component: UsuarioComponent,
     canActivate: [AuthorizationGuard],
-    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Usuarios', roles: ["Cajero"] }
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Usuarios', roles: ["Administrador"] }
   },
   {
     path: 'seguridad/gestion/rol',
