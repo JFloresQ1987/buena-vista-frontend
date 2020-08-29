@@ -2,12 +2,247 @@
 <!-- Start Page Content -->
 <!-- ============================================================== -->
 <div class="row">
-    <div class="col-12">
+    <div class="col-7">
         <div class="card">
             <div class="card-body">
 
+                <form class="form-horizontal" [formGroup]="form" (submit)=guardar()>
+                    <div class="form-group row">
+                        <!-- <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('monto_capital'),
+                            'has-danger': validarError('monto_capital')
+                        }">
+                            <label class="form-control-label">
+                                Préstamo (S/.): <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('monto_capital') ? 'form-control-success' : 'form-control-danger'" formControlName="monto_capital" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('monto_capital', 'required')">El préstamo
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('monto_capital', 'maxlength')">Ingrese un monto de préstamo
+                                    correcto.</p>
+                            </small>
+                        </div>                         -->
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('tipo_operacion_financiera'),
+                            'has-danger': validarError('tipo_operacion_financiera')
+                        }">
+                            <label class="form-control-label">
+                                Tipo de crédito: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="custom-select col-12 form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('tipo_operacion_financiera'),
+                                'form-control-danger': validarError('tipo_operacion_financiera')
+                            }" formControlName="tipo_operacion_financiera" (change)="buscarProgramacionPago($event.target.value)">
+                                <option value="">--Seleccionar--</option>
+                                <option value="1">Crédito diario</option>
+                                <option value="2">Crédito personal</option>
+                                <option value="3">Banco comunal individual</option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('tipo_operacion_financiera', 'required')">El tipo de crédito
+                                    es un dato obligatorio.</p>                                
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('programacion_pago'),
+                            'has-danger': validarError('programacion_pago')
+                        }">
+                            <label class="form-control-label">
+                                Programación de pago: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="custom-select col-12" [ngClass]="{
+                                'form-control-success': validarSuccess('programacion_pago'),
+                                'form-control-danger': validarError('programacion_pago')
+                            }" formControlName="programacion_pago">
+                                <option value="" selected="">--Seleccionar--</option>
+                                <option *ngFor="let item of programacion_pago" value="{{item.id}}">{{item.programacion}}</option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('programacion_pago', 'required')">La programación de pago
+                                    es un dato obligatorio.</p>                                
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('monto_capital'),
+                            'has-danger': validarError('monto_capital')
+                        }">
+                            <label class="form-control-label">
+                                Préstamo (S/.): <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('monto_capital') ? 'form-control-success' : 'form-control-danger'" formControlName="monto_capital" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('monto_capital', 'required')">El préstamo
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('monto_capital', 'maxlength')">Ingrese un monto de préstamo
+                                    correcto.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('monto_ahorro_inicial'),
+                            'has-danger': validarError('monto_ahorro_inicial')
+                        }">
+                            <label class="form-control-label">
+                                Ahorro inicial (S/.): <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('monto_ahorro_inicial') ? 'form-control-success' : 'form-control-danger'" formControlName="monto_ahorro_inicial" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('monto_ahorro_inicial', 'required')">El ahorro inicial
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('monto_ahorro_inicial', 'maxlength')">Ingrese un monto de ahorro
+                                    inicial correcto.</p>
+                            </small>
+                        </div>
+                        <!-- <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('cantidad_cuotas'),
+                            'has-danger': validarError('cantidad_cuotas')
+                        }">
+                            <label class="form-control-label">
+                                Número de cuotas: <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('cantidad_cuotas') ? 'form-control-success' : 'form-control-danger'" formControlName="cantidad_cuotas" maxlength="3">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('cantidad_cuotas', 'required')">El número de cuotas
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('cantidad_cuotas', 'maxlength')">Ingrese un número de cuotas
+                                    correcto.</p>
+                            </small>
+                        </div> -->
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('tasa_interes'),
+                            'has-danger': validarError('tasa_interes')
+                        }">
+                            <label class="form-control-label">
+                                Tasa de interés (%): <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('tasa_interes') ? 'form-control-success' : 'form-control-danger'" formControlName="tasa_interes" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('tasa_interes', 'required')">La tasa de interés
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('tasa_interes', 'maxlength')">Ingrese una tasa de interés
+                                    correcto.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('tasa_ahorro_programado'),
+                            'has-danger': validarError('tasa_ahorro_programado')
+                        }">
+                            <label class="form-control-label">
+                                Tasa de ah. programado (%): <span class="text-danger">(*)</span>
+                            </label>
+                            <input type="text" class="form-control" [ngClass]="validarSuccess('tasa_ahorro_programado') ? 'form-control-success' : 'form-control-danger'" formControlName="tasa_ahorro_programado" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('tasa_ahorro_programado', 'required')">La tasa de ahorro
+                                    programado
+                                    es un dato obligatorio.</p>
+                                <p *ngIf="validarCampo('tasa_ahorro_programado', 'maxlength')">Ingrese una tasa de
+                                    ahorro programado correcto.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('fecha_inicio_pago'),
+                            'has-danger': validarError('fecha_inicio_pago')
+                        }">
+                            <label class="form-control-label">
+                                Fecha de inicio: <span class="text-danger">(*)</span>
+                            </label>
+                            <input class="form-control" [ngClass]="validarSuccess('fecha_inicio_pago') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_inicio_pago" maxlength="10">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('fecha_inicio_pago', 'required')">La fecha de inicio es un
+                                    dato obligatorio.</p>
+                                <p *ngIf="validarCampo('fecha_inicio_pago', 'minlength')">Ingrese una fecha de inicio
+                                    correcto.</p>
+                                <p *ngIf="validarCampo('fecha_inicio_pago', 'maxlength')">Ingrese una fecha de inicio
+                                    correcto.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputEmail3" class="col-form-label">
+                                ¿Incluir sábados?:
+                            </label>
+                            <div class="col-sm-12">
+                                <input id="checkbox33" type="checkbox" formControlName="incluir_sabados">
+                                <label for="checkbox33"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
+                            'has-success': validarSuccess('comentario'),
+                            'has-danger': validarError('comentario')
+                        }">
+                            <label class="form-control-label">
+                                Comentario: <span class="text-danger">(*)</span>
+                            </label>
+                            <textarea class="form-control" [ngClass]="validarSuccess('comentario') ? 'form-control-success' : 'form-control-danger'" formControlName="comentario" rows="5"></textarea>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('comentario', 'required')">El comentario es un dato obligatorio.
+                                </p>
+                                <p *ngIf="validarCampo('comentario', 'maxlength')">Ingrese un comentario correcto.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group text-right row m-b-0">
+                        <div class="col-sm-12">
+                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                                <i class="fa fa-times-circle"></i>
+                                &nbsp; Cancelar
+                            </button>
+                            <button type="button" (click)="calcular()" class="btn btn-lg btn-success waves-effect waves-light m-r-10">
+                                <i class="fa fa-cogs"></i>
+                                &nbsp; Calcular
+                            </button>
+                            <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
+                                <i class="fa fa-save"></i>
+                                &nbsp; Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
-
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table class="table full-color-table full-success-table hover-table m-b-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center font-table">#</th>
+                                    <th class="text-center font-table">Fecha de pago</th>
+                                    <th class="text-center font-table">k</th>
+                                    <th class="text-center font-table">i</th>
+                                    <th class="text-center font-table">k+i</th>
+                                    <th class="text-center font-table">AP</th>
+                                    <th class="text-center font-table">Cuota (S/.)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cuota of cuotas">
+                                    <td class="text-center font-table">{{ cuota.cuota }}</td>
+                                    <td class="text-center font-table">{{ cuota.fecha }}</td>
+                                    <td class="text-center font-table">{{ cuota.monto_cuota_capital_visual }}</td>
+                                    <td class="text-center font-table">{{ cuota.monto_cuota_interes_visual }}</td>
+                                    <td class="text-center font-table">{{ cuota.monto_cuota }}</td>
+                                    <td class="text-center font-table">{{ cuota.monto_cuota_ahorro_programado }}</td>
+                                    <td class="text-center font-table">{{ cuota.monto_cuota_total }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
