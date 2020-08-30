@@ -48,9 +48,12 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   gestionError(err: HttpErrorResponse){
-    console.log(err);
+    // console.log(err.error.msg);
     Swal.fire({
-      text: 'Error personalizado, desde interceptor.', icon: 'error'
+      text: err.error.msg, icon: 'error'
+
+// cons
+
     });
     return throwError('Error personalizado.');
   }
