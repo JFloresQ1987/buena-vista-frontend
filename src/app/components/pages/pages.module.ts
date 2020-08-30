@@ -10,6 +10,8 @@ import { OperacionFinancieraComponent } from './registro/operacion-financiera/op
 import { SocioComponent } from './registro/socio/socio.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
+import { ProductoComponent } from './operaciones/producto/producto.component';
+import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-soci
     RolComponent,
     SocioComponent,
     OperacionFinancieraComponent,
-    DashboardSocioComponent
+    DashboardSocioComponent,
+    ProductoComponent,
+    ProductoDetalleComponent
   ],
   exports: [
     PagesComponent,

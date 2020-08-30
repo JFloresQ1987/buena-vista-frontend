@@ -9,6 +9,8 @@ import { RolComponent } from './seguridad/gestion/rol/rol.component';
 import { OperacionFinancieraComponent } from './registro/operacion-financiera/operacion-financiera.component';
 import { SocioComponent } from './registro/socio/socio.component';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
+import { ProductoComponent } from './operaciones/producto/producto.component';
+import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 
 const childRoutes: Routes = [
   {
@@ -45,6 +47,18 @@ const childRoutes: Routes = [
     component: OperacionFinancieraComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Créditos', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'operaciones/gestion/producto',
+    component: ProductoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Gestión', item: 'Producto', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'operaciones/gestion/producto-detalle/:id',
+    component: ProductoDetalleComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Gestión', item: 'Producto detalle', roles: ["Administrador", "Analista", "Cajero"] }
   },
   {
     path: '',

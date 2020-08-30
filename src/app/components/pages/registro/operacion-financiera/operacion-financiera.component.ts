@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PersonaService } from '../../../../services/core/registro/persona.service';
 import Swal from 'sweetalert2';
 import * as dayjs from 'dayjs';
+import { OperacionFinancieraService } from '../../../../services/core/registro/operacion-financiera.service';
+import { OperaconFinanciera } from '../../../../interfaces/core/registro/operacion-financiera.interface';
+import { SesionSocioService } from '../../../../services/shared/sesion-socio.service';
+import { Socio } from '../../../../models/core/socio.model';
 
 @Component({
   selector: 'app-operacion-financiera',
@@ -12,26 +15,33 @@ import * as dayjs from 'dayjs';
 export class OperacionFinancieraComponent implements OnInit {
 
   public cargando: boolean = false;
+  public calculado: boolean = false;
   public form: FormGroup;
   public formSubmitted = false;
   // public cantidad_cuotas: number;
   public programacion_pago = [];
   public cuotas = [];
+  public sesionSocio: Socio;
 
-  constructor(private service: PersonaService,
-    private formBuilder: FormBuilder) { }
+  constructor(private service: OperacionFinancieraService,
+    private formBuilder: FormBuilder,
+    private sesionSocioService: SesionSocioService) {
+
+      this.sesionSocio = this.sesionSocioService.sesionSocio;
+    }
 
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
-      tipo_operacion_financiera: ['', [Validators.required]],
+      tipo: ['', [Validators.required]],
       monto_capital: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_gasto: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
       tasa_interes: ['6', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_aporte_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       programacion_pago: ['', [Validators.required]],
       monto_ahorro_inicial: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      tasa_ahorro_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // cantidad_cuotas: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]],
-      fecha_inicio_pago: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      fecha_inicio: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       incluir_sabados: [true, Validators.required],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
@@ -39,13 +49,20 @@ export class OperacionFinancieraComponent implements OnInit {
     // this.cantidad_cuotas = 10;//this.form.get('cantidad_cuotas').value || 10;
   }
 
-  buscarProgramacionPago(tipo_operacion_financiera: number) {
+  volverCalcular(){
 
+    this.calculado = false;
+  }
+
+  buscarProgramacionPago(tipo: number) {
+
+    this.calculado = false;
+    
     // this.programacion_pago = [];
 
-    // console.log(tipo_operacion_financiera)
+    // console.log(tipo)
 
-    if (tipo_operacion_financiera == 1) {
+    if (tipo == 1) {
 
       this.programacion_pago = [
         { id: 20, programacion: '20 días' },
@@ -59,7 +76,7 @@ export class OperacionFinancieraComponent implements OnInit {
       // console.log(this.programacion_pago)
       return this.programacion_pago
     }
-    else if (tipo_operacion_financiera == 2) {
+    else if (tipo == 2) {
 
       this.programacion_pago = [
         { id: 4, programacion: '1 mes - semanal' },
@@ -95,6 +112,15 @@ export class OperacionFinancieraComponent implements OnInit {
 
   calcular() {
 
+    if (this.sesionSocio.id === '0') {
+      Swal.fire({
+        text: "Primero debe buscar un socio.", icon: 'warning'
+      });
+      return;
+    }
+
+// console.log(this.sesionSocio)
+    
     this.formSubmitted = true;
     if (!this.form.valid) {
       Swal.fire({
@@ -103,39 +129,41 @@ export class OperacionFinancieraComponent implements OnInit {
       return;
     }
 
+    this.calculado = true;
+
     const capital = this.form.get('monto_capital').value;
     const cantidad_cuotas = this.form.get('programacion_pago').value;
     // const cantidad_cuotas = this.form.get('cantidad_cuotas').value;
     const tasa_interes = this.form.get('tasa_interes').value;
-    const tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
-    const now = dayjs(this.form.get('fecha_inicio_pago').value);
+    const tasa_aporte_programado = this.form.get('tasa_aporte_programado').value;
+    const now = dayjs(this.form.get('fecha_inicio').value);
     // const now = dayjs();
 
-    // console.log(this.form.get('fecha_inicio_pago').value)//fecha_inicio_pago
+    // console.log(this.form.get('fecha_inicio').value)//fecha_inicio
 
-    // console.log(dayjs(this.form.get('fecha_inicio_pago').value))
+    // console.log(dayjs(this.form.get('fecha_inicio').value))
 
     // let dias = [];
 
-    this.cuotas = [];
+    this.cuotas = [];    
 
     for (let i = 1; i <= cantidad_cuotas; i++) {
       let fecha: any;
       // let fecha = now.add(i, 'day');
 
-      if (this.form.get('tipo_operacion_financiera').value == 1)
+      if (this.form.get('tipo').value == 1)
         fecha = now.add(i, 'day');
-      else if (this.form.get('tipo_operacion_financiera').value == 2)
+      else if (this.form.get('tipo').value == 2)
         fecha = now.add((i * 7), 'day');
 
-      if ((fecha.format('d') != '0' && this.form.get('tipo_operacion_financiera').value == 1)
-        // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo_operacion_financiera').value == 1))
-        || this.form.get('tipo_operacion_financiera').value == 2) {
+      if ((fecha.format('d') != '0' && this.form.get('tipo').value == 1)
+        // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
+        || this.form.get('tipo').value == 2) {
 
         if ((((fecha.format('d') != '6'
           || fecha.format('d') == '6' && this.form.get('incluir_sabados').value)
-          && this.form.get('tipo_operacion_financiera').value == 1))
-          || this.form.get('tipo_operacion_financiera').value == 2) {
+          && this.form.get('tipo').value == 1))
+          || this.form.get('tipo').value == 2) {
 
           if (fecha.format('d') == '0')
             fecha = now.add(1, 'day');
@@ -164,7 +192,10 @@ export class OperacionFinancieraComponent implements OnInit {
           else if (fecha.format('d') == '6' && !this.form.get('incluir_sabados').value)
             fecha = now.add(-2, 'day');
 
-          this.cuotas.push({ fecha: fecha_formateada });
+          this.cuotas.push({
+            fecha_cuota: fecha.format('DD/MM/YYYY'),
+            fecha_cuota_visual: fecha_formateada
+          });
           // this.cuotas.push({ fecha: fecha.format('DD/MM/YYYY') });
         }
 
@@ -182,11 +213,11 @@ export class OperacionFinancieraComponent implements OnInit {
 
     const monto_cuota = Math.ceil((monto_cuota_capital + monto_cuota_interes) * 10) / 10;
 
-    const monto_cuota_ahorro_programado = Math.ceil((monto_cuota * (tasa_ahorro_programado / 100)) * 10) / 10;
+    const monto_cuota_ahorro_programado = Math.ceil((monto_cuota * (tasa_aporte_programado / 100)) * 10) / 10;
 
     const monto_cuota_total = monto_cuota + monto_cuota_ahorro_programado;
 
-    // console.log(dias);
+    console.log(this.cuotas);
 
     // this.cuotas = [];
 
@@ -194,14 +225,14 @@ export class OperacionFinancieraComponent implements OnInit {
 
       // let fecha = now.add(i, 'day')
       let cuota = {
-        cuota: i,
+        numero_cuota: i,
         // fecha: fecha.format('DD/MM/YYYY'),
-        monto_cuota_capital,
+        monto_amortizacion_capital: monto_cuota_capital,
         monto_cuota_capital_visual,
-        monto_cuota_interes,
+        monto_interes: monto_cuota_interes,
         monto_cuota_interes_visual,
         monto_cuota,
-        monto_cuota_ahorro_programado,
+        monto_ahorro_programado: monto_cuota_ahorro_programado,
         monto_cuota_total
       };
 
@@ -220,11 +251,31 @@ export class OperacionFinancieraComponent implements OnInit {
       this.cuotas[i - 1] = Object.assign(cuota, this.cuotas[i - 1]);
     }
 
+    this.cuotas.push({
+      numero_cuota: 0,
+      fecha_cuota: dayjs().format('DD/MM/YYYY'),
+      monto_gasto: this.form.get('monto_gasto').value,
+      monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
+    });
 
   }
 
   guardar() {
 
+    if (this.sesionSocio.id === '0') {
+      Swal.fire({
+        text: "Primero debe buscar un socio.", icon: 'warning'
+      });
+      return;
+    }
+    
+    if (!this.calculado) {
+      Swal.fire({
+        text: "Ha modificado los datos de cálculo, por lo que debe volver a ejecutar el cálculo.", icon: 'warning'
+      });
+      return;
+    }
+    
     this.formSubmitted = true;
     if (!this.form.valid) {
       Swal.fire({
@@ -232,6 +283,39 @@ export class OperacionFinancieraComponent implements OnInit {
       });
       return;
     }
+
+    const modelo: OperaconFinanciera = this.form.value;
+    modelo.tipo = "CD";
+    modelo.numero_ciclo = 0;
+    modelo.tasa_aporte_inicial = 0;
+    modelo.tasa_aporte_capital = 0;
+    modelo.tasa_mora = 0;
+    modelo.detalle = this.cuotas;
+    modelo.persona = this.sesionSocio.id;
+
+
+
+    // this.cuotas.push({
+    //   numero_cuota: 0,
+    //   fecha_cuota: dayjs().format('DD/MM/YYYY'),
+    //   monto_gasto: this.form.get('monto_gasto').value,
+    //   monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
+    // });
+
+    // console.log('entro a guardar')
+    console.log(modelo)
+
+    this.service.crear(modelo)
+      .subscribe(res => {
+
+        // console.log(res);
+        Swal.fire({
+          text: 'La información se guardó satisfactoriamente.', icon: 'success'
+        });
+
+        this.cancelar();
+        
+      });
   }
 
   cancelar() {

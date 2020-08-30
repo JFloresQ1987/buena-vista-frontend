@@ -14,6 +14,10 @@ export class Socio {
         public avatar: string = ''
     ) { }    
 
+    getId() {
+        return this.id;
+    }
+
     getNombreCompleto() {
         return `${this.nombre} ${this.apellido_paterno} ${this.apellido_materno}`;
     }

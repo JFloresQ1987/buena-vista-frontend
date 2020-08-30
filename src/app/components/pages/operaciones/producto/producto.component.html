@@ -1,0 +1,34 @@
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <!-- <div class="col-12 m-t-30">
+        <h4 class="m-b-0">Card styles</h4>
+        <p class="text-muted m-t-0 font-12">Cards include various options for customizing their backgrounds, borders, and color.<code>.card-primary info, warning, danger</code></p>
+    </div> -->
+    <div class="col-md-6" *ngFor="let producto of productos">
+        <div class="card card-outline-{{ producto.color }}">
+            <div class="card-header">
+                <h4 class="m-b-0 text-white">{{ producto.tipo }} - {{ producto.fecha_inicio }}</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Special title treatment</h3>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a [routerLink]="['/operaciones/gestion/producto-detalle', producto.id]" class="btn btn-inverse">Ver detalle del producto</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
