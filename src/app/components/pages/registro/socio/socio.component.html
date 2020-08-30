@@ -9,6 +9,7 @@
                 <form class="form-horizontal" [formGroup]="form" (submit)=guardar()>
 
                     <div class="form-group row">
+                        
                         <div class="col-sm-6" [ngClass]="{
                             'has-success': validarSuccess('documento_identidad'),
                             'has-danger': validarError('documento_identidad')
