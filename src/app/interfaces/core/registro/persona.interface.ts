@@ -1,4 +1,5 @@
-export interface Persona {
+export interface Persona {    
+    id?: String,
     nombre: String,
     apellido_paterno: String,
     apellido_materno: String,
@@ -9,5 +10,7 @@ export interface Persona {
     numero_celular: String,
     correo_electronico: String,
     domicilio: String,
-    avatar: String
+    referencia_domicilio: String
+    avatar: String,
+    comentario?: String
 }
