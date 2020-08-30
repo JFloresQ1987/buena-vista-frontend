@@ -23,9 +23,9 @@ export class AuthorizationGuard implements CanActivate {
         const roles = this.service.seguridad.rol;
         const coincidencias = route.data.roles.filter(rol => roles.includes(rol))
   
-        // console.log(roles)
-        // console.log(route.data.roles)
-        // console.log(coincidencias)
+        console.log(roles)
+        console.log(route.data.roles)
+        console.log(coincidencias)
   
         if (route.data.roles && coincidencias.length === 0) {
   

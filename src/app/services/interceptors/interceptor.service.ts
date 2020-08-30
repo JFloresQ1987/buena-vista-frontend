@@ -30,7 +30,7 @@ export class InterceptorService implements HttpInterceptor {
       'usuario': this.seguridad.usuario,
       'nombre': this.seguridad.nombre*/
 
-      'id_sesion': this.seguridad ? this.seguridad.id : '0',
+      'id_usuario_sesion': this.seguridad ? this.seguridad.id : '0',
       'usuario_sesion': this.seguridad ? this.seguridad.usuario : '',
       'nombre_sesion': this.seguridad ? this.seguridad.nombre : ''
     });
