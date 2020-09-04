@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PersonaService } from '../../../../services/core/registro/persona.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Persona } from '../../../../interfaces/core/registro/persona.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-socio',
@@ -11,14 +13,21 @@ import Swal from 'sweetalert2';
 })
 export class SocioComponent implements OnInit {
 
+  public persona: Persona[] = [];
   public cargando: boolean = false;
   public form: FormGroup;
   public formSubmitted = false;
+  public personaSeleccionada: Persona;
 
   constructor(private service: PersonaService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.activatedRoute.params.subscribe( ({id}) => {
+      this.carga(id)
+    })
 
     this.form = this.formBuilder.group({
       documento_identidad: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
@@ -32,33 +41,47 @@ export class SocioComponent implements OnInit {
       correo_electronico: ['', [Validators.email, Validators.maxLength(150)]],
       domicilio: ['', [Validators.required, Validators.maxLength(200)]],
       referencia_domicilio: ['', [Validators.required, Validators.maxLength(200)]],
-      // avatar: [''],
+      //avatar: [''],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
   }
 
   guardar() {
+    if ( this.personaSeleccionada){
+      const data = {
+        ...this.form.value,
+        id: this.personaSeleccionada.id
+      }
+      console.log(data);
+      this.service.actualizar(data)
+          .subscribe(resp => {
+            console.log("Estas aquiiiiiiiiiiiiiiiiiiiiii:", resp);
+            Swal.fire({
+              text: 'La información se actualizó satisfactoriamente.', icon: 'success'
+            });
+          })
 
-    this.formSubmitted = true;
-    if (!this.form.valid) {
-      Swal.fire({
-        text: "Validar la información proporcionada.", icon: 'warning'
-      });
-      return;
-    }
-    
-    this.service.crear(this.form.value)
-      .subscribe(res => {
-
-        // console.log(res);
+    } else {
+      this.formSubmitted = true;
+      if (!this.form.valid) {
         Swal.fire({
-          text: 'La información se guardó satisfactoriamente.', icon: 'success'
+          text: "Validar la información proporcionada.", icon: 'warning'
+        });
+        return;
+      }
+      
+      this.service.crear(this.form.value)
+        .subscribe(res => {  
+          // console.log(res);
+          Swal.fire({
+            text: 'La información se guardó satisfactoriamente.', icon: 'success'
+          });  
+          this.cancelar();          
         });
 
-        this.cancelar();
-        
-      });
-  }
+    }
+
+  } 
 
   cancelar() {    
     
@@ -94,4 +117,44 @@ export class SocioComponent implements OnInit {
     else
       return false;
   }
+
+  carga(id: String){
+
+    this.service.obtenerPersona(id)
+      .subscribe( persona => {
+        const {          
+          documento_identidad, 
+          nombre, 
+          apellido_materno, 
+          apellido_paterno,
+          fecha_nacimiento,
+          es_masculino,
+          numero_telefono,
+          numero_celular,
+          correo_electronico,
+          domicilio,
+          referencia_domicilio,
+          comentario               
+          } = persona
+        this.personaSeleccionada = persona
+        this.form.setValue({
+          documento_identidad, 
+          nombre, 
+          apellido_materno, 
+          apellido_paterno,
+          fecha_nacimiento,
+          es_masculino,
+          numero_telefono,
+          numero_celular,
+          correo_electronico,
+          domicilio,
+          referencia_domicilio,
+          comentario        
+        } )
+      })
+
+  }
+
+
+
 }

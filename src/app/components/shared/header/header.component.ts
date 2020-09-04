@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   }
 
   // buscarSocio(documento_identidad: string) {
-    buscarSocio(documento_identidad: string) {
+  buscarSocio(documento_identidad: string) {
 
     // console.log(documento_identidad)
     if (documento_identidad.length != 8) {
@@ -105,6 +105,5 @@ export class HeaderComponent implements OnInit {
             text: err.error.msg, icon: 'error'
           });
       });
-
   }
 }
