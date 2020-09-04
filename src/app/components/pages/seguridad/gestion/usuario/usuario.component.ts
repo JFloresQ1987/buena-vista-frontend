@@ -11,7 +11,7 @@ export class UsuarioComponent implements OnInit {
 
   totalRegistros:number = 0;
   usuarios:[] = [];
-
+  
   constructor(private usuario:UsuarioService) { }
 
   ngOnInit(): void {

@@ -5,6 +5,7 @@ import { AuthorizationGuard } from '../../guards/authorization.guard';
 
 import { DashboardComponent } from './inicio/dashboard/dashboard.component';
 import { UsuarioComponent } from './seguridad/gestion/usuario/usuario.component';
+import { CrearComponent } from './seguridad/gestion/usuario/crear/crear.component';
 import { RolComponent } from './seguridad/gestion/rol/rol.component';
 import { OperacionFinancieraComponent } from './registro/operacion-financiera/operacion-financiera.component';
 import { SocioComponent } from './registro/socio/socio.component';
@@ -26,7 +27,13 @@ const childRoutes: Routes = [
     path: 'seguridad/gestion/usuario',
     component: UsuarioComponent,
     canActivate: [AuthorizationGuard],
-    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Usuarios', roles: ["Administrador"] }
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Usuarios', roles: ["Administrador"] },
+  },
+  {
+    path: 'seguridad/gestion/usuario/:id',
+    component: CrearComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Usuario Registro', roles: ["Administrador"] },
   },
   {
     path: 'seguridad/gestion/rol',
