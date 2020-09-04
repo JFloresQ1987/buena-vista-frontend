@@ -10,6 +10,7 @@ import { OperacionFinancieraComponent } from './registro/operacion-financiera/op
 import { SocioComponent } from './registro/socio/socio.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
+import { CrearComponent } from './seguridad/gestion/usuario/crear/crear.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 
@@ -22,6 +23,7 @@ import { ProductoDetalleComponent } from './operaciones/producto-detalle/product
     SocioComponent,
     OperacionFinancieraComponent,
     DashboardSocioComponent,
+    CrearComponent,
     ProductoComponent,
     ProductoDetalleComponent
   ],
