@@ -12,7 +12,7 @@ import { SesionSocioService } from '../../../services/shared/sesion-socio.servic
 export class SidebarComponent implements OnInit {
 
   menu: any[];
-  socio: Socio;
+  sesionSocio: Socio;
 
   constructor(public sidebarService: SidebarService,
     public sesionSocioService: SesionSocioService) {
@@ -21,7 +21,7 @@ export class SidebarComponent implements OnInit {
     // console.log(sesionSocioService.sesionSocio)
 
     // if (localStorage.getItem('socio')) {
-      this.socio = sesionSocioService.sesionSocio;
+      this.sesionSocio = sesionSocioService.sesionSocio;
     // } else {
     //   this.socio = new Socio();
     // }
@@ -41,6 +41,17 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  limpiarSesionSocio() {
+
+    this.sesionSocio.id = '0';
+    this.sesionSocio.nombre = '';
+    this.sesionSocio.apellido_paterno = '';
+    this.sesionSocio.apellido_materno = '';
+    this.sesionSocio.fecha_nacimiento = '';
+    this.sesionSocio.es_masculino = true;
+    this.sesionSocio.avatar = '';
   }
 
 }

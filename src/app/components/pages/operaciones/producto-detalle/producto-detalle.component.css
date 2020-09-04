@@ -1,0 +1,18 @@
+.w100 {
+    max-width: 80px;
+    vertical-align: middle;
+}
+
+.align-self-center i {
+    font-size: 50px;
+    /*color: #79B1FA;*/
+}
+
+.h100 {
+    height: 100px;
+}
+
+.font-table {
+    font-size: 12px;
+    padding: .25rem;
+}

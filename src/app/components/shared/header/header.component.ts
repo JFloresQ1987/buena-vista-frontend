@@ -35,7 +35,16 @@ export class HeaderComponent implements OnInit {
 
   logout() {
 
-    this.sesionSocio = new Socio();
+    // this.sesionSocio = new Socio();
+
+    this.sesionSocio.id = '0';
+    this.sesionSocio.nombre = '';
+    this.sesionSocio.apellido_paterno = '';
+    this.sesionSocio.apellido_materno = '';
+    this.sesionSocio.fecha_nacimiento = '';
+    this.sesionSocio.es_masculino = true;
+    this.sesionSocio.avatar = '';
+
     this.seguridadService.logout();
     this.router.navigateByUrl('/login');
   }
