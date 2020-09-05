@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
 import { PersonaService } from '../../../../services/core/registro/persona.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Persona } from '../../../../interfaces/core/registro/persona.interface';
 import { ActivatedRoute } from '@angular/router';
+import { SesionSocioService } from '../../../../services/shared/sesion-socio.service';
+import { Socio } from '../../../../models/core/socio.model';
 
 @Component({
   selector: 'app-socio',
@@ -18,10 +21,17 @@ export class SocioComponent implements OnInit {
   public form: FormGroup;
   public formSubmitted = false;
   public personaSeleccionada: Persona;
+  public sesionSocio: Socio
+
+  public buttonName = true;
+
 
   constructor(private service: PersonaService,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private sesionSocioService: SesionSocioService) {
+      this.sesionSocio = this.sesionSocioService.sesionSocio;
+    }
 
   ngOnInit(): void {
 
@@ -55,7 +65,6 @@ export class SocioComponent implements OnInit {
       console.log(data);
       this.service.actualizar(data)
           .subscribe(resp => {
-            console.log("Estas aquiiiiiiiiiiiiiiiiiiiiii:", resp);
             Swal.fire({
               text: 'La información se actualizó satisfactoriamente.', icon: 'success'
             });
@@ -85,9 +94,53 @@ export class SocioComponent implements OnInit {
 
   cancelar() {    
     
-    this.formSubmitted=false;
-    this.form.reset();
+    this.formSubmitted=false
+    this.form.reset()
   }
+
+  editar(){
+    this.form.enable();
+  }
+
+  cambiarFuncion(){
+    if (this.buttonName === false){
+      if ( this.personaSeleccionada){
+        const data = {
+          ...this.form.value,
+          id: this.personaSeleccionada.id
+        }
+        console.log(data);
+        this.service.actualizar(data)
+            .subscribe(resp => {
+              Swal.fire({
+                text: 'La información se actualizó satisfactoriamente.', icon: 'success'
+              });
+            })
+  
+      } else {
+        this.formSubmitted = true;
+        if (!this.form.valid) {
+          Swal.fire({
+            text: "Validar la información proporcionada.", icon: 'warning'
+          });
+          return;
+        }
+        
+        this.service.crear(this.form.value)
+          .subscribe(res => {  
+            // console.log(res);
+            Swal.fire({
+              text: 'La información se guardó satisfactoriamente.', icon: 'success'
+            });  
+            this.cancelar();          
+          });          
+      }
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
 
   validarCampo(campo: string, validar: string): boolean {
     
@@ -119,8 +172,13 @@ export class SocioComponent implements OnInit {
   }
 
   carga(id: String){
+    console.log('aquí esta la sesion', this.sesionSocio.id);
 
-    this.service.obtenerPersona(id)
+    if(this.sesionSocio.id === '0'){
+      return
+    }
+
+    this.service.obtenerPersona(this.sesionSocio.id)
       .subscribe( persona => {
         const {          
           documento_identidad, 
@@ -149,8 +207,9 @@ export class SocioComponent implements OnInit {
           correo_electronico,
           domicilio,
           referencia_domicilio,
-          comentario        
-        } )
+          comentario:''    
+        })
+        this.form.disable();
       })
 
   }
