@@ -13,6 +13,8 @@ import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-soci
 import { CrearComponent } from './seguridad/gestion/usuario/crear/crear.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
+import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
+import { FormComponent } from './seguridad/gestion/analista/form.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { ProductoDetalleComponent } from './operaciones/producto-detalle/product
     DashboardSocioComponent,
     CrearComponent,
     ProductoComponent,
-    ProductoDetalleComponent
+    ProductoDetalleComponent,
+    AnalistaComponent,
+    FormComponent
   ],
   exports: [
     PagesComponent,

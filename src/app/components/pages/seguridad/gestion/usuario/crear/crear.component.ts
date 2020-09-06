@@ -143,8 +143,7 @@ export class CrearComponent {
 
   cancelar() {
 
-    this.formSubmitted = false;
-    this.form.reset();
+  this.router.navigateByUrl('seguridad/gestion/usuario')
 
   }
 
