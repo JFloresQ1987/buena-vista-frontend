@@ -59,11 +59,12 @@ const childRoutes: Routes = [
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Informacion Analista', roles: ["Administrador"] }
   },
   {
+  /* {
     path: 'registro/gestion/socio',
     component: SocioComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Socios', roles: ["Administrador", "Analista"] }
-  },
+  }, */
   {
     path: 'registro/gestion/socio/:id',
     component: SocioComponent,
