@@ -33,4 +33,9 @@ export class UsuarioService {
     return this.http.put(url,objeto);
   }
 
+  listarxrol(rol:string){
+    const url = `${base_url}/usuarios/rol/${rol}`;
+    return this.http.get(url);
+  }
+
 }

@@ -15,6 +15,8 @@ import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
+import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
+import { FormComponent } from './seguridad/gestion/analista/form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.compone
     ProductoComponent,
     ProductoDetalleComponent,
     CajaComponent,
-    CrearCajaComponent
+    CrearCajaComponent,
+    AnalistaComponent,
+    FormComponent
   ],
   exports: [
     PagesComponent,
