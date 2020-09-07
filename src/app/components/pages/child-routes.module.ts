@@ -65,15 +65,15 @@ const childRoutes: Routes = [
     component: CajaComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Cajas', roles: ["Administrador"] }
-},
-    
-{
-  path: 'seguridad/gestion/caja/:id',
-  component: CrearCajaComponent,
-  canActivate: [AuthorizationGuard],
-  data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Crear Caja', roles: ["Administrador"] }
-},
+  },
+      
   {
+    path: 'seguridad/gestion/caja/:id',
+    component: CrearCajaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Crear Caja', roles: ["Administrador"] }
+  },
+  
   /* {
     path: 'registro/gestion/socio',
     component: SocioComponent,
