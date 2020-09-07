@@ -12,6 +12,8 @@ import { SocioComponent } from './registro/socio/socio.component';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
+import { CajaComponent } from './seguridad/gestion/caja/caja.component';
+import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 
 const childRoutes: Routes = [
   {
@@ -42,6 +44,18 @@ const childRoutes: Routes = [
     component: RolComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Roles', roles: ["Administrador"] }
+  },
+  {
+    path: 'seguridad/gestion/caja',
+    component: CajaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Cajas', roles: ["Administrador"] }
+  },
+  {
+    path: 'seguridad/gestion/caja/:id',
+    component: CrearCajaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Crear Caja', roles: ["Administrador"] }
   },
   /* {
     path: 'registro/gestion/socio',

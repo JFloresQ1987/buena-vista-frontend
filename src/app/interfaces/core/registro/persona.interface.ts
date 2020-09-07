@@ -12,5 +12,5 @@ export interface Persona {
     domicilio: String,
     referencia_domicilio: String
     avatar: String,
-    comentario?: Array<string>[]
+    comentario?: String
 }

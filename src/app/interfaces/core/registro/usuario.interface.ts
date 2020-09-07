@@ -1,4 +1,5 @@
 export interface Usuario {
+    id?: String,
     nombre: String,
     apellido_paterno: String,
     apellido_materno: String,

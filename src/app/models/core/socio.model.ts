@@ -8,7 +8,7 @@ export class Socio {
         public id: string = '0',
         public nombre: string = '',
         public apellido_paterno: string = '',
-        public apellido_materno: string = '',
+        public apellido_materno: string = '', 
         public fecha_nacimiento: string = '',
         public es_masculino: boolean = true,
         public avatar: string = ''
