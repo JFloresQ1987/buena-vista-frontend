@@ -13,6 +13,8 @@ import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-soci
 import { CrearComponent } from './seguridad/gestion/usuario/crear/crear.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
+import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/producto-detalle-pago.component';
+import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { ProductoDetalleComponent } from './operaciones/producto-detalle/product
     DashboardSocioComponent,
     CrearComponent,
     ProductoComponent,
-    ProductoDetalleComponent
+    ProductoDetalleComponent,
+    ProductoDetallePagoComponent,
+    ProductoPagoComponent
   ],
   exports: [
     PagesComponent,

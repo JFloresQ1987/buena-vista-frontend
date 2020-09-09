@@ -374,6 +374,7 @@ export class OperacionFinancieraComponent implements OnInit {
     }
 
     this.cuotas.push({
+      estado: 'Vigente',
       numero_cuota: 0,
       fecha_cuota: dayjs().format('DD/MM/YYYY'),
       monto_gasto: this.form.get('monto_gasto').value,
@@ -431,6 +432,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log(programacionX);
     const modelo: OperaconFinanciera = this.form.value;
     modelo.tipo = tipo.descripcion;
+    // modelo.estado = 'Vigente'
     modelo.color = color;
     modelo.programacion = programacion.descripcion;
     modelo.monto_gasto = this.form.get('monto_gasto').value;
@@ -455,7 +457,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // });
 
     // console.log('entro a guardar')
-    console.log(modelo)
+    // console.log(modelo)
 
     this.service.crear(modelo)
       .subscribe(res => {

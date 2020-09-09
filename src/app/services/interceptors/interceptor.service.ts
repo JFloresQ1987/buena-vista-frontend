@@ -5,23 +5,32 @@ import { catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { SeguridadService } from '../auth/seguridad.service';
 import { Seguridad } from 'src/app/models/auth/seguridad.model';
+import { SesionSocioService } from '../shared/sesion-socio.service';
+import { Socio } from '../../models/core/socio.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
 
-  private seguridad: Seguridad
+  private seguridad: Seguridad;
+  private socio: Socio;
   
-  constructor(private service: SeguridadService) {
+  constructor(private seguridadService: SeguridadService,
+    private sesionSocioService: SesionSocioService) {
     
-    this.seguridad = this.service.seguridad
+    // this.seguridad = this.service.seguridad
     // console.log('ejecutando inter')
   };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log('Interceptor token')
+
+    this.seguridad = this.seguridadService.seguridad;
+    this.socio = this.sesionSocioService.sesionSocio;
+
+    console.log(this.socio)
 
 
     const headers = new HttpHeaders ({

@@ -12,6 +12,8 @@ import { SocioComponent } from './registro/socio/socio.component';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
+import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.component';
+import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/producto-detalle-pago.component';
 
 const childRoutes: Routes = [
   {
@@ -78,6 +80,18 @@ const childRoutes: Routes = [
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full'
+  },
+  {
+    path: 'caja/pago/producto-caja',
+    component: ProductoPagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Producto', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'caja/pago/producto-detalle-caja/:id',
+    component: ProductoDetallePagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Producto detalle', roles: ["Administrador", "Cajero"] }
   }
 ]
 
