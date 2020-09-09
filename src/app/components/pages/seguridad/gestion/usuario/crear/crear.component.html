@@ -134,8 +134,8 @@
             <div class="col-sm-6">
               <label class="form-control-label">Rol</label>
               <select id="roles" multiple="multiple" formControlName="rol">
-                <option value="Administrador">Administrador</option>
-                <option value="Cajero">Cajero</option>
+                <option value="Administrador">Administrador</option><!-- " 0: 'Administrador'" -->
+                <option value="Cajero">Cajero</option><!-- ["0: 'Adminsitrador'","1: 'Cajero'"] -->
                 <option value="Analista">Analista</option>
               </select>
             </div>
@@ -338,52 +338,6 @@
               </small>
             </div>
           </div>
-          <!-- <div class="form-group row">
-                    <div class="col-sm-6" [ngClass]="{
-                        'has-success': validarSuccess('departamento'),
-                        'has-danger': validarError('departamento')
-                    }">
-                        <label class="form-control-label">
-                            Departamento:
-                        </label>
-                        <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('departamento') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
-                            <option selected="">--Seleccionar--</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-6" [ngClass]="{
-                        'has-success': validarSuccess('provincia'),
-                        'has-danger': validarError('provincia')
-                    }">
-                        <label class="form-control-label">
-                            Provincia:
-                        </label>
-                        <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('provincia') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
-                            <option selected="">--Seleccionar--</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-6" [ngClass]="{
-                        'has-success': validarSuccess('distrito'),
-                        'has-danger': validarError('distrito')
-                    }">
-                        <label class="form-control-label">
-                            Distrito:
-                        </label>
-                        <select class="custom-select col-12 form-control" [ngClass]="validarSuccess('distrito') ? 'form-control-success' : 'form-control-danger'" id="inlineFormCustomSelect">
-                            <option selected="">--Seleccionar--</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div> -->
           <div class="form-group row">
             <div
               class="col-sm-12"

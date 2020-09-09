@@ -15,7 +15,6 @@ export class UsuarioComponent implements OnInit {
   constructor(private usuario:UsuarioService) { }
 
   ngOnInit(): void {
-    console.log('Haciendo la peticion');
     this.usuario.listar().subscribe(res=>{
       this.usuarios = res['usuarios'];
       this.totalRegistros = res['total'];

@@ -244,14 +244,20 @@
                     <hr>
                     <div class="form-group text-right row m-b-0">
                         <div class="col-sm-12">
-                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                            <button type="button" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
                                 <i class="fa fa-times-circle"></i>
                                 &nbsp; Cancelar
                             </button>
-                            <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
+                            <button type="button" (click)="cambiarFuncion()"                             
+                            (click)="buttonName = !buttonName"
+                            class="btn btn-lg  {{buttonName? 'btn-success': 'btn-info'}} waves-effect waves-light">
+                                <i class="{{buttonName ? 'fa fa-edit ': 'fa fa-save'}} "></i>
+                                &nbsp; {{buttonName ? 'Editar' : 'Guardar'}}
+                            </button>
+                            <!-- <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
                                 <i class="fa fa-save"></i>
                                 &nbsp; Guardar
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </form>

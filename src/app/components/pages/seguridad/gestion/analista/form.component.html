@@ -1,0 +1,161 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form ngForm [formGroup]="form" (submit)="guardar()">
+          <div class="form-group row">
+            <div
+              class="col-sm-6"
+              [ngClass]="{
+                'has-success': validarSuccess('descripcion'),
+                'has-danger': validarError('descripcion')
+              }"
+            >
+              <label class="form-control-label">
+                descripcion: <span class="text-danger">(*)</span>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="
+                  validarSuccess('descripcion')
+                    ? 'form-control-success'
+                    : 'form-control-danger'
+                "
+                formControlName="descripcion"
+                maxlength="50"
+              />
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('descripcion', 'required')">
+                  La descripcion es un dato obligatorio.
+                </p>
+                <p *ngIf="validarCampo('descripcion', 'maxlength')">
+                  Ingrese una descripcion correcto.
+                </p>
+              </small>
+            </div>
+            <div
+              class="col-sm-6"
+              [ngClass]="{
+                'has-success': validarSuccess('producto'),
+                'has-danger': validarError('producto')
+              }"
+            >
+              <label class="form-control-label">
+                producto: <span class="text-danger">(*)</span>
+              </label>
+              <select
+                type="text"
+                class="form-control"
+                [ngClass]="
+                  validarSuccess('producto')
+                    ? 'form-control-success'
+                    : 'form-control-danger'
+                "
+                formControlName="producto"
+              >
+                <option value="">Seleccione un producto</option>
+                <option value="Credito Diario">Credito Diario</option>
+                <option value="Credito Mensual">Credito Mensual</option>
+                <option value="Credito Personal">Credito Personal</option>
+                <option value="Banco Comunal">Banco Comunal</option>
+              </select>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('producto', 'required')">
+                  La descripcion es un dato obligatorio.
+                </p>
+                <p *ngIf="validarCampo('producto', 'maxlength')">
+                  Ingrese una descripcion correcto.
+                </p>
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div
+              class="col-sm-6"
+              [ngClass]="{
+                'has-success': validarSuccess('usuario'),
+                'has-danger': validarError('usuario')
+              }"
+            >
+              <label class="form-control-label">
+                Analista: <span class="text-danger">(*)</span>
+              </label>
+              <select
+                type="text"
+                class="form-control"
+                [ngClass]="
+                  validarSuccess('usuario')
+                    ? 'form-control-success'
+                    : 'form-control-danger'
+                "
+                formControlName="usuario"
+              >
+                <option value="">Seleccione un analista</option>
+                <option *ngFor="let item of analistas" value="{{ item.id }}">
+                  {{ item.persona.nombre }}, {{item.persona.apellido_paterno}} {{item.persona.apellido_materno}}
+                </option>
+              </select>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('usuario', 'required')">
+                  El analista es un dato obligatorio.
+                </p>
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div
+              class="col-sm-12"
+              [ngClass]="{
+                'has-success': validarSuccess('comentario'),
+                'has-danger': validarError('comentario')
+              }"
+            >
+              <label class="form-control-label">
+                Comentario: <span class="text-danger">(*)</span>
+              </label>
+              <textarea
+                class="form-control"
+                [ngClass]="
+                  validarSuccess('comentario')
+                    ? 'form-control-success'
+                    : 'form-control-danger'
+                "
+                formControlName="comentario"
+                rows="5"
+              ></textarea>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('comentario', 'required')">
+                  El comentario es un dato obligatorio.
+                </p>
+                <p *ngIf="validarCampo('comentario', 'maxlength')">
+                  Ingrese un comentario correcto.
+                </p>
+              </small>
+            </div>
+          </div>
+          <hr />
+          <div class="form-group text-right row m-b-0">
+            <div class="col-sm-12">
+              <button
+                type="reset"
+                (click)="cancelar()"
+                class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
+              >
+                <i class="fa fa-times-circle"></i>
+                &nbsp; Cancelar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-lg btn-info waves-effect waves-light"
+              >
+                <i class="fa fa-save"></i>
+                &nbsp; {{button}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

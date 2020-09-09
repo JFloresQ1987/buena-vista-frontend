@@ -14,6 +14,11 @@ import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.component';
 import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/producto-detalle-pago.component';
+import { CajaComponent } from './seguridad/gestion/caja/caja.component';
+import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
+import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
+import { FormComponent } from './seguridad/gestion/analista/form.component';
+
 
 const childRoutes: Routes = [
   {
@@ -46,11 +51,37 @@ const childRoutes: Routes = [
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Roles', roles: ["Administrador"] }
   },
   {
+    path: 'seguridad/gestion/analista',
+    component: AnalistaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Analistas', roles: ["Administrador"] }
+  },
+  {
+    path: 'seguridad/gestion/analista/:id',
+    component: FormComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Informacion Analista', roles: ["Administrador"] }
+  },
+  {
+    path: 'seguridad/gestion/caja',
+    component: CajaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Cajas', roles: ["Administrador"] }
+  },
+      
+  {
+    path: 'seguridad/gestion/caja/:id',
+    component: CrearCajaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Crear Caja', roles: ["Administrador"] }
+  },
+  
+  /* {
     path: 'registro/gestion/socio',
     component: SocioComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Socios', roles: ["Administrador", "Analista"] }
-  },
+  }, */
   {
     path: 'registro/gestion/socio/:id',
     component: SocioComponent,

@@ -1,0 +1,172 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form ngForm [formGroup]="form" > <!-- (submit)="guardar()" -->
+            <div class="form-group row">
+              <div
+                class="col-sm-6"
+                [ngClass]="{
+                  'has-success': validarSuccess('descripcion'),
+                  'has-danger': validarError('descripcion')
+                }"
+              >
+                <label class="form-control-label">
+                  Descripción: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('descripcion')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="descripcion"
+                  maxlength="200"
+                />
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('descripcion', 'required')">
+                    La descripción es obligatoria.
+                  </p>
+                </small>
+              </div>
+              <div
+                class="col-sm-6"
+                [ngClass]="{
+                  'has-success': validarSuccess('ip'),
+                  'has-danger': validarError('ip')
+                }"
+              >
+                <label class="form-control-label">
+                  Ip: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('ip')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="ip"
+                  maxlength="15"
+                />
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('ip', 'required')">
+                    La Ip es obligatoria.
+                  </p>
+                  <p *ngIf="validarCampo('ip', 'maxlength')">
+                    Ingrese una ip correcta.
+                  </p>
+                </small>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div
+                class="col-sm-6"
+                [ngClass]="{
+                  'has-success': validarSuccess('pc_nombre'),
+                  'has-danger': validarError('pc_nombre')
+                }"
+              >
+                <label class="form-control-label">
+                 Nombre PC: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('pc_nombre')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="pc_nombre"
+                  maxlength="50"
+                />
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('pc_nombre', 'required')">
+                   Ingrese el nombre de la pc.
+                  </p>
+                </small>
+              </div>
+
+              <div
+                class="col-sm-6"  
+              >
+                <label class="form-control-label">
+                  Usuario: <span class="text-danger">(*)</span>
+                </label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select class="form-control"
+                                formControlName="usuario">
+                            <option value="">Seleccione El usuario</option>
+                            <option *ngFor="let item of usuarios"
+                            [value]="item.id"> 
+                                {{ item.persona.nombre }} {{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <div
+                class="col-sm-12"
+                [ngClass]="{
+                  'has-success': validarSuccess('comentario'),
+                  'has-danger': validarError('comentario')
+                }"
+              >
+                <label class="form-control-label">
+                  Comentario: <span class="text-danger">(*)</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('comentario')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="comentario"
+                  rows="5"
+                ></textarea>
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('comentario', 'required')">
+                    El comentario es un dato obligatorio.
+                  </p>
+                  <p *ngIf="validarCampo('comentario', 'maxlength')">
+                    Ingrese un comentario correcto.
+                  </p>
+                </small>
+              </div>
+            </div>
+            
+            <div class="form-group text-right row m-b-0">
+              <div class="col-sm-12">
+                <button
+                  type="reset"
+                  (click)="cancelar()"
+                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
+                >
+                  <i class="fa fa-times-circle"></i>
+                  &nbsp; Cancelar
+                </button>
+                <button
+                  (click) = "guardar()"
+                  type="submit"
+                  class="btn btn-lg btn-info waves-effect waves-light"
+                >
+                  <i class="fa fa-save"></i>
+                  &nbsp; Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

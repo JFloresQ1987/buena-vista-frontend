@@ -15,6 +15,10 @@ import { ProductoComponent } from './operaciones/producto/producto.component';
 import { ProductoDetalleComponent } from './operaciones/producto-detalle/producto-detalle.component';
 import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/producto-detalle-pago.component';
 import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.component';
+import { CajaComponent } from './seguridad/gestion/caja/caja.component';
+import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
+import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
+import { FormComponent } from './seguridad/gestion/analista/form.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +33,18 @@ import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.compon
     ProductoComponent,
     ProductoDetalleComponent,
     ProductoDetallePagoComponent,
-    ProductoPagoComponent
+    ProductoPagoComponent,
+    CajaComponent,
+    CrearCajaComponent,
+    AnalistaComponent,
+    FormComponent
   ],
   exports: [
     PagesComponent,
     DashboardComponent,
     UsuarioComponent,
     RolComponent,
+    CajaComponent,
     SocioComponent,
     OperacionFinancieraComponent
   ],
