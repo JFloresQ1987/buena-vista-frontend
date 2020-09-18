@@ -1,0 +1,348 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form ngForm [formGroup]="form" (submit)="guardar()">
+            <div class="form-group row">
+
+              <div
+                class="col-sm-6"
+                [ngClass]="{
+                  'has-success': validarSuccess('cajero'),
+                  'has-danger': validarError('cajero')
+                }"
+              >
+                <label class="form-control-label">
+                  Nombre Cajero: <span class="text-danger">(*)</span>
+                </label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select class="form-control"
+                                formControlName="cajero">
+                            <option value="">Seleccione El Cajero</option>
+                            <option *ngFor="let item of usuarios"
+                            [value]="item.id"> 
+                                {{ item.persona.nombre }} {{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+
+              <div
+                class="col-sm-6"
+                [ngClass]="{
+                  'has-success': validarSuccess('fecha_apertura'),
+                  'has-danger': validarError('fecha_apertura')
+                }"
+              >
+                <label class="form-control-label">
+                  Fecha de Apertura: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('fecha_apertura')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="fecha_apertura"
+                  maxlength="50"
+                />
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="col-sm-6" >
+                <label class="form-control-label">
+                  Apertura (S/.):
+                </label>
+                <input type="number" disabled/>
+              </div>
+
+
+              <div class="col-sm-6">
+                <label class="form-control-label">
+                  Saldo Final (S/.):
+                </label>
+                <input  type="number" disabled />
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label class="form-control-label">
+                  Operación (S/.):
+                </label>
+                <input  type="number" disabled />
+              </div>
+
+              <div class="col-sm-6">
+                <label class="form-control-label">
+                 Efectivo (S/.):
+                </label>
+                <input  type="text"  value="{{ monto_total }} " disabled />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-6">
+                <label class="form-control-label">
+                  N° de Operaciones:
+                </label>
+                <input  type="number" disabled />
+              </div>
+
+              <div class="col-sm-6">
+                <label class="form-control-label">
+                  Diferencia (S/.):
+                </label>
+                <input  type="number" disabled />
+              </div>
+              </div>
+
+
+            <div class="form-group row" >
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 200.00: </label>                    
+                </div>
+                <div class="col-sm-2 input-group">
+                    <input type="number"
+                            [(ngModel)]="cantidad_doscientos"    
+                            [ngModelOptions]="{standalone: true}"                     
+                           class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="text"
+                            value="{{ monto_doscientos }} "                                                      
+                            class="form-control"
+                            disabled>                                                
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 2.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="number"  
+                          [(ngModel)]="cantidad_dos"    
+                          [ngModelOptions]="{standalone: true}"                   
+                          class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="text"
+                          value="{{ monto_dos }} "                         
+                           class="form-control"
+                           disabled>                    
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 100.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="number"
+                            [(ngModel)]="cantidad_cien"    
+                            [ngModelOptions]="{standalone: true}"       
+                            class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" 
+                            value="{{monto_cien}} "
+                            class="form-control"
+                            disabled>                    
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 1.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="number"                           
+                          [(ngModel)]="cantidad_uno "    
+                          [ngModelOptions]="{standalone: true}"  
+                          class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" 
+                            value="{{ monto_uno }} "
+                            class="form-control"
+                            disabled>                    
+                </div>
+            </div> 
+
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 50.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_cincuenta "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_cincuenta }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 0.50: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_cincuenta_cent "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_cincuenta_cent }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+                </div>
+            </div> 
+
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 20.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_veinte "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_veinte }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 0.20: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_veint_cent "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_veinte_cent }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+                </div>
+            </div> 
+
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 10.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_diez "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_diez }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+                </div>
+
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 0.10: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_diez_cent "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_diez_cent }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+              </div>
+            </div> 
+
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <label class="form-control-label"> S/. 5.00: </label>                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="number"                           
+                        [(ngModel)]="cantidad_cinco "    
+                        [ngModelOptions]="{standalone: true}"  
+                        class="form-control">                    
+                </div>
+                <div class="col-sm-2">
+                  <input type="text"
+                          value="{{ monto_cinco }} "                                                      
+                          class="form-control"
+                          disabled>                                                
+              </div>
+
+            </div> 
+
+              
+            
+            
+            <div class="form-group row">
+              <div
+                class="col-sm-12"
+                [ngClass]="{
+                  'has-success': validarSuccess('comentario'),
+                  'has-danger': validarError('comentario')
+                }"
+              >
+                <label class="form-control-label">
+                  Comentario: <span class="text-danger">(*)</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('comentario')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="comentario"
+                  rows="5"
+                ></textarea>
+              </div>
+            </div>
+            <hr />
+            <div class="form-group text-right row m-b-0">
+              <div class="col-sm-12">
+                <button
+                  type="reset"
+                  (click)="cancelar()"
+                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
+                >
+                  <i class="fa fa-times-circle"></i>
+                  &nbsp; Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-lg btn-info waves-effect waves-light"
+                >
+                  <i class="fa fa-save"></i>
+                  &nbsp; Guardar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
