@@ -30,6 +30,9 @@ export class OperacionFinancieraPagoService {
     //   );
 
     const url = `${base_url}/operacion-financiera-pago/pagar`;
-    return this.http.post(url, objeto);
+    return this.http.post(url, objeto)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
   }
 }

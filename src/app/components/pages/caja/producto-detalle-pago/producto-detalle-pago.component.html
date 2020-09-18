@@ -153,38 +153,63 @@
                         <!-- <p>Monto a cancelar: S/. 13,848</p>
                         <p>Ahorro voluntario: S/. 138 </p> -->
                         <div class="form-group row m-b-15">
-                            <label class="col-8 col-form-label">Monto a cancelar: S/.</label>
-                            <div class="col-4">
+                            <label class="col-7 col-form-label">Monto a cancelar:</label>
+                            <div class="col-5">
                                 <input type="text" class="form-control" formControlName="monto_cancelar" readonly>
                             </div>
                         </div>
-                        <div class="form-group row m-b-0">
-                            <label class="col-8 col-form-label">Ahorro voluntario: S/.</label>
-                            <div class="col-4">
-                                <input type="text" class="form-control" formControlName="monto_ahorro_voluntario" (keyup)="calcularMontos()">
-                            </div>
-                        </div>
-                        <hr>
-                        <h3><b>
+
+                        <div [ngClass]="{
+                            'has-success': validarSuccess('monto_ahorro_voluntario'),
+                            'has-danger': validarError('monto_ahorro_voluntario')
+                        }">
+
                             <div class="form-group row m-b-0">
-                                <label class="col-8 col-form-label">Total: S/.</label>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" formControlName="monto_total" readonly>
+                                <label class="col-7 col-form-label">Ahorro voluntario:</label>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" formControlName="monto_ahorro_voluntario" [ngClass]="validarSuccess('monto_ahorro_voluntario') ? 'form-control-success' : 'form-control-danger'" (keyup)="calcularMontos()">
                                 </div>
                             </div>
-                        </b></h3>
+
+                        </div>
+
+                        <!-- <div class="form-group row m-b-0">
+                            <label class="col-8 col-form-label">Ahorro voluntario: S/.</label>
+                            <div class="col-4">
+                                <input type="text" class="form-control" formControlName="monto_ahorro_voluntario"
+                                    (keyup)="calcularMontos()">
+                            </div>
+                        </div> -->
+                        <hr>
+                        <h3><b>
+                                <div class="form-group row m-b-0">
+                                    <label class="col-7 col-form-label">Total: S/.</label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" formControlName="monto_total" readonly>
+                                    </div>
+                                </div>
+                            </b></h3>
                         <!-- <h3><b>Total: S/. 13,986</b></h3> -->
                         <hr>
                         <!-- <div class="col-md-6"> -->
-                        <div class="form-group row m-b-15">
-                            <label class="col-8 col-form-label">Monto recibido: S/.</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" formControlName="monto_recibido" (keyup)="calcularMontos()">
+
+                        <div [ngClass]="{
+                                'has-success': validarSuccess('monto_recibido'),
+                                'has-danger': validarError('monto_recibido')
+                            }">
+
+                            <div class="form-group row m-b-15">
+                                <label class="col-7 col-form-label">Monto recibido:</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" formControlName="monto_recibido" [ngClass]="validarSuccess('monto_recibido') ? 'form-control-success' : 'form-control-danger'" (keyup)="calcularMontos()">
+                                </div>
                             </div>
+
                         </div>
+
                         <div class="form-group row m-b-0">
-                            <label class="col-8 col-form-label">Vuelto: S/.</label>
-                            <div class="col-4">
+                            <label class="col-7 col-form-label">Vuelto:</label>
+                            <div class="col-5">
                                 <input type="text" class="form-control" formControlName="monto_vuelto" readonly>
                             </div>
                         </div>
