@@ -34,10 +34,10 @@ export class ProductoDetallePagoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private serviceOperacionFinanciera: OperacionFinancieraService,
     private serviceOperacionFinancieraPago: OperacionFinancieraPagoService,
-    private sesionSocioService: SesionSocioService) { 
+    private sesionSocioService: SesionSocioService) {
 
-      this.sesionSocio = this.sesionSocioService.sesionSocio
-    }
+    this.sesionSocio = this.sesionSocioService.sesionSocio
+  }
 
   ngOnInit(): void {
 
@@ -271,15 +271,73 @@ export class ProductoDetallePagoComponent implements OnInit {
     if (agregar) {
 
       this.listaCuotasPagar.push(id);
-      this.form.controls.monto_cancelar.setValue(Number(monto_cancelar) + Number(cuota.monto_cuota));
+      this.form.controls.monto_cancelar.setValue((Number(monto_cancelar) + Number(cuota.monto_cuota)).toFixed(2));
     }
     else {
 
       this.listaCuotasPagar.splice(this.listaCuotasPagar.indexOf(id), 1);
-      this.form.controls.monto_cancelar.setValue(Number(monto_cancelar) - Number(cuota.monto_cuota));
+      this.form.controls.monto_cancelar.setValue((Number(monto_cancelar) - Number(cuota.monto_cuota)).toFixed(2));
     }
 
     // console.log(this.listaCuotasPagar)
+    this.calcularMontos();
+  }
+
+  agregarTodasLasCuota(agregar: boolean) {
+
+    let monto_cancelar: number = 0;
+    this.listaCuotasPagar = [];
+    // this.form.get('monto_cancelar').setValue(0);
+
+    // if (agregar) {
+
+    this.operaconFinancieraDetalle.forEach((item: any) => {
+
+      if (agregar) {
+
+        this.listaCuotasPagar.push(item.id);
+        monto_cancelar += Number(item.monto_cuota);
+        // this.form.get(item.id).setValue(true);
+        // document.getElementById(item.id)//.checked==true;
+        console.log(document.getElementById(item.id));
+        // document.getElementById(item.id) = true;
+
+        let element: any = document.getElementById(item.id);
+        element.checked = true;
+      }
+      else {
+
+        // this.form.get(item.id).setValue(false);
+        // document.getElementById(item.id).spellcheck = false;
+        let element: any = document.getElementById(item.id);
+        element.checked = false;
+      }
+    });
+    // }
+
+    this.form.get('monto_cancelar').setValue(monto_cancelar.toFixed(2));
+
+    // console.log(this.listaCuotasPagar);
+
+    // // console.log(event);
+
+    // // const element = document.getElementById('md_checkbox_21');
+
+    // const cuota: any = this.operaconFinancieraDetalle.find((item: any) => item.id === id);
+    // // const monto_cancelar = this.form.get('monto_cancelar').value;
+
+    // if (agregar) {
+
+    //   this.listaCuotasPagar.push(id);
+    //   this.form.controls.monto_cancelar.setValue(Number(monto_cancelar) + Number(cuota.monto_cuota));
+    // }
+    // else {
+
+    //   this.listaCuotasPagar.splice(this.listaCuotasPagar.indexOf(id), 1);
+    //   this.form.controls.monto_cancelar.setValue(Number(monto_cancelar) - Number(cuota.monto_cuota));
+    // }
+
+    // // console.log(this.listaCuotasPagar)
     this.calcularMontos();
   }
 
@@ -380,8 +438,8 @@ export class ProductoDetallePagoComponent implements OnInit {
     if (monto_vuelto < 0)
       monto_vuelto = 0;
 
-    this.form.controls.monto_total.setValue(monto_total);
-    this.form.controls.monto_vuelto.setValue(monto_vuelto);
+    this.form.controls.monto_total.setValue(monto_total.toFixed(2));
+    this.form.controls.monto_vuelto.setValue(monto_vuelto.toFixed(2));
   }
 
   imprimirRecibo(recibo: []) {
@@ -740,7 +798,7 @@ export class ProductoDetallePagoComponent implements OnInit {
   }
 
   // cancelar() {    
-    
+
   //   this.formSubmitted=false
   //   this.form.reset()
   // }
