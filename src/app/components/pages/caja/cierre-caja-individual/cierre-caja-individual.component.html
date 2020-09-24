@@ -5,15 +5,9 @@
           <form ngForm [formGroup]="form" (submit)="guardar()">
             <div class="form-group row">
 
-              <div
-                class="col-sm-6"
-                [ngClass]="{
-                  'has-success': validarSuccess('cajero'),
-                  'has-danger': validarError('cajero')
-                }"
-              >
+              <div>
                 <label class="form-control-label">
-                  Nombre Cajero: <span class="text-danger">(*)</span>
+                  Nombre Cajero: 
                 </label>
                 <div class="col-sm-9">
                     <div class="input-group">
@@ -59,7 +53,7 @@
                 <label class="form-control-label">
                   Apertura (S/.):
                 </label>
-                <input type="number" disabled/>
+                <input type="number" class="form-control" formControlName="monto_total_apertura" />
               </div>
 
 
@@ -67,7 +61,7 @@
                 <label class="form-control-label">
                   Saldo Final (S/.):
                 </label>
-                <input  type="number" disabled />
+                <input  type="number" class="form-control" formControlName="saldo" />
               </div>
             </div>
 
@@ -77,14 +71,14 @@
                 <label class="form-control-label">
                   Operación (S/.):
                 </label>
-                <input  type="number" disabled />
+                <input  type="number" class="form-control" formControlName="monto_total_operaciones" />
               </div>
 
               <div class="col-sm-6">
                 <label class="form-control-label">
                  Efectivo (S/.):
                 </label>
-                <input  type="text"  value="{{ monto_total }} " disabled />
+                <input  type="text" class="form-control"  value="{{ monto_total }}" disabled/>
               </div>
             </div>
 
@@ -93,14 +87,14 @@
                 <label class="form-control-label">
                   N° de Operaciones:
                 </label>
-                <input  type="number" disabled />
+                <input  type="number" class="form-control"  formControlName="cant_operaciones" />
               </div>
 
               <div class="col-sm-6">
                 <label class="form-control-label">
                   Diferencia (S/.):
                 </label>
-                <input  type="number" disabled />
+                <input  type="text" class="form-control" value="{{ dif }}" disabled />
               </div>
               </div>
 
@@ -111,15 +105,18 @@
                 </div>
                 <div class="col-sm-2 input-group">
                     <input type="number"
-                            [(ngModel)]="cantidad_doscientos"    
-                            [ngModelOptions]="{standalone: true}"                     
+                           (keypress) = "validarNumero($event)"  
+                           [(ngModel)]="cantidad_doscientos"     
+                           formControlName= "cantidad_doscientos_soles_cierre"                     
                            class="form-control">                    
                 </div>
+                
                 <div class="col-sm-2">
                     <input type="text"
-                            value="{{ monto_doscientos }} "                                                      
+                            value="{{obtenerMonto(cantidad_doscientos, 200)}}" 
                             class="form-control"
                             disabled>                                                
+                            
                 </div>
 
                 <div class="col-sm-2">
@@ -127,13 +124,13 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="number"  
-                          [(ngModel)]="cantidad_dos"    
-                          [ngModelOptions]="{standalone: true}"                   
+                          [(ngModel)]="cantidad_dos"
+                          formControlName= "cantidad_dos_soles_cierre"                   
                           class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                     <input type="text"
-                          value="{{ monto_dos }} "                         
+                          value="{{obtenerMonto(cantidad_dos, 2)}}"                         
                            class="form-control"
                            disabled>                    
                 </div>
@@ -146,12 +143,12 @@
                 <div class="col-sm-2">
                     <input type="number"
                             [(ngModel)]="cantidad_cien"    
-                            [ngModelOptions]="{standalone: true}"       
+                            formControlName= "cantidad_cien_soles_cierre"      
                             class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                     <input type="text" 
-                            value="{{monto_cien}} "
+                            value="{{obtenerMonto(cantidad_cien, 100)}}" 
                             class="form-control"
                             disabled>                    
                 </div>
@@ -162,12 +159,12 @@
                 <div class="col-sm-2">
                     <input type="number"                           
                           [(ngModel)]="cantidad_uno "    
-                          [ngModelOptions]="{standalone: true}"  
+                          formControlName= "cantidad_un_sol_cierre"  
                           class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                     <input type="text" 
-                            value="{{ monto_uno }} "
+                            value="{{obtenerMonto(cantidad_uno, 1)}}" 
                             class="form-control"
                             disabled>                    
                 </div>
@@ -180,12 +177,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_cincuenta "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_cincuenta_soles_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_cincuenta }} "                                                      
+                          value="{{obtenerMonto(cantidad_cincuenta, 50)}}"                                                       
                           class="form-control"
                           disabled>                                                
                 </div>
@@ -196,12 +193,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_cincuenta_cent "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_cincuenta_centimos_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_cincuenta_cent }} "                                                      
+                          value="{{obtenerMonto(cantidad_cincuenta_cent, 0.5)}}"                                                     
                           class="form-control"
                           disabled>                                                
                 </div>
@@ -214,12 +211,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_veinte "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_veinte_soles_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_veinte }} "                                                      
+                          value="{{obtenerMonto(cantidad_veinte, 20)}}"                                                      
                           class="form-control"
                           disabled>                                                
                 </div>
@@ -230,12 +227,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_veint_cent "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_veinte_centimos_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_veinte_cent }} "                                                      
+                          value="{{obtenerMonto(cantidad_veint_cent, 0.20)}}"                                                       
                           class="form-control"
                           disabled>                                                
                 </div>
@@ -248,12 +245,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_diez "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_diez_soles_cierre" 
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_diez }} "                                                      
+                          value="{{obtenerMonto(cantidad_diez, 10)}}"                                                      
                           class="form-control"
                           disabled>                                                
                 </div>
@@ -264,12 +261,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_diez_cent "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_diez_centimos_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_diez_cent }} "                                                      
+                          value="{{obtenerMonto(cantidad_diez_cent, 0.1)}}"                                                       
                           class="form-control"
                           disabled>                                                
               </div>
@@ -282,12 +279,12 @@
                 <div class="col-sm-2">
                   <input type="number"                           
                         [(ngModel)]="cantidad_cinco "    
-                        [ngModelOptions]="{standalone: true}"  
+                        formControlName= "cantidad_cinco_soles_cierre"  
                         class="form-control">                    
                 </div>
                 <div class="col-sm-2">
                   <input type="text"
-                          value="{{ monto_cinco }} "                                                      
+                          value="{{obtenerMonto(cantidad_cinco, 5)}}"                                                     
                           class="form-control"
                           disabled>                                                
               </div>
@@ -324,7 +321,7 @@
             <div class="form-group text-right row m-b-0">
               <div class="col-sm-12">
                 <button
-                  type="reset"
+                  type="button"
                   (click)="cancelar()"
                   class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
                 >
@@ -333,6 +330,7 @@
                 </button>
                 <button
                   type="submit"
+                  (click) = "guardar()"
                   class="btn btn-lg btn-info waves-effect waves-light"
                 >
                   <i class="fa fa-save"></i>

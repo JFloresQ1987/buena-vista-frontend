@@ -50,7 +50,7 @@ export class CrearCajaComponent {
   }
 
   cargarUsuarios() {
-    this.usuarioService.listar().subscribe(res=>{
+    this.usuarioService.listarxrol("Cajero").subscribe(res=>{
       this.usuarios = res['usuarios'];
       
     })
