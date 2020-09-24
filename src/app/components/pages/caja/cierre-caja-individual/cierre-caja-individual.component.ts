@@ -1,3 +1,8 @@
+import { Usuario } from './../../../../interfaces/core/registro/usuario.interface';
+import { CierreCajaIndividual } from './../../../../interfaces/core/registro/cierre-caja.inteface';
+import { SeguridadService } from './../../../../services/auth/seguridad.service';
+import { Seguridad } from 'src/app/models/auth/seguridad.model';
+import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
@@ -17,22 +22,38 @@ export class CierreCajaIndividualComponent {
   public form: FormGroup;
   public formSubmitted = false;
   public usuarios:[] = [];
+  private seguridad: Seguridad;
+
+  public cierreCajaSeleccionado : CierreCajaIndividual;
+
  
   constructor(
     private usuarioService: UsuarioService,
+    private cierreCajaIndividualService: CierreCajaIndividualService,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute, 
-    private router: Router
+    private seguridadService: SeguridadService
   ) { }
+
+  
 
   ngOnInit(): void {
 
-    this.cargarCajeros()
+    /* this.activatedRoute.params.subscribe( ({id}) => {
+      this.carga(id)
+    }) */
 
+    console.log(this.cierreCajaSeleccionado)
+
+    this.cargarCajeros()
+    this.seguridad = this.seguridadService.seguridad;
     this.form = this.formBuilder.group({      
       cajero : ['', [Validators.required]],
       fecha_apertura : ['', [Validators.required]],
-      cantidad_doscientos_soles_cierre : ['', [Validators.required]],
+      monto_total_apertura : ['', [Validators.required]],
+      monto_total_operaciones : ['', [Validators.required]],
+      cant_operaciones : ['', [Validators.required]],
+      saldo : ['', [Validators.required]],
+      cantidad_doscientos_soles_cierre : ['', [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
       cantidad_cien_soles_cierre : ['', [Validators.required]],
       cantidad_cincuenta_soles_cierre : ['', [Validators.required]],
       cantidad_veinte_soles_cierre : ['', [Validators.required]],
@@ -46,6 +67,31 @@ export class CierreCajaIndividualComponent {
       comentario : ['', [Validators.required]],
     });
     
+    this.form.controls['cajero'].setValue(this.seguridad.id);
+    console.log(this.seguridad.id);
+    this.form.controls['cajero'].disable();
+    this.cargarCajaDiario();
+    
+  }
+
+  cargarCajaDiario(){
+    this.cierreCajaIndividualService.getOperacionesCajaInd(this.seguridad.id)
+        .subscribe(res=>{
+
+          
+          this.form.controls['monto_total_apertura'].setValue(res["monto_total_apertura"]);
+          this.form.controls['monto_total_apertura'].disable();
+
+          this.form.controls['monto_total_operaciones'].setValue(res["monto_total_operaciones"]);
+          this.form.controls['monto_total_operaciones'].disable();
+
+          this.form.controls['cant_operaciones'].setValue(res["cant_operaciones"]);
+          this.form.controls['cant_operaciones'].disable();
+
+          const saldo = this.form.controls['monto_total_apertura'].value + this.form.controls['monto_total_operaciones'].value;
+          this.form.controls['saldo'].setValue(saldo);
+          this.form.controls['saldo'].disable();
+    })
   }
 
   cargarCajeros() {
@@ -55,20 +101,36 @@ export class CierreCajaIndividualComponent {
   }
 
   guardar() {
-    this.formSubmitted = true;
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
+    
+      const data = {
+        id : "5f6525c349ea823bdc8be302",
+        cajero: this.seguridad.id,
+        fecha_apertura: this.form.controls['fecha_apertura'].value,
+        cantidad_doscientos_soles_cierre: this.form.controls['cantidad_doscientos_soles_cierre'].value,
+        cantidad_cien_soles_cierre: this.form.controls['cantidad_cien_soles_cierre'].value,
+        cantidad_cincuenta_soles_cierre: this.form.controls['cantidad_cincuenta_soles_cierre'].value,
+        cantidad_veinte_soles_cierre: this.form.controls['cantidad_veinte_soles_cierre'].value,
+        cantidad_diez_soles_cierre: this.form.controls['cantidad_diez_soles_cierre'].value,
+        cantidad_cinco_soles_cierre: this.form.controls['cantidad_cinco_soles_cierre'].value,
+        cantidad_dos_soles_cierre: this.form.controls['cantidad_dos_soles_cierre'].value,
+        cantidad_un_sol_cierre: this.form.controls['cantidad_un_sol_cierre'].value,
+        cantidad_cincuenta_centimos_cierre: this.form.controls['cantidad_cincuenta_centimos_cierre'].value,
+        cantidad_veinte_centimos_cierre: this.form.controls['cantidad_veinte_centimos_cierre'].value,
+        cantidad_diez_centimos_cierre: this.form.controls['cantidad_diez_centimos_cierre'].value,
+        comentario: this.form.controls['comentario'].value,
       }
-    console.log(this.formSubmitted);
+      console.log(data)      
+      this.cierreCajaIndividualService.getCierreCaja(data)
+                                    .subscribe(resp => {
+                                      Swal.fire({
+                                        text: 'La informaciónse actualizó correctamente', icon: 'success'
+                                      })
+                                    })
   }
 
   cancelar() {
 
-    this.formSubmitted = false;
-    this.form.reset();
+      
 
   }
 
@@ -111,103 +173,40 @@ export class CierreCajaIndividualComponent {
   cantidad_cincuenta_cent : number = 0
   cantidad_veint_cent : number = 0
   cantidad_diez_cent : number = 0
-
-  get monto_doscientos(){
-    if (this.cantidad_doscientos <= 0){
-      this.cantidad_doscientos = 0
-    }
-    return this.cantidad_doscientos * 200    
-  }
   
-  get monto_cien(){
-    if (this.cantidad_cien <= 0){
-      this.cantidad_cien = 0
+  validarNumero(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode
+    console.log(charCode)
+    if (charCode >= 48 && charCode <= 57){
+      return true
     }
-    return this.cantidad_cien * 100    
+
+    return false
   }
 
-  get monto_cincuenta(){
-    if (this.cantidad_cincuenta <= 0){
-      this.cantidad_cincuenta = 0
+  obtenerMonto(cantidad: number, multiplicador: number){
+    if (cantidad <= 0 ){
+      cantidad = 0
+      return cantidad
+    } else {
+      return cantidad * multiplicador
     }
-    return this.cantidad_cincuenta * 50     
   }
 
-  get monto_veinte(){
-    if (this.cantidad_veinte <= 0){
-      this.cantidad_veinte = 0
-    }
-    return this.cantidad_veinte * 20     
-  }
-
-  get monto_diez(){
-    if (this.cantidad_diez <= 0){
-      this.cantidad_diez = 0
-    }
-    return this.cantidad_diez * 10     
-  }
-
-  get monto_cinco(){
-    if (this.cantidad_cinco <= 0){
-      this.cantidad_cinco = 0
-    }
-    return this.cantidad_cinco * 5     
-  }
-
-  get monto_dos(){
-    if (this.cantidad_dos <= 0){
-      this.cantidad_dos = 0
-    }
-    return this.cantidad_dos * 2     
-  }
-
-  get monto_uno(){
-    if (this.cantidad_uno <= 0){
-      this.cantidad_uno = 0
-    }
-    return this.cantidad_uno     
-  }
-
-  get monto_cincuenta_cent(){
-    if (this.cantidad_cincuenta_cent <= 0){
-      this.cantidad_cincuenta_cent = 0
-    }
-    return this.cantidad_cincuenta_cent / 2   
-  }
-
-  get monto_veinte_cent(){
-    if (this.cantidad_veint_cent <= 0){
-      this.cantidad_veint_cent = 0
-    }
-    return this.cantidad_veint_cent / 5   
-  }
-
-  get monto_diez_cent(){
-    if (this.cantidad_diez_cent <= 0){
-      this.cantidad_diez_cent = 0
-    }
-    return this.cantidad_diez_cent / 10    
-  }
-
+  
   get monto_total(){
-    return this.monto_doscientos + this.monto_cien +this.monto_cincuenta+ this.monto_veinte + 
-            this.monto_diez + this.monto_cinco + this.monto_dos + this.monto_uno +  
-            this.monto_cincuenta_cent + this.monto_veinte_cent + this.monto_diez_cent
+    return this.obtenerMonto(this.cantidad_doscientos, 200) + this.obtenerMonto(this.cantidad_cien, 100) + this.obtenerMonto(this.cantidad_cincuenta, 50) +
+            this.obtenerMonto(this.cantidad_veinte, 20) + this.obtenerMonto(this.cantidad_diez, 10) + this.obtenerMonto(this.cantidad_cinco, 5) +
+            this.obtenerMonto(this.cantidad_dos, 2) + this.obtenerMonto(this.cantidad_uno, 1) + this.obtenerMonto(this.cantidad_cincuenta_cent, 0.5) +
+            this.obtenerMonto(this.cantidad_veint_cent, 0.2) + this.obtenerMonto(this.cantidad_diez_cent, 0.1)
   }
 
+  get dif(){
+    return  this.form.controls['saldo'].value - this.monto_total
+  }
 
 }
 
 
 
-  /* cantidad_doscientos : number = 0
-  
-  cantidad_cincuenta : number = 0
-  cantidad_veinte : number = 0
-  cantidad_diez : number = 0
-  cantidad_cinco : number = 0
-  
-  
-  cantidad_cin_cent : number = 0
-  cantidad_veint_cent : number = 0
-  cantidad_diez_cent : number = 0 */
+ 
