@@ -35,12 +35,13 @@ export interface OperaconFinanciera {
     // tasa_mora: number,
     se_desembolso_prestamo: boolean,
     comentario: String,
-    detalle: Object[]
+    detalle: OperaconFinancieraDetalle[]
 }
 
 export interface Producto {
 
-    tipo: String,
+    tipo: any,
+    // descripcion: String,
     codigo_programacion: String,
     programacion: String,
     color: String
@@ -57,4 +58,24 @@ export interface Configuracion {
 export interface Bancomunal {
     grupo_bancomunal: String,
     numero_ciclo: number
+}
+
+export interface OperaconFinancieraDetalle {
+    bancomunal: String,
+    persona: String,
+    numero_cuota: Number,
+    fecha_cuota: String,
+    // fecha_cuota_visual,
+    fecha_plazo_cuota: String,
+    ingresos: {
+        monto_gasto: Number,
+        monto_amortizacion_capital: Number,
+        monto_interes: Number,
+        monto_mora: Number
+    },
+    ahorros: {
+        monto_ahorro_inicial: Number,
+        monto_ahorro_programado: Number
+    },
+    monto_saldo_capital: Number
 }

@@ -7,6 +7,7 @@ import { OperaconFinanciera } from '../../../../interfaces/core/registro/operaci
 import { SesionSocioService } from '../../../../services/shared/sesion-socio.service';
 import { Socio } from '../../../../models/core/socio.model';
 import { ProductoService } from '../../../../services/core/configuracion/producto.service';
+// import * as updateLocale from 'dayjs/plugin/updateLocale';
 
 @Component({
   selector: 'app-operacion-financiera',
@@ -217,6 +218,17 @@ export class OperacionFinancieraComponent implements OnInit {
 
     this.calculado = true;
 
+    // dayjs.extend(updateLocale)
+
+    // dayjs.updateLocale('es', {
+    //   weekdays: [
+    //     "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+    //   ]
+    // })
+
+    // const dd = dayjs().locale('es');
+    // console.log(dd.format('dddd'));
+
     const capital = this.form.get('monto_capital').value;
     // const cantidad_cuotas = this.form.get('programacion_pago').value;
     const id_tipo = this.form.get('tipo').value;
@@ -232,7 +244,7 @@ export class OperacionFinancieraComponent implements OnInit {
     const cantidad_cuotas = programacion.numero_cuotas;
     const tasa_interes = this.form.get('tasa_interes').value;
     const tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
-    const now = dayjs(this.form.get('fecha_inicio').value);
+    const now = dayjs(this.form.get('fecha_inicio').value).locale('es');
     // const now = dayjs();
 
     // console.log(this.form.get('fecha_inicio').value)//fecha_inicio
@@ -248,6 +260,7 @@ export class OperacionFinancieraComponent implements OnInit {
 
     for (let i = 1; i <= cantidad_cuotas; i++) {
       let fecha: any;
+      let nombre_dia:string;
       // let fecha = now.add(i, 'day');
 
       if (tipo.codigo === "CD")
@@ -289,17 +302,29 @@ export class OperacionFinancieraComponent implements OnInit {
           let fecha_formateada = '';
 
           switch (fecha.format('d')) {
-            case '1': fecha_formateada = 'LU - ' + fecha.format('DD/MM/YYYY')
+            case '1':
+              fecha_formateada = 'LU - ' + fecha.format('DD/MM/YYYY');
+              nombre_dia = 'Lunes';
               break;
-            case '2': fecha_formateada = 'MA - ' + fecha.format('DD/MM/YYYY')
+            case '2':
+              fecha_formateada = 'MA - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Martes';
               break;
-            case '3': fecha_formateada = 'MI - ' + fecha.format('DD/MM/YYYY')
+            case '3':
+              fecha_formateada = 'MI - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Miércoles';
               break;
-            case '4': fecha_formateada = 'JU - ' + fecha.format('DD/MM/YYYY')
+            case '4':
+              fecha_formateada = 'JU - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Jueves';
               break;
-            case '5': fecha_formateada = 'VI - ' + fecha.format('DD/MM/YYYY')
+            case '5':
+              fecha_formateada = 'VI - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Viernes';
               break;
-            case '6': fecha_formateada = 'SA - ' + fecha.format('DD/MM/YYYY')
+            case '6':
+              fecha_formateada = 'SA - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Sábado';
               break;
           }
 
@@ -311,9 +336,22 @@ export class OperacionFinancieraComponent implements OnInit {
           // if (i == cantidad_cuotas)
           //   this.fecha_fin = fecha.format('DD/MM/YYYY');
 
+          // dayjs.extend(updateLocale)
+
+          // dayjs.updateLocale('es', {
+          //   weekdays: [
+          //     "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+          //   ]
+          // })
+
+          // console.log(fecha.format('dddd'))
+          // console.log(fecha.format('DD/MM/YYYY'))
+
           this.cuotas.push({
+            nombre_dia_cuota: nombre_dia,
             fecha_cuota: fecha.format('DD/MM/YYYY'),
-            fecha_cuota_visual: fecha_formateada
+            fecha_cuota_visual: fecha_formateada,
+            fecha_plazo_cuota: fecha.add(3, 'day').format('DD/MM/YYYY')
           });
           // this.cuotas.push({ fecha: fecha.format('DD/MM/YYYY') });
         }
@@ -383,12 +421,16 @@ export class OperacionFinancieraComponent implements OnInit {
       let cuota = {
         numero_cuota: i,
         // fecha: fecha.format('DD/MM/YYYY'),
-        monto_amortizacion_capital: monto_cuota_capital,
+        ingresos: {
+          monto_amortizacion_capital: monto_cuota_capital,
+          monto_interes: monto_cuota_interes,
+        },
+        ahorros: {
+          monto_ahorro_programado: monto_cuota_ahorro_programado,
+        },
         monto_cuota_capital_visual,
-        monto_interes: monto_cuota_interes,
         monto_cuota_interes_visual,
         monto_cuota,
-        monto_ahorro_programado: monto_cuota_ahorro_programado,
         monto_cuota_total
       };
 
@@ -410,9 +452,15 @@ export class OperacionFinancieraComponent implements OnInit {
     this.cuotas.push({
       estado: 'Vigente',
       numero_cuota: 0,
+      nombre_dia_cuota: '',
       fecha_cuota: dayjs().format('DD/MM/YYYY'),
-      monto_gasto: this.form.get('monto_gasto').value,
-      monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
+      fecha_plazo_cuota: dayjs().format('DD/MM/YYYY'),
+      ingresos: {
+        monto_gasto: this.form.get('monto_gasto').value,
+      },
+      ahorros: {
+        monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
+      }
     });
 
   }
