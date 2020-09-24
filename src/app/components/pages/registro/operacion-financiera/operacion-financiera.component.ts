@@ -22,6 +22,7 @@ export class OperacionFinancieraComponent implements OnInit {
   public formSubmitted = false;
   // public cantidad_cuotas: number;
   public programacion_pago = [];
+  public configuracion_pago: any = {};
   public cuotas = [];
   public sesionSocio: Socio;
   // public tipo_operacion_financiera: string;
@@ -30,6 +31,7 @@ export class OperacionFinancieraComponent implements OnInit {
     { id: 2, tipo: 'Crédito personal' },
     { id: 3, tipo: 'Banco comunal individual' }
   ];*/
+  public fecha_fin = '';
   // public color: string;
   // public programacion: string;
 
@@ -62,13 +64,18 @@ export class OperacionFinancieraComponent implements OnInit {
     this.form = this.formBuilder.group({
       tipo: ['', [Validators.required]],
       monto_capital: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
-      monto_gasto: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_gasto: ['6.7', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
       tasa_interes: ['6', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      tasa_aporte_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      // tasa_mora: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_ahorro_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_ahorro_inicial: ['10', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       programacion_pago: ['', [Validators.required]],
       monto_ahorro_inicial: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      monto_interes: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      // monto_mora: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      monto_ahorro_programado: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // cantidad_cuotas: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]],
-      fecha_inicio: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      fecha_inicio: [dayjs().format('YYYY-MM-DD'), [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       incluir_sabados: [true, Validators.required],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
@@ -113,12 +120,30 @@ export class OperacionFinancieraComponent implements OnInit {
     if (!tipo) {
 
       this.programacion_pago = [];
+      this.form.get('monto_gasto').setValue(0);
+      this.form.get('tasa_interes').setValue(0);
+      this.form.get('tasa_ahorro_programado').setValue(0);
+      this.form.get('tasa_ahorro_inicial').setValue(0);
+      this.form.get('monto_interes').setValue(0);
+      this.form.get('monto_ahorro_programado').setValue(0);
+      this.form.get('monto_ahorro_inicial').setValue(0);
       return;
     }
     // else
     this.productoService.listar_programacion(tipo)
       .subscribe(res => {
-        this.programacion_pago = res;
+        this.programacion_pago = res.lista;
+        this.configuracion_pago = res.configuracion;
+        // console.log(res)
+
+        this.form.get('monto_gasto').setValue(this.configuracion_pago.monto_gasto);
+        this.form.get('tasa_interes').setValue(this.configuracion_pago.tasa_interes);
+        this.form.get('tasa_ahorro_programado').setValue(this.configuracion_pago.tasa_ahorro_programado);
+        this.form.get('tasa_ahorro_inicial').setValue(this.configuracion_pago.tasa_ahorro_inicial);
+
+        this.calcularMontoInteres();
+        this.calcularMontoAhorroProgramado();
+        this.calcularMontoAhorroInicial();
       });
 
     // console.log(tipo)
@@ -206,16 +231,16 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log(programacion)
     const cantidad_cuotas = programacion.numero_cuotas;
     const tasa_interes = this.form.get('tasa_interes').value;
-    const tasa_aporte_programado = this.form.get('tasa_aporte_programado').value;
+    const tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
     const now = dayjs(this.form.get('fecha_inicio').value);
     // const now = dayjs();
 
     // console.log(this.form.get('fecha_inicio').value)//fecha_inicio
 
-    console.log(this.form.get('tipo').value)
-    console.log(cantidad_cuotas)
-    // console.log(thitipos)
-    console.log(tipo)
+    // console.log(this.form.get('tipo').value)
+    // console.log(cantidad_cuotas)
+    // // console.log(thitipos)
+    // console.log(tipo)
 
     // let dias = [];
 
@@ -241,7 +266,7 @@ export class OperacionFinancieraComponent implements OnInit {
       else if (tipo.codigo === "BC" && programacion.tipo_pago === "quincenal")
         fecha = now.add((i * 14), 'day');
 
-      console.log(fecha);
+      // console.log(fecha);        
 
       if ((fecha.format('d') != '0' && tipo.codigo === "CD")
         // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
@@ -283,6 +308,9 @@ export class OperacionFinancieraComponent implements OnInit {
           else if (fecha.format('d') == '6' && !this.form.get('incluir_sabados').value)
             fecha = now.add(-2, 'day');
 
+          // if (i == cantidad_cuotas)
+          //   this.fecha_fin = fecha.format('DD/MM/YYYY');
+
           this.cuotas.push({
             fecha_cuota: fecha.format('DD/MM/YYYY'),
             fecha_cuota_visual: fecha_formateada
@@ -316,26 +344,29 @@ export class OperacionFinancieraComponent implements OnInit {
     else
       monto_cuota_interes = ((capital * tasa_interes) / 100) / cantidad_cuotas_calculada;
 
-    const monto_cuota_interes_visual = Math.round(monto_cuota_interes * 100) / 100;
+    // const monto_cuota_interes_visual = Math.round(monto_cuota_interes * 100) / 100;
     let monto_cuota = 0;
 
     if (tipo.codigo === "BC")
       monto_cuota = Math.ceil((monto_cuota_capital + monto_cuota_interes) * 100) / 100;
-    else
+    else {
       monto_cuota = Math.ceil((monto_cuota_capital + monto_cuota_interes) * 10) / 10;
-    // const monto_cuota_ahorro_programado = Math.ceil((monto_cuota * (tasa_aporte_programado / 100)) * 10) / 10;
+      // const monto_cuota_ahorro_programado = Math.ceil((monto_cuota * (tasa_ahorro_programado / 100)) * 10) / 10;
+      monto_cuota_interes = monto_cuota - monto_cuota_capital;
+    }
 
+    const monto_cuota_interes_visual = Math.round(monto_cuota_interes * 100) / 100;
     let monto_cuota_ahorro_programado = 0;
 
     if (tipo.codigo === "BC")
       monto_cuota_ahorro_programado = Math.ceil(((capital * 10 * 27.5) / 10000) * 100) / 100;
     else
-      monto_cuota_ahorro_programado = Math.ceil(((monto_cuota * tasa_aporte_programado) / 100) * 10) / 10;
+      monto_cuota_ahorro_programado = Math.ceil(((monto_cuota * tasa_ahorro_programado) / 100) * 10) / 10;
 
     // console.log(monto_cuota)
-    // console.log(tasa_aporte_programado)
+    // console.log(tasa_ahorro_programado)
     // console.log(monto_cuota_ahorro_programado)
-    // console.log((monto_cuota * (tasa_aporte_programado / 100)))
+    // console.log((monto_cuota * (tasa_ahorro_programado / 100)))
 
     const monto_cuota_total = monto_cuota + monto_cuota_ahorro_programado;
 
@@ -344,6 +375,9 @@ export class OperacionFinancieraComponent implements OnInit {
     // this.cuotas = [];
 
     for (let i = 1; i <= cantidad_cuotas_calculada; i++) {
+
+      if (i === cantidad_cuotas_calculada)
+        this.fecha_fin = this.cuotas[i - 1].fecha_cuota;
 
       // let fecha = now.add(i, 'day')
       let cuota = {
@@ -384,6 +418,8 @@ export class OperacionFinancieraComponent implements OnInit {
   }
 
   guardar() {
+
+    // this.cargando = true;
 
     if (this.sesionSocio.id === '0') {
       Swal.fire({
@@ -431,23 +467,50 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log(color);
     // console.log(programacionX);
     const modelo: OperaconFinanciera = this.form.value;
-    modelo.tipo = tipo.descripcion;
-    // modelo.estado = 'Vigente'
-    modelo.color = color;
-    modelo.programacion = programacion.descripcion;
+
+    // console.log(modelo);
+
+    modelo.producto = {
+      tipo: id_tipo,
+      codigo_programacion: programacion.codigo_programacion,
+      programacion: programacion.descripcion,
+      color: color
+    };
+
+    // console.log(modelo);
+
+    // modelo.producto.tipo = id_tipo;//tipo.id;
+    // modelo.producto.codigo_programacion = programacion.codigo_programacion;
+    // modelo.producto.programacion = programacion.descripcion;
+    // modelo.producto.color = color;
+
+    modelo.configuracion = {
+      tasa_aporte_capital: 0,//this.form.get('tasa_aporte_capital').value,
+      tasa_ahorro_inicial: this.form.get('tasa_ahorro_inicial').value,
+      tasa_ahorro_programado: this.form.get('tasa_ahorro_programado').value,
+      tasa_interes: this.form.get('tasa_interes').value,
+      tasa_mora: 0
+    };
+
+    // modelo.configuracion.tasa_aporte_capital = this.form.get('tasa_aporte_capital').value;
+    // modelo.configuracion.tasa_ahorro_inicial = this.form.get('tasa_ahorro_inicial').value;
+    // modelo.configuracion.tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
+    // modelo.configuracion.tasa_interes = this.form.get('tasa_interes').value;
+    // modelo.configuracion.tasa_mora = 0;
+
+    // modelo.bancomunal.grupo_bancomunal='';
+    // modelo.bancomunal.numero_ciclo = 0;
+    modelo.persona = this.sesionSocio.id;
+    modelo.analista = '';
+    // modelo.estado = 'PreVigente'
+    modelo.fecha_inicio = this.form.get('fecha_inicio').value;
+    modelo.fecha_fin = this.fecha_fin;
     modelo.monto_gasto = this.form.get('monto_gasto').value;
     modelo.monto_ahorro_inicial = this.form.get('monto_ahorro_inicial').value;
     modelo.monto_capital = this.form.get('monto_capital').value;
-    modelo.numero_ciclo = 0;
-    modelo.tasa_aporte_inicial = 0;
-    modelo.tasa_aporte_capital = 0;
-    modelo.tasa_aporte_programado = this.form.get('tasa_aporte_programado').value;
-    modelo.tasa_interes = this.form.get('tasa_interes').value;
-    modelo.tasa_mora = 0;
     modelo.detalle = this.cuotas;
-    modelo.persona = this.sesionSocio.id;
 
-
+    console.log(modelo);
 
     // this.cuotas.push({
     //   numero_cuota: 0,
@@ -459,6 +522,8 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log('entro a guardar')
     // console.log(modelo)
 
+    this.cargando = true;
+
     this.service.crear(modelo)
       .subscribe(res => {
 
@@ -468,6 +533,7 @@ export class OperacionFinancieraComponent implements OnInit {
         });
 
         this.cancelar();
+        this.cargando = false;
 
       });
   }
@@ -507,6 +573,147 @@ export class OperacionFinancieraComponent implements OnInit {
       return true;
     else
       return false;
+  }
+
+  calcularMontos() {
+
+    const monto_capital: number = this.form.get('monto_capital').value;
+
+    if (monto_capital <= 0)
+      return;
+
+    const tasa_interes: number = this.form.get('tasa_interes').value;
+
+    if (tasa_interes > 0) {
+
+      this.calcularMontoInteres();
+
+      const tasa_ahorro_programado: number = this.form.get('tasa_ahorro_programado').value;
+
+      if (tasa_ahorro_programado > 0)
+        this.calcularMontoAhorroProgramado();
+    }
+
+    const tasa_ahorro_inicial: number = this.form.get('tasa_ahorro_inicial').value;
+
+    if (tasa_ahorro_inicial > 0)
+      this.calcularMontoAhorroInicial();
+  }
+
+  calcularMontoInteres() {
+
+    const monto_capital: number = this.form.get('monto_capital').value;
+
+    if (monto_capital <= 0)
+      return;
+
+    const tasa_interes: number = this.form.get('tasa_interes').value;
+
+    let monto_interes = 0;
+
+    if (tasa_interes > 0)
+      monto_interes = (monto_capital * tasa_interes) / 100;
+
+    this.form.get('monto_interes').setValue(monto_interes.toFixed(2));
+
+    const tasa_ahorro_programado: number = this.form.get('tasa_ahorro_programado').value;
+
+    if (tasa_ahorro_programado > 0)
+      this.calcularMontoAhorroProgramado();
+  }
+
+  calcularTasaInteres() {
+
+    const monto_capital: number = this.form.get('monto_capital').value;
+
+    if (monto_capital <= 0)
+      return;
+
+    const monto_interes: number = this.form.get('monto_interes').value;
+
+    let tasa_interes = 0;
+
+    if (monto_interes > 0)
+      tasa_interes = (monto_interes * 100) / monto_capital;
+
+    this.form.get('tasa_interes').setValue(tasa_interes);
+
+    const tasa_ahorro_programado: number = this.form.get('tasa_ahorro_programado').value;
+
+    if (tasa_ahorro_programado > 0)
+      this.calcularMontoAhorroProgramado();
+  }
+
+  calcularMontoAhorroInicial() {
+
+    const monto_capital: number = this.form.get('monto_capital').value;
+
+    if (monto_capital <= 0)
+      return;
+
+    const tasa_ahorro_inicial: number = this.form.get('tasa_ahorro_inicial').value;
+
+    let monto_ahorro_inicial = 0;
+
+    if (tasa_ahorro_inicial > 0)
+      monto_ahorro_inicial = (monto_capital * tasa_ahorro_inicial) / 100;
+
+    this.form.get('monto_ahorro_inicial').setValue(monto_ahorro_inicial.toFixed(2));
+  }
+
+  calcularTasaAhorroInicial() {
+
+    const monto_capital: number = this.form.get('monto_capital').value;
+
+    if (monto_capital <= 0)
+      return;
+
+    const monto_ahorro_inicial: number = this.form.get('monto_ahorro_inicial').value;
+
+    let tasa_ahorro_inicial = 0;
+
+    if (monto_ahorro_inicial > 0)
+      tasa_ahorro_inicial = (monto_ahorro_inicial * 100) / monto_capital;
+
+    this.form.get('tasa_ahorro_inicial').setValue(tasa_ahorro_inicial);
+  }
+
+  calcularMontoAhorroProgramado() {
+
+    const monto_capital: number = Number(this.form.get('monto_capital').value);
+    const monto_interes: number = Number(this.form.get('monto_interes').value);
+    const monto_cuota: number = monto_capital + monto_interes;
+
+    if (monto_cuota <= 0)
+      return;
+
+    const tasa_ahorro_programado: number = this.form.get('tasa_ahorro_programado').value;
+
+    let monto_ahorro_programado = 0;
+
+    if (tasa_ahorro_programado > 0)
+      monto_ahorro_programado = (monto_cuota * tasa_ahorro_programado) / 100;
+
+    this.form.get('monto_ahorro_programado').setValue(monto_ahorro_programado.toFixed(2));
+  }
+
+  calcularTasaAhorroProgramado() {
+
+    const monto_capital: number = Number(this.form.get('monto_capital').value);
+    const monto_interes: number = Number(this.form.get('monto_interes').value);
+    const monto_cuota: number = monto_capital + monto_interes;
+
+    if (monto_cuota <= 0)
+      return;
+
+    const monto_ahorro_programado: number = this.form.get('monto_ahorro_programado').value;
+
+    let tasa_ahorro_programado = 0;
+
+    if (monto_ahorro_programado > 0)
+      tasa_ahorro_programado = (monto_ahorro_programado * 100) / monto_cuota;
+
+    this.form.get('tasa_ahorro_programado').setValue(tasa_ahorro_programado.toFixed(2));
   }
 
 }

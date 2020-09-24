@@ -88,7 +88,9 @@
                             </tbody>
                         </table> -->
 
-                        <table id="example" class="table full-color-table full-success-table hover-table">
+                        <!-- <table id="example" class="table full-color-table full-success-table hover-table"> -->
+                        <table id="example" class="table full-color-table full-danger-table hover-table">
+                            <!-- <table id="example" class="table color-bordered-table red-bordered-table hover-table"> -->
                             <thead>
                                 <tr>
                                     <th class="vertical-middle text-center w100">#</th>
@@ -101,7 +103,11 @@
                                     <th class="vertical-middle text-center w100"><small>G</small></th>
                                     <th class="vertical-middle text-center w100"><small>AI</small></th>
                                     <th class="vertical-middle text-center w100"><small>Cuota</small></th>
-                                    <th class="vertical-middle text-center w100"><small>Acciones</small></th>
+                                    <!-- <th class="vertical-middle text-center w100"><small>Acciones</small></th> -->
+                                    <th class="vertical-middle text-center w100">
+                                        <input value="false" type="checkbox" id="chkAll" class="filled-in chk-col-grey" (change)="agregarTodasLasCuota($event.target.checked)">
+                                        <label for="chkAll" class="checkbox-personalizado"></label>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -24,7 +24,8 @@ export class ProductoService {
 
     return this.http.get(`${base_url}/producto/listar-programacion/${id}`)
       .pipe(
-        map((res: { ok: boolean, lista: [] }) => res.lista)
+        map((res: any) => res)
+        // map((res: { ok: boolean, lista: [] }) => res.lista)
       );
   }
 }
