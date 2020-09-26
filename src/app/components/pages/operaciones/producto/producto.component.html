@@ -16,23 +16,23 @@
         <h4 class="m-b-0">Card styles</h4>
         <p class="text-muted m-t-0 font-12">Cards include various options for customizing their backgrounds, borders, and color.<code>.card-primary info, warning, danger</code></p>
     </div> -->
-    <div class="col-md-6" *ngFor="let producto of productos">
-        <div class="card card-outline-{{ producto.color }}">
+    <div class="col-md-6" *ngFor="let item of productos">
+        <div class="card card-outline-{{ item.producto.color }}">
             <div class="card-header">
-                <h4 class="m-b-0 text-white">{{ producto.tipo }}</h4>
+                <h4 class="m-b-0 text-white">{{ item.producto.tipo.descripcion }}</h4>
             </div>
             <div class="card-body">
-                <div class="ribbon ribbon-bookmark ribbon-default">{{ producto.fecha_inicio }}</div>
-                <h1 class="card-title card-text-margin text-center">S/. {{ producto.monto_capital }}</h1>
+                <div class="ribbon ribbon-bookmark ribbon-default">{{ item.fecha_inicio }}</div>
+                <h1 class="card-title card-text-margin text-center">S/. {{ item.monto_capital }}</h1>
                 <h4 class="m-b-20">
                     <p class="card-text text-center">
                         <!-- Período de ejecución:
                         <br> -->
-                        {{ producto.programacion }}
+                        {{ item.producto.programacion }}
                     </p>
                 </h4>
                 <!-- <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p> -->
-                <a [routerLink]="['/operaciones/gestion/producto-detalle', producto.id]" class="btn btn-{{ producto.color }}">Ver detalle del producto</a>
+                <a [routerLink]="['/operaciones/gestion/producto-detalle', item.id]" class="btn btn-{{ item.producto.color }}">Ver detalle del producto</a>
 
                 <!-- <div class="ribbon-wrapper card">
                     <div class="ribbon ribbon-bookmark  ribbon-default">{{ producto.fecha_inicio }}</div>

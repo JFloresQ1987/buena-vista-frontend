@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { OperacionFinancieraComponent } from './registro/operacion-financiera/operacion-financiera.component';
 import { SocioComponent } from './registro/socio/socio.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardSocioComponent } from './inicio/dashboard-socio/dashboard-socio.component';
 import { CrearComponent } from './seguridad/gestion/usuario/crear/crear.component';
 import { ProductoComponent } from './operaciones/producto/producto.component';
@@ -18,6 +18,7 @@ import { ProductoPagoComponent } from './caja/producto-pago/producto-pago.compon
 import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
+import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
@@ -39,7 +40,11 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
     CrearCajaComponent,
     AnalistaComponent,
     FormComponent,
+<<<<<<< HEAD
     IngresosEgresosComponent
+=======
+    CierreCajaIndividualComponent
+>>>>>>> 07c1fa4db51079011d943b2824f79fdf111ddd98
   ],
   exports: [
     PagesComponent,
@@ -54,7 +59,8 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
     CommonModule,
     SharedModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class PagesModule { }

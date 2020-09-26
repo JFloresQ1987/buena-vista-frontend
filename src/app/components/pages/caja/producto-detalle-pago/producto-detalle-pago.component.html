@@ -88,7 +88,9 @@
                             </tbody>
                         </table> -->
 
-                        <table id="example" class="table full-color-table full-success-table hover-table">
+                        <!-- <table id="example" class="table full-color-table full-success-table hover-table"> -->
+                        <table id="example" class="table full-color-table full-danger-table hover-table">
+                            <!-- <table id="example" class="table color-bordered-table red-bordered-table hover-table"> -->
                             <thead>
                                 <tr>
                                     <th class="vertical-middle text-center w100">#</th>
@@ -101,7 +103,11 @@
                                     <th class="vertical-middle text-center w100"><small>G</small></th>
                                     <th class="vertical-middle text-center w100"><small>AI</small></th>
                                     <th class="vertical-middle text-center w100"><small>Cuota</small></th>
-                                    <th class="vertical-middle text-center w100"><small>Acciones</small></th>
+                                    <!-- <th class="vertical-middle text-center w100"><small>Acciones</small></th> -->
+                                    <th class="vertical-middle text-center w100">
+                                        <input value="false" type="checkbox" id="chkAll" class="filled-in chk-col-grey" (change)="agregarTodasLasCuota($event.target.checked)">
+                                        <label for="chkAll" class="checkbox-personalizado"></label>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,10 +117,10 @@
                                     <!-- <td text-center>{{ cuota.saldo_capital }}</td> -->
                                     <td class="text-center font-table">{{ cuota.monto_amortizacion_capital }}</td>
                                     <td class="text-center font-table">{{ cuota.monto_interes }}</td>
-                                    <td class="text-center font-table">{{ cuota.monto_ahorro_programado }}</td>
-                                    <td class="text-center font-table">{{ cuota.monto_mora }}</td>
-                                    <td class="text-center font-table">{{ cuota.monto_gasto }}</td>
-                                    <td class="text-center font-table">{{ cuota.monto_ahorro_inicial }}</td>
+                                    <td class="text-center font-table">{{ cuota.ahorros.monto_ahorro_programado }}</td>
+                                    <td class="text-center font-table">{{ cuota.ingresos.monto_mora }}</td>
+                                    <td class="text-center font-table">{{ cuota.ingresos.monto_gasto }}</td>
+                                    <td class="text-center font-table">{{ cuota.ahorros.monto_ahorro_inicial }}</td>
                                     <td class="text-center font-table">{{ cuota.monto_cuota }}</td>
                                     <td class="text-center font-table">
                                         <!-- <input id="checkbox" type="checkbox" (change)="agregarCuota(cuota.id)"> -->
@@ -153,38 +159,63 @@
                         <!-- <p>Monto a cancelar: S/. 13,848</p>
                         <p>Ahorro voluntario: S/. 138 </p> -->
                         <div class="form-group row m-b-15">
-                            <label class="col-8 col-form-label">Monto a cancelar: S/.</label>
-                            <div class="col-4">
+                            <label class="col-7 col-form-label">Monto a cancelar:</label>
+                            <div class="col-5">
                                 <input type="text" class="form-control" formControlName="monto_cancelar" readonly>
                             </div>
                         </div>
-                        <div class="form-group row m-b-0">
-                            <label class="col-8 col-form-label">Ahorro voluntario: S/.</label>
-                            <div class="col-4">
-                                <input type="text" class="form-control" formControlName="monto_ahorro_voluntario" (keyup)="calcularMontos()">
-                            </div>
-                        </div>
-                        <hr>
-                        <h3><b>
+
+                        <div [ngClass]="{
+                            'has-success': validarSuccess('monto_ahorro_voluntario'),
+                            'has-danger': validarError('monto_ahorro_voluntario')
+                        }">
+
                             <div class="form-group row m-b-0">
-                                <label class="col-8 col-form-label">Total: S/.</label>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" formControlName="monto_total" readonly>
+                                <label class="col-7 col-form-label">Ahorro voluntario:</label>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" formControlName="monto_ahorro_voluntario" [ngClass]="validarSuccess('monto_ahorro_voluntario') ? 'form-control-success' : 'form-control-danger'" (keyup)="calcularMontos()">
                                 </div>
                             </div>
-                        </b></h3>
+
+                        </div>
+
+                        <!-- <div class="form-group row m-b-0">
+                            <label class="col-8 col-form-label">Ahorro voluntario: S/.</label>
+                            <div class="col-4">
+                                <input type="text" class="form-control" formControlName="monto_ahorro_voluntario"
+                                    (keyup)="calcularMontos()">
+                            </div>
+                        </div> -->
+                        <hr>
+                        <h3><b>
+                                <div class="form-group row m-b-0">
+                                    <label class="col-7 col-form-label">Total: S/.</label>
+                                    <div class="col-5">
+                                        <input type="text" class="form-control" formControlName="monto_total" readonly>
+                                    </div>
+                                </div>
+                            </b></h3>
                         <!-- <h3><b>Total: S/. 13,986</b></h3> -->
                         <hr>
                         <!-- <div class="col-md-6"> -->
-                        <div class="form-group row m-b-15">
-                            <label class="col-8 col-form-label">Monto recibido: S/.</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" formControlName="monto_recibido" (keyup)="calcularMontos()">
+
+                        <div [ngClass]="{
+                                'has-success': validarSuccess('monto_recibido'),
+                                'has-danger': validarError('monto_recibido')
+                            }">
+
+                            <div class="form-group row m-b-15">
+                                <label class="col-7 col-form-label">Monto recibido:</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" formControlName="monto_recibido" [ngClass]="validarSuccess('monto_recibido') ? 'form-control-success' : 'form-control-danger'" (keyup)="calcularMontos()">
+                                </div>
                             </div>
+
                         </div>
+
                         <div class="form-group row m-b-0">
-                            <label class="col-8 col-form-label">Vuelto: S/.</label>
-                            <div class="col-4">
+                            <label class="col-7 col-form-label">Vuelto:</label>
+                            <div class="col-5">
                                 <input type="text" class="form-control" formControlName="monto_vuelto" readonly>
                             </div>
                         </div>

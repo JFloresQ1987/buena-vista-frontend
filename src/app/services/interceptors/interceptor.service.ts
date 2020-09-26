@@ -14,10 +14,10 @@ import { Socio } from '../../models/core/socio.model';
 export class InterceptorService implements HttpInterceptor {
 
   private seguridad: Seguridad;
-  private socio: Socio;
+  // private socio: Socio;
   
-  constructor(private seguridadService: SeguridadService,
-    private sesionSocioService: SesionSocioService) {
+  constructor(private seguridadService: SeguridadService/*,
+    private sesionSocioService: SesionSocioService*/) {
     
     // this.seguridad = this.service.seguridad
     // console.log('ejecutando inter')
@@ -28,9 +28,9 @@ export class InterceptorService implements HttpInterceptor {
     console.log('Interceptor token')
 
     this.seguridad = this.seguridadService.seguridad;
-    this.socio = this.sesionSocioService.sesionSocio;
+    // this.socio = this.sesionSocioService.sesionSocio;
 
-    console.log(this.socio)
+    // console.log(this.socio)
 
 
     const headers = new HttpHeaders ({

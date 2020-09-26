@@ -9,6 +9,7 @@ export class Socio {
         public nombre: string = '',
         public apellido_paterno: string = '',
         public apellido_materno: string = '', 
+        public documento_identidad: string = '',
         public fecha_nacimiento: string = '',
         public es_masculino: boolean = true,
         public avatar: string = ''

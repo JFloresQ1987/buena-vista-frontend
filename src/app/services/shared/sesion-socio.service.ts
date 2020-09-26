@@ -43,6 +43,7 @@ export class SesionSocioService {
         this.sesionSocio.nombre = persona.nombre;
         this.sesionSocio.apellido_paterno = persona.apellido_paterno;
         this.sesionSocio.apellido_materno = persona.apellido_materno;
+        this.sesionSocio.documento_identidad = persona.documento_identidad;
         this.sesionSocio.fecha_nacimiento = persona.fecha_nacimiento;
         this.sesionSocio.es_masculino = persona.es_masculino;
         this.sesionSocio.avatar = persona.avatar;

@@ -18,7 +18,11 @@ import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
 import { FormComponent } from './seguridad/gestion/analista/form.component';
+<<<<<<< HEAD
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
+=======
+import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
+>>>>>>> 07c1fa4db51079011d943b2824f79fdf111ddd98
 
 
 const childRoutes: Routes = [
@@ -126,11 +130,19 @@ const childRoutes: Routes = [
     data: { modulo: 'Caja', menu: 'Pago', item: 'Producto detalle', roles: ["Administrador", "Cajero"] }
   },
   {
+<<<<<<< HEAD
     path: 'caja/gestion/ingresos-egresos',
     component: IngresosEgresosComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Caja', menu: 'Pago', item: 'Registro Ingresos - Egresos', roles: ["Administrador","Cajero"] }
   }
+=======
+    path: 'caja/pago/cierre-caja-individual',
+    component: CierreCajaIndividualComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Cierre Caja Individual', roles: ["Administrador", "Cajero"] }
+  },
+>>>>>>> 07c1fa4db51079011d943b2824f79fdf111ddd98
 ]
 
 @NgModule({

@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
         // this.documento_identidad='';
         // document.getElementById('documento_identidad').value = '';
 
-        console.log(document.getElementById('documento_identidad'))
+        // console.log(document.getElementById('documento_identidad'))
         // document.getElementById('documento_identidad').value=""
         this.router.navigateByUrl('/dashboard/socio');
 

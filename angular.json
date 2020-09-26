@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "buena-vista-frontend"
+    }
+  },
+  "defaultProject": "buena-vista-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

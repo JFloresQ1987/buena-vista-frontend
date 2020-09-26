@@ -52,6 +52,7 @@ export class SidebarComponent implements OnInit {
     this.sesionSocio.fecha_nacimiento = '';
     this.sesionSocio.es_masculino = true;
     this.sesionSocio.avatar = '';
+    localStorage.removeItem('socio');
   }
 
 }
