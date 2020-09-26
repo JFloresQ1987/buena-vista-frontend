@@ -19,6 +19,7 @@ import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
 import { FormComponent } from './seguridad/gestion/analista/form.component';
+import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FormComponent } from './seguridad/gestion/analista/form.component';
     CajaComponent,
     CrearCajaComponent,
     AnalistaComponent,
-    FormComponent
+    FormComponent,
+    IngresosEgresosComponent
   ],
   exports: [
     PagesComponent,

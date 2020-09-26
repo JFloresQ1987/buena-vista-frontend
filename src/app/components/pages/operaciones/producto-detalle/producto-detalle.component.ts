@@ -140,7 +140,7 @@ export class ProductoDetalleComponent implements OnInit {
       },
       margin: { top: 30 },
     };
-
+    
     // autoTable(doc, { html: '#example' })
     autoTable(doc, autoTablex);
 

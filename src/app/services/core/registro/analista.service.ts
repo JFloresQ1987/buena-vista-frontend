@@ -12,8 +12,8 @@ export class AnalistaService {
 
   constructor(private http: HttpClient) { }
 
-  listar() {
-    const url = `${base_url}/analistas`;
+  listar(desde: number) {
+    const url = `${base_url}/analistas?desde=${desde}`;
     return this.http.get(url);
   }
 

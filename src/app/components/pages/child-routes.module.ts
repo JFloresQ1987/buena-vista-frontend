@@ -18,6 +18,7 @@ import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
 import { FormComponent } from './seguridad/gestion/analista/form.component';
+import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
 
 const childRoutes: Routes = [
@@ -123,6 +124,12 @@ const childRoutes: Routes = [
     component: ProductoDetallePagoComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Caja', menu: 'Pago', item: 'Producto detalle', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'caja/gestion/ingresos-egresos',
+    component: IngresosEgresosComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Registro Ingresos - Egresos', roles: ["Administrador","Cajero"] }
   }
 ]
 
