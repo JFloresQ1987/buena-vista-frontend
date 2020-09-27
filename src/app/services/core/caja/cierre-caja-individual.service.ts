@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { CierreCajaIndividual } from '../../../interfaces/core/registro/cierre-caja.inteface';
+import { CierreCajaIndividual } from '../../../interfaces/core/registro/cierre-caja.interface';
 
 
 const base_url = environment.base_url

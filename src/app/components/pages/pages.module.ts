@@ -23,6 +23,7 @@ import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-detalle.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
+import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,9 @@ import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-de
     CierreCajaIndividualComponent,
     AhorroComponent,
     AhorroDetalleComponent,
-    AhorroDetallePagoComponent
+    AhorroDetallePagoComponent,
+    IngresosEgresosComponent,
+    CierreCajaIndividualComponent
   ],
   exports: [
     PagesComponent,

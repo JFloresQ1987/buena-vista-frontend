@@ -134,8 +134,10 @@
             <div class="col-sm-6">
               <label class="form-control-label">Rol</label>
               <select id="roles" multiple="multiple" formControlName="rol">
-                <option value="Administrador">Administrador</option><!-- " 0: 'Administrador'" -->
-                <option value="Cajero">Cajero</option><!-- ["0: 'Adminsitrador'","1: 'Cajero'"] -->
+                <option value="Administrador">Administrador</option>
+                <!-- " 0: 'Administrador'" -->
+                <option value="Cajero">Cajero</option>
+                <!-- ["0: 'Adminsitrador'","1: 'Cajero'"] -->
                 <option value="Analista">Analista</option>
               </select>
             </div>
@@ -275,6 +277,42 @@
             </div>
           </div>
           <div class="form-group row">
+            <div class="col-sm-4">
+              <label class="form-control-label">
+                Ubigeo: <span class="text-danger">(*)</span>
+              </label>
+              <select name="" class="form-control" id="" formControlName="departamento">
+                <option value="">Departamento</option>
+                <option *ngFor="let d of departamentos" value="{{ d._id }}">
+                  {{ d.departamento }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-control-label">
+                <span class="text-danger">&nbsp;</span>
+              </label>
+              <select name="" id="" class="form-control" formControlName="provincia">
+                <option value="">Provincia</option>
+                <option *ngFor="let p of provincias" value="{{ p._id }}">
+                  {{ p.provincia }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label class="form-control-label">
+                <span class="text-danger">&nbsp;</span>
+              </label>
+              <select name="" id="" class="form-control" formControlName="distrito">
+                <option value="">Distrito</option>
+                <option *ngFor="let di of distritos" value="{{ di._id }}">
+                  {{ di.distrito }}
+                </option>
+              </select>
+            </div>
+            <br />
+          </div>
+          <div class="form-group row">
             <div
               class="col-sm-12"
               [ngClass]="{
@@ -282,9 +320,9 @@
                 'has-danger': validarError('domicilio')
               }"
             >
-              <label class="form-control-label">
-                Domicilio: <span class="text-danger">(*)</span>
-              </label>
+            <label class="form-control-label">
+              Domicilio: <span class="text-danger">(*)</span>
+            </label>
               <input
                 type="text"
                 class="form-control"
