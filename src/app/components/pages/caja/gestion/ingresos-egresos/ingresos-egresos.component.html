@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form action="" ngForm [formGroup]="form" (submit)="guardar()">
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Responsable </label>
+              <select class="form-control" formControlName="responsable">
+                <option value="">Seleecione</option>
+                <option *ngFor="let item of usuarios" value="{{item.id}}">{{item.persona.nombre}}, {{item.persona.apellido_paterno}} {{item.persona.apellido_materno}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Operacion </label>
+              <select class="form-control" formControlName="operacion">
+                <option value="">Seleccione</option>
+                <option value="i">Ingreso</option>
+                <option value="e">Egreso</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Concepto </label>
+              <select class="form-control" formControlName="concepto">
+                <option value="">seleccione</option>
+                <option *ngFor="let item of conceptos" value="{{item._id}}">{{item.descripcion}}</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Sub Concepto </label>
+              <select class="form-control" formControlName="subconcepto">
+                <option value="">Seleccione</option>
+                <option *ngFor="let item of subconceptos" value="{{item._id}}">{{item.descripcion}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Detalle </label>
+              <input class="form-control" type="text" formControlName="detalle" />
+            </div>
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> N° Comprobante </label>
+              <input class="form-control" type="text" formControlName="comprobante" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="" class="form-control-label"> Monto S/. </label>
+              <input class="form-control" type="text" (keypress)="numberOnly($event)" formControlName="monto" />
+            </div>
+            <div class="col-sm-6 text-right mt-3">
+                <button
+                  type="reset"
+                  (click)="cancelar()"
+                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
+                >
+                  <i class="fa fa-times-circle"></i>
+                  &nbsp; Cancelar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-lg btn-info waves-effect waves-light"
+                >
+                  <i class="fa fa-save"></i>
+                  &nbsp; Registrar
+                </button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

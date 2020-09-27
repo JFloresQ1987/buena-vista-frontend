@@ -13,8 +13,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  listar() {
-    const url = `${base_url}/usuarios`;
+  listar(desde:number = 0) {
+    const url = `${base_url}/usuarios?desde=${desde}`;
     return this.http.get(url);
   }
 

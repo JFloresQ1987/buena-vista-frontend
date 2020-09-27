@@ -35,4 +35,10 @@ export class OperacionFinancieraPagoService {
         map((res: { ok: boolean, recibo: [] }) => res.recibo)
       );
   }
+
+  registrarIngresoEgreso(objeto: Object){
+    const url = `${base_url}/operacion-financiera-pago/registrar-ingreso-egreso`;
+    return this.http.post(url, objeto);
+  }
+
 }

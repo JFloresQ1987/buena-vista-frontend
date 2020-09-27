@@ -406,9 +406,11 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log(monto_cuota_ahorro_programado)
     // console.log((monto_cuota * (tasa_ahorro_programado / 100)))
 
-    const monto_cuota_total = monto_cuota + monto_cuota_ahorro_programado;
+    const monto_cuota_total = (monto_cuota + monto_cuota_ahorro_programado).toFixed(2);
 
-    // console.log(this.cuotas);
+    console.log(monto_cuota);
+    console.log(monto_cuota_ahorro_programado);
+    console.log(monto_cuota_total);
 
     // this.cuotas = [];
 
@@ -450,7 +452,7 @@ export class OperacionFinancieraComponent implements OnInit {
     }
 
     this.cuotas.push({
-      estado: 'Vigente',
+      estado: 'Pendiente',
       numero_cuota: 0,
       nombre_dia_cuota: '',
       fecha_cuota: dayjs().format('DD/MM/YYYY'),

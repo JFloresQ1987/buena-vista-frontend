@@ -20,6 +20,7 @@ import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.compone
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { FormComponent } from './seguridad/gestion/analista/form.component';
+import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,11 @@ import { FormComponent } from './seguridad/gestion/analista/form.component';
     CrearCajaComponent,
     AnalistaComponent,
     FormComponent,
+<<<<<<< HEAD
+    IngresosEgresosComponent
+=======
     CierreCajaIndividualComponent
+>>>>>>> 07c1fa4db51079011d943b2824f79fdf111ddd98
   ],
   exports: [
     PagesComponent,

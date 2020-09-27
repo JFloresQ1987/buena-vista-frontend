@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsuarioService } from '../../../../../../services/core/registro/usuario.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UbigeoService } from '../../../../../../services/core/ubigeo.service';
 
 declare const $: any;
 
@@ -18,10 +19,12 @@ export class CrearComponent {
   public form: FormGroup;
   public formSubmitted = false;
   public _id: string;
+  public departamentos: [] = [];
+  public provincias: [] = [];
+  public distritos: [] = [];
 
   constructor(private service: UsuarioService,
-    private formBuilder: FormBuilder, private el: ElementRef, private activatedRoute: ActivatedRoute, private router: Router) {
-
+    private formBuilder: FormBuilder, private el: ElementRef, private activatedRoute: ActivatedRoute, private router: Router, private ubigeoService: UbigeoService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +40,9 @@ export class CrearComponent {
       numero_telefono: ['', [Validators.maxLength(15)]],
       numero_celular: ['', [Validators.maxLength(15)]],
       correo_electronico: ['', [Validators.email, Validators.maxLength(150)]],
+      departamento: ['', []],
+      provincia: ['', []],
+      distrito: ['', []],
       domicilio: ['', [Validators.required, Validators.maxLength(200)]],
       referencia_domicilio: ['', [Validators.required, Validators.maxLength(200)]],
       // avatar: [''],
@@ -46,20 +52,49 @@ export class CrearComponent {
       this._id = id;
       this.cargarUsuario(id);
     });
+
+    this.form.controls['departamento'].valueChanges.subscribe(departamento =>{
+      this.ubigeoService.listarProvinciasxDepartamento(departamento).subscribe(res=>{
+        //this.form.controls['provincia'].setValue("");
+        this.provincias = res['provincias'];
+        //this.form.controls['distrito'].setValue("");
+        this.distritos = [];
+      })
+    });
+
+    this.form.controls['provincia'].valueChanges.subscribe(provincia =>{
+      const departamento = this.form.controls['departamento'].value;
+      //this.form.controls['distrito'].setValue("");
+      this.ubigeoService.listarDistritosxProvincia(departamento, provincia).subscribe(res=>{
+        this.distritos = res['distritos'];
+      })
+    })
+
+    this.cargarDepartamentos();
+  }
+  cargarDepartamentos() {
+    this.ubigeoService.listarDepartamentos().subscribe(res => {
+      this.departamentos = res['departamentos'];
+    })
   }
 
   cargarUsuario(id) {
     if (id != 'nuevo') {
       this.service.getUsuario(id).subscribe(res => {
-        const  usuario  = res['usuario'];
+        const usuario = res['usuario'];
         const { persona, rol, persona: { comentario } } = usuario;
         //this.roles = rol;
         const data = {
           ...persona,
+          departamento:(persona.ubigeo.departamento==undefined)?"":persona.ubigeo.departamento,
+          provincia:(persona.ubigeo.provincia==undefined)?"":persona.ubigeo.provincia,
+          distrito:(persona.ubigeo.distrito==undefined)?"":persona.ubigeo.distrito,
           rol: rol,
           comentario: ''
         }
         delete data['_id'];
+        delete data['ubigeo'];
+        console.log(data)
         const roles = [];
         rol.forEach(r => {
           if (r == 'Administrador') {
@@ -72,7 +107,9 @@ export class CrearComponent {
         });
         $(this.el.nativeElement.querySelector('#roles')).multiSelect('select', roles);
         this.form.patchValue(data);
-
+        this.form.controls['provincia'].setValue(data.provincia);
+        this.form.controls['distrito'].setValue(data.distrito);
+        console.log(this.form.controls['provincia'].value);
       });
     } else {
       return;
@@ -93,7 +130,7 @@ export class CrearComponent {
         });
         return;
       }
-      this.service.editar(this._id,this.form.value)
+      this.service.editar(this._id, this.form.value)
         .subscribe(res => {
           this.formSubmitted = false;
           if (res['ok']) {
@@ -121,7 +158,15 @@ export class CrearComponent {
         });
         return;
       }
-      this.service.crear(this.form.value)
+      const data = {
+        ...this.form.value,
+        ubigeo:{
+          departamento:this.form.controls['departamento'],
+          provincia:this.form.controls['provincia'],
+          distrito:this.form.controls['distrito']
+        }
+      }
+      this.service.crear(data)
         .subscribe(res => {
 
           if (res['ok']) {
@@ -143,7 +188,7 @@ export class CrearComponent {
 
   cancelar() {
 
-  this.router.navigateByUrl('seguridad/gestion/usuario')
+    this.router.navigateByUrl('seguridad/gestion/usuario')
 
   }
 
