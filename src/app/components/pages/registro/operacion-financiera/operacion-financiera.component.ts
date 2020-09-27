@@ -64,13 +64,15 @@ export class OperacionFinancieraComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       tipo: ['', [Validators.required]],
-      monto_capital: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
-      monto_gasto: ['6.7', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      programacion_pago: ['', [Validators.required]],
+      grupo_bancomunal: ['', [Validators.required]],
+      analista: ['', [Validators.required]],
       tasa_interes: ['6', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // tasa_mora: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       tasa_ahorro_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       tasa_ahorro_inicial: ['10', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      programacion_pago: ['', [Validators.required]],
+      monto_capital: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_gasto: ['6.7', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
       monto_ahorro_inicial: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       monto_interes: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // monto_mora: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],

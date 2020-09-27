@@ -32,7 +32,8 @@
                     </p>
                 </h4>
                 <!-- <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p> -->
-                <a [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">Ver detalle del producto</a>
+                <a [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">Ver detalle del producto</a> &nbsp;&nbsp;
+                <a [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-danger">Desembolsar producto</a>
 
                 <!-- <div class="ribbon-wrapper card">
                     <div class="ribbon ribbon-bookmark  ribbon-default">{{ producto.fecha_inicio }}</div>

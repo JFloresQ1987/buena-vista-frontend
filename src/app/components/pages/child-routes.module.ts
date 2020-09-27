@@ -19,6 +19,7 @@ import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.compone
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
 import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
+import { AhorroComponent } from './registro/ahorro/ahorro.component';
 
 
 const childRoutes: Routes = [
@@ -89,7 +90,6 @@ const childRoutes: Routes = [
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Socios', roles: ["Administrador", "Analista"] }
   },
-
   {
     path: 'registro/gestion/credito',
     component: OperacionFinancieraComponent,
@@ -130,6 +130,12 @@ const childRoutes: Routes = [
     component: CierreCajaIndividualComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Caja', menu: 'Pago', item: 'Cierre Caja Individual', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'registro/gestion/ahorro',
+    component: AhorroComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Registro', menu: 'Gestión', item: 'Ahorros', roles: ["Administrador", "Analista"] }
   },
 ]
 
