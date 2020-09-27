@@ -1,13 +1,15 @@
-import { Usuario } from './../../../../interfaces/core/registro/usuario.interface';
-import { CierreCajaIndividual } from './../../../../interfaces/core/registro/cierre-caja.inteface';
-import { SeguridadService } from './../../../../services/auth/seguridad.service';
-import { Seguridad } from 'src/app/models/auth/seguridad.model';
-import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+
 import Swal from 'sweetalert2';
+
+import { Seguridad } from 'src/app/models/auth/seguridad.model';
+import { Usuario } from './../../../../interfaces/core/registro/usuario.interface';
+import { CierreCajaIndividual } from './../../../../interfaces/core/registro/cierre-caja.interface';
+
+import { SeguridadService } from './../../../../services/auth/seguridad.service';
+import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
+import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
 
 @Component({
   selector: 'app-cierre-caja-individual',
@@ -22,32 +24,33 @@ export class CierreCajaIndividualComponent {
   public form: FormGroup;
   public formSubmitted = false;
   public usuarios:[] = [];
+  public fechas:[] = [];
   private seguridad: Seguridad;
-
-  public cierreCajaSeleccionado : CierreCajaIndividual;
-
- 
+  public cajaID: string;
+  
+  public activarGuardado = true;
+  
+  
   constructor(
     private usuarioService: UsuarioService,
     private cierreCajaIndividualService: CierreCajaIndividualService,
     private formBuilder: FormBuilder,
     private seguridadService: SeguridadService
-  ) { }
-
-  
-
-  ngOnInit(): void {
-
+    ) { }
+    
+    
+    
+    ngOnInit(): void {
+      
     /* this.activatedRoute.params.subscribe( ({id}) => {
       this.carga(id)
     }) */
 
-    console.log(this.cierreCajaSeleccionado)
 
     this.cargarCajeros()
     this.seguridad = this.seguridadService.seguridad;
     this.form = this.formBuilder.group({      
-      cajero : ['', [Validators.required]],
+      //cajero : ['', [Validators.required]],
       fecha_apertura : ['', [Validators.required]],
       monto_total_apertura : ['', [Validators.required]],
       monto_total_operaciones : ['', [Validators.required]],
@@ -67,17 +70,20 @@ export class CierreCajaIndividualComponent {
       comentario : ['', [Validators.required]],
     });
     
-    this.form.controls['cajero'].setValue(this.seguridad.id);
+    /* this.form.controls['cajero'].setValue(this.seguridad.id);
     console.log(this.seguridad.id);
-    this.form.controls['cajero'].disable();
+    this.form.controls['cajero'].disable(); */
+
     this.cargarCajaDiario();
     
-  }
-
+  };
   cargarCajaDiario(){
     this.cierreCajaIndividualService.getOperacionesCajaInd(this.seguridad.id)
         .subscribe(res=>{
-
+          
+          this.cajaID= res["idCaja"]
+          
+          this.form.controls['fecha_apertura'].setValue(res['fecha_apertura']);
           
           this.form.controls['monto_total_apertura'].setValue(res["monto_total_apertura"]);
           this.form.controls['monto_total_apertura'].disable();
@@ -103,8 +109,10 @@ export class CierreCajaIndividualComponent {
   guardar() {
     
       const data = {
-        id : "5f6525c349ea823bdc8be302",
-        cajero: this.seguridad.id,
+        
+        // id : "5f6e80d45ae4c62cf40c6972",
+        //cajero: this.seguridad.id,
+        id: this.cajaID,
         fecha_apertura: this.form.controls['fecha_apertura'].value,
         cantidad_doscientos_soles_cierre: this.form.controls['cantidad_doscientos_soles_cierre'].value,
         cantidad_cien_soles_cierre: this.form.controls['cantidad_cien_soles_cierre'].value,
@@ -189,20 +197,26 @@ export class CierreCajaIndividualComponent {
       cantidad = 0
       return cantidad
     } else {
-      return cantidad * multiplicador
+      return Number((cantidad * multiplicador).toFixed(1))
     }
   }
 
   
   get monto_total(){
-    return this.obtenerMonto(this.cantidad_doscientos, 200) + this.obtenerMonto(this.cantidad_cien, 100) + this.obtenerMonto(this.cantidad_cincuenta, 50) +
+    return (this.obtenerMonto(this.cantidad_doscientos, 200) + this.obtenerMonto(this.cantidad_cien, 100) + this.obtenerMonto(this.cantidad_cincuenta, 50) +
             this.obtenerMonto(this.cantidad_veinte, 20) + this.obtenerMonto(this.cantidad_diez, 10) + this.obtenerMonto(this.cantidad_cinco, 5) +
             this.obtenerMonto(this.cantidad_dos, 2) + this.obtenerMonto(this.cantidad_uno, 1) + this.obtenerMonto(this.cantidad_cincuenta_cent, 0.5) +
-            this.obtenerMonto(this.cantidad_veint_cent, 0.2) + this.obtenerMonto(this.cantidad_diez_cent, 0.1)
+            this.obtenerMonto(this.cantidad_veint_cent, 0.2) + this.obtenerMonto(this.cantidad_diez_cent, 0.1)).toFixed(1)
   }
 
   get dif(){
-    return  this.form.controls['saldo'].value - this.monto_total
+    return  Number((this.form.controls['saldo'].value - Number((this.monto_total))).toFixed(1))
+  }
+
+  activarBoton(){
+    if (this.dif == 0){
+      this.activarGuardado = false
+    }
   }
 
 }

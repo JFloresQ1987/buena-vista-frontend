@@ -7,23 +7,12 @@
 
               <div>
                 <label class="form-control-label">
-                  Nombre Cajero: 
+                  fechas: 
                 </label>
-                <div class="col-sm-9">
-                    <div class="input-group">
-                        <select class="form-control"
-                                formControlName="cajero">
-                            <option value="">Seleccione El Cajero</option>
-                            <option *ngFor="let item of usuarios"
-                            [value]="item.id"> 
-                                {{ item.persona.nombre }} {{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
+                <input  type="text" class="form-control" formControlName="fecha_apertura" />
               </div>
 
-              <div
+              <!-- <div
                 class="col-sm-6"
                 [ngClass]="{
                   'has-success': validarSuccess('fecha_apertura'),
@@ -44,7 +33,7 @@
                   formControlName="fecha_apertura"
                   maxlength="50"
                 />
-              </div>
+              </div> -->
             </div>
 
 
@@ -330,9 +319,9 @@
                 </button>
                 <button
                   type="submit"
-                  (click) = "guardar()"
-                  class="btn btn-lg btn-info waves-effect waves-light"
-                >
+                  (click) = "guardar()"                  
+                  disabled = activarGuardado
+                  class="btn btn-lg btn-info waves-effect waves-light">
                   <i class="fa fa-save"></i>
                   &nbsp; Guardar
                 </button>
