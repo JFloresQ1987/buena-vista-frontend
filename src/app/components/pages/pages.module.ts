@@ -40,11 +40,8 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
     CrearCajaComponent,
     AnalistaComponent,
     FormComponent,
-<<<<<<< HEAD
-    IngresosEgresosComponent
-=======
+    IngresosEgresosComponent,
     CierreCajaIndividualComponent
->>>>>>> 07c1fa4db51079011d943b2824f79fdf111ddd98
   ],
   exports: [
     PagesComponent,
