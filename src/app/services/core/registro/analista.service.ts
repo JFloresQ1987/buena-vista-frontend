@@ -33,12 +33,12 @@ export class AnalistaService {
     return this.http.put(url, objeto);
   }
 
-  getListaDesplegable() {
-    const url = `${base_url}/analistas/lista-desplegable`;
+  getListaDesplegablexProducto(producto: string) {
+    const url = `${base_url}/analistas/lista-desplegable-por-producto/${producto}`;
     return this.http.get(url)
       .pipe(
-        map((res: { ok: boolean, analistas: any }) => res.analistas)
-      );;
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
   }
 
 }

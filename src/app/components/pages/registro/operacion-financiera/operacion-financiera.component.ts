@@ -8,6 +8,9 @@ import { SesionSocioService } from '../../../../services/shared/sesion-socio.ser
 import { Socio } from '../../../../models/core/socio.model';
 import { ProductoService } from '../../../../services/core/configuracion/producto.service';
 // import * as updateLocale from 'dayjs/plugin/updateLocale';
+import { UsuarioService } from '../../../../services/core/registro/usuario.service';
+import { AnalistaService } from '../../../../services/core/registro/analista.service';
+import { GrupoBancomunalService } from '../../../../services/core/registro/grupo-bancomunal.service';
 
 @Component({
   selector: 'app-operacion-financiera',
@@ -23,15 +26,13 @@ export class OperacionFinancieraComponent implements OnInit {
   public formSubmitted = false;
   // public cantidad_cuotas: number;
   public programacion_pago = [];
+  public analistas = [];
   public configuracion_pago: any = {};
   public cuotas = [];
   public sesionSocio: Socio;
   // public tipo_operacion_financiera: string;
-  public tipos = [];/*[
-    { id: 1, tipo: 'Crédito diario' },
-    { id: 2, tipo: 'Crédito personal' },
-    { id: 3, tipo: 'Banco comunal individual' }
-  ];*/
+  public tipos = [];
+  // public grupo_bancomunal = [];
   public fecha_fin = '';
   // public color: string;
   // public programacion: string;
@@ -39,7 +40,9 @@ export class OperacionFinancieraComponent implements OnInit {
   constructor(private service: OperacionFinancieraService,
     private formBuilder: FormBuilder,
     private sesionSocioService: SesionSocioService,
-    private productoService: ProductoService) {
+    private productoService: ProductoService,
+    private analistaService: AnalistaService/*,
+    private grupoBancomunalService: GrupoBancomunalService*/) {
 
     this.sesionSocio = this.sesionSocioService.sesionSocio;
   }
@@ -65,7 +68,7 @@ export class OperacionFinancieraComponent implements OnInit {
     this.form = this.formBuilder.group({
       tipo: ['', [Validators.required]],
       programacion_pago: ['', [Validators.required]],
-      grupo_bancomunal: ['', [Validators.required]],
+      // grupo_bancomunal: ['', [Validators.required]],
       analista: ['', [Validators.required]],
       tasa_interes: ['6', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // tasa_mora: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
@@ -87,6 +90,17 @@ export class OperacionFinancieraComponent implements OnInit {
       .subscribe(res => {
         this.tipos = res;
       });
+
+    // this.grupoBancomunalService.getListaDesplegable()
+    //   .subscribe(res => {
+    //     this.grupo_bancomunal = res;
+    //   });
+
+    // this.analistaService.getListaDesplegablexProducto()
+    //   .subscribe(res => {
+    //     this.analistas = res;
+    //     // console.log(this.analistas)
+    //   });
 
     // this.productoService.listar_programacion(0)
     // .subscribe(res => {
@@ -114,7 +128,10 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log(this.form. .getAttribute('formControlName'))
 
 
-    this.form.controls.programacion_pago.setValue('');
+    // this.form.controls.programacion_pago.setValue('');
+    // this.form.controls.analista.setValue('');
+    this.form.get('programacion_pago').setValue('');
+    this.form.get('analista').setValue('');
 
     this.calculado = false;
 
@@ -123,6 +140,7 @@ export class OperacionFinancieraComponent implements OnInit {
     if (!tipo) {
 
       this.programacion_pago = [];
+      this.analistas = [];
       this.form.get('monto_gasto').setValue(0);
       this.form.get('tasa_interes').setValue(0);
       this.form.get('tasa_ahorro_programado').setValue(0);
@@ -149,54 +167,11 @@ export class OperacionFinancieraComponent implements OnInit {
         this.calcularMontoAhorroInicial();
       });
 
-    // console.log(tipo)
-
-    // if (tipo == 1) {
-
-    //   this.programacion_pago = [
-    //     { id: 20, programacion: '20 días' },
-    //     { id: 40, programacion: '40 días' },
-    //     { id: 60, programacion: '60 días' },
-    //     { id: 90, programacion: '90 días' },
-    //     { id: 120, programacion: '120 días' },
-    //     { id: 150, programacion: '150 días' },
-    //     { id: 180, programacion: '180 días' }
-    //   ]
-    //   // console.log(this.programacion_pago)
-    //   return this.programacion_pago
-    // }
-    // else if (tipo == 2) {
-
-    //   this.programacion_pago = [
-    //     { id: 4, programacion: '1 mes - semanal' },
-    //     { id: 2, programacion: '1 mes - quincenal' },
-    //     { id: 8, programacion: '2 mes - semanal' },
-    //     { id: 4, programacion: '2 mes - quincenal' },
-    //     { id: 12, programacion: '3 mes - semanal' },
-    //     { id: 6, programacion: '3 mes - quincenal' },
-    //     { id: 16, programacion: '4 mes - semanal' },
-    //     { id: 8, programacion: '4 mes - quincenal' },
-    //     { id: 20, programacion: '5 mes - semanal' },
-    //     { id: 10, programacion: '5 mes - quincenal' },
-    //     { id: 24, programacion: '6 mes - semanal' },
-    //     { id: 12, programacion: '6 mes - quincenal' },
-    //     { id: 28, programacion: '7 mes - semanal' },
-    //     { id: 14, programacion: '7 mes - quincenal' },
-    //     { id: 32, programacion: '8 mes - semanal' },
-    //     { id: 16, programacion: '8 mes - quincenal' },
-    //     { id: 36, programacion: '9 mes - semanal' },
-    //     { id: 18, programacion: '9 mes - quincenal' },
-    //     { id: 40, programacion: '10 meses - semanal' },
-    //     { id: 20, programacion: '10 meses - quincenal' }
-    //   ]
-    //   // console.log(this.programacion_pago)
-    //   return this.programacion_pago
-    // }
-    // else {
-    //   // console.log(this.programacion_pago)
-    //   this.programacion_pago = [];
-    //   return this.programacion_pago
-    // }
+      this.analistaService.getListaDesplegablexProducto(tipo)
+      .subscribe(res => {
+        this.analistas = res;
+        // console.log(this.analistas)
+      });    
   }
 
   calcular() {
@@ -553,7 +528,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // modelo.bancomunal.grupo_bancomunal='';
     // modelo.bancomunal.numero_ciclo = 0;
     modelo.persona = this.sesionSocio.id;
-    modelo.analista = '';
+    // modelo.analista = '';
     // modelo.estado = 'PreVigente'
     modelo.fecha_inicio = this.form.get('fecha_inicio').value;
     modelo.fecha_fin = this.fecha_fin;
