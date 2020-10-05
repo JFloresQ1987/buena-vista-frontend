@@ -4,6 +4,9 @@ import { AnalistaService } from '../../../../../services/core/registro/analista.
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../../../../../services/core/registro/usuario.service';
+import { ProductoService } from '../../../../../services/core/configuracion/producto.service';
+
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -14,13 +17,14 @@ export class FormComponent implements OnInit {
 
   public button: string = "Guardar";
   public analistas: [] = [];
+  public productos: [] = [];
   public cargando: boolean = false;
   public form: FormGroup;
   public formSubmitted = false;
   public _id: string;
 
   constructor(private analistaService: AnalistaService, private usuarioService: UsuarioService,
-    private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router) {
+    private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private productoService: ProductoService) {
 
   }
   ngOnInit(): void {
@@ -28,6 +32,7 @@ export class FormComponent implements OnInit {
     this.usuarioService.listarxrol("Analista").subscribe(res => {
       this.analistas = res['usuarios'];
     })
+    this.cargarProductos();
 
     this.form = this.formBuilder.group({
       descripcion: ['', [Validators.required]],
@@ -39,6 +44,10 @@ export class FormComponent implements OnInit {
       this._id = id;
       this.cargarAnalista(id);
     });
+  }
+
+  cargarProductos(){
+    this.productoService.listar().subscribe(res=>this.productos=res);
   }
 
   cargarAnalista(id: string) {
