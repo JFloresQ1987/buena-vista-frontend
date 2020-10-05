@@ -1,11 +1,13 @@
 import { Component, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CajaService } from '../../../../../../services/core/registro/caja.service';
-import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario } from '../../../../../../interfaces/core/registro/usuario.interface';
-import { UsuarioService } from '../../../../../../services/core/registro/usuario.service';
+import Swal from 'sweetalert2';
+
 import { Caja } from '../../../../../../interfaces/core/registro/caja.interface';
+import { Usuario } from '../../../../../../interfaces/core/registro/usuario.interface';
+
+import { CajaService } from '../../../../../../services/core/registro/caja.service';
+import { UsuarioService } from '../../../../../../services/core/registro/usuario.service';
 
 
 @Component({

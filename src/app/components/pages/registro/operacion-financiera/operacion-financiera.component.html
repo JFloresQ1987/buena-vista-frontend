@@ -62,12 +62,57 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <!-- <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('grupo_bancomunal'),
+                            'has-danger': validarError('grupo_bancomunal')
+                        }">
+                            <label class="form-control-label">
+                                Grupo bancomunal: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="custom-select col-12 form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('grupo_bancomunal'),
+                                'form-control-danger': validarError('grupo_bancomunal')
+                            }" formControlName="grupo_bancomunal" (change)="buscarProgramacionPago($event.target.value)">
+                                <option value="">--Seleccionar--</option>
+                                <option *ngFor="let item of grupo_bancomunal" value="{{item.id}}">{{item.descripcion}}
+                                </option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('tipo', 'required')">El grupo bancomunal
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div> -->
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('analista'),
+                            'has-danger': validarError('analista')
+                        }">
+                            <label class="form-control-label">
+                                Analista: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="custom-select col-12" [ngClass]="{
+                                'form-control-success': validarSuccess('analista'),
+                                'form-control-danger': validarError('analista')
+                            }" formControlName="analista" (change)="volverCalcular()">
+                                <option value="" selected="">--Seleccionar--</option>
+                                <option *ngFor="let item of analistas" value="{{item.id}}">
+                                    {{item.usuario.persona.nombre}}
+                                    {{item.usuario.persona.apellido_paterno}}
+                                    {{item.usuario.persona.apellido_materno}}
+                                </option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('analista', 'required')">El analista
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <div class="col-sm-6" [ngClass]="{
                             'has-success': validarSuccess('monto_gasto'),
                             'has-danger': validarError('monto_gasto')
                         }">
                             <label class="form-control-label">
-                                Gasto administrativo(S/.): <span class="text-danger">(*)</span>
+                                Gasto administrativo (S/.): <span class="text-danger">(*)</span>
                             </label>
                             <input type="text" class="form-control" [ngClass]="validarSuccess('monto_gasto') ? 'form-control-success' : 'form-control-danger'" formControlName="monto_gasto" maxlength="10" (change)="volverCalcular()">
                             <small class="form-control-feedback">

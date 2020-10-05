@@ -20,6 +20,9 @@ import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.compone
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { FormComponent } from './seguridad/gestion/analista/form.component';
+import { AhorroComponent } from './registro/ahorro/ahorro.component';
+import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-detalle.component';
+import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 
 @NgModule({
@@ -40,6 +43,10 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
     CrearCajaComponent,
     AnalistaComponent,
     FormComponent,
+    CierreCajaIndividualComponent,
+    AhorroComponent,
+    AhorroDetalleComponent,
+    AhorroDetallePagoComponent,
     IngresosEgresosComponent,
     CierreCajaIndividualComponent
   ],

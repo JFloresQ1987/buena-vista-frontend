@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Analista } from '../../../interfaces/core/registro/analista.interface';
+import { map } from 'rxjs/operators';
 
 const base_url = environment.base_url;
 
@@ -30,6 +31,14 @@ export class AnalistaService {
   editar(id: string, objeto: Analista) {
     const url = `${base_url}/analistas/${id}`;
     return this.http.put(url, objeto);
+  }
+
+  getListaDesplegablexProducto(producto: string) {
+    const url = `${base_url}/analistas/lista-desplegable-por-producto/${producto}`;
+    return this.http.get(url)
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
   }
 
 }

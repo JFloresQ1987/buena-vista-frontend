@@ -447,7 +447,7 @@ export class ProductoDetallePagoComponent implements OnInit {
     const opciones: any = {
       orientation: 'p',
       unit: 'mm',
-      format: [76, 140]
+      format: [150, 140]
     };
 
     // var doc = new jsPDF(opciones);
@@ -749,7 +749,8 @@ export class ProductoDetallePagoComponent implements OnInit {
       styles: {
         valign: 'middle',
         font: 'courier',
-        fontSize: 10,
+        fontSize: 12,
+        // fontSize: 10,
         fontStyle: 'bold',
         // fillColor: [255, 255, 255],
         textColor: [0, 0, 0],
@@ -777,6 +778,10 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     doc.autoPrint();//<- para llamar a imprimir    
     doc.output('dataurlnewwindow');//<-- para ver pdf en nueva pestaña
+    // doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
+    // doc.output('datauristring');        //returns the data uri string
+    // doc.output('datauri');              //opens the data uri in current window
+    // doc.output('dataurlnewwindow');     //opens the data uri in new window
   }
 
   validarError(campo: string): boolean {
