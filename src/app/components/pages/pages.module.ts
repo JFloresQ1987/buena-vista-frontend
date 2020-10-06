@@ -24,6 +24,7 @@ import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-detalle.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
+import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
     AhorroDetalleComponent,
     AhorroDetallePagoComponent,
     IngresosEgresosComponent,
-    CierreCajaIndividualComponent
+    CierreCajaIndividualComponent,
+    BusquedaAvanzadaComponent
   ],
   exports: [
     PagesComponent,

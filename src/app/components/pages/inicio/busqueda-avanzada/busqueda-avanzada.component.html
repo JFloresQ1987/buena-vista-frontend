@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-left">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="form-control-label">
+                                Búsqueda por Nombres:
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-control-label">
+                                Búsqueda por Apellido Paterno:
+                            </label>
+                        </div>
+                    </div>
+                    <!-- (click)= "buscarPorNombre()" -->
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" [(ngModel)]="nombre"
+                                placeholder="Haga su consulta aquí">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" (click)="buscarPorNombre(nombre)">Buscar</button>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" 
+                            class="form-control" 
+                            [(ngModel)]="apellido"
+                            placeholder="Haga su consulta aquí">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" (click) = "buscarPorApellido(apellido)" >Buscar</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row animated fadeIn fast" *ngIf="cargando">
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <h4 class="alert-heading">Cargando...</h4>
+                            <i class="fa fa-spin fa-refresh fa-2x"></i>
+                            <p class="mb-0">Por favor espere</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive" *ngIf="!cargando">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th class="text-center">Nombres</th>
+                                <th class="text-center">Apellido Paterno</th>
+                                <th class="text-center">Apellido Materno</th>
+                                <th class="text-center">DNI</th>
+                                <th class="text-nowrap center" width="5%">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- *ngFor="let item of socios; let i = index" -->
+                            <tr *ngFor="let item of persona; let i = index" (click)="buscarSocioDni(item.documento_identidad)" >
+                                <td class="text-center">{{i+1}}</td>
+                                <td class="text-center">{{item.nombre}}</td>
+                                <td>{{item.apellido_paterno}}</td>
+                                <td>{{item.apellido_materno}}</td>
+                                <td>{{item.documento_identidad}}</td>
+                                <td><a class="btn btn-danger"
+                                    (click)="buscarSocioDni(item.documento_identidad)" >Cargar Sesión</a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

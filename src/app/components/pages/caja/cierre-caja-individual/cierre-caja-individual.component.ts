@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import Swal from 'sweetalert2';
 
@@ -11,6 +11,10 @@ import { SeguridadService } from './../../../../services/auth/seguridad.service'
 import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
 import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
 
+import * as jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+
+
 @Component({
   selector: 'app-cierre-caja-individual',
   templateUrl: './cierre-caja-individual.component.html',
@@ -19,6 +23,7 @@ import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
 })
 
 export class CierreCajaIndividualComponent {
+   
 
   public cargando: boolean = false;
   public form: FormGroup;
@@ -70,15 +75,15 @@ export class CierreCajaIndividualComponent {
       comentario : ['', [Validators.required]],
     });
     
+    console.log('aqui el id del sesion', this.seguridad.usuario);
     /* this.form.controls['cajero'].setValue(this.seguridad.id);
-    console.log(this.seguridad.id);
     this.form.controls['cajero'].disable(); */
 
     this.cargarCajaDiario();
     
   };
   cargarCajaDiario(){
-    this.cierreCajaIndividualService.getOperacionesCajaInd(this.seguridad.id)
+    this.cierreCajaIndividualService.getOperacionesCajaInd(this.seguridad.id )
         .subscribe(res=>{
           
           this.cajaID= res["idCaja"]
@@ -213,11 +218,162 @@ export class CierreCajaIndividualComponent {
     return  Number((this.form.controls['saldo'].value - Number((this.monto_total))).toFixed(1))
   }
 
-  activarBoton(){
-    if (this.dif == 0){
-      this.activarGuardado = false
-    }
+ 
+
+  @ViewChild('content', {static: false}) content: ElementRef;
+
+  loadImage(url) {
+    return new Promise((resolve) => {
+      let img = new Image();
+      img.onload = () => resolve(img);
+      img.src = 'src/assets/images/buenavista-logo-text.png';
+    })
   }
+
+  public pdf(){
+    const doc = new jsPDF('l')
+    var pageNumber = doc.internal.getNumberOfPages()
+    let fecha = new Date()
+    
+    
+
+    doc.autoTable({
+      
+      styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+      margin: { right: 250 },
+      body: [        
+        [ this.seguridad.usuario ],
+        [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
+        [ fecha.getFullYear()+ '/'+ fecha.getDate()+'/'+fecha.getMonth() +'   '+fecha.getHours()+':'+fecha.getMinutes()+':'+fecha.getSeconds() ],
+      ],
+      startY: 10,
+      showHead: 'firstPage',  
+      theme: 'plain' 
+    })
+
+    
+    doc.autoTable({
+      styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontStyle: ['bold'], 
+                  fontSize: [25], halign: ['center'], valign:['middle'],
+                  fillColor: [151, 87, 176 ], textColor: 255  },
+     /*  margin: { top: 50 }, */
+      /* columnStyles: {
+        0: { fillColor: [151, 87, 176 ], textColor: 255, fontStyle: 'bold' },
+      }, */
+      columns: [        
+        {header: 'Control de Saldos'}        
+      ],
+      startY: 45,
+    })
+
+    doc.autoTable({
+      
+      styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+      margin: { right: 150 },
+      body: [        
+        ['Cajero: ', this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre   ],
+        ['Fecha de Apertura: ', this.form.controls['fecha_apertura'].value],
+        ['Apertura (S/.): ', this.form.controls['monto_total_apertura'].value],
+        ['Operaciones (S/.): ', this.form.controls['monto_total_operaciones'].value ],
+        ['N° de operaciones: ', this.form.controls['cant_operaciones'].value ],
+      ],
+      startY: 70,
+      showHead: 'firstPage', 
+      theme: 'plain' 
+    })
+    
+    doc.autoTable({
+      
+      styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+      margin: { left: 150 },
+      body: [        
+        ['Saldo final (S/.): ', this.form.controls['saldo'].value ],
+        ['Efectivo (S/.) ', this.monto_total],
+        ['Diferencia (S/.): ', this.dif ],
+      ],
+      startY: 70,
+      showHead: 'firstPage',  
+      theme: 'plain' 
+    })
+
+    doc.autoTable({
+      
+      styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+      margin: { right: 150 },
+      columns: [
+        {  header: 'MONTO' },
+        {  header: 'CANTIDAD' },
+        {  header: 'VALOR' },
+      ],
+      body: [        
+        ['S/. 200.00', this.cantidad_doscientos, this.obtenerMonto(this.cantidad_doscientos, 200)],
+        ['S/. 100.00', this.cantidad_cien, this.obtenerMonto(this.cantidad_cien, 100)],
+        ['S/. 50.00', this.cantidad_cincuenta, this.obtenerMonto(this.cantidad_cincuenta, 50)],
+        ['S/. 20.00', this.cantidad_veinte, this.obtenerMonto(this.cantidad_veinte, 20) ],
+        ['S/. 10.00', this.cantidad_diez, this.obtenerMonto(this.cantidad_diez, 10) ],
+        ['S/. 5.00', this.cantidad_cinco, this.obtenerMonto(this.cantidad_cinco, 5)]
+      ],
+      startY: 120,
+      showHead: 'firstPage',  
+    })
+    
+    doc.autoTable({
+      
+      styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+      margin: { left: 150 },
+      columns: [
+        {  header: 'MONTO' },
+        {  header: 'CANTIDAD' },
+        {  header: 'VALOR' },
+      ],
+      body: [        
+        ['S/. 2.00', this.cantidad_dos, this.obtenerMonto(this.cantidad_dos, 2) ],
+        ['S/. 1.00', this.cantidad_uno, this.obtenerMonto(this.cantidad_uno, 1)],
+        ['S/. 0.50', this.cantidad_cincuenta_cent, this.obtenerMonto(this.cantidad_cincuenta_cent, 0.5)],
+        ['S/. 0.20', this.cantidad_veint_cent, this.obtenerMonto(this.cantidad_veint_cent, 0.2)],
+        ['S/. 0.10', this.cantidad_diez_cent, this.obtenerMonto(this.cantidad_diez_cent, 0.1)],
+      ],
+      startY: 120,
+      showHead: 'firstPage',  
+    })
+
+    doc.autoTable({
+      styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontStyle: ['bold'],  halign: ['center'], valign:['middle'] },
+      margin: { top: 40 },
+      body: [        
+        ['Comentario: ', this.form.controls['comentario'].value],        
+      ],
+      startY: 180,
+    })
+/* 
+
+    let specialElementHandlers = {
+      '#editor' : function(element, renderer){
+        return true;
+      }
+    }
+
+    var x = document.getElementById("input1")
+    var y = document.getElementById("input2")
+    x.innerHTML = this.cantidad_doscientos.toFixed(2)
+    y.innerHTML = this.obtenerMonto(this.cantidad_doscientos, 200).toFixed(2)
+
+
+    let content = this.content.nativeElement
+    doc.fromHTML(content.innerHTML, 10, 10, {
+      'width':100,
+      'elementHandlers': specialElementHandlers
+    }) */
+
+    doc.output('dataurlnewwindow');  
+
+  }
+  
 
 }
 
