@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-6" [ngClass]="{
+                        <!-- <div class="col-sm-6" [ngClass]="{
                             'has-success': validarSuccess('grupo_bancomunal'),
                             'has-danger': validarError('grupo_bancomunal')
                         }">
@@ -74,17 +74,14 @@
                                 'form-control-danger': validarError('grupo_bancomunal')
                             }" formControlName="grupo_bancomunal" (change)="buscarProgramacionPago($event.target.value)">
                                 <option value="">--Seleccionar--</option>
-                                <!-- <option value="1">Crédito diario</option>
-                                <option value="2">Crédito personal</option>
-                                <option value="3">Banco comunal individual</option> -->
-                                <option *ngFor="let item of tipos" value="{{item.id}}">{{item.descripcion}}
+                                <option *ngFor="let item of grupo_bancomunal" value="{{item.id}}">{{item.descripcion}}
                                 </option>
                             </select>
                             <small class="form-control-feedback">
                                 <p *ngIf="validarCampo('tipo', 'required')">El grupo bancomunal
                                     es un dato obligatorio.</p>
                             </small>
-                        </div>
+                        </div> -->
                         <div class="col-sm-6" [ngClass]="{
                             'has-success': validarSuccess('analista'),
                             'has-danger': validarError('analista')
@@ -97,8 +94,10 @@
                                 'form-control-danger': validarError('analista')
                             }" formControlName="analista" (change)="volverCalcular()">
                                 <option value="" selected="">--Seleccionar--</option>
-                                <option *ngFor="let item of programacion_pago" value="{{item.codigo}}">
-                                    {{item.descripcion}}
+                                <option *ngFor="let item of analistas" value="{{item.id}}">
+                                    {{item.usuario.persona.nombre}}
+                                    {{item.usuario.persona.apellido_paterno}}
+                                    {{item.usuario.persona.apellido_materno}}
                                 </option>
                             </select>
                             <small class="form-control-feedback">

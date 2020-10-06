@@ -26,7 +26,7 @@
               <tr *ngFor="let item of analistas, let i = index">
                 <td class="text-center">{{i+1}}</td>
                 <td class="text-center">{{item.descripcion}}</td>
-                <td>{{item.producto}}</td>
+                <td>{{item.producto.descripcion}}</td>
                 <td>{{item.usuario.usuario}}</td>
                 <td>{{item.usuario.persona.nombre}}, {{item.usuario.persona.apellido_paterno}} {{item.usuario.persona.apellido_materno}}</td>
                 <td class="text-nowrap text-center">
