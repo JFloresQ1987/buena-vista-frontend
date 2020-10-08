@@ -21,7 +21,10 @@ export class OperacionFinancieraService {
 
   listarProductos(id_persona: string) {
 
-    return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}`);
+    return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}`)
+    .pipe(
+      map((res: { ok: boolean, lista: [] }) => res.lista)
+    );
   }
 
   listarProducto(id_operacion_financiera: string) {

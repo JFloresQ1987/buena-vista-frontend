@@ -105,6 +105,23 @@
                                     es un dato obligatorio.</p>
                             </small>
                         </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('fecha_inicio'),
+                            'has-danger': validarError('fecha_inicio')
+                        }">
+                            <label class="form-control-label">
+                                Fecha de desembolso: <span class="text-danger">(*)</span>
+                            </label>
+                            <input class="form-control" [ngClass]="validarSuccess('fecha_inicio') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_inicio" maxlength="10" (change)="volverCalcular()">
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('fecha_inicio', 'required')">La fecha de inicio es un
+                                    dato obligatorio.</p>
+                                <p *ngIf="validarCampo('fecha_inicio', 'minlength')">Ingrese una fecha de inicio
+                                    correcto.</p>
+                                <p *ngIf="validarCampo('fecha_inicio', 'maxlength')">Ingrese una fecha de inicio
+                                    correcto.</p>
+                            </small>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6" [ngClass]="{
@@ -306,30 +323,22 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-6" [ngClass]="{
-                            'has-success': validarSuccess('fecha_inicio'),
-                            'has-danger': validarError('fecha_inicio')
-                        }">
-                            <label class="form-control-label">
-                                Fecha de desembolso: <span class="text-danger">(*)</span>
-                            </label>
-                            <input class="form-control" [ngClass]="validarSuccess('fecha_inicio') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_inicio" maxlength="10" (change)="volverCalcular()">
-                            <small class="form-control-feedback">
-                                <p *ngIf="validarCampo('fecha_inicio', 'required')">La fecha de inicio es un
-                                    dato obligatorio.</p>
-                                <p *ngIf="validarCampo('fecha_inicio', 'minlength')">Ingrese una fecha de inicio
-                                    correcto.</p>
-                                <p *ngIf="validarCampo('fecha_inicio', 'maxlength')">Ingrese una fecha de inicio
-                                    correcto.</p>
-                            </small>
-                        </div>
                         <div class="col-sm-6">
                             <label for="inputEmail3" class="col-form-label">
                                 ¿Incluir sábados?:
                             </label>
                             <div class="col-sm-12">
-                                <input id="checkbox" type="checkbox" formControlName="incluir_sabados" (change)="volverCalcular()">
-                                <label for="checkbox"></label>
+                                <input id="chkSabado" type="checkbox" formControlName="incluir_sabados" (change)="volverCalcular()">
+                                <label for="chkSabado"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputEmail3" class="col-form-label">
+                                ¿Incluir domingos?:
+                            </label>
+                            <div class="col-sm-12">
+                                <input id="chkDomingo" type="checkbox" formControlName="incluir_domingos" (change)="volverCalcular()">
+                                <label for="chkDomingo"></label>
                             </div>
                         </div>
                     </div>

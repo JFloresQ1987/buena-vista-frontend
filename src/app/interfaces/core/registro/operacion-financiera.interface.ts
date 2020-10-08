@@ -52,6 +52,7 @@ export interface Configuracion {
     tasa_aporte_capital: number,
     tasa_ahorro_programado: number,
     tasa_interes: number,
+    tasa_interes_ganado: number,
     tasa_mora: number,
 }
 

@@ -377,7 +377,7 @@ export class ProductoDetallePagoComponent implements OnInit {
     this.serviceOperacionFinancieraPago.pagarProducto(modelo)
       .subscribe(res => {
 
-        console.log(res);
+        // console.log(res);
         Swal.fire({
           text: 'El pago se realizó satisfactoriamente.', icon: 'success'
         });
@@ -446,8 +446,8 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     const opciones: any = {
       orientation: 'p',
-      unit: 'mm',
-      format: [150, 140]
+      unit: 'cm',
+      format: [16, 16]
     };
 
     // var doc = new jsPDF(opciones);
@@ -507,231 +507,6 @@ export class ProductoDetallePagoComponent implements OnInit {
     //   theme: 'plain',
     // })
 
-    // const body = [
-    //   [
-    //     {
-    //       content: 'Buenavista La Bolsa S.A.C.',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-    //     {
-    //       content: 'Agencia Ayacucho',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   // [
-    //   //   {
-    //   //     content: 'RUC: 20574744599',
-    //   //     colSpan: 3,
-    //   //     styles: { halign: 'center' },
-    //   //     // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //   //   },
-    //   // ],
-    //   [
-    //     {
-    //       content: '------------------------------------',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-    //     {
-    //       content: 'RUC: 20574744599',
-    //       colSpan: 1,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: '',
-    //       colSpan: 1,
-    //       // styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: 'I-00000009',
-    //       colSpan: 1,
-    //       styles: { halign: 'right' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-
-    //   ],
-    //   [
-    //     {
-    //       content: 'DNI: 44684165',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Socio: Jorge Flores Quispe',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Analista: Jorge Flores Quispe',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Producto: Créditos Personales',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-
-    //   ],
-    //   [
-    //     {
-    //       content: 'Operaciones en Soles',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: '------------------------------------',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-    //     {
-    //       content: 'Detalle Operación',
-    //       colSpan: 2,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: 'Monto',
-    //       colSpan: 1,
-    //       styles: { halign: 'right' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: '------------------------------------',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-    //     {
-    //       content: 'Ahorro Voluntario es la prueba para ver como entra cuando es tet largo...',
-    //       colSpan: 2,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: '999.00',
-    //       colSpan: 1,
-    //       styles: { halign: 'right' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Amortización Capital',
-    //       colSpan: 2,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: '9999.99',
-    //       colSpan: 1,
-    //       styles: { halign: 'right' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: '------------------------------------',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // rowHeight: 2
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //   ],
-    //   [
-    //     {
-    //       content: 'Total: S/.',
-    //       colSpan: 2,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     },
-    //     {
-    //       content: '99999.99',
-    //       colSpan: 1,
-    //       styles: { halign: 'right' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     // {
-    //     //   colSpan: 3
-    //     // }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Usuario: 44684165',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Fecha: 03/09/2020 12:44:58',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     {
-    //       content: 'Recibo: Original',
-    //       colSpan: 3,
-    //       styles: { halign: 'left' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    //   [
-    //     // {
-    //     //   colSpan: 3
-    //     // }
-    //   ],
-    //   [
-    //     {
-    //       content: '** **',
-    //       colSpan: 3,
-    //       styles: { halign: 'center' },
-    //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-    //     }
-    //   ],
-    // ];
-
-
     // const body = this.bodyRows(5);
 
     // console.log('body');
@@ -741,7 +516,7 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     doc.autoTable({
       // startX: 0,
-      startY: 5,
+      startY: 0.5,
       margin: {
         right: 0,
         left: 0
@@ -749,16 +524,22 @@ export class ProductoDetallePagoComponent implements OnInit {
       styles: {
         valign: 'middle',
         font: 'courier',
-        fontSize: 12,
+        // font: 'monospace',
+        // font: 'courier-boldregular',
+        // font: 'meta',
+        fontSize: 16,
         // fontSize: 10,
         fontStyle: 'bold',
         // fillColor: [255, 255, 255],
         textColor: [0, 0, 0],
         // lineColor: [0, 0, 0],
-        rowHeight: 4,
+        rowHeight: 0.5,
+        // columnWidth: '100',
         cellPadding: 0,
+        charSpace: '50'
         // lineWidth: 1
       },
+      // styles: {overflow: 'linebreak', columnWidth: '100', font: 'arial', fontSize: 10, cellPadding: 4, overflowColumns: 'linebreak'}
       // head: [
       //   [
       //     {
@@ -773,7 +554,9 @@ export class ProductoDetallePagoComponent implements OnInit {
       body: recibo,
       theme: 'plain',
       // theme: 'grid',
-    })
+    });
+
+    doc.setCharSpace('50');
 
 
     doc.autoPrint();//<- para llamar a imprimir    
