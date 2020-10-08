@@ -97,4 +97,19 @@ export class SesionSocioService {
     //   })//,map(res => true)
     // );
   }
+
+
+  buscarSocioNombre (nombre : string) {
+    const url = `${this.base_url}/personas/buscar_socio_nombre/${nombre}`;
+    return this.http.get(url)
+  }
+
+  buscarSocioApellido (apellido_paterno : string) {
+    const url = `${this.base_url}/personas/buscar_socio_apellido/${apellido_paterno}`;
+    return this.http.get(url)
+  }
+
+  
+
+
 }

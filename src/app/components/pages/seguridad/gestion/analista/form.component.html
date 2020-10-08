@@ -7,9 +7,10 @@
                         <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('descripcion'),
                 'has-danger': validarError('descripcion')
-              }">
-                            <label class="form-control-label">
-                descripcion: <span class="text-danger">(*)</span>
+              }"
+            >
+              <label class="form-control-label">
+                Descripcion: <span class="text-danger">(*)</span>
               </label>
                             <input type="text" class="form-control" [ngClass]="
                   validarSuccess('descripcion')
@@ -28,9 +29,10 @@
                         <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('producto'),
                 'has-danger': validarError('producto')
-              }">
-                            <label class="form-control-label">
-                producto: <span class="text-danger">(*)</span>
+              }"
+            >
+              <label class="form-control-label">
+                Producto: <span class="text-danger">(*)</span>
               </label>
                             <select type="text" class="form-control" [ngClass]="
                   validarSuccess('producto')
@@ -38,17 +40,14 @@
                     : 'form-control-danger'
                 " formControlName="producto">
                 <option value="">Seleccione un producto</option>
-                <option value="Credito Diario">Credito Diario</option>
-                <option value="Credito Mensual">Credito Mensual</option>
-                <option value="Credito Personal">Credito Personal</option>
-                <option value="Banco Comunal">Banco Comunal</option>
+                <option *ngFor="let item of productos" value="{{item.id}}">{{item.descripcion}}</option>
               </select>
                             <small class="form-control-feedback">
                 <p *ngIf="validarCampo('producto', 'required')">
-                  La descripcion es un dato obligatorio.
+                  El producto es un dato obligatorio.
                 </p>
                 <p *ngIf="validarCampo('producto', 'maxlength')">
-                  Ingrese una descripcion correcto.
+                  Ingrese un producto correcto.
                 </p>
               </small>
                         </div>

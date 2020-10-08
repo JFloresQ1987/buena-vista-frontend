@@ -21,6 +21,7 @@ import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
+import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 
 
 const childRoutes: Routes = [
@@ -143,6 +144,12 @@ const childRoutes: Routes = [
     component: AhorroComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Ahorros', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'dashboard/busqueda',
+    component: BusquedaAvanzadaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Registro', menu: 'Gestión', item: 'Búsqueda Avanzada', roles: ["Administrador", "Analista", "Cajero"] }
   },
 ]
 

@@ -38,7 +38,10 @@ export class OperacionFinancieraPagoService {
 
   registrarIngresoEgreso(objeto: Object) {
     const url = `${base_url}/operacion-financiera-pago/registrar-ingreso-egreso`;
-    return this.http.post(url, objeto);
+    return this.http.post(url, objeto)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
   }
 
   desembolsarProducto(id_operacion_financiera: string) {

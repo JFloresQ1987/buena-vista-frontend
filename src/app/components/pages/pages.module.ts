@@ -25,6 +25,7 @@ import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-deta
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
+import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-
     AhorroDetallePagoComponent,
     IngresosEgresosComponent,
     CierreCajaIndividualComponent,
-    ProductoPrePagoComponent
+    ProductoPrePagoComponent,
+    BusquedaAvanzadaComponent,
   ],
   exports: [
     PagesComponent,
