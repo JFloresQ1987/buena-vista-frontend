@@ -109,6 +109,11 @@ export class SesionSocioService {
     return this.http.get(url)
   }
 
+  buscarSocioApellidoMat (apellido_materno : string) {
+    const url = `${this.base_url}/personas/buscar_socio_apellido_mat/${apellido_materno}`;
+    return this.http.get(url)
+  }
+
   
 
 

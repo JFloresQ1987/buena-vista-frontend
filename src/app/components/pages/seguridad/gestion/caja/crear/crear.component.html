@@ -68,8 +68,7 @@
                 [ngClass]="{
                   'has-success': validarSuccess('pc_nombre'),
                   'has-danger': validarError('pc_nombre')
-                }"
-              >
+                }"  >
                 <label class="form-control-label">
                  Nombre PC: <span class="text-danger">(*)</span>
                 </label>
@@ -91,13 +90,11 @@
                 </small>
               </div>
 
-              <div
-                class="col-sm-6"  
-              >
+              <div class="col-sm-6">
                 <label class="form-control-label">
                   Usuario: <span class="text-danger">(*)</span>
                 </label>
-                <div class="col-sm-9">
+                <div class="col-sm-14">
                     <div class="input-group">
                         <select class="form-control"
                                 formControlName="usuario">

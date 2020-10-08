@@ -18,8 +18,13 @@ export class CierreCajaIndividualService {
     return this.http.put(url, objeto);
   }
 
-  getOperacionesCajaInd(id: string){
-    const url = `${base_url}/caja-diario/${id}`;
+  getOperacionesCajaInd(caja: string){
+    const url = `${base_url}/caja-diario/${caja}`;
+    return this.http.get(url);
+  }
+
+  getCajas(){
+    const url = `${base_url}/caja-diario/`;
     return this.http.get(url);
   }
 

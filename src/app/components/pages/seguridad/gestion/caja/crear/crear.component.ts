@@ -25,7 +25,7 @@ export class CrearCajaComponent {
   public usuarios:[] = [];
   public cajaSeleccionada: Caja
 
-  constructor(
+  constructor(    
     private service: CajaService,
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
@@ -121,15 +121,11 @@ export class CrearCajaComponent {
 
   }
 
-
-
-
-
   cancelar() {
 
     this.formSubmitted = false;
     this.form.reset();
-
+    this.router.navigateByUrl('/seguridad/gestion/caja');
   }
 
   validarCampo(campo: string, validar: string): boolean {
