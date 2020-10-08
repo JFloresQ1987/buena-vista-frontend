@@ -5,33 +5,37 @@
                 <div class="text-left">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="form-control-label">
-                                Búsqueda por Nombres:
-                            </label>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-control-label">
-                                Búsqueda por Apellido Paterno:
+                            <label class="form-control-label" *ngIf="!mostrar">
+                                Buscar Por:
                             </label>
                         </div>
                     </div>
-                    <!-- (click)= "buscarPorNombre()" -->
+                    
                     <div class="row">
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" [(ngModel)]="nombre"
-                                placeholder="Haga su consulta aquí">
+                            <select class="form-control" [(ngModel)]="seleccion">
+                                <option value="nombre">Nombres</option>
+                                <option value="apPaterno">Apellido Paterno</option>
+                                <option value="apMaterno">Apellido Materno</option>
+                            </select>
                         </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-primary" (click)="buscarPorNombre(nombre)">Buscar</button>
+                        <div class="col-sm-4" *ngIf="seleccion === 'nombre'">
+                            <input type="text" class="form-control" [(ngModel)]="nombre" placeholder="Ingrese el nombre aquí">
                         </div>
-                        <div class="col-sm-4">
-                            <input type="text" 
-                            class="form-control" 
-                            [(ngModel)]="apellido"
-                            placeholder="Haga su consulta aquí">
+                        <div class="col-sm-4" *ngIf="seleccion === 'apPaterno'">
+                            <input type="text" class="form-control" [(ngModel)]="apellido" placeholder="Ingrese el apellido paterno aquí">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4" *ngIf="seleccion === 'apMaterno'">
+                            <input type="text" class="form-control" [(ngModel)]="apellidoMat" placeholder="Ingrese el apellido materno aquí">
+                        </div>
+                        <div class="col-sm-2" *ngIf="seleccion === 'nombre'">
+                            <button class="btn btn-primary" (click) = "buscarPorNombre(nombre)" >Buscar</button>
+                        </div>
+                        <div class="col-sm-2" *ngIf="seleccion === 'apPaterno'">
                             <button class="btn btn-primary" (click) = "buscarPorApellido(apellido)" >Buscar</button>
+                        </div>
+                        <div class="col-sm-2" *ngIf="seleccion === 'apMaterno'">
+                            <button class="btn btn-primary" (click) = "buscarPorApellidoMat(apellidoMat)" >Buscar</button>
                         </div>
                     </div>
                 </div>
@@ -52,22 +56,24 @@
                         <thead>
                             <tr>
                                 <th width="3%">#</th>
-                                <th class="text-center">Nombres</th>
+                                <th class="text-center">DNI</th>
                                 <th class="text-center">Apellido Paterno</th>
                                 <th class="text-center">Apellido Materno</th>
-                                <th class="text-center">DNI</th>
+                                <th class="text-center">Nombres</th>
+                                <th class="text-center">Domicilio</th>
                                 <th class="text-nowrap center" width="5%">Acciones</th>
                             </tr>
                         </thead>
+                       <!--  // dni, apellidos, nombres, domicili -->
                         <tbody>
-                            <!-- *ngFor="let item of socios; let i = index" -->
-                            <tr *ngFor="let item of persona; let i = index" (click)="buscarSocioDni(item.documento_identidad)" >
+                            <tr  *ngFor="let item of persona; let i = index" >
                                 <td class="text-center">{{i+1}}</td>
-                                <td class="text-center">{{item.nombre}}</td>
+                                <td>{{item.documento_identidad}}</td>
                                 <td>{{item.apellido_paterno}}</td>
                                 <td>{{item.apellido_materno}}</td>
-                                <td>{{item.documento_identidad}}</td>
-                                <td><a class="btn btn-danger"
+                                <td>{{item.nombre}}</td>
+                                <td>{{item.domicilio}}</td>
+                                <td><a class="btn btn-outline-primary"
                                     (click)="buscarSocioDni(item.documento_identidad)" >Cargar Sesión</a> </td>
                             </tr>
                         </tbody>

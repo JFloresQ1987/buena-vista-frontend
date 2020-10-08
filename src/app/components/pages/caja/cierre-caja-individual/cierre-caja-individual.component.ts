@@ -10,7 +10,7 @@ import { CierreCajaIndividual } from './../../../../interfaces/core/registro/cie
 import { SeguridadService } from './../../../../services/auth/seguridad.service';
 import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
 import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
-
+import { Router } from '@angular/router';
 import * as jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
@@ -25,7 +25,7 @@ import autoTable from 'jspdf-autotable';
 export class CierreCajaIndividualComponent {
    
 
-  public cargando: boolean = false;
+  public cargando: boolean = true;
   public form: FormGroup;
   public formSubmitted = false;
   public usuarios:[] = [];
@@ -40,18 +40,14 @@ export class CierreCajaIndividualComponent {
     private usuarioService: UsuarioService,
     private cierreCajaIndividualService: CierreCajaIndividualService,
     private formBuilder: FormBuilder,
-    private seguridadService: SeguridadService
+    private seguridadService: SeguridadService,
+    private router: Router 
     ) { }
     
     
     
     ngOnInit(): void {
       
-    /* this.activatedRoute.params.subscribe( ({id}) => {
-      this.carga(id)
-    }) */
-
-
     this.cargarCajeros()
     this.seguridad = this.seguridadService.seguridad;
     this.form = this.formBuilder.group({      
@@ -82,14 +78,16 @@ export class CierreCajaIndividualComponent {
     this.cargarCajaDiario();
     
   };
+
   cargarCajaDiario(){
-    this.cierreCajaIndividualService.getOperacionesCajaInd(this.seguridad.id )
+    this.cierreCajaIndividualService.getOperacionesCajaInd('sss')
         .subscribe(res=>{
           
           this.cajaID= res["idCaja"]
           
           this.form.controls['fecha_apertura'].setValue(res['fecha_apertura']);
-          
+          this.form.controls['fecha_apertura'].disable();
+
           this.form.controls['monto_total_apertura'].setValue(res["monto_total_apertura"]);
           this.form.controls['monto_total_apertura'].disable();
 
@@ -114,36 +112,48 @@ export class CierreCajaIndividualComponent {
   guardar() {
     
       const data = {
-        
-        // id : "5f6e80d45ae4c62cf40c6972",
-        //cajero: this.seguridad.id,
         id: this.cajaID,
         fecha_apertura: this.form.controls['fecha_apertura'].value,
-        cantidad_doscientos_soles_cierre: this.form.controls['cantidad_doscientos_soles_cierre'].value,
-        cantidad_cien_soles_cierre: this.form.controls['cantidad_cien_soles_cierre'].value,
-        cantidad_cincuenta_soles_cierre: this.form.controls['cantidad_cincuenta_soles_cierre'].value,
-        cantidad_veinte_soles_cierre: this.form.controls['cantidad_veinte_soles_cierre'].value,
-        cantidad_diez_soles_cierre: this.form.controls['cantidad_diez_soles_cierre'].value,
-        cantidad_cinco_soles_cierre: this.form.controls['cantidad_cinco_soles_cierre'].value,
-        cantidad_dos_soles_cierre: this.form.controls['cantidad_dos_soles_cierre'].value,
-        cantidad_un_sol_cierre: this.form.controls['cantidad_un_sol_cierre'].value,
-        cantidad_cincuenta_centimos_cierre: this.form.controls['cantidad_cincuenta_centimos_cierre'].value,
-        cantidad_veinte_centimos_cierre: this.form.controls['cantidad_veinte_centimos_cierre'].value,
-        cantidad_diez_centimos_cierre: this.form.controls['cantidad_diez_centimos_cierre'].value,
+        cantidad_doscientos_soles_cierre: parseFloat(this.form.controls['cantidad_doscientos_soles_cierre'].value),
+        cantidad_cien_soles_cierre: parseFloat(this.form.controls['cantidad_cien_soles_cierre'].value),
+        cantidad_cincuenta_soles_cierre: parseFloat(this.form.controls['cantidad_cincuenta_soles_cierre'].value),
+        cantidad_veinte_soles_cierre: parseFloat(this.form.controls['cantidad_veinte_soles_cierre'].value),
+        cantidad_diez_soles_cierre: parseFloat(this.form.controls['cantidad_diez_soles_cierre'].value),
+        cantidad_cinco_soles_cierre: parseFloat(this.form.controls['cantidad_cinco_soles_cierre'].value),
+        cantidad_dos_soles_cierre: parseFloat(this.form.controls['cantidad_dos_soles_cierre'].value),
+        cantidad_un_sol_cierre: parseFloat(this.form.controls['cantidad_un_sol_cierre'].value),
+        cantidad_cincuenta_centimos_cierre: parseFloat(this.form.controls['cantidad_cincuenta_centimos_cierre'].value),
+        cantidad_veinte_centimos_cierre: parseFloat(this.form.controls['cantidad_veinte_centimos_cierre'].value),
+        cantidad_diez_centimos_cierre: parseFloat(this.form.controls['cantidad_diez_centimos_cierre'].value),
         comentario: this.form.controls['comentario'].value,
       }
       console.log(data)      
       this.cierreCajaIndividualService.getCierreCaja(data)
-                                    .subscribe(resp => {
+                                    .subscribe(res => {
+                                      
                                       Swal.fire({
                                         text: 'La informaciónse actualizó correctamente', icon: 'success'
                                       })
                                     })
+      setTimeout(() => {
+        this.pdf()
+        this.router.navigateByUrl('/dashboard/socio');
+      }, 4000);
   }
 
   cancelar() {
-
-      
+    this.form.controls['cantidad_doscientos_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_cien_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_cincuenta_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_veinte_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_diez_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_cinco_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_dos_soles_cierre'].setValue('0'),
+    this.form.controls['cantidad_un_sol_cierre'].setValue('0'),
+    this.form.controls['cantidad_cincuenta_centimos_cierre'].setValue('0'),
+    this.form.controls['cantidad_veinte_centimos_cierre'].setValue('0'),
+    this.form.controls['cantidad_diez_centimos_cierre'].setValue('0'),
+    this.form.controls['comentario'].setValue('')      
 
   }
 
@@ -180,7 +190,7 @@ export class CierreCajaIndividualComponent {
   cantidad_cincuenta : number = 0
   cantidad_veinte : number = 0
   cantidad_diez : number = 0
-  cantidad_cinco : number = 0
+  cantidad_cinco : number = 0 
   cantidad_uno : number = 0
   cantidad_dos : number = 0
   cantidad_cincuenta_cent : number = 0
@@ -189,7 +199,6 @@ export class CierreCajaIndividualComponent {
   
   validarNumero(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode
-    console.log(charCode)
     if (charCode >= 48 && charCode <= 57){
       return true
     }
@@ -222,13 +231,7 @@ export class CierreCajaIndividualComponent {
 
   @ViewChild('content', {static: false}) content: ElementRef;
 
-  loadImage(url) {
-    return new Promise((resolve) => {
-      let img = new Image();
-      img.onload = () => resolve(img);
-      img.src = 'src/assets/images/buenavista-logo-text.png';
-    })
-  }
+ 
 
   public pdf(){
     const doc = new jsPDF('l')

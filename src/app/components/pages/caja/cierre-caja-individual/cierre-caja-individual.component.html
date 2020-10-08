@@ -1,3 +1,14 @@
+
+ <div class="row animated fadeIn fast" *ngIf="cargando">
+  <div class="col-12">
+      <div class="alert alert-info text-center">
+          <h4 class="alert-heading">Cargando...</h4>
+          <i class="fa fa-spin fa-refresh fa-2x"></i>
+          <p class="mb-0">Por favor espere</p>
+      </div>
+  </div>
+</div>
+
 <div class="row" >
     <div class="col-12">
       <div class="card">
@@ -5,35 +16,12 @@
           <form ngForm [formGroup]="form" (submit)="guardar()">
             <div class="form-group row">
 
-              <div>
+              <div class="col-sm-6">
                 <label class="form-control-label">
                   fechas: 
                 </label>
                 <input  type="text" class="form-control" formControlName="fecha_apertura" />
               </div>
-
-              <!-- <div
-                class="col-sm-6"
-                [ngClass]="{
-                  'has-success': validarSuccess('fecha_apertura'),
-                  'has-danger': validarError('fecha_apertura')
-                }"
-              >
-                <label class="form-control-label">
-                  Fecha de Apertura: <span class="text-danger">(*)</span>
-                </label>
-                <input
-                  type="date"
-                  class="form-control"
-                  [ngClass]="
-                    validarSuccess('fecha_apertura')
-                      ? 'form-control-success'
-                      : 'form-control-danger'
-                  "
-                  formControlName="fecha_apertura"
-                  maxlength="50"
-                />
-              </div> -->
             </div>
 
             <div class="form-group row" >
@@ -92,27 +80,30 @@
                     <label class="form-control-label"> S/. 200.00: </label>                    
                 </div>
                 <div class="col-sm-2 input-group" id="input1">
-                    <input type="number"
+                    <input type="text"
                            (keypress) = "validarNumero($event)"  
                            [(ngModel)]="cantidad_doscientos"     
                            formControlName= "cantidad_doscientos_soles_cierre"                     
                            class="form-control"
                            >                    
                 </div>
-                
-                <div class="col-sm-2" id="input2">
-                    <input type="text"
+                <!-- <div class="col-sm-6">
+                  <label for="" class="form-control-label"> Monto S/. </label>
+                  <input class="form-control" type="text" (keypress)="numberOnly($event)" formControlName="monto" />
+                </div> -->
+                <div class="col-sm-2">
+                    <input type="text"                            
                             value="{{obtenerMonto(cantidad_doscientos, 200)}}" 
                             class="form-control"
-                            disabled>                                                
-                            
+                            disabled> 
                 </div>
 
                 <div class="col-sm-2">
                     <label class="form-control-label"> S/. 2.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                    <input type="number"  
+                    <input type="text" 
+                          (keypress) = "validarNumero($event)"  
                           [(ngModel)]="cantidad_dos"
                           formControlName= "cantidad_dos_soles_cierre"                   
                           class="form-control">                    
@@ -130,11 +121,12 @@
                     <label class="form-control-label"> S/. 100.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                    <input type="number"
+                    <input type="text" (keypress) = "validarNumero($event)" 
                             [(ngModel)]="cantidad_cien"    
                             formControlName= "cantidad_cien_soles_cierre"      
                             class="form-control">                    
                 </div>
+                
                 <div class="col-sm-2">
                     <input type="text" 
                             value="{{obtenerMonto(cantidad_cien, 100)}}" 
@@ -146,7 +138,7 @@
                     <label class="form-control-label"> S/. 1.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                    <input type="number"                           
+                    <input type="text"   (keypress) = "validarNumero($event)"                          
                           [(ngModel)]="cantidad_uno "    
                           formControlName= "cantidad_un_sol_cierre"  
                           class="form-control">                    
@@ -164,7 +156,7 @@
                     <label class="form-control-label"> S/. 50.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"   (keypress) = "validarNumero($event)"                          
                         [(ngModel)]="cantidad_cincuenta "    
                         formControlName= "cantidad_cincuenta_soles_cierre"  
                         class="form-control">                    
@@ -180,7 +172,7 @@
                     <label class="form-control-label"> S/. 0.50: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"   (keypress) = "validarNumero($event)"                          
                         [(ngModel)]="cantidad_cincuenta_cent "    
                         formControlName= "cantidad_cincuenta_centimos_cierre"  
                         class="form-control">                    
@@ -198,7 +190,7 @@
                     <label class="form-control-label"> S/. 20.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text" (keypress) = "validarNumero($event)"                           
                         [(ngModel)]="cantidad_veinte "    
                         formControlName= "cantidad_veinte_soles_cierre"  
                         class="form-control">                    
@@ -214,7 +206,7 @@
                     <label class="form-control-label"> S/. 0.20: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"  (keypress) = "validarNumero($event)"                           
                         [(ngModel)]="cantidad_veint_cent "    
                         formControlName= "cantidad_veinte_centimos_cierre"  
                         class="form-control">                    
@@ -232,7 +224,7 @@
                     <label class="form-control-label"> S/. 10.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"   (keypress) = "validarNumero($event)"                          
                         [(ngModel)]="cantidad_diez "    
                         formControlName= "cantidad_diez_soles_cierre" 
                         class="form-control">                    
@@ -248,7 +240,7 @@
                     <label class="form-control-label"> S/. 0.10: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"   (keypress) = "validarNumero($event)"                          
                         [(ngModel)]="cantidad_diez_cent "    
                         formControlName= "cantidad_diez_centimos_cierre"  
                         class="form-control">                    
@@ -266,7 +258,7 @@
                     <label class="form-control-label"> S/. 5.00: </label>                    
                 </div>
                 <div class="col-sm-2">
-                  <input type="number"                           
+                  <input type="text"   (keypress) = "validarNumero($event)"                          
                         [(ngModel)]="cantidad_cinco "    
                         formControlName= "cantidad_cinco_soles_cierre"  
                         class="form-control">                    
@@ -323,13 +315,6 @@
                   class="btn btn-lg btn-info waves-effect waves-light">
                   <i class="fa fa-save"></i>
                   &nbsp; Guardar
-                </button>
-                <button
-                type="button"
-                  (click) = "pdf()"
-                  class="btn btn-lg btn-info waves-effect waves-light">
-                  <i class="fa fa-save"></i>
-                  &nbsp; PDF
                 </button>
               </div>
             </div>

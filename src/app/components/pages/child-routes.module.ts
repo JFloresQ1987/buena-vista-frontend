@@ -22,6 +22,7 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
+import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
 
 
 const childRoutes: Routes = [
@@ -150,6 +151,12 @@ const childRoutes: Routes = [
     component: BusquedaAvanzadaComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Búsqueda Avanzada', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'caja/pago/cajas-lista',
+    component: ListarCajasComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Registro', menu: 'Gestión', item: 'Listado Cajas', roles: ["Administrador", "Analista", "Cajero"] }
   },
 ]
 

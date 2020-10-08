@@ -17,7 +17,10 @@ export class BusquedaAvanzadaComponent implements OnInit {
 
   public nombre = ''
   public apellido = ''
+  public apellidoMat = ''
+  public seleccion = 'nombre'
   public cargando: boolean = true;
+  public mostrar: boolean = false;
   public sesionSocio: Socio;
   persona: [] = []
 
@@ -83,5 +86,16 @@ export class BusquedaAvanzadaComponent implements OnInit {
       console.log(res);
     })
   }
+
+  buscarPorApellidoMat(termino: string){
+    this.cargando = false
+    termino = this.apellidoMat
+    console.log(termino);
+    this.sesionSocioService.buscarSocioApellidoMat(termino).subscribe(res =>{
+      this.persona = res['persona'];
+      console.log(res);
+    })
+  }
+
 
 }
