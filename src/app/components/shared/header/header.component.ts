@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { SesionSocioService } from '../../../services/shared/sesion-socio.service';
 import { tap } from 'rxjs/operators';
 import { Socio } from '../../../models/core/socio.model';
+import { UsuarioService } from '../../../services/core/registro/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private seguridadService: SeguridadService,
     private sesionSocioService: SesionSocioService,
-    private router: Router) {
+    private router: Router, private usuarioService: UsuarioService) {
 
     this.seguridad = seguridadService.seguridad;
     this.sesionSocio = sesionSocioService.sesionSocio;
@@ -114,5 +115,52 @@ export class HeaderComponent implements OnInit {
             text: err.error.msg, icon: 'error'
           });
       });
+  }
+
+  cambiarClave() {
+    Swal.fire({
+      title: '<strong>Cambiar Clave</strong>',
+      icon: 'info',
+      html:
+        '<label class="form-control-label">Clave Anterior</label>' +
+        '<input type="password" class="form-control" id="clave">' +
+        '<label class="form-control-label">Nueva Clave</label>' +
+        '<input type="password" class="form-control" id="nueva_clave">' +
+        '<label class="form-control-label">Confirmar Clave</label>' +
+        '<input type="password" class="form-control" id="confirmar_clave">',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText:
+        'Cambiar Clave',
+      cancelButtonColor: 'red',
+      cancelButtonText:
+        'Cancelar',
+      preConfirm: () => {
+        const password = (<HTMLInputElement>document.getElementById('nueva_clave')).value;
+        const confirm_password = (<HTMLInputElement>document.getElementById('confirmar_clave')).value;
+        if (password !== confirm_password) {
+          return Swal.showValidationMessage('Las claves no coinciden');
+        } else {
+          return {
+            "usuario": this.seguridad.usuario,
+            "old_password": (<HTMLInputElement>document.getElementById('clave')).value,
+            "password": (<HTMLInputElement>document.getElementById('nueva_clave')).value
+          }
+        }
+
+      },
+    }).then((result) => {
+      if(result.isConfirmed){
+        const data = <Object>result.value;
+        this.usuarioService.cambiarClaveUsuario(data).subscribe(res => {
+          Swal.fire({
+            icon:"success",
+            text: res['msg']
+          })
+          this.logout();
+        })
+      }
+    })
   }
 }

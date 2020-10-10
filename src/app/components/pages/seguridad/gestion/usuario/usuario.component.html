@@ -48,7 +48,7 @@
                     <span class="label label-danger">No</span>
                   </td></ng-template
                 >
-                <td class="text-nowrap text-center">
+                <td class="text-nowrap">
                   <a
                     [routerLink]="['/seguridad/gestion/usuario', item.id]"
                     data-toggle="tooltip"
@@ -57,7 +57,17 @@
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
                   <a href="#" data-toggle="tooltip" data-original-title="Close">
-                    <i class="fa fa-close text-danger"></i>
+                    <i class="fa fa-close text-danger m-r-10"></i>
+                  </a>
+                  <a (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close" class="cursor">
+                    <i *ngIf="!item.es_vigente" class="fa fa-thumbs-o-up text-info m-r-10"></i>
+                    <i *ngIf="item.es_vigente" class="fa fa-thumbs-o-down text-info m-r-10"></i>
+                  </a>
+                  <!-- <button class="btn btn-circle" (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close">
+                    <i class="fa fa-arrow-down text-inverse m-r-10"></i>
+                  </button> -->
+                  <a class="cursor" (click)="cambiarClave(item.id)" data-toggle="tooltip" data-original-title="Close">
+                    <i class="fa fa-key text-inverse m-r-10"></i>
                   </a>
                 </td>
               </tr>
