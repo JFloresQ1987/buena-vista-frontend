@@ -70,12 +70,12 @@ export class OperacionFinancieraComponent implements OnInit {
       programacion_pago: ['', [Validators.required]],
       // grupo_bancomunal: ['', [Validators.required]],
       analista: ['', [Validators.required]],
-      tasa_interes: ['6', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_interes: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // tasa_mora: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      tasa_ahorro_programado: ['20', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      tasa_ahorro_inicial: ['10', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_ahorro_programado: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_ahorro_inicial: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       monto_capital: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
-      monto_gasto: ['6.7', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_gasto: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
       monto_ahorro_inicial: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       monto_interes: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       // monto_mora: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
@@ -83,10 +83,11 @@ export class OperacionFinancieraComponent implements OnInit {
       // cantidad_cuotas: ['', [Validators.required, Validators.min(1), Validators.maxLength(3)]],
       fecha_inicio: [dayjs().format('YYYY-MM-DD'), [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       incluir_sabados: [true, Validators.required],
+      incluir_domingos: [false, Validators.required],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
-    this.productoService.listar()
+    this.productoService.listar(true)
       .subscribe(res => {
         this.tipos = res;
       });
@@ -385,9 +386,9 @@ export class OperacionFinancieraComponent implements OnInit {
 
     const monto_cuota_total = (monto_cuota + monto_cuota_ahorro_programado).toFixed(2);
 
-    console.log(monto_cuota);
-    console.log(monto_cuota_ahorro_programado);
-    console.log(monto_cuota_total);
+    // console.log(monto_cuota);
+    // console.log(monto_cuota_ahorro_programado);
+    // console.log(monto_cuota_total);
 
     // this.cuotas = [];
 
@@ -476,19 +477,19 @@ export class OperacionFinancieraComponent implements OnInit {
     // console.log('entro 2: '+ this.form.get('programacion_pago').value);
     // const programacionX = this.programacion_pago.find(programacion => programacion.id == this.form.get('programacion_pago').value);
     // console.log('entro 3');
-    let color: string;
+    // let color: string;
     const id_tipo = this.form.get('tipo').value;
     const tipo = this.tipos.find(item => item.id === id_tipo);
     // const programacion = this.programacion_pago.find(programacion => programacion.id == this.form.get('programacion_pago').value);
     const codigo_programacion = this.form.get('programacion_pago').value;
     const programacion = this.programacion_pago.find(item => item.codigo === codigo_programacion);
 
-    if (tipo.codigo == 'CD')
-      color = "inverse";
-    else if (tipo.codigo == 'CP' || tipo.codigo == 'CM')
-      color = "success";
-    else
-      color = "primary";
+    // if (tipo.codigo == 'CD')
+    //   color = "inverse";
+    // else if (tipo.codigo == 'CP' || tipo.codigo == 'CM')
+    //   color = "success";
+    // else
+    //   color = "primary";
 
     // console.log(tipoX);
     // console.log(color);
@@ -501,7 +502,8 @@ export class OperacionFinancieraComponent implements OnInit {
       tipo: id_tipo,
       codigo_programacion: programacion.codigo_programacion,
       programacion: programacion.descripcion,
-      color: color
+      color: tipo.color
+      // color: color
     };
 
     // console.log(modelo);
@@ -516,6 +518,7 @@ export class OperacionFinancieraComponent implements OnInit {
       tasa_ahorro_inicial: this.form.get('tasa_ahorro_inicial').value,
       tasa_ahorro_programado: this.form.get('tasa_ahorro_programado').value,
       tasa_interes: this.form.get('tasa_interes').value,
+      tasa_interes_ganado: 0,
       tasa_mora: 0
     };
 

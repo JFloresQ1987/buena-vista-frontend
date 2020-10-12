@@ -24,6 +24,7 @@ import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-detalle.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
+import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
 import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
 
@@ -51,6 +52,7 @@ import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component
     AhorroDetallePagoComponent,
     IngresosEgresosComponent,
     CierreCajaIndividualComponent,
+    ProductoPrePagoComponent,
     BusquedaAvanzadaComponent,
     ListarCajasComponent
   ],

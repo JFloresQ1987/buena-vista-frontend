@@ -53,10 +53,11 @@ export class ProductoComponent implements OnInit {
       .pipe(
         delay(100)
       )
-      .subscribe((res: any) => {
+      .subscribe((res: []) => {
 
         // console.log(res)
-        this.productos = res.lista;
+        this.productos = res;
+        // this.productos = res.lista;
         this.cargando = false;
         console.log(this.productos);
 

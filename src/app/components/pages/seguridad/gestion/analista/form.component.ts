@@ -47,7 +47,7 @@ export class FormComponent implements OnInit {
   }
 
   cargarProductos(){
-    this.productoService.listar().subscribe(res=>this.productos=res);
+    this.productoService.listar(true).subscribe(res=>this.productos=res);
   }
 
   cargarAnalista(id: string) {

@@ -36,12 +36,30 @@ export class OperacionFinancieraPagoService {
       );
   }
 
-  registrarIngresoEgreso(objeto: Object){
+  registrarIngresoEgreso(objeto: Object) {
     const url = `${base_url}/operacion-financiera-pago/registrar-ingreso-egreso`;
     return this.http.post(url, objeto)
       .pipe(
         map((res: { ok: boolean, recibo: [] }) => res.recibo)
       );
+  }
+
+  desembolsarProducto(id_operacion_financiera: string) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const url = `${base_url}/operacion-financiera-pago/desembolsar/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, null);
+
+    // return this.http.post(url, objeto)
+    //   .pipe(
+    //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
+    //   );
   }
 
 }
