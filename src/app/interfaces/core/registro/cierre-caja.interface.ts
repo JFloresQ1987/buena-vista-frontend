@@ -2,6 +2,7 @@ export interface CierreCajaIndividual {
     id?: String,
     caja?:String,
     cajero?: String,
+    local_atencion?: String,
     fecha_apertura: String,
     monto_total_apertura?: Number,
     monto_total_operaciones?: Number,

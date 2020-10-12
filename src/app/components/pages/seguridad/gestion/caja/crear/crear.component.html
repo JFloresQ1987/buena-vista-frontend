@@ -3,9 +3,145 @@
       <div class="card">
         <div class="card-body">
           <form ngForm [formGroup]="form" > <!-- (submit)="guardar()" -->
+            
+            <div class="form-group row">
+
+              <div class="col-sm-4"
+                [ngClass]="{
+                  'has-success': validarSuccess('pc_nombre'),
+                  'has-danger': validarError('pc_nombre')
+                }"  >
+                <label class="form-control-label">
+                 Nombre PC: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('pc_nombre')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="pc_nombre"
+                  maxlength="50"/>
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('pc_nombre', 'required')">
+                   Ingrese el nombre de la pc.
+                  </p>
+                </small>
+              </div>
+
+              <div class="col-sm-4"
+                [ngClass]="{
+                  'has-success': validarSuccess('ip'),
+                  'has-danger': validarError('ip')
+                }" >
+                <label class="form-control-label">
+                  Ip: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('ip')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="ip"
+                  maxlength="15"
+                />
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('ip', 'required')">
+                    La Ip es obligatoria.
+                  </p>
+                  <p *ngIf="validarCampo('ip', 'maxlength')">
+                    Ingrese una ip correcta.
+                  </p>
+                </small>
+              </div>
+
+              <div class="col-sm-4"
+                [ngClass]="{
+                  'has-success': validarSuccess('serie'),
+                  'has-danger': validarError('serie')
+                }" >
+                <label class="form-control-label">
+                  Serie: <span class="text-danger">(*)</span>
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [ngClass]="
+                    validarSuccess('serie')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  "
+                  formControlName="serie"
+                  maxlength="15"
+                />
+                <small class="form-control-feedback">
+                  <p *ngIf="validarCampo('ip', 'required')">
+                    La serie es obligatoria.
+                  </p>
+                  <p *ngIf="validarCampo('ip', 'maxlength')">
+                    Ingrese una serie correcta.
+                  </p>
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              
+              <div class="col-sm-4">
+                <label class="form-control-label">
+                  Usuario: <span class="text-danger">(*)</span>
+                </label>
+                <div class="col-sm-14">
+                    <div class="input-group">
+                        <select class="form-control"
+                                formControlName="usuario">
+                            <option value="">Seleccione El usuario</option>
+                            <option *ngFor="let item of usuarios"
+                            [value]="item.id"> 
+                                {{ item.persona.nombre }} {{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <label class="form-control-label">
+                  Local Atención: <span class="text-danger">(*)</span>
+                </label>
+                <div class="col-sm-14">
+                  <div class="input-group">
+                      <select class="form-control"
+                              formControlName="local_atencion">
+                          <option value="">Seleccione el local de atención</option>
+                          <option value="Ayacucho">Ayacucho</option>
+                          <option value="Huanta">Huanta</option>
+                          <option value="San Francisco">San Francisco</option>
+                      </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4">
+                <label for="inputEmail3" class="col-form-label">
+                    ¿Es caja Principal?: <span class="text-danger">(*)</span>
+                </label>
+                <div class="col-sm-12">
+                    <input id="checkbox33" type="checkbox" formControlName="es_caja_principal">
+                    <label for="checkbox33"></label>
+                </div>
+              </div>
+
+            </div>
+
             <div class="form-group row">
               <div
-                class="col-sm-6"
+                class="col-sm-12"
                 [ngClass]="{
                   'has-success': validarSuccess('descripcion'),
                   'has-danger': validarError('descripcion')
@@ -30,83 +166,7 @@
                     La descripción es obligatoria.
                   </p>
                 </small>
-              </div>
-              <div
-                class="col-sm-6"
-                [ngClass]="{
-                  'has-success': validarSuccess('ip'),
-                  'has-danger': validarError('ip')
-                }"
-              >
-                <label class="form-control-label">
-                  Ip: <span class="text-danger">(*)</span>
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [ngClass]="
-                    validarSuccess('ip')
-                      ? 'form-control-success'
-                      : 'form-control-danger'
-                  "
-                  formControlName="ip"
-                  maxlength="15"
-                />
-                <small class="form-control-feedback">
-                  <p *ngIf="validarCampo('ip', 'required')">
-                    La Ip es obligatoria.
-                  </p>
-                  <p *ngIf="validarCampo('ip', 'maxlength')">
-                    Ingrese una ip correcta.
-                  </p>
-                </small>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div
-                class="col-sm-6"
-                [ngClass]="{
-                  'has-success': validarSuccess('pc_nombre'),
-                  'has-danger': validarError('pc_nombre')
-                }"  >
-                <label class="form-control-label">
-                 Nombre PC: <span class="text-danger">(*)</span>
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  [ngClass]="
-                    validarSuccess('pc_nombre')
-                      ? 'form-control-success'
-                      : 'form-control-danger'
-                  "
-                  formControlName="pc_nombre"
-                  maxlength="50"
-                />
-                <small class="form-control-feedback">
-                  <p *ngIf="validarCampo('pc_nombre', 'required')">
-                   Ingrese el nombre de la pc.
-                  </p>
-                </small>
-              </div>
-
-              <div class="col-sm-6">
-                <label class="form-control-label">
-                  Usuario: <span class="text-danger">(*)</span>
-                </label>
-                <div class="col-sm-14">
-                    <div class="input-group">
-                        <select class="form-control"
-                                formControlName="usuario">
-                            <option value="">Seleccione El usuario</option>
-                            <option *ngFor="let item of usuarios"
-                            [value]="item.id"> 
-                                {{ item.persona.nombre }} {{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-              </div>
+              </div>              
             </div>
             
             <div class="form-group row">

@@ -46,7 +46,10 @@ export class CrearCajaComponent {
       ip: ['', [Validators.required, Validators.maxLength(15)]],
       pc_nombre: ['', [Validators.required, Validators.maxLength(50)]],
       usuario: ['', [Validators.required, Validators.maxLength(50)]],
-      comentario: ['', [Validators.required, Validators.maxLength(200)]]
+      comentario: ['', [Validators.required, Validators.maxLength(200)]],
+      serie: ['', [Validators.required, Validators.maxLength(10)]],
+      es_caja_principal: ['', [Validators.required]],
+      local_atencion: ['', [Validators.required]],
     });
 
   }
@@ -105,6 +108,9 @@ export class CrearCajaComponent {
             ip, 
             pc_nombre, 
             usuario,
+            serie,
+            es_caja_principal,
+            local_atencion,
             comentario               
             } = caja
           this.cajaSeleccionada = caja
@@ -113,6 +119,9 @@ export class CrearCajaComponent {
             ip, 
             pc_nombre, 
             usuario,
+            serie,
+            es_caja_principal,
+            local_atencion,
             comentario:''    
           })
         })
@@ -129,8 +138,6 @@ export class CrearCajaComponent {
   }
 
   validarCampo(campo: string, validar: string): boolean {
-    
-    
     
     if (this.form.get(campo).hasError(validar) &&
       (this.formSubmitted || this.form.get(campo).touched))

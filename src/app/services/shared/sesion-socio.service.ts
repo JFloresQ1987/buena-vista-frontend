@@ -97,24 +97,21 @@ export class SesionSocioService {
     //   })//,map(res => true)
     // );
   }
+ 
 
-
-  buscarSocioNombre (nombre : string) {
-    const url = `${this.base_url}/personas/buscar_socio_nombre/${nombre}`;
+  buscarSocioNombre (nombre : string, desde:number=0) {
+    const url = `${this.base_url}/personas/buscar_socio_nombre/${nombre}?desde=${desde}`;
     return this.http.get(url)
   }
 
-  buscarSocioApellido (apellido_paterno : string) {
-    const url = `${this.base_url}/personas/buscar_socio_apellido/${apellido_paterno}`;
+  buscarSocioApellido (apellido_paterno : string, desde:number=0) {
+    const url = `${this.base_url}/personas/buscar_socio_apellido/${apellido_paterno}?desde=${desde}`;
     return this.http.get(url)
   }
 
-  buscarSocioApellidoMat (apellido_materno : string) {
-    const url = `${this.base_url}/personas/buscar_socio_apellido_mat/${apellido_materno}`;
+  buscarSocioApellidoMat (apellido_materno : string, desde:number=0) {
+    const url = `${this.base_url}/personas/buscar_socio_apellido_mat/${apellido_materno}?desde=${desde}`;
     return this.http.get(url)
   }
-
-  
-
 
 }

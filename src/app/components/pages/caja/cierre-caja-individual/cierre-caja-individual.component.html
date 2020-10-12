@@ -1,5 +1,6 @@
 
- <div class="row animated fadeIn fast" *ngIf="cargando">
+
+<div class="row animated fadeIn fast" *ngIf="!cargando">
   <div class="col-12">
       <div class="alert alert-info text-center">
           <h4 class="alert-heading">Cargando...</h4>
@@ -14,11 +15,11 @@
       <div class="card">
         <div class="card-body">
           <form ngForm [formGroup]="form" (submit)="guardar()">
+            
             <div class="form-group row">
-
               <div class="col-sm-6">
                 <label class="form-control-label">
-                  fechas: 
+                  Fecha: 
                 </label>
                 <input  type="text" class="form-control" formControlName="fecha_apertura" />
               </div>
@@ -70,7 +71,7 @@
                 <label class="form-control-label">
                   Diferencia (S/.):
                 </label>
-                <input  type="text" class="form-control" value="{{ dif }}" disabled />
+                <input type="text" class="form-control" value="{{ dif }}"  disabled />
               </div>
               </div>
 
@@ -139,9 +140,10 @@
                 </div>
                 <div class="col-sm-2">
                     <input type="text"   (keypress) = "validarNumero($event)"                          
-                          [(ngModel)]="cantidad_uno "    
+                          [(ngModel)]="cantidad_uno"    
                           formControlName= "cantidad_un_sol_cierre"  
-                          class="form-control">                    
+                          class="form-control"
+                          placeholder="0">                    
                 </div>
                 <div class="col-sm-2">
                     <input type="text" 
@@ -309,7 +311,7 @@
                   <i class="fa fa-times-circle"></i>
                   &nbsp; Cancelar
                 </button>
-                <button
+                <button *ngIf="dif == 0"              
                   type="submit"
                   (click) = "guardar()"      
                   class="btn btn-lg btn-info waves-effect waves-light">
