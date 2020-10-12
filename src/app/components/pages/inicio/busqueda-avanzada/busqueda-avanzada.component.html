@@ -17,10 +17,10 @@
                                 <option value="nombre">Nombres</option>
                                 <option value="apPaterno">Apellido Paterno</option>
                                 <option value="apMaterno">Apellido Materno</option>
-                            </select>
+                            </select> 
                         </div>
                         <div class="col-sm-4" *ngIf="seleccion === 'nombre'">
-                            <input type="text" class="form-control" [(ngModel)]="nombre" placeholder="Ingrese el nombre aquí">
+                            <input type="text" class="form-control" [(ngModel)]="nombre" pattern=".{5,10}" placeholder="Ingrese el nombre aquí">
                         </div>
                         <div class="col-sm-4" *ngIf="seleccion === 'apPaterno'">
                             <input type="text" class="form-control" [(ngModel)]="apellido" placeholder="Ingrese el apellido paterno aquí">
@@ -57,9 +57,9 @@
                             <tr>
                                 <th width="3%">#</th>
                                 <th class="text-center">DNI</th>
+                                <th class="text-center">Nombres</th>
                                 <th class="text-center">Apellido Paterno</th>
                                 <th class="text-center">Apellido Materno</th>
-                                <th class="text-center">Nombres</th>
                                 <th class="text-center">Domicilio</th>
                                 <th class="text-nowrap center" width="5%">Acciones</th>
                             </tr>
@@ -69,9 +69,9 @@
                             <tr  *ngFor="let item of persona; let i = index" >
                                 <td class="text-center">{{i+1}}</td>
                                 <td>{{item.documento_identidad}}</td>
+                                <td>{{item.nombre}}</td>
                                 <td>{{item.apellido_paterno}}</td>
                                 <td>{{item.apellido_materno}}</td>
-                                <td>{{item.nombre}}</td>
                                 <td>{{item.domicilio}}</td>
                                 <td><a class="btn btn-outline-primary"
                                     (click)="buscarSocioDni(item.documento_identidad)" >Cargar Sesión</a> </td>
@@ -79,6 +79,24 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row">
+                    <div class="col-sm-9" *ngIf="seleccion === 'nombre'">
+                      <button (click)="cambiarPaginaNombre(nombre, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
+                      <button (click)="cambiarPaginaNombre(nombre,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                    </div>
+                    <div class="col-sm-9" *ngIf="seleccion === 'apPaterno'">
+                        <button (click)="cambiarPaginaApPat(apellido, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
+                        <button (click)="cambiarPaginaApPat(apellido,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                      </div>
+                      <div class="col-sm-9" *ngIf="seleccion === 'apMaterno'">
+                        <button (click)="cambiarPaginaApMat(apellidoMat, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
+                        <button (click)="cambiarPaginaApMat(apellidoMat,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                      </div>
+                    <div class="text-right col-sm-3">
+                      <span class="text-info">{{ totalRegistros }}</span> Registros
+                      <span class="text-info">{{ totalPaginas }}</span> Paginas
+                    </div>
+                  </div>
             </div>
         </div>
     </div>

@@ -2,11 +2,29 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
+          
+          <div class="row">
+
+            <div class="col-sm-4">
+              <label class="form-control-label">Desde:</label>
+              <input type="date" class="form-control" [(ngModel)]="desde">
+            </div>
+
+            <div class="col-sm-4">
+              <label class="form-control-label">Hasta:</label>
+              <input type="date" class="form-control" [(ngModel)]="hasta">
+            </div>
+            
+            <div class="col-sm-2" style="margin-top: 33px;">
+              <button type="button"
+              class="btn btn-primary"
+              (click)="elegirFecha(desde, hasta)">buscar</button>
+            </div>
+            
+          </div>
           <br>
           <div class="table-responsive">
-            <table
-              class="table table-bordered color-bordered-table purple-bordered-table"
-            >
+            <table class="table table-bordered color-bordered-table purple-bordered-table">
               <thead>
                 <tr>
                   <th width="3%">#</th>
@@ -37,7 +55,3 @@
       </div>
     </div>
   </div>
-  <!-- ============================================================== -->
-  <!-- End PAge Content -->
-  <!-- ============================================================== -->
-  

@@ -24,27 +24,17 @@ export class BusquedaAvanzadaComponent implements OnInit {
   public sesionSocio: Socio;
   persona: [] = []
 
+  totalRegistros:number = 0;
+  desde:number = 0;
+  paginaActual: number = 1;
+  totalPaginas: number;
+
   constructor( private sesionSocioService: SesionSocioService,
     private router: Router ) { 
     this.sesionSocio = sesionSocioService.sesionSocio;
   }
 
-
   ngOnInit(): void {
-
-    console.log('Obteniendo datos');
-    
-  }
-
-
-  buscarPorNombre(termino: string){
-    this.cargando = false
-    termino = this.nombre
-    console.log(termino);
-    this.sesionSocioService.buscarSocioNombre(termino).subscribe(res =>{
-      this.persona = res['persona'];
-      console.log('asdasd',res);
-    })
   }
 
   buscarSocioDni(documento_identidad: string) {
@@ -77,25 +67,78 @@ export class BusquedaAvanzadaComponent implements OnInit {
       });
   }
 
-  buscarPorApellido(termino: string){
+  buscarPorNombre(termino: string, desde:number= 0){
+    termino = this.nombre    
+    if (termino.length >= 3) {
+      console.log('estas aquí!!!!!!!!');      
+    } else if (termino.length < 3) {
+      console.log('ahora entras aqui!!!!!!!!!!!!!!!');
+    }
     this.cargando = false
+    this.sesionSocioService.buscarSocioNombre(termino, desde).subscribe(res =>{
+      this.persona = res['persona'];
+      this.totalRegistros = res['total'];
+      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+    })  
+  }
+
+  buscarPorApellido(termino: string, desde:number= 0){
     termino = this.apellido
-    console.log(termino);
-    this.sesionSocioService.buscarSocioApellido(termino).subscribe(res =>{
-      this.persona = res['persona'];
-      console.log(res);
-    })
-  }
-
-  buscarPorApellidoMat(termino: string){
     this.cargando = false
-    termino = this.apellidoMat
-    console.log(termino);
-    this.sesionSocioService.buscarSocioApellidoMat(termino).subscribe(res =>{
+    this.sesionSocioService.buscarSocioApellido(termino, desde).subscribe(res =>{
       this.persona = res['persona'];
-      console.log(res);
-    })
+      this.totalRegistros = res['total'];
+      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+    })          
   }
 
+  buscarPorApellidoMat(termino: string, desde:number= 0){
+    termino = this.apellidoMat    
+    this.cargando = false
+    this.sesionSocioService.buscarSocioApellidoMat(termino, desde).subscribe(res =>{
+      this.persona = res['persona'];
+      this.totalRegistros = res['total'];
+      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+    })   
+  }
+
+  calcularPaginas(registros: number) {
+    const pag = registros / 15;
+    if (String(pag).includes(".")) {
+      return Math.trunc(pag) + 1;
+    }
+    return pag;
+  }
+
+  cambiarPaginaApMat(termino: string,desde:number){
+    this.desde += desde;
+    if(desde<0){
+      this.paginaActual--; 
+    }else{
+      this.paginaActual++;
+    }
+    // tipoBusqueda(termino, this.desde);
+    this.buscarPorApellidoMat(termino, this.desde);
+  }
+  cambiarPaginaNombre(termino: string,desde:number){
+    this.desde += desde;
+    if(desde<0){
+      this.paginaActual--; 
+    }else{
+      this.paginaActual++;
+    }
+    // tipoBusqueda(termino, this.desde);
+    this.buscarPorNombre(termino, this.desde);
+  }
+  cambiarPaginaApPat(termino: string,desde:number){
+    this.desde += desde;
+    if(desde<0){
+      this.paginaActual--; 
+    }else{
+      this.paginaActual++;
+    }
+    // tipoBusqueda(termino, this.desde);
+    this.buscarPorApellido(termino, this.desde);
+  }
 
 }

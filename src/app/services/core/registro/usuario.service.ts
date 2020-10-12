@@ -38,4 +38,19 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
+  cambiarClaveAdministrador(id:string, objeto:Object){
+    const url = `${base_url}/usuarios/cambiarclave/${id}`;
+    return this.http.put(url,objeto);
+  }
+
+  cambiarClaveUsuario(objeto:Object){
+    const url = `${base_url}/usuarios/cambiarclave`;
+    return this.http.put(url,objeto);
+  }
+
+  cambiarVigencia(id:string, objeto:Object){
+    const url = `${base_url}/usuarios/cambiarvigencia/${id}`;
+    return this.http.put(url,objeto);
+  }
+
 }
