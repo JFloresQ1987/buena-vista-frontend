@@ -7,6 +7,7 @@ import { Socio } from '../../../../models/core/socio.model';
 import { OperacionFinancieraDetalleService } from '../../../../services/core/registro/operacion-financiera-detalle.service';
 import { OperacionFinancieraPagoService } from '../../../../services/core/caja/operacion-financiera-pago.service';
 import jsPDF from 'jspdf';
+import { OperaconFinancieraPago } from '../../../../interfaces/core/registro/operacion-financiera-pago';
 
 @Component({
   selector: 'app-producto-pago',
@@ -18,6 +19,7 @@ export class ProductoPagoComponent implements OnInit {
   public socio: Socio;
   public productos = [];
   public cargando: boolean = true;
+  // public sesionSocio: Socio;
 
   constructor(private service: OperacionFinancieraService,
     private sesionSocioService: SesionSocioService,
@@ -96,7 +98,21 @@ export class ProductoPagoComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        this.operacionFinancieraPagoService.desembolsarProducto(id)
+        const modelo: OperaconFinancieraPago = {
+          // id_socio: this.socio.id,
+          // documento_identidad_socio: this.socio.documento_identidad,
+          // nombres_apellidos_socio: this.socio.getNombreCompleto()
+
+          operacion_financiera: '',
+          monto_recibido: 0,
+          monto_ahorro_voluntario: 0,
+          cuotas: [],
+          id_socio: this.socio.id,
+          documento_identidad_socio: this.socio.documento_identidad,
+          nombres_apellidos_socio: this.socio.getNombreCompleto()
+        }
+
+        this.operacionFinancieraPagoService.desembolsarProducto(id, modelo)
           .subscribe(res => {
 
             Swal.fire({

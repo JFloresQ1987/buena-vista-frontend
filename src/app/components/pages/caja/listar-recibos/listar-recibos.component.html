@@ -1,0 +1,89 @@
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <!-- <div class="row animated fadeIn fast" *ngIf="(cargando || cargandoDetalle)"> -->
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">N° recibo</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">DNI</th>
+                                <th class="text-center">Nombres y apellidos</th>
+                                <th class="text-center">Monto (S/.)</th>
+                                <th class="text-nowrap center" width="5%">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lista; let i = index">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
+                                    <span class="label label-success">{{item.recibo.estado}}</span>
+                                </td>
+                                <ng-template #estado_recibo>
+                                    <td class="text-center">
+                                        <span class="label label-danger">{{item.recibo.estado}}</span>
+                                    </td>
+                                </ng-template>
+                                <td class="text-center">{{ item.recibo.numero }}</td>
+                                <td class="text-center">{{ item.recibo.fecha }}</td>
+
+                                <td>44684165</td>
+                                <td>Jorge Flores Quispe</td>
+
+                                <td>{{ item.recibo.monto_total }}</td>
+                                <!-- <td>{{ item.persona.apellido_materno }}</td>
+                                <td class="text-center" *ngIf="item.es_bloqueado; else bloqueado">
+                                    <span class="label label-danger">Si</span>
+                                </td>
+                                <td class="text-center" *ngIf="item.es_vigente; else vigente">
+                                    <span class="label label-success">Si</span>
+                                </td>
+                                <ng-template #bloqueado>
+                                    <td class="text-center"></td>
+                                </ng-template>
+                                <ng-template #vigente>
+                                    <td class="text-center">
+                                        <span class="label label-danger">No</span>
+                                    </td>
+                                </ng-template> -->
+                                <td class="text-nowrap text-center">
+                                    <a *ngIf="item.recibo.estado==='Vigente'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
+                                        <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
+                                    </a>
+                                    <a *ngIf="item.recibo.estado==='Vigente' && item.diario.estado==='Abierto'" (click)="anularRecibo(item.id)" data-toggle="tooltip" data-original-title="Anular recibo">
+                                        <i class="fa fa-ban text-danger pointer"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

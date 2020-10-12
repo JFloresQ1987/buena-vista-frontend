@@ -27,6 +27,7 @@ import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingres
 import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
 import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
+import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component
     CierreCajaIndividualComponent,
     ProductoPrePagoComponent,
     BusquedaAvanzadaComponent,
-    ListarCajasComponent
+    ListarCajasComponent,
+    ListarRecibosComponent
   ],
   exports: [
     PagesComponent,

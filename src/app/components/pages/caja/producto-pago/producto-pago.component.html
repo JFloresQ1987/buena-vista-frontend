@@ -32,8 +32,8 @@
                     </p>
                 </h4>
                 <!-- <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p> -->
-                <button *ngIf="item.se_desembolso_prestamo" [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">Ver detalle del producto</button> &nbsp;&nbsp;
-                <button *ngIf="!item.se_desembolso_prestamo" (click)="realizarDesembolsoPago(item.id)" class="btn btn-danger">Desembolsar producto</button>
+                <button *ngIf="item.desembolso.se_desembolso_prestamo" [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">Ver detalle del producto</button> &nbsp;&nbsp;
+                <button *ngIf="!item.desembolso.se_desembolso_prestamo" (click)="realizarDesembolsoPago(item.id)" class="btn btn-danger">Desembolsar producto</button>
 
                 <!-- <div class="ribbon-wrapper card">
                     <div class="ribbon ribbon-bookmark  ribbon-default">{{ producto.fecha_inicio }}</div>

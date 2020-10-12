@@ -11,7 +11,8 @@ import { SeguridadService } from './../../../../services/auth/seguridad.service'
 import { CierreCajaIndividualService } from './../../../../services/core/caja/cierre-caja-individual.service';
 import { UsuarioService } from 'src/app/services/core/registro/usuario.service';
 import { Router } from '@angular/router';
-import * as jsPDF from 'jspdf'
+// import * as jsPDF from 'jspdf'
+import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 
@@ -234,7 +235,8 @@ export class CierreCajaIndividualComponent {
  
 
   public pdf(){
-    const doc = new jsPDF('l')
+    // const doc = new jsPDF('l')
+    var doc: any = new jsPDF()
     var pageNumber = doc.internal.getNumberOfPages()
     let fecha = new Date()
     
