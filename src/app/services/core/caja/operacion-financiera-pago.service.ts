@@ -13,6 +13,14 @@ export class OperacionFinancieraPagoService {
 
   constructor(private http: HttpClient) { }
 
+  listarPagos() {
+
+    return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos`)
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
+  }
+  
   listarProductoDetalle(id_operacion_financiera: string) {
 
     return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
@@ -44,7 +52,7 @@ export class OperacionFinancieraPagoService {
       );
   }
 
-  desembolsarProducto(id_operacion_financiera: string) {
+  desembolsarProducto(id_operacion_financiera: string, modelo: OperaconFinancieraPago) {
 
     // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
     //   .pipe(
@@ -54,7 +62,29 @@ export class OperacionFinancieraPagoService {
     const url = `${base_url}/operacion-financiera-pago/desembolsar/${id_operacion_financiera}`;
 
     // const url = `${base_url}/usuarios/${id}`;
-    return this.http.put(url, null);
+    return this.http.put(url, modelo);
+
+    // return this.http.post(url, objeto)
+    //   .pipe(
+    //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
+    //   );
+  }
+
+  anularRecibo(id_operacion_financiera: string, comentario: string) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const modelo: any = {
+      comentario: comentario
+    }
+
+    const url = `${base_url}/operacion-financiera-pago/anular-recibo/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, modelo);
 
     // return this.http.post(url, objeto)
     //   .pipe(

@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OperaconFinancieraPago } from '../../../../interfaces/core/registro/operacion-financiera-pago';
 import { Socio } from '../../../../models/core/socio.model';
 import { SesionSocioService } from '../../../../services/shared/sesion-socio.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-producto-detalle-pago',
@@ -44,6 +45,11 @@ export class ProductoDetallePagoComponent implements OnInit {
     // this.id_operacion_financiera = this.route.snapshot.params.id
 
     // this.listarProducto();
+
+
+    // content.hide(); 
+    const element = document.getElementById('divRecibo');
+    // element.hidden = true;
 
     this.activatedRoute.params.subscribe(({ id }) => {
 
@@ -382,6 +388,8 @@ export class ProductoDetallePagoComponent implements OnInit {
           text: 'El pago se realizó satisfactoriamente.', icon: 'success'
         });
 
+        // this.imprimirRecibo(res);
+        // this.construirRecibo(res);
         this.imprimirRecibo(res);
 
         this.cancelar();
@@ -442,7 +450,7 @@ export class ProductoDetallePagoComponent implements OnInit {
     this.form.controls.monto_vuelto.setValue(monto_vuelto.toFixed(2));
   }
 
-  imprimirRecibo(recibo: []) {
+  imprimirRecibo2(recibo: []) {
 
     const opciones: any = {
       orientation: 'p',
@@ -590,5 +598,222 @@ export class ProductoDetallePagoComponent implements OnInit {
   //   this.formSubmitted=false
   //   this.form.reset()
   // }
+
+  // construirRecibo(data: any) {
+
+  //   // content.html('');
+  //   const content: any = document.getElementById('divRecibo');
+
+  //   // console.log(content)
+
+  //   content.innerHTML = '';
+  //   // content.html('');
+
+  //   // content.append
+
+  //   // content.append
+
+  //   content.append('<div class="row-form-24"><div class="span5 center">' + data.institucion.denominacion + '</div></div>');
+  //   content.append('<div class="row-form-24"><div class="span5 center">' + data.institucion.agencia + '</div></div>');
+  //   content.append('<div class="row-form-24"><div class="linea"></div></div>');
+  //   content.append('<div class="row-form-24"><div class="span3">RUC: ' + data.institucion.ruc + '</div><div class="span2 right">' + data.recibo.numero + '</div></div>');
+  //   content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //   content.append('<div class="row-form-24"><div class="span5">DNI: ' + data.persona.documento_identidad + '</div></div>');
+  //   content.append('<div class="row-form-24"><div class="span5">Socio: ' + data.persona.nombre_completo + '</div></div>');
+
+  //   // $.each(data.ListaRecibos, function (index, i) {
+      
+  //     if (data.responsable)
+  //       content.append('<div class="row-form-24"><div class="span5">Analista: ' + data.responsable + '</div></div>');
+  //     else
+  //       content.append('<div class="row-form-24"><div class="span5">Responsable: ' + data.analista + '</div></div>');
+
+  //     if (data.bancomunal)
+  //       content.append('<div class="row-form-24"><div class="span5">Bancomunal: ' + data.bancomunal.grupo + '</div></div>');
+
+  //     content.append('<div class="row-form-24"><div class="span5">Producto: ' + data.producto.descripcion + '</div></div>');
+
+  //     //if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+  //     //    content.append('<div class="row-form-24"><div class="span5">Concepto: ' + i.ConceptoDetalle + '</div></div>');
+
+  //     content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     content.append('<div class="row-form-24"><div class="span5">Operaciones en Soles</div></div>');
+  //     content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="span4 center">Detalle Operación</div><div class="span1 center">Monto</div></div>');
+  //     content.append('<div class="row-form-24"><div class="span3 center">Detalle Operación</div><div class="span1 center">Cuota</div><div class="span1 center">Monto</div></div>');
+  //     content.append('<div class="row-form-24"><div class="linea"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="span4">' + i.OperacionFinanciera + '</div><div class="span1 right">' + i.MontoTransaccion + '</div></div>');
+
+  //     if (data.producto.monto_gasto)
+  //       content.append('<div class="row-form-24"><div class="span4">Gasto Administrativo</div><div class="span1 right">' + data.producto.monto_gasto + '</div></div>');
+  //     if (data.producto.monto_ahorro_inicial)
+  //       content.append('<div class="row-form-24"><div class="span4">Aporte Inicial</div><div class="span1 right">' + data.producto.monto_ahorro_inicial + '</div></div>');
+  //     if (data.producto.monto_ahorro_voluntario)
+  //         content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + data.producto.monto_ahorro_voluntario + '</div></div>');      
+  //     if (data.producto.monto_ahorro_programado)
+  //       content.append('<div class="row-form-24"><div class="span4">Ahorro Programado</div><div class="span1 right">' + data.producto.monto_ahorro_programado + '</div></div>');
+  //     if (data.producto.monto_amortizacion_capital)
+  //       content.append('<div class="row-form-24"><div class="span3">Amortización Capital</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_amortizacion_capital + '</div></div>');
+  //     if (data.producto.monto_interes)
+  //       content.append('<div class="row-form-24"><div class="span3">Interés</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_interes + '</div></div>');
+  //     if (data.producto.monto_mora)
+  //       content.append('<div class="row-form-24"><div class="span4">Mora</div><div class="span1 right">' + data.producto.monto_mora + '</div></div>');
+  //     if (data.producto.monto_interes_ganado)
+  //       content.append('<div class="row-form-24"><div class="span4">Interés ganado</div><div class="span1 right">' + data.producto.monto_interes_ganado + '</div></div>');
+  //     if (data.producto.monto_retiro_interes_ganado)
+  //       content.append('<div class="row-form-24"><div class="span4">Retiro Aporte I.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+  //     if (data.producto.monto_retiro_ahorro_voluntario)
+  //         content.append('<div class="row-form-24"><div class="span4">Retiro Ahorro V.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_voluntario + '</div></div>');
+  //     if (data.producto.monto_retiro_ahorro_programado)
+  //       content.append('<div class="row-form-24"><div class="span4">Retiro Ahorro P.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_programado + '</div></div>');
+  //     if (data.producto.monto_retiro_interes_ganado)
+  //       content.append('<div class="row-form-24"><div class="span4">Retiro Interés G.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+
+  //     // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
+  //     //   var monto = (i.MontoRetiroAhorroVoluntario != '0.00' && i.MontoRetiroAhorroVoluntario != '0') ? i.MontoRetiroAhorroVoluntario : i.MontoAhorroVoluntario;
+  //     //   content.append('<div class="row-form-24"><div class="span4">' + i.ConceptoOperacionFinanciera + '</div><div class="span1 right">' + monto + '</div></div>');
+  //     // }
+
+  //     // if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+  //     //   content.append('<div class="row-form-24"><div class="span5">Det.: ' + i.ConceptoDetalle + '</div></div>');
+
+  //     //if (i.MontoAhorroVoluntario != '0.00' && i.MontoAhorroVoluntario != '0')
+  //     //    content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + i.MontoAhorroVoluntario + '</div></div>');
+
+  //     content.append('<div class="row-form-24"><div class="linea"></div></div>');
+  //     content.append('<div class="row-form-24"><div class="span4 center">Total: S/. </div><div class="span1 right">' + data.recibo.monto_total + '</div></div>')
+
+  //     // if (i.MontoTotalAhorrosLibres != null && i.MontoTotalAhorrosLibres != '0.00' && i.MontoTotalAhorrosLibres != '0') {
+  //     //   content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //   content.append('<div class="row-form-24"><div class="span4 center">Total Ahorro Restante: S/. </div><div class="span1 right">' + i.MontoTotalAhorrosLibres + '</div></div>')
+  //     // }
+
+  //     content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     content.append('<div class="row-form-24"><div class="span5">Usuario: ' + data.recibo.usuario + '</div></div>');
+  //     content.append('<div class="row-form-24"><div class="span5">Fecha: ' + data.recibo.fecha + '</div></div>');
+  //     content.append('<div class="row-form-24"><div class="span5">Recibo: ' + data.recibo.tipo_impresion + '</div></div>');
+  //     content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+  //     content.append('<div class="row-form-24"><div class="span5 center">** ' + data.institucion.frase + ' **</div></div>');
+  //   // });
+
+  //   this.imprimirRecibo();
+  // }
+
+  imprimirRecibo(data: any) {
+    try {
+      const iframe: any = document.getElementById('ifrmPrint');
+      // const content = document.getElementById('divRecibo').innerHTML;
+      let doc = (iframe.contentWindow || iframe.contentDocument);
+
+
+      if (doc.document) doc = doc.document;
+      doc.write('<head><title></title>');
+      doc.write('<link href="../../../../../assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
+      // doc.write('<link href="' + $("#urlBase").val() + '../css/recibo.css" rel="stylesheet" type="text/css"/>');
+      doc.write('</head><body onload="this.focus(); this.print();">');
+      // doc.write(content + '</body>');
+
+      
+
+      doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.denominacion + '</div></div>');
+      doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.agencia + '</div></div>');
+      doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+      doc.write('<div class="row-form-24"><div class="span3">RUC: ' + data.institucion.ruc + '</div><div class="span2 right">' + data.recibo.numero + '</div></div>');
+      doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      doc.write('<div class="row-form-24"><div class="span5">DNI: ' + data.persona.documento_identidad + '</div></div>');
+      doc.write('<div class="row-form-24"><div class="span5">Socio: ' + data.persona.nombre_completo + '</div></div>');
+  
+      // $.each(data.ListaRecibos, function (index, i) {
+        
+        if (data.responsable)
+          doc.write('<div class="row-form-24"><div class="span5">Analista: ' + data.responsable + '</div></div>');
+        else
+          doc.write('<div class="row-form-24"><div class="span5">Responsable: ' + data.analista + '</div></div>');
+  
+        if (data.bancomunal)
+          doc.write('<div class="row-form-24"><div class="span5">Bancomunal: ' + data.bancomunal.grupo + '</div></div>');
+  
+        doc.write('<div class="row-form-24"><div class="span5">Producto: ' + data.producto.descripcion + '</div></div>');
+  
+        //if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+        //    content.append('<div class="row-form-24"><div class="span5">Concepto: ' + i.ConceptoDetalle + '</div></div>');
+  
+        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+        doc.write('<div class="row-form-24"><div class="span5">Operaciones en Soles</div></div>');
+        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+        //content.append('<div class="row-form-24"><div class="span4 center">Detalle Operación</div><div class="span1 center">Monto</div></div>');
+        doc.write('<div class="row-form-24"><div class="span3 center">Detalle Operación</div><div class="span1 center">Cuota</div><div class="span1 center">Monto</div></div>');
+        doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+        //content.append('<div class="row-form-24"><div class="span4">' + i.OperacionFinanciera + '</div><div class="span1 right">' + i.MontoTransaccion + '</div></div>');
+  
+        if (data.producto.monto_gasto)
+          doc.write('<div class="row-form-24"><div class="span4">Gasto Administrativo</div><div class="span1 right">' + data.producto.monto_gasto + '</div></div>');
+        if (data.producto.monto_ahorro_inicial)
+          doc.write('<div class="row-form-24"><div class="span4">Aporte Inicial</div><div class="span1 right">' + data.producto.monto_ahorro_inicial + '</div></div>');
+        if (data.producto.monto_ahorro_voluntario)
+            doc.write('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + data.producto.monto_ahorro_voluntario + '</div></div>');      
+        if (data.producto.monto_ahorro_programado)
+          doc.write('<div class="row-form-24"><div class="span4">Ahorro Programado</div><div class="span1 right">' + data.producto.monto_ahorro_programado + '</div></div>');
+        if (data.producto.monto_amortizacion_capital)
+          doc.write('<div class="row-form-24"><div class="span3">Amortización Capital</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_amortizacion_capital + '</div></div>');
+        if (data.producto.monto_interes)
+          doc.write('<div class="row-form-24"><div class="span3">Interés</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_interes + '</div></div>');
+        if (data.producto.monto_mora)
+          doc.write('<div class="row-form-24"><div class="span4">Mora</div><div class="span1 right">' + data.producto.monto_mora + '</div></div>');
+        if (data.producto.monto_interes_ganado)
+          doc.write('<div class="row-form-24"><div class="span4">Interés ganado</div><div class="span1 right">' + data.producto.monto_interes_ganado + '</div></div>');
+        if (data.producto.monto_retiro_interes_ganado)
+          doc.write('<div class="row-form-24"><div class="span4">Retiro Aporte I.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+        if (data.producto.monto_retiro_ahorro_voluntario)
+            doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro V.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_voluntario + '</div></div>');
+        if (data.producto.monto_retiro_ahorro_programado)
+          doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro P.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_programado + '</div></div>');
+        if (data.producto.monto_retiro_interes_ganado)
+          doc.write('<div class="row-form-24"><div class="span4">Retiro Interés G.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+  
+        // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
+        //   var monto = (i.MontoRetiroAhorroVoluntario != '0.00' && i.MontoRetiroAhorroVoluntario != '0') ? i.MontoRetiroAhorroVoluntario : i.MontoAhorroVoluntario;
+        //   content.append('<div class="row-form-24"><div class="span4">' + i.ConceptoOperacionFinanciera + '</div><div class="span1 right">' + monto + '</div></div>');
+        // }
+  
+        // if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+        //   content.append('<div class="row-form-24"><div class="span5">Det.: ' + i.ConceptoDetalle + '</div></div>');
+  
+        //if (i.MontoAhorroVoluntario != '0.00' && i.MontoAhorroVoluntario != '0')
+        //    content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + i.MontoAhorroVoluntario + '</div></div>');
+  
+        doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+        doc.write('<div class="row-form-24"><div class="span4 center">Total: S/. </div><div class="span1 right">' + data.recibo.monto_total + '</div></div>')
+  
+        // if (i.MontoTotalAhorrosLibres != null && i.MontoTotalAhorrosLibres != '0.00' && i.MontoTotalAhorrosLibres != '0') {
+        //   content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+        //   content.append('<div class="row-form-24"><div class="span4 center">Total Ahorro Restante: S/. </div><div class="span1 right">' + i.MontoTotalAhorrosLibres + '</div></div>')
+        // }
+  
+        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+        doc.write('<div class="row-form-24"><div class="span5">Usuario: ' + data.recibo.usuario + '</div></div>');
+        doc.write('<div class="row-form-24"><div class="span5">Fecha: ' + data.recibo.fecha + '</div></div>');
+        doc.write('<div class="row-form-24"><div class="span5">Recibo: ' + data.recibo.tipo_impresion + '</div></div>');
+        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+        doc.write('<div class="row-form-24"><div class="span5 center">** ' + data.institucion.frase + ' **</div></div>');
+      // });
+
+
+
+      doc.write('</body>');
+
+      doc.close();
+    } catch (e) {
+      self.print();
+    }
+  }
 
 }
