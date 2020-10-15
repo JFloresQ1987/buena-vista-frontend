@@ -57,7 +57,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   gestionError(err: HttpErrorResponse){
-    // console.log(err.error.msg);
+    // console.log('ressssss', err);
     Swal.fire({
       text: err.error.msg, icon: 'error'
 
