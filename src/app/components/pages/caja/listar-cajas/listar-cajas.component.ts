@@ -88,21 +88,19 @@ export class ListarCajasComponent implements OnInit {
               [ this.seguridad.usuario ],
               [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
               [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-              ['___________________________________________________________________________________________________']
             ],
             startY: 10,
             showHead: 'firstPage',  
             theme: 'plain' 
           })
           doc.autoTable({
-            styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontSize: [25] },
+            styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [25] },
             /* styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontStyle: ['bold'], 
                         fontSize: [25], halign: ['center'], valign:['middle'],
-                          }, */         
-            columns: [  
-              {  header: '' },      
-              {  header: 'Control de Saldos'},
-              {  header: '' },       
+                          }, */   
+                
+            columns: [        
+              {  header: 'Control de Saldos'},       
             ],
             startY: 40,
           })

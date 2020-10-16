@@ -27,12 +27,13 @@
               <thead>
                 <tr>
                   <th width="3%">#</th>
-                  <th class="text-center" width="13%">Fecha Apertura</th>
-                  <th class="text-center" width="13%">Fecha Cierre</th>
-                  <th class="text-center">Cantidad Operaciones</th>
-                  <th class="text-center">Monto Total Apertura</th>
-                  <th class="text-center">Monto Total Operaciones</th>
+                  <th class="text-center" width="10%">Fecha Apertura</th>
+                  <th class="text-center" width="10%">Fecha Cierre</th>
+                  <th class="text-center"  width="7%">Cantidad Operaciones</th>
+                  <th class="text-center"  width="7%">Monto Total Apertura</th>
+                  <th class="text-center"  width="7%">Monto Total Operaciones</th>
                   <th class="text-center" style="width: 15;">Monto Total Efectivo</th>
+                  <th class="text-center"  width="7%">Estado</th>
                   <th class="text-center">Acciones</th>
                 </tr>
               </thead>
@@ -46,6 +47,7 @@
                   <td>{{item.monto_total_apertura}} </td>
                   <td>{{item.monto_total_operaciones}} </td>
                   <td>{{item.monto_total_efectivo}} </td>
+                  <td>{{item.estado}} </td>
                   <td><button class="btn btn-outline-primary" (click) ="cargarReporte(item.apertura.fecha_apertura)">Ver Reporte</button> </td>                  
                 </tr>
               </tbody>
