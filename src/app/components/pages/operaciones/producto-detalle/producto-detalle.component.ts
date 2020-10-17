@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import 'jspdf-autotable';
 // import {imageToBase64} from 'image-to-base64';
 import { OperacionFinancieraService } from '../../../../services/core/registro/operacion-financiera.service';
 import { OperacionFinancieraDetalleService } from '../../../../services/core/registro/operacion-financiera-detalle.service';
@@ -21,7 +21,7 @@ export class ProductoDetalleComponent implements OnInit {
   public operaconFinancieraDetalle: [];
   public cargando: boolean = true;
   public cargandoDetalle: boolean = true;
-  
+
   constructor(private activatedRoute: ActivatedRoute,
     private serviceOperacionFinanciera: OperacionFinancieraService,
     private serviceOperacionFinancieraDetalle: OperacionFinancieraDetalleService) { }
@@ -32,8 +32,8 @@ export class ProductoDetalleComponent implements OnInit {
 
     // this.listarProducto();
 
-    this.activatedRoute.params.subscribe( ({ id }) => {
-      
+    this.activatedRoute.params.subscribe(({ id }) => {
+
       this.listarProducto(id);
       this.listarProductoDetalle(id);
     })
@@ -78,108 +78,124 @@ export class ProductoDetalleComponent implements OnInit {
 
   // }
 
-  verPDF() {
-
-    var doc: any = new jsPDF()
-    var totalPagesExp = '{ total_pages_count_string }'
-
-    const autoTablex: any = {
-      // head: this.headRows(),
-      // body: this.bodyRows(120),
-      html: '#example',
-      didDrawPage: async (data) => {
-        // Header
-        doc.setFontSize(20)
-        doc.setTextColor(40)
-
-        // console.log(this.base64Img);
-
-        var img = new Image();
-        img.src = "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300";
-        // img.src = path.resolve('sample.jpg');
-
-        // var doc = new jsPDF('p', 'mm', 'a3');  // optional parameters
-        // doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
-        // doc.addImage(img, 'PNG', 1, 2);
-        // doc.save("new.pdf");
-
-        if (img.src) {
-          // console.log('entroo') 
-          // doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
-          doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
-        }
-
-        // const imgg = this.getBase64ImageFromURL(
-        //   "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300"
-        // )
-
-        // console.log(imgg);
-
-        //         if (imgg) {
-        //           console.log('entroo') 
-        //           doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
-        //         }
-        // if (base64Img {
-        //    doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
-        // }
-
-        doc.text('Report', data.settings.margin.left + 15, 22)
-
-        // Footer
-        var str = 'Page ' + doc.internal.getNumberOfPages()
-        // // Total page number plugin only available in jspdf v1.0+
-        // if (typeof doc.putTotalPages === 'function') {
-        str = str + ' of ' + totalPagesExp
-        // }
-        doc.setFontSize(10)
-
-        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-        var pageSize = doc.internal.pageSize
-        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
-        doc.text(str, data.settings.margin.left, pageHeight - 10)
-      },
-      margin: { top: 30 },
-    };
-    
-    // autoTable(doc, { html: '#example' })
-    autoTable(doc, autoTablex);
-
-    // doc.autoTable({
-    //   head: this.headRows(),
-    //   body: this.bodyRows(40),
-    //   didDrawPage: async (data) => {
-    //     // Header
-    //     doc.setFontSize(20)
-    //     doc.setTextColor(40)
-    //     if (this.base64Img) {
-    //       doc.addImage(this.base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
-    //     }
-    //     doc.text('Report', data.settings.margin.left + 15, 22)
-
-    //     // Footer
-    //     var str = 'Page ' + doc.internal.getNumberOfPages()
-    //     // Total page number plugin only available in jspdf v1.0+
-    //     if (typeof doc.putTotalPages === 'function') {
-    //       str = str + ' of ' + totalPagesExp
-    //     }
-    //     doc.setFontSize(10)
-
-    //     // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-    //     var pageSize = doc.internal.pageSize
-    //     var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
-    //     doc.text(str, data.settings.margin.left, pageHeight - 10)
-    //   },
-    //   margin: { top: 30 },
-    // })
-
-    // Total page number plugin only available in jspdf v1.0+
-    if (typeof doc.putTotalPages === 'function') {
-      doc.putTotalPages(totalPagesExp)
-    }
-
-    // return doc
-    doc.output('dataurlnewwindow');
+  async verPDF() {
+    const doc = new jsPDF();
+    doc.setProperties({
+      title: "Cronograma PDF"
+    });
+    doc.autoTable({ html: '#example' })
+    var string = doc.output('datauristring');
+    var iframe = "<iframe width='100%' height='99%' src='" + string + "'></iframe>"
+    var x = window.open();
+    x.document.open();
+    await x.document.write(iframe);
+    x.document.close();
+    //doc.save('report.pdf');
+    //await doc.output('dataurlnewwindow', {});
   }
+
+  // verPDF() {
+
+  //   var doc: any = new jsPDF()
+  //   var totalPagesExp = '{ total_pages_count_string }'
+
+  //   const autoTablex: any = {
+  //     // head: this.headRows(),
+  //     // body: this.bodyRows(120),
+  //     html: '#example',
+  //     didDrawPage: async (data) => {
+  //       // Header
+  //       doc.setFontSize(20)
+  //       doc.setTextColor(40)
+
+  //       // console.log(this.base64Img);
+
+  //       var img = new Image();
+  //       img.src = "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300";
+  //       // img.src = path.resolve('sample.jpg');
+
+  //       // var doc = new jsPDF('p', 'mm', 'a3');  // optional parameters
+  //       // doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
+  //       // doc.addImage(img, 'PNG', 1, 2);
+  //       // doc.save("new.pdf");
+
+  //       if (img.src) {
+  //         // console.log('entroo') 
+  //         // doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
+  //         doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
+  //       }
+
+  //       // const imgg = this.getBase64ImageFromURL(
+  //       //   "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300"
+  //       // )
+
+  //       // console.log(imgg);
+
+  //       //         if (imgg) {
+  //       //           console.log('entroo') 
+  //       //           doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
+  //       //         }
+  //       // if (base64Img {
+  //       //    doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
+  //       // }
+
+  //       doc.text('Report', data.settings.margin.left + 15, 22)
+
+  //       // Footer
+  //       var str = 'Page ' + doc.internal.getNumberOfPages()
+  //       // // Total page number plugin only available in jspdf v1.0+
+  //       // if (typeof doc.putTotalPages === 'function') {
+  //       str = str + ' of ' + totalPagesExp
+  //       // }
+  //       doc.setFontSize(10)
+
+  //       // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+  //       var pageSize = doc.internal.pageSize
+  //       var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+  //       doc.text(str, data.settings.margin.left, pageHeight - 10)
+  //     },
+  //     margin: { top: 30 },
+  //   };
+
+  //   // autoTable(doc, { html: '#example' })
+  //   autoTable(doc, autoTablex);
+
+  //   // doc.autoTable({
+  //   //   head: this.headRows(),
+  //   //   body: this.bodyRows(40),
+  //   //   didDrawPage: async (data) => {
+  //   //     // Header
+  //   //     doc.setFontSize(20)
+  //   //     doc.setTextColor(40)
+  //   //     if (this.base64Img) {
+  //   //       doc.addImage(this.base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
+  //   //     }
+  //   //     doc.text('Report', data.settings.margin.left + 15, 22)
+
+  //   //     // Footer
+  //   //     var str = 'Page ' + doc.internal.getNumberOfPages()
+  //   //     // Total page number plugin only available in jspdf v1.0+
+  //   //     if (typeof doc.putTotalPages === 'function') {
+  //   //       str = str + ' of ' + totalPagesExp
+  //   //     }
+  //   //     doc.setFontSize(10)
+
+  //   //     // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+  //   //     var pageSize = doc.internal.pageSize
+  //   //     var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+  //   //     doc.text(str, data.settings.margin.left, pageHeight - 10)
+  //   //   },
+  //   //   margin: { top: 30 },
+  //   // })
+
+  //   // Total page number plugin only available in jspdf v1.0+
+  //   if (typeof doc.putTotalPages === 'function') {
+  //     doc.putTotalPages(totalPagesExp)
+  //   }
+
+  //   // return doc
+  //   doc.output('dataurlnewwindow');
+  // }
 
   headRows() {
     return [
@@ -378,7 +394,7 @@ export class ProductoDetalleComponent implements OnInit {
     // // console.log(this.sesionSocioService.sesionSocio);
     // // console.log(this.socio.getId());
     // // console.log(this.socio.getNombreCompleto());
-    
+
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
     //     text: "Primero debe buscar un socio.", icon: 'warning'
@@ -428,7 +444,7 @@ export class ProductoDetalleComponent implements OnInit {
     // // console.log(this.sesionSocioService.sesionSocio);
     // // console.log(this.socio.getId());
     // // console.log(this.socio.getNombreCompleto());
-    
+
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
     //     text: "Primero debe buscar un socio.", icon: 'warning'
