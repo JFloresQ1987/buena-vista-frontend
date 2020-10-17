@@ -32,22 +32,27 @@
                   <th class="text-center"  width="7%">Cantidad Operaciones</th>
                   <th class="text-center"  width="7%">Monto Total Apertura</th>
                   <th class="text-center"  width="7%">Monto Total Operaciones</th>
-                  <th class="text-center" style="width: 15;">Monto Total Efectivo</th>
+                  <th class="text-center" width="7%">Monto Total Efectivo</th>
                   <th class="text-center"  width="7%">Estado</th>
-                  <th class="text-center">Acciones</th>
+                  <th class="text-center" width="7%">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of cajas; let i = index">
                   <td class="text-center">{{ i + 1 }}</td>
-                  <td class="text-center">{{ item.apertura.fecha_apertura }}</td>
-                  <!-- <td class="text-center">{{ item.apertura.fecha_apertura }}</td> -->
+                  <td class="text-center">{{ item.apertura.fecha_apertura }}</td>                  
                   <td class="text-center">{{ item.cierre.fecha_cierre }}</td>
                   <td>{{ item.cantidad_operaciones }}</td>
                   <td>{{item.monto_total_apertura}} </td>
                   <td>{{item.monto_total_operaciones}} </td>
                   <td>{{item.monto_total_efectivo}} </td>
-                  <td>{{item.estado}} </td>
+                  <!-- <td>{{item.estado}} </td> -->
+                  <td class="text-center" *ngIf="item.estado == 'Cerrado'  ">
+                    <span class="label label-danger">{{ item.estado}} </span>
+                  </td>
+                  <td class="text-center" *ngIf="item.estado == 'Abierto'  ">
+                    <span class="label label-success">{{ item.estado}} </span>
+                  </td>
                   <td><button class="btn btn-outline-primary" (click) ="cargarReporte(item.apertura.fecha_apertura)">Ver Reporte</button> </td>                  
                 </tr>
               </tbody>
