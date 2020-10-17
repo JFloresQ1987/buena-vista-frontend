@@ -52,11 +52,12 @@
                 </div>
 
                 <div class="table-responsive" *ngIf="!cargando">
-                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table  
+                                    table-hover full-color-table full-primary-table">
                         <thead>
-                            <tr>
+                            <tr >
                                 <th width="3%">#</th>
-                                <th class="text-center">DNI</th>
+                                <th class="vertical-middle text-center" >DNI</th>
                                 <th class="text-center">Nombres</th>
                                 <th class="text-center">Apellido Paterno</th>
                                 <th class="text-center">Apellido Materno</th>
@@ -66,14 +67,15 @@
                         </thead>
                        <!--  // dni, apellidos, nombres, domicili -->
                         <tbody>
-                            <tr  *ngFor="let item of persona; let i = index" >
+                            <tr class="clickable" *ngFor="let item of persona; let i = index" 
+                                        (click)="buscarSocioDni(item.documento_identidad)" >
                                 <td class="text-center">{{i+1}}</td>
                                 <td>{{item.documento_identidad}}</td>
                                 <td>{{item.nombre}}</td>
                                 <td>{{item.apellido_paterno}}</td>
                                 <td>{{item.apellido_materno}}</td>
                                 <td>{{item.domicilio}}</td>
-                                <td><a class="btn btn-outline-primary"
+                                <td><a class="btn btn-primary"
                                     (click)="buscarSocioDni(item.documento_identidad)" >Cargar Sesión</a> </td>
                             </tr>
                         </tbody>
