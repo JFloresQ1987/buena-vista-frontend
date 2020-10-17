@@ -77,7 +77,8 @@
                       : 'form-control-danger'
                   "
                   formControlName="serie"
-                  maxlength="15"
+                  (keypress) = "validarNumero($event)"
+                  maxlength="3"
                 />
                 <small class="form-control-feedback">
                   <p *ngIf="validarCampo('ip', 'required')">

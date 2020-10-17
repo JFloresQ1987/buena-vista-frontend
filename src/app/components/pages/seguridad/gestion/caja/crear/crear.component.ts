@@ -164,4 +164,12 @@ export class CrearCajaComponent {
       return false;
   }
 
+  validarNumero(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode
+    if (charCode >= 48 && charCode <= 57){
+      return true
+    }
+
+    return false
+  }
 }
