@@ -51,10 +51,7 @@ export class ListarCajasComponent implements OnInit {
   cargarReporte(fecha_apertura: string){
     this.listarCajas.getCajasFecha(fecha_apertura).subscribe(res=>{
       // this.cajas = res{['cajas']};
-      console.log(res);
-      console.log(res['cajasFecha']['monto_total_apertura']);
-      console.log(res['cajasFecha']['apertura']['fecha_apertura']);
-      console.log(res['cajasFecha']['caja']['usuario']['persona']['nombre']);
+
 
       // Reporte      
       let saldoFinal = res['cajasFecha']['monto_total_apertura'] - res['cajasFecha']['monto_total_operaciones']
@@ -73,7 +70,7 @@ export class ListarCajasComponent implements OnInit {
           doc.setFontSize(20)
           doc.setTextColor(40)
           var img = new Image();
-          img.src = 'http://localhost:3000/api/shared/image'
+          img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
           if (img.src) {         
             doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
           }
@@ -193,7 +190,6 @@ export class ListarCajasComponent implements OnInit {
             startY: 90,
             showHead: 'firstPage',  
           })
-          
           doc.autoTable({
             styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontStyle: ['bold'],  halign: ['center'], valign:['middle'] },
             margin: { top: 40 },
@@ -202,7 +198,6 @@ export class ListarCajasComponent implements OnInit {
             ],
             startY: 145,
           })
-          
           doc.autoTable({
             styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
             body: [       
@@ -227,7 +222,11 @@ export class ListarCajasComponent implements OnInit {
       }
     
       // return doc
-      doc.output('dataurlnewwindow');
+      // doc.save('reporte.pdf')
+      // doc.output('dataurlnewwindow');
+
+      var blob = doc.output("blob");
+      window.open(URL.createObjectURL(blob));
 
     })
   }
