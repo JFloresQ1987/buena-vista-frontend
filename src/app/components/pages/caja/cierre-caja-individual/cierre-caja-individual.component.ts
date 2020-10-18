@@ -249,7 +249,7 @@ export class CierreCajaIndividualComponent {
         // Header
         // =============================================================================
         var img = new Image();        
-        img.src = 'http://localhost:3000/api/shared/image' 
+        img.src = 'http://localhost:3000/api/upload/buenavista-logo.png' 
         if (img.src) {         
           doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
         }
@@ -402,7 +402,8 @@ export class CierreCajaIndividualComponent {
     }
 
     // return doc
-    doc.output('dataurlnewwindow');
+    var blob = doc.output("blob");
+    window.open(URL.createObjectURL(blob));
   }
 
 
