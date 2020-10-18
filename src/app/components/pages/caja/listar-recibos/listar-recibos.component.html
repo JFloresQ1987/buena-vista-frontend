@@ -36,14 +36,50 @@
                         <tbody>
                             <tr *ngFor="let item of lista; let i = index">
                                 <td class="text-center">{{ i + 1 }}</td>
-                                <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
-                                    <span class="label label-success">{{item.recibo.estado}}</span>
-                                </td>
-                                <ng-template #estado_recibo>
+
+                                <ng-template [ngIf]="item.recibo.estado==='Vigente'">
+                                    <td class="text-center">
+                                        <span class="label label-success">{{item.recibo.estado}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.recibo.estado==='Previgente'">
+                                    <td class="text-center">
+                                        <span class="label label-warning">{{item.recibo.estado}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.recibo.estado==='Anulado'">
                                     <td class="text-center">
                                         <span class="label label-danger">{{item.recibo.estado}}</span>
                                     </td>
                                 </ng-template>
+
+                                <!-- <ng-container [ngSwitch]="item.recibo.estado">
+                                    <ng-template *ngSwitchCase="'Vigente'">
+                                        <td class="text-center">
+                                            <span class="label label-success">{{item.recibo.estado}}</span>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template *ngSwitchCase="'Previgente'">
+                                        <td class="text-center">
+                                            <span class="label label-alert">{{item.recibo.estado}}</span>
+                                        </td>
+                                    </ng-template>
+                                    <ng-template *ngSwitchCase="'Anulado'">
+                                        <td class="text-center">
+                                            <span class="label label-danger">{{item.recibo.estado}}</span>
+                                        </td>
+                                    </ng-template>
+                                    <div *ngSwitchDefault>Other String</div>
+                                </ng-container> -->
+
+                                <!-- <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
+                                    <span class="label label-success">{{item.recibo.estado}}</span>
+                                </td>                                
+                                <ng-template #estado_recibo>
+                                    <td class="text-center">
+                                        <span class="label label-danger">{{item.recibo.estado}}</span>
+                                    </td>
+                                </ng-template> -->
                                 <td class="text-center">{{ item.recibo.numero }}</td>
                                 <td class="text-center">{{ item.recibo.fecha }}</td>
 

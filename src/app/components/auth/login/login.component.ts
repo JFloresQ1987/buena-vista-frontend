@@ -43,6 +43,8 @@ export class LoginComponent {
           localStorage.removeItem('usuario');
         }
 
+        console.log('entroooo ')
+
         this.router.navigateByUrl('/dashboard');
 
       }, (err) => {
