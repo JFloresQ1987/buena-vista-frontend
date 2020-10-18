@@ -30,5 +30,10 @@ export class CierreCajaIndividualService {
     return this.http.get(url);
   }
 
+  getCajasFecha(fecha_apertura: string){
+    const url = `${base_url}/caja-diario/fecha/${fecha_apertura}`;
+    return this.http.get(url);
+  }
+
 }
  

@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-busqueda-avanzada',
   templateUrl: './busqueda-avanzada.component.html',
-  styles: [
-  ]
+  styleUrls: [ './busqueda-avanzada.component.css' ]
 })
 export class BusquedaAvanzadaComponent implements OnInit {
 
@@ -69,37 +68,50 @@ export class BusquedaAvanzadaComponent implements OnInit {
 
   buscarPorNombre(termino: string, desde:number= 0){
     termino = this.nombre    
-    if (termino.length >= 3) {
-      console.log('estas aquí!!!!!!!!');      
-    } else if (termino.length < 3) {
-      console.log('ahora entras aqui!!!!!!!!!!!!!!!');
+    if (termino.length >= 3) {      
+      this.cargando = false
+      this.sesionSocioService.buscarSocioNombre(termino, desde).subscribe(res =>{
+        this.persona = res['persona'];
+        this.totalRegistros = res['total'];
+        this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+      })             
+    } else {
+      Swal.fire({
+        text: 'Debe introducir más de 3 letras!', icon: 'warning'
+      })
     }
-    this.cargando = false
-    this.sesionSocioService.buscarSocioNombre(termino, desde).subscribe(res =>{
-      this.persona = res['persona'];
-      this.totalRegistros = res['total'];
-      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
-    })  
   }
 
   buscarPorApellido(termino: string, desde:number= 0){
     termino = this.apellido
-    this.cargando = false
-    this.sesionSocioService.buscarSocioApellido(termino, desde).subscribe(res =>{
-      this.persona = res['persona'];
-      this.totalRegistros = res['total'];
-      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
-    })          
+    if (termino.length >= 3) {
+      this.cargando = false
+      this.sesionSocioService.buscarSocioApellido(termino, desde).subscribe(res =>{
+        this.persona = res['persona'];
+        this.totalRegistros = res['total'];
+        this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+      })  
+    } else {
+      Swal.fire({
+        text: 'Debe introducir más de 3 letras!', icon: 'warning'
+      })
+    }
   }
 
   buscarPorApellidoMat(termino: string, desde:number= 0){
     termino = this.apellidoMat    
-    this.cargando = false
-    this.sesionSocioService.buscarSocioApellidoMat(termino, desde).subscribe(res =>{
-      this.persona = res['persona'];
-      this.totalRegistros = res['total'];
-      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
-    })   
+    if (termino.length >= 3) {
+      this.cargando = false
+      this.sesionSocioService.buscarSocioApellidoMat(termino, desde).subscribe(res =>{
+        this.persona = res['persona'];
+        this.totalRegistros = res['total'];
+        this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+      })         
+    } else {
+      Swal.fire({
+        text: 'Debe introducir más de 3 letras!', icon: 'warning'
+      })
+    }
   }
 
   calcularPaginas(registros: number) {
@@ -120,6 +132,7 @@ export class BusquedaAvanzadaComponent implements OnInit {
     // tipoBusqueda(termino, this.desde);
     this.buscarPorApellidoMat(termino, this.desde);
   }
+
   cambiarPaginaNombre(termino: string,desde:number){
     this.desde += desde;
     if(desde<0){
@@ -130,6 +143,7 @@ export class BusquedaAvanzadaComponent implements OnInit {
     // tipoBusqueda(termino, this.desde);
     this.buscarPorNombre(termino, this.desde);
   }
+
   cambiarPaginaApPat(termino: string,desde:number){
     this.desde += desde;
     if(desde<0){
