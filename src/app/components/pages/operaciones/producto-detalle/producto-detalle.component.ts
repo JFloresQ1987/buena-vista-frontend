@@ -8,6 +8,9 @@ import { delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { OperaconFinanciera } from '../../../../interfaces/core/registro/operacion-financiera.interface';
+import { Seguridad } from '../../../../models/auth/seguridad.model';
+import { SeguridadService } from '../../../../services/auth/seguridad.service';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -21,9 +24,11 @@ export class ProductoDetalleComponent implements OnInit {
   public operaconFinancieraDetalle: [];
   public cargando: boolean = true;
   public cargandoDetalle: boolean = true;
+  private seguridad: Seguridad;
 
   constructor(private activatedRoute: ActivatedRoute,
     private serviceOperacionFinanciera: OperacionFinancieraService,
+    private seguridadService: SeguridadService,
     private serviceOperacionFinancieraDetalle: OperacionFinancieraDetalleService) { }
 
   ngOnInit(): void {
@@ -31,7 +36,7 @@ export class ProductoDetalleComponent implements OnInit {
     // this.id_operacion_financiera = this.route.snapshot.params.id
 
     // this.listarProducto();
-
+    this.seguridad = this.seguridadService.seguridad;
     this.activatedRoute.params.subscribe(({ id }) => {
 
       this.listarProducto(id);
@@ -78,19 +83,196 @@ export class ProductoDetalleComponent implements OnInit {
 
   // }
 
-  async verPDF() {
-    const doc = new jsPDF();
+  verPDF() {
+
+    var doc: any = new jsPDF('l')
+    var totalPagesExp = '{ total_pages_count_string }'
     doc.setProperties({
       title: "Cronograma PDF"
     });
+    doc.autoTable({
+      styles: { overflow: 'hidden', cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8 },
+      columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
+      margin: { right: 240 },
+      body: [
+        [this.seguridad.usuario],
+        [this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre],
+        [dayjs().format('DD/MM/YYYY hh:mm:ss a')],
+      ],
+      startY: 5,
+      tableWidth: 'wrap',
+      showHead: 'firstPage',
+      theme: 'plain'
+    })
+    doc.autoTable({
+      styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
+      head: [
+        [
+          {
+            content: 'Cronograma de Pagos',
+            colSpan: 3,
+            styles: { halign: 'center', },
+          },
+        ],
+      ],
+      startY: 28,
+    })
+    doc.autoTable({
+      // head: headRows(),
+      // body: bodyRows(),
+      showHead: false,
+      styles: { overflow: 'visible', cellWidth: ['wrap'] },
+      //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+      columnStyles: {
+        0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 52 },
+        1: { fillColor: [255,255,255], textColor: 0, fontStyle: 'bold', cellWidth: 80 },
+        2: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 52 },
+        3: { fillColor: [255,255,255], textColor: 0, fontStyle: 'bold', cellWidth: 80 }
+      },
+      tableWidth: 'auto',
+      margin: { right: 150 },
+      body: [
+        ['Monto: ', this.operaconFinanciera.monto_capital, 'Fecha Desembolso', this.operaconFinanciera.fecha_inicio],
+        ['Producto: ', this.operaconFinanciera.producto, 'Periodo de Ejecucion', this.operaconFinanciera.producto.programacion],
+        ['Beneficiario: ', this.operaconFinanciera.persona, 'DNI: ', this.operaconFinanciera.persona],
+        ['Ahorro inicial: ', this.operaconFinanciera.monto_ahorro_inicial, '', ''],
+        ['Gastos Administrativos: ', this.operaconFinanciera.monto_gasto, '', ''],
+      ],
+      startY: 45,
+      // showHead: 'firstPage', 
+      theme: 'grid'
+    })
     doc.autoTable({ html: '#example' })
-    var string = doc.output('datauristring');
-    var iframe = "<iframe width='100%' height='99%' src='" + string + "'></iframe>"
-    var x = window.open();
-    x.document.open();
-    await x.document.write(iframe);
-    x.document.close();
+    doc.autoTable({
+      styles: { overflow: 'hidden', cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8 },
+      body: [
+        ['Fuente: Base de datos institucional'],
+        ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
+        ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
+        ['http://www.buenavistalabolsa.com/']
+      ],
+      startY: 175,
+      tableWidth: 'wrap',
+      showHead: 'firstPage',
+      theme: 'plain'
+    })
+    // const autoTablex: any = {
+
+    //   didDrawPage: async (data) => {
+    //     // Header
+    //     doc.setFontSize(20)
+    //     doc.setTextColor(40)
+    //     var img = new Image();
+    //     img.src = 'http://localhost:3000/api/shared/image'
+    //     if (img.src) {         
+    //       doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
+    //     }
+
+    //     doc.autoTable({
+    //       styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
+    //       columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
+    //       margin: { right: 240 },
+    //       body: [        
+    //         [ this.seguridad.usuario ],
+    //         [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
+    //         [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
+    //       ],
+    //       startY: 5,
+    //       tableWidth: 'wrap',
+    //       showHead: 'firstPage',  
+    //       theme: 'plain' 
+    //     })
+    //     doc.autoTable({
+    //       styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
+    //       head: [
+    //         [
+    //           {
+    //             content: 'Cronograma de Pagos',
+    //             colSpan: 3,
+    //             styles: { halign: 'center',  },
+    //           },
+    //         ],
+    //       ],
+    //       startY: 28,
+    //     })
+    //     doc.autoTable({
+    //       // head: headRows(),
+    //       // body: bodyRows(),
+    //       showHead: false,
+    //       styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+    //       //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+    //       columnStyles: {
+    //         0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
+    //       },
+    //       margin: { right: 150 },
+    //       body: [        
+    //         ['Monto: ',  this.operaconFinanciera.monto_capital,'Fecha Desembolso', this.operaconFinanciera.fecha_inicio ],
+    //         ['Producto: ', this.operaconFinanciera.producto,'Periodo de Ejecucion', this.operaconFinanciera.producto.programacion ],
+    //         ['Beneficiario: ', this.operaconFinanciera.persona, 'DNI: ', this.operaconFinanciera.persona],
+    //         ['Ahorro inicial: ', this.operaconFinanciera.monto_ahorro_inicial],
+    //         ['Gastos Administrativos: ', this.operaconFinanciera.monto_gasto],
+    //       ],
+    //       startY: 45,
+    //       // showHead: 'firstPage', 
+    //       theme: 'grid' 
+    //     })
+    //     doc.autoTable({ html: '#example' })
+    //     // doc.autoTable({
+    //     //   styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+    //     //   //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+    //     //   margin: { right: 150 },
+    //     //   columns: [
+    //     //     {  header: 'MONTO' },
+    //     //     {  header: 'CANTIDAD' },
+    //     //     {  header: 'VALOR' },
+    //     //   ],
+    //     //   body: [        
+    //     //     ['S/. 200.00',res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'] * 200).toFixed(1)],
+    //     //     ['S/. 100.00', res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'] * 100).toFixed(1)],
+    //     //     ['S/. 50.00', res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'] * 50).toFixed(1)],
+    //     //     ['S/. 20.00', res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'] * 20).toFixed(1)],
+    //     //     ['S/. 10.00', res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'] * 10).toFixed(1)],
+    //     //     ['S/. 5.00', res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'], 
+    //     //                   (res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'] * 5).toFixed(1)]
+    //     //   ],
+    //     //   startY: 90,
+    //     //   showHead: 'firstPage',  
+    //     // })
+
+
+
+
+    //     doc.autoTable({
+    //       styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
+    //       body: [       
+    //         ['Fuente: Base de datos institucional' ],
+    //         ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
+    //         ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
+    //         ['http://www.buenavistalabolsa.com/']
+    //       ],
+    //       startY: 175,
+    //       tableWidth: 'wrap',
+    //       showHead: 'firstPage',  
+    //       theme: 'plain' 
+    //     }) 
+    //   },
+    // };
+
+
+    // var string = doc.output('datauristring');
+    // var iframe = "<iframe width='100%' height='99%' src='" + string + "'></iframe>"
+    // var x = window.open();
+    // x.document.open();
+    // await x.document.write(iframe);
+    // x.document.close();
     //doc.save('report.pdf');
+    var blob = doc.output("blob");
+      window.open(URL.createObjectURL(blob))
     //await doc.output('dataurlnewwindow', {});
   }
 
@@ -416,7 +598,7 @@ export class ProductoDetalleComponent implements OnInit {
         // this.productos = res.lista;
         // this.cargando = false;
         // console.log(this.productos);
-
+        console.log('la operacion es', res)
         this.operaconFinanciera = res;
         // this.operaconFinanciera = res.modelo;
 
