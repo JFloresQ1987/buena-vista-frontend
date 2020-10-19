@@ -305,7 +305,7 @@ export class ProductoDetallePagoComponent implements OnInit {
         monto_cancelar += Number(item.monto_cuota);
         // this.form.get(item.id).setValue(true);
         // document.getElementById(item.id)//.checked==true;
-        console.log(document.getElementById(item.id));
+        // console.log(document.getElementById(item.id));
         // document.getElementById(item.id) = true;
 
         let element: any = document.getElementById(item.id);

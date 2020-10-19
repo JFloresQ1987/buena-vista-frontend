@@ -250,7 +250,7 @@ export class OperacionFinancieraComponent implements OnInit {
         fecha = now.add((i * 7), 'day');
       else if (tipo.codigo === "CP" && programacion.tipo_pago === "quincenal")
         fecha = now.add((i * 14), 'day');
-      else if (tipo.codigo === "CM")
+      else if (tipo.codigo === "PEX")
         fecha = now.add((i), 'month');
       else if (tipo.codigo === "BC" && programacion.tipo_pago === "semanal")
         fecha = now.add((i * 7), 'day');
@@ -262,14 +262,14 @@ export class OperacionFinancieraComponent implements OnInit {
       if ((fecha.format('d') != '0' && tipo.codigo === "CD")
         // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
         || tipo.codigo === "CP"
-        || tipo.codigo === "CM"
+        || tipo.codigo === "PEX"
         || tipo.codigo === "BC") {
 
         if ((((fecha.format('d') != '6'
           || fecha.format('d') == '6' && this.form.get('incluir_sabados').value)
           && tipo.codigo === "CD"))
           || tipo.codigo === "CP"
-          || tipo.codigo === "CM"
+          || tipo.codigo === "PEX"
           || tipo.codigo === "BC") {
 
           if (fecha.format('d') == '0')
@@ -486,7 +486,7 @@ export class OperacionFinancieraComponent implements OnInit {
 
     // if (tipo.codigo == 'CD')
     //   color = "inverse";
-    // else if (tipo.codigo == 'CP' || tipo.codigo == 'CM')
+    // else if (tipo.codigo == 'CP' || tipo.codigo == 'PEX')
     //   color = "success";
     // else
     //   color = "primary";
@@ -533,7 +533,8 @@ export class OperacionFinancieraComponent implements OnInit {
     modelo.persona = this.sesionSocio.id;
     // modelo.analista = '';
     // modelo.estado = 'PreVigente'
-    modelo.fecha_inicio = this.form.get('fecha_inicio').value;
+    modelo.fecha_inicio = dayjs(this.form.get('fecha_inicio').value).format('DD/MM/YYYY');
+    // modelo.fecha_inicio = this.form.get('fecha_inicio').value;
     modelo.fecha_fin = this.fecha_fin;
     modelo.monto_gasto = this.form.get('monto_gasto').value;
     modelo.monto_ahorro_inicial = this.form.get('monto_ahorro_inicial').value;

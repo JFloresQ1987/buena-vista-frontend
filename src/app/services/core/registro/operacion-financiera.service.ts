@@ -27,11 +27,44 @@ export class OperacionFinancieraService {
     );
   }
 
+  listarProductosXAnalista() {
+
+    return this.http.get(`${base_url}/operacion-financiera/listar-productos-por-analista`)
+    .pipe(
+      map((res: { ok: boolean, lista: [] }) => res.lista)
+    );
+  }
+
   listarProducto(id_operacion_financiera: string) {
 
     return this.http.get(`${base_url}/operacion-financiera/listar-producto/${id_operacion_financiera}`)
       .pipe(
         map((res: { ok: boolean, modelo: OperaconFinanciera }) => res.modelo)
       );
+  }
+
+  cambiarAnalista(id_operacion_financiera: string, analista: string, comentario: string) {
+
+    const modelo: any = {
+      analista: analista,
+      comentario: comentario
+    }
+
+    const url = `${base_url}/operacion-financiera/cambiar-analista/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, modelo);
+  }
+
+  anular(id_operacion_financiera: string, comentario: string) {
+
+    const modelo: any = {
+      comentario: comentario
+    }
+
+    const url = `${base_url}/operacion-financiera/anular/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, modelo);
   }
 }
