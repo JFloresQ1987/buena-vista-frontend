@@ -67,28 +67,40 @@ export class ListarCajasComponent implements OnInit {
              
         didDrawPage: async (data) => {
           // Header
-          doc.setFontSize(20)
+          doc.setFontSize(8)
           doc.setTextColor(40)
+
+          // Header
+          
+          
           var img = new Image();
           img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
           if (img.src) {         
             doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
           }
-    
-          doc.autoTable({
-            styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
-            columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
-            margin: { right: 240 },
-            body: [        
-              [ this.seguridad.usuario ],
-              [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
-              [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-            ],
-            startY: 5,
-            tableWidth: 'wrap',
-            showHead: 'firstPage',  
-            theme: 'plain' 
-          })
+          doc.text(this.seguridad.usuario + '\n' + 
+                  this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  + '\n' + 
+                  dayjs().format('DD/MM/YYYY hh:mm:ss a')
+                  , data.settings.margin.left , 10 )
+                 
+          // doc.autoTable({
+          //   styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
+          //   columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
+          //   margin: { right: 240 },
+          //   body: [        
+          //     [ this.seguridad.usuario ],
+          //     [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
+          //     [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
+          //   ],
+          //   startY: 5,
+          //   tableWidth: 'wrap',
+          //   showHead: 'firstPage',  
+          //   theme: 'plain' 
+          // })
+
+
+
+
           doc.autoTable({
             styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
             head: [
@@ -198,19 +210,38 @@ export class ListarCajasComponent implements OnInit {
             ],
             startY: 145,
           })
-          doc.autoTable({
-            styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
-            body: [       
-              ['Fuente: Base de datos institucional' ],
-              ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
-              ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
-              ['http://www.buenavistalabolsa.com/']
-            ],
-            startY: 175,
-            tableWidth: 'wrap',
-            showHead: 'firstPage',  
-            theme: 'plain' 
-          }) 
+          // doc.autoTable({
+          //   styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
+          //   body: [       
+          //     ['Fuente: Base de datos institucional' ],
+          //     ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
+          //     ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
+          //     ['http://www.buenavistalabolsa.com/']
+          //   ],
+          //   startY: 175,
+          //   tableWidth: 'wrap',
+          //   showHead: 'firstPage',  
+          //   theme: 'plain' 
+          // }) 
+          var str = 'Página ' + doc.internal.getNumberOfPages()
+          var fuente = `Fuente: Base de datos institucional`
+          var oficina = `Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.`
+          var año = `© 2020 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.`
+          var pagWeb = `http://www.buenavistalabolsa.com/`
+          // Total page number plugin only available in jspdf v1.0+
+          if (typeof doc.putTotalPages === 'function') {
+            str = fuente + '\n' + 
+                  oficina + '\n' +
+                  año + '\n' +
+                  pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' + 
+                  str + ' de ' + totalPagesExp
+          }
+          doc.setFontSize(8)
+
+          // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+          var pageSize = doc.internal.pageSize
+          var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+          doc.text(str, data.settings.margin.left, pageHeight - 20)
         },
       };
       
