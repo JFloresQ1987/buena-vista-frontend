@@ -18,20 +18,20 @@ export class SeguridadService {
   public seguridad: Seguridad;
 
   constructor(private http: HttpClient/*,
-    private sesionSocioService: SesionSocioService*/) { 
+    private sesionSocioService: SesionSocioService*/) {
 
-      console.log('entro para buscando seguridad')
-    }
+    console.log('entro para buscando seguridad')
+  }
 
-  validarToken(): Observable<boolean> {
+  validarToken(): Observable<any> {
 
     const token = localStorage.getItem('token') || '';
 
     // console.log(token)
 
     return this.http.get(`${base_url}/login/renovar_token`).pipe(
-      tap((res: any) => {        
-        
+      tap((res: any) => {
+
         const { id, usuario, persona } = res.usuario
 
         this.seguridad = new Seguridad(id,
@@ -47,8 +47,16 @@ export class SeguridadService {
         localStorage.setItem('token', res.token);
         localStorage.setItem('menu', JSON.stringify(res.menu));
       }),
-      map(res => true),
-      catchError(err => of(false))
+      // map(res => ({resultado:true})),
+      map(res => ({
+        esta_autenticado: true,
+        debe_cambiar_clave_inicio_sesion: res.debe_cambiar_clave_inicio_sesion
+      })),
+      // map(res => true),
+      catchError(err => of({
+        esta_autenticado: false
+      }))
+      // catchError(err => of(false))
     );
   }
 
@@ -73,7 +81,7 @@ export class SeguridadService {
   }
 
   get rol(): String[] {
-    
+
     return this.seguridad.rol || [];
   }
 }

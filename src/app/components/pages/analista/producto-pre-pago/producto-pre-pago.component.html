@@ -1,1 +1,95 @@
-<p>producto-pre-pago works!</p>
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <!-- <div class="row animated fadeIn fast" *ngIf="(cargando || cargandoDetalle)"> -->
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th class="text-center">DNI</th>
+                                <th class="text-center">Socio</th>
+                                <th class="text-center">Programación</th>
+                                <th class="text-center">Préstamo (S/.)</th>
+                                <th class="text-center">Monto a amortizar (S/.)</th>
+                                <th class="text-center">Ahorro voluntario (S/.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lista; let i = index">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <!-- <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
+                                    <span class="label label-success">{{item.recibo.estado}}</span>
+                                </td>
+                                <ng-template #estado_recibo>
+                                    <td class="text-center">
+                                        <span class="label label-danger">{{item.recibo.estado}}</span>
+                                    </td>
+                                </ng-template> -->
+                                <!-- <td class="text-center">{{ item.recibo.numero }}</td>
+                                <td class="text-center">{{ item.recibo.numero }}</td>
+                                <td class="text-center">{{ item.recibo.fecha }}</td> -->
+
+                                <td>44684165</td>
+                                <td>Jorge Flores Quispe</td>
+                                <td class="text-center">{{ item.producto.programacion }}</td>
+                                <td class="text-center">{{ item.monto_capital }}</td>
+
+                                <td>
+                                    <!-- <input class="form-control" [ngClass]="validarSuccess('fecha_inicio') ? 'form-control-success' : 'form-control-danger'" type="date" formControlName="fecha_inicio" maxlength="10" (change)="volverCalcular()"> -->
+                                    <input [id]="item.id + '_amortizacion'" class="form-control" type="text" maxlength="10">
+                                </td>
+                                <td>
+                                    <input [id]="item.id + '_ahorro'" class="form-control" type="text" maxlength="10">
+                                </td>
+                                <!-- <td class="text-nowrap text-center">
+                                    <a *ngIf="item.recibo.estado==='Vigente'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
+                                        <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
+                                    </a>
+                                    <a *ngIf="item.recibo.estado==='Vigente' && item.diario.estado==='Abierto'" (click)="anularRecibo(item.id)" data-toggle="tooltip" data-original-title="Anular recibo">
+                                        <i class="fa fa-ban text-danger pointer"></i>
+                                    </a>
+                                </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <hr> -->
+                <div class="form-group text-right row m-b-0">
+                    <div class="col-sm-12">
+                        <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                            <i class="fa fa-times-circle"></i>
+                            &nbsp; Cancelar
+                        </button>
+                        <button type="submit" (click)="realizarPago()" class="btn btn-lg btn-info waves-effect waves-light">
+                            <i class="fa fa-save"></i>
+                            &nbsp; Guardar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

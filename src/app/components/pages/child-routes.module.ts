@@ -24,6 +24,7 @@ import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
 import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.component';
+import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
 
 
 const childRoutes: Routes = [
@@ -157,13 +158,19 @@ const childRoutes: Routes = [
     path: 'caja/pago/cajas-lista',
     component: ListarCajasComponent,
     canActivate: [AuthorizationGuard],
-    data: { modulo: 'Registro', menu: 'Gestión', item: 'Listado Cajas', roles: ["Administrador", "Analista", "Cajero"] }
+    data: { modulo: 'Registro', menu: 'Gestión', item: 'Listado Cajas', roles: ["Administrador"] }
   },
   {
     path: 'caja/gestion/lista-recibo',
     component: ListarRecibosComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Registro', menu: 'Gestión', item: 'Recibos', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'analista/gestion/producto-pre-pago',
+    component: ProductoPrePagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Analista', menu: 'Gestión', item: 'Recaudación', roles: ["Administrador", "Analista"] }
   },
 ]
 
