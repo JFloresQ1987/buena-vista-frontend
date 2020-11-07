@@ -24,7 +24,8 @@ export class CrearComponent {
   public distritos: [] = [];
 
   constructor(private service: UsuarioService,
-    private formBuilder: FormBuilder, private el: ElementRef, private activatedRoute: ActivatedRoute, private router: Router, private ubigeoService: UbigeoService) {
+    private formBuilder: FormBuilder, private el: ElementRef, 
+    private activatedRoute: ActivatedRoute, private router: Router, private ubigeoService: UbigeoService) {
   }
 
   ngOnInit(): void {

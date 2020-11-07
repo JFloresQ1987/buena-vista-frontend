@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Seguridad } from '../../models/auth/seguridad.model';
 import { environment } from '../../../environments/environment';
+import { identifierModuleUrl } from '@angular/compiler';
 // import { SesionSocioService } from '../shared/sesion-socio.service';
 // import { Socio } from 'src/app/models/core/socio.model';
 
@@ -34,7 +35,8 @@ export class SeguridadService {
 
         const { id, usuario, persona } = res.usuario
 
-        this.seguridad = new Seguridad(id,
+        this.seguridad = new Seguridad(
+          id,
           usuario,
           persona.nombre,
           persona.apellido_paterno,
@@ -45,6 +47,7 @@ export class SeguridadService {
           persona.avatar,
           ['Administrador']);
         localStorage.setItem('token', res.token);
+        // localStorage.setItem('sesion', id)
         localStorage.setItem('menu', JSON.stringify(res.menu));
       }),
       // map(res => ({resultado:true})),

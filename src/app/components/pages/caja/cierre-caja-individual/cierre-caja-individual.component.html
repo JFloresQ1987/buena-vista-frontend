@@ -254,7 +254,6 @@
                           disabled>                                                
               </div>
             </div> 
-
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label class="form-control-label"> S/. 5.00: </label>                    
@@ -271,12 +270,7 @@
                           class="form-control"
                           disabled>                                                
               </div>
-
             </div> 
-
-              
-            
-            
             <div class="form-group row">
               <div
                 class="col-sm-12"
@@ -317,7 +311,7 @@
                   <i class="fa fa-times-circle"></i>
                   &nbsp; Cancelar
                 </button>
-                <button *ngIf="dif == 0 && this.resRecibo && this.resMonto && this.resOperacion"              
+                <button *ngIf="dif == 0 && this.resRecibo && this.resMonto && this.resOperacion "              
                   type="submit"
                   (click) = "guardar()"      
                   class="btn btn-lg btn-info waves-effect waves-light">
@@ -335,16 +329,13 @@
               <tbody>
                 <!-- *ngFor="let item of cajas; let i = index" -->
                 <tr >
-                  <td class="text-center" *ngIf="!this.resRecibo"><span class="text-danger">{{this.errorRecibo}}</span></td> 
-                  <td *ngIf="!this.resRecibo" >xd </td>                                
-                </tr>
+                  <td class="text-center" *ngIf="!this.resRecibo"><span class="text-danger">{{this.errorRecibo}}</span></td>
+                 </tr>
                 <tr>
                   <td class="text-center" *ngIf="!this.resMonto" ><span class="text-danger">{{this.errorMonto}}</span></td>
-                  <td *ngIf="!this.resMonto">xd</td> 
                 </tr>
                 <tr>
                   <td class="text-center" *ngIf="!this.resOperacion" ><span class="text-danger">{{this.errorOperacion}}</span></td>
-                  <td *ngIf="!this.resOperacion"></td> 
                 </tr>
               </tbody>
             </table>

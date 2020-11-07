@@ -50,7 +50,7 @@ export class BusquedaAvanzadaComponent implements OnInit {
         this.sesionSocio.es_masculino = persona.es_masculino;
         this.sesionSocio.avatar = persona.avatar;
 
-        localStorage.setItem('socio', documento_identidad);
+        localStorage.setItem('socio', persona.id);
         this.router.navigateByUrl('/dashboard/socio');
 
       }, (err) => {
