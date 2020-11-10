@@ -36,5 +36,12 @@ export class PersonaService {
     return this.http.put(url, objeto);
   }  
   
+  obtenerDatosPersona(id: String){
+    const url = `${ base_url }/personas/datos-reporte/${id}`;
+    return this.http.get(url)
+                .pipe(
+                  map((resp: {ok: boolean, persona: Persona}) => resp.persona)
+                )
+  }
 
 }

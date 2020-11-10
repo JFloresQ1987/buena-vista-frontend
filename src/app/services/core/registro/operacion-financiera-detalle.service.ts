@@ -19,4 +19,16 @@ export class OperacionFinancieraDetalleService {
         map((res: { ok: boolean, lista: [] }) => res.lista)
       );
   }
+
+  obtenerOperacionFinancieraDetalle(id: string){
+    return this.http.get(`${base_url}/operacion-financiera-detalle/${id}`);
+  }
+
+  actualizarOperacionFinancieraDetalle(id: string, data: Object){
+    return this.http.put(`${base_url}/operacion-financiera-detalle/${id}`,data);
+  }
+
+  operacionFinancieraDetalleBaja(id: string){
+    return this.http.get(`${base_url}/operacion-financiera-detalle/cuota_baja/${id}`);
+  }
 }

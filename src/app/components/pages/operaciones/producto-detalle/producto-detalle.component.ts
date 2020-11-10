@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import { Component, OnInit, ElementRef } from '@angular/core';
 // import {imageToBase64} from 'image-to-base64';
 import { OperacionFinancieraService } from '../../../../services/core/registro/operacion-financiera.service';
 import { OperacionFinancieraDetalleService } from '../../../../services/core/registro/operacion-financiera-detalle.service';
@@ -10,7 +8,16 @@ import { ActivatedRoute } from '@angular/router';
 import { OperaconFinanciera } from '../../../../interfaces/core/registro/operacion-financiera.interface';
 import { Seguridad } from '../../../../models/auth/seguridad.model';
 import { SeguridadService } from '../../../../services/auth/seguridad.service';
+
+import * as jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
 import * as dayjs from 'dayjs';
+import { PersonaService } from '../../../../services/core/registro/persona.service';
+import { Persona } from '../../../../interfaces/core/registro/persona.interface';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+declare const $: any;
+
 
 @Component({
   selector: 'app-producto-detalle',
@@ -25,17 +32,34 @@ export class ProductoDetalleComponent implements OnInit {
   public cargando: boolean = true;
   public cargandoDetalle: boolean = true;
   private seguridad: Seguridad;
+  public totalPagoCapital: number = 0;
+  public totalPagoInteres: number = 0.0;
+  public totalAhorroProgramado: number = 0;
+  public totalCuota: number = 0;
+  public totalCuotaPagada: number = 0;
+  public totalAhorroVoluntario: number = 0;
+  public totalPagoMora: number = 0;
+  public fecha_actual: string;
+  public cuota_numero: number = 0;
+  public form: FormGroup;
+  public cuota_id: string;
+
 
   constructor(private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private serviceOperacionFinanciera: OperacionFinancieraService,
     private seguridadService: SeguridadService,
-    private serviceOperacionFinancieraDetalle: OperacionFinancieraDetalleService) { }
+    private serviceOperacionFinancieraDetalle: OperacionFinancieraDetalleService,
+    private personaService: PersonaService,
+    private el: ElementRef) { }
 
   ngOnInit(): void {
-
-    // this.id_operacion_financiera = this.route.snapshot.params.id
-
-    // this.listarProducto();
+    this.form = this.formBuilder.group({
+      cuota_pago_capital: ['', [Validators.required]],
+      cuota_pago_interes: ['', [Validators.required]],
+      cuota_ahorro_programado: ['', [Validators.required]],
+    });
+    this.fecha_actual = dayjs().format('DD/MM/YYYY');
     this.seguridad = this.seguridadService.seguridad;
     this.activatedRoute.params.subscribe(({ id }) => {
 
@@ -49,335 +73,119 @@ export class ProductoDetalleComponent implements OnInit {
     // }, 100);
   }
 
-  // verPDF() {
-
-  //   // this.htmlToPdf('#example', '', '#cabecera');
-
-  // //   var opciones = {
-  // //     orientation: 'p',
-  // //     unit: 'mm',
-  // //     format: [240, 300]
-  // // };
-
-  // // var doc = new jsPDF(opciones);
-
-  //   const doc: any = new jsPDF()
-
-  //   autoTable(doc, { html: '#example' })
-  //   // doc.save('table.pdf')//<-- para guardar pdf    
-
-  //   let finalY = doc.previousAutoTable.finalY; // esto le da el valor de la posición final del eje y del autotable anterior.
-  //   doc.text('Texto que se mostrará en relación con la tabla', 12, finalY + 10);
-
-  //   // // doc.autoTable({ html: '#table' });
-  //   // let finalY = doc.lastAutoTable.finalY; // The y position on the page
-  //   // doc.text(20, finalY, "Hello!")
-
-  //   // doc.autoPrint();//<- para llamar a imprimir    
-  //   doc.output('dataurlnewwindow');//<-- para ver pdf en nueva pestaña
-
-  //   // doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
-  //   // doc.output('datauristring');        //returns the data uri string
-  //   // doc.output('datauri');              //opens the data uri in current window
-  //   // doc.output('dataurlnewwindow');     //opens the data uri in new window
-
-  // }
-
   verPDF() {
+    this.personaService.obtenerDatosPersona(this.operaconFinanciera.persona['_id']).subscribe(persona => {
+      var doc: any = new jsPDF();
+      var totalPagesExp = '{ total_pages_count_string }';
+      const autoTablex: any = {
+        styles: { halign: 'center' },
+        html: '#example',
+        margin: { top: 30, bottom: 22.5 },
+        startY: 105,
+        didDrawPage: (data) => {
+          doc.setFontSize(8)
+          doc.setTextColor(40)
+          var img = new Image();
+          img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
+          if (img.src) {
+            doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
+          }
+          doc.text(this.seguridad.usuario + '\n' +
+            this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre + '\n' +
+            dayjs().format('DD/MM/YYYY hh:mm:ss a')
+            , data.settings.margin.left, 10)
 
-    var doc: any = new jsPDF('l')
-    var totalPagesExp = '{ total_pages_count_string }'
-    doc.setProperties({
-      title: "Cronograma PDF"
-    });
-    doc.autoTable({
-      styles: { overflow: 'hidden', cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8 },
-      columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
-      margin: { right: 240 },
-      body: [
-        [this.seguridad.usuario],
-        [this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre],
-        [dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-      ],
-      startY: 5,
-      tableWidth: 'wrap',
-      showHead: 'firstPage',
-      theme: 'plain'
+          if (data.pageNumber == 1) {
+            doc.autoTable({
+              styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
+              head: [
+                [
+                  {
+                    content: 'Cronograma de pagos',
+                    colSpan: 3,
+                    styles: { halign: 'center', },
+                  },
+                ],
+              ],
+              startY: 28,
+              showHead: 'firstPage',
+            })
+            doc.autoTable({
+              showHead: false,
+              styles: { overflow: 'visible', cellWidth: ['wrap'] },
+              //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+              columnStyles: {
+                0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
+              },
+              margin: { right: 110 },
+              body: [
+                ['Monto(S/.): ', this.operaconFinanciera.monto_capital],
+                ['Beneficiario: ', persona.apellido_paterno + ' ' + persona.apellido_materno + ', ' + persona.nombre],
+                ['Domicilio: ', persona.domicilio],
+                ['Departamento: ', persona.ubigeo.departamento],
+                ['Provincia: ', persona.ubigeo.provincia],
+                ['Distrito: ', persona.ubigeo.distrito],
+                ['Gastos Admin. (S/.): ', this.operaconFinanciera.monto_gasto],
+              ],
+              startY: 45,
+              // showHead: 'firstPage', 
+              theme: 'striped',
+            })
+            doc.autoTable({
+              styles: { overflow: 'hidden', cellWidth: ['wrap'] },
+              //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+              columnStyles: {
+                0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 48 },
+              },
+              margin: { left: 110 },
+              body: [
+                ['Fecha Desembolso (S/.): ', this.operaconFinanciera.fecha_inicio],
+                ['Producto: ', this.operaconFinanciera.producto.tipo.descripcion],
+                ['Periodo de Ejecucion:', this.operaconFinanciera.producto.programacion],
+                ['DNI: ', persona.documento_identidad],
+                ['Celular: ', persona.numero_celular],
+                ['Ahorro Inicial (S/.): ', this.operaconFinanciera.monto_ahorro_inicial],
+              ],
+              startY: 45,
+              showHead: 'firstPage',
+              theme: 'striped',
+
+            })
+          }
+
+          var str = 'Página ' + doc.internal.getNumberOfPages()
+          var fuente = `Fuente: Base de datos institucional`
+          var oficina = `Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.`
+          var año = `© 2020 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.`
+          var pagWeb = `http://www.buenavistalabolsa.com/`
+          // Total page number plugin only available in jspdf v1.0+
+          if (typeof doc.putTotalPages === 'function') {
+            str = fuente + '\n' +
+              oficina + '\n' +
+              año + '\n' +
+              pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' +
+              str + ' de ' + totalPagesExp
+          }
+          doc.setFontSize(8)
+
+          // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+          var pageSize = doc.internal.pageSize
+          var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+          doc.text(str, data.settings.margin.left, pageHeight - 20)
+        },
+      }
+
+      autoTable(doc, autoTablex);
+
+      // Total page number plugin only available in jspdf v1.0+
+      if (typeof doc.putTotalPages === 'function') {
+        doc.putTotalPages(totalPagesExp)
+      }
+
+      var blob = doc.output("blob");
+      window.open(URL.createObjectURL(blob));
     })
-    doc.autoTable({
-      styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
-      head: [
-        [
-          {
-            content: 'Cronograma de Pagos',
-            colSpan: 3,
-            styles: { halign: 'center', },
-          },
-        ],
-      ],
-      startY: 28,
-    })
-    doc.autoTable({
-      // head: headRows(),
-      // body: bodyRows(),
-      showHead: false,
-      styles: { overflow: 'visible', cellWidth: ['wrap'] },
-      //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
-      columnStyles: {
-        0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 52 },
-        1: { fillColor: [255,255,255], textColor: 0, fontStyle: 'bold', cellWidth: 80 },
-        2: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 52 },
-        3: { fillColor: [255,255,255], textColor: 0, fontStyle: 'bold', cellWidth: 80 }
-      },
-      tableWidth: 'auto',
-      margin: { right: 150 },
-      body: [
-        ['Monto: ', this.operaconFinanciera.monto_capital, 'Fecha Desembolso', this.operaconFinanciera.fecha_inicio],
-        ['Producto: ', this.operaconFinanciera.producto, 'Periodo de Ejecucion', this.operaconFinanciera.producto.programacion],
-        ['Beneficiario: ', this.operaconFinanciera.persona, 'DNI: ', this.operaconFinanciera.persona],
-        ['Ahorro inicial: ', this.operaconFinanciera.monto_ahorro_inicial, '', ''],
-        ['Gastos Administrativos: ', this.operaconFinanciera.monto_gasto, '', ''],
-      ],
-      startY: 45,
-      // showHead: 'firstPage', 
-      theme: 'grid'
-    })
-    doc.autoTable({ html: '#example' })
-    doc.autoTable({
-      styles: { overflow: 'hidden', cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8 },
-      body: [
-        ['Fuente: Base de datos institucional'],
-        ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
-        ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
-        ['http://www.buenavistalabolsa.com/']
-      ],
-      startY: 175,
-      tableWidth: 'wrap',
-      showHead: 'firstPage',
-      theme: 'plain'
-    })
-    // const autoTablex: any = {
-
-    //   didDrawPage: async (data) => {
-    //     // Header
-    //     doc.setFontSize(20)
-    //     doc.setTextColor(40)
-    //     var img = new Image();
-    //     img.src = 'http://localhost:3000/api/shared/image'
-    //     if (img.src) {         
-    //       doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
-    //     }
-
-    //     doc.autoTable({
-    //       styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
-    //       columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
-    //       margin: { right: 240 },
-    //       body: [        
-    //         [ this.seguridad.usuario ],
-    //         [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
-    //         [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-    //       ],
-    //       startY: 5,
-    //       tableWidth: 'wrap',
-    //       showHead: 'firstPage',  
-    //       theme: 'plain' 
-    //     })
-    //     doc.autoTable({
-    //       styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
-    //       head: [
-    //         [
-    //           {
-    //             content: 'Cronograma de Pagos',
-    //             colSpan: 3,
-    //             styles: { halign: 'center',  },
-    //           },
-    //         ],
-    //       ],
-    //       startY: 28,
-    //     })
-    //     doc.autoTable({
-    //       // head: headRows(),
-    //       // body: bodyRows(),
-    //       showHead: false,
-    //       styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
-    //       //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
-    //       columnStyles: {
-    //         0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
-    //       },
-    //       margin: { right: 150 },
-    //       body: [        
-    //         ['Monto: ',  this.operaconFinanciera.monto_capital,'Fecha Desembolso', this.operaconFinanciera.fecha_inicio ],
-    //         ['Producto: ', this.operaconFinanciera.producto,'Periodo de Ejecucion', this.operaconFinanciera.producto.programacion ],
-    //         ['Beneficiario: ', this.operaconFinanciera.persona, 'DNI: ', this.operaconFinanciera.persona],
-    //         ['Ahorro inicial: ', this.operaconFinanciera.monto_ahorro_inicial],
-    //         ['Gastos Administrativos: ', this.operaconFinanciera.monto_gasto],
-    //       ],
-    //       startY: 45,
-    //       // showHead: 'firstPage', 
-    //       theme: 'grid' 
-    //     })
-    //     doc.autoTable({ html: '#example' })
-    //     // doc.autoTable({
-    //     //   styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
-    //     //   //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
-    //     //   margin: { right: 150 },
-    //     //   columns: [
-    //     //     {  header: 'MONTO' },
-    //     //     {  header: 'CANTIDAD' },
-    //     //     {  header: 'VALOR' },
-    //     //   ],
-    //     //   body: [        
-    //     //     ['S/. 200.00',res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'] * 200).toFixed(1)],
-    //     //     ['S/. 100.00', res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'] * 100).toFixed(1)],
-    //     //     ['S/. 50.00', res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'] * 50).toFixed(1)],
-    //     //     ['S/. 20.00', res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'] * 20).toFixed(1)],
-    //     //     ['S/. 10.00', res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'] * 10).toFixed(1)],
-    //     //     ['S/. 5.00', res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'], 
-    //     //                   (res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'] * 5).toFixed(1)]
-    //     //   ],
-    //     //   startY: 90,
-    //     //   showHead: 'firstPage',  
-    //     // })
-
-
-
-
-    //     doc.autoTable({
-    //       styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
-    //       body: [       
-    //         ['Fuente: Base de datos institucional' ],
-    //         ['Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.'],
-    //         ['© 2017 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.'],
-    //         ['http://www.buenavistalabolsa.com/']
-    //       ],
-    //       startY: 175,
-    //       tableWidth: 'wrap',
-    //       showHead: 'firstPage',  
-    //       theme: 'plain' 
-    //     }) 
-    //   },
-    // };
-
-
-    // var string = doc.output('datauristring');
-    // var iframe = "<iframe width='100%' height='99%' src='" + string + "'></iframe>"
-    // var x = window.open();
-    // x.document.open();
-    // await x.document.write(iframe);
-    // x.document.close();
-    //doc.save('report.pdf');
-    var blob = doc.output("blob");
-      window.open(URL.createObjectURL(blob))
-    //await doc.output('dataurlnewwindow', {});
   }
-
-  // verPDF() {
-
-  //   var doc: any = new jsPDF()
-  //   var totalPagesExp = '{ total_pages_count_string }'
-
-  //   const autoTablex: any = {
-  //     // head: this.headRows(),
-  //     // body: this.bodyRows(120),
-  //     html: '#example',
-  //     didDrawPage: async (data) => {
-  //       // Header
-  //       doc.setFontSize(20)
-  //       doc.setTextColor(40)
-
-  //       // console.log(this.base64Img);
-
-  //       var img = new Image();
-  //       img.src = "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300";
-  //       // img.src = path.resolve('sample.jpg');
-
-  //       // var doc = new jsPDF('p', 'mm', 'a3');  // optional parameters
-  //       // doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
-  //       // doc.addImage(img, 'PNG', 1, 2);
-  //       // doc.save("new.pdf");
-
-  //       if (img.src) {
-  //         // console.log('entroo') 
-  //         // doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
-  //         doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
-  //       }
-
-  //       // const imgg = this.getBase64ImageFromURL(
-  //       //   "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300"
-  //       // )
-
-  //       // console.log(imgg);
-
-  //       //         if (imgg) {
-  //       //           console.log('entroo') 
-  //       //           doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
-  //       //         }
-  //       // if (base64Img {
-  //       //    doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
-  //       // }
-
-  //       doc.text('Report', data.settings.margin.left + 15, 22)
-
-  //       // Footer
-  //       var str = 'Page ' + doc.internal.getNumberOfPages()
-  //       // // Total page number plugin only available in jspdf v1.0+
-  //       // if (typeof doc.putTotalPages === 'function') {
-  //       str = str + ' of ' + totalPagesExp
-  //       // }
-  //       doc.setFontSize(10)
-
-  //       // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-  //       var pageSize = doc.internal.pageSize
-  //       var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
-  //       doc.text(str, data.settings.margin.left, pageHeight - 10)
-  //     },
-  //     margin: { top: 30 },
-  //   };
-
-  //   // autoTable(doc, { html: '#example' })
-  //   autoTable(doc, autoTablex);
-
-  //   // doc.autoTable({
-  //   //   head: this.headRows(),
-  //   //   body: this.bodyRows(40),
-  //   //   didDrawPage: async (data) => {
-  //   //     // Header
-  //   //     doc.setFontSize(20)
-  //   //     doc.setTextColor(40)
-  //   //     if (this.base64Img) {
-  //   //       doc.addImage(this.base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10)
-  //   //     }
-  //   //     doc.text('Report', data.settings.margin.left + 15, 22)
-
-  //   //     // Footer
-  //   //     var str = 'Page ' + doc.internal.getNumberOfPages()
-  //   //     // Total page number plugin only available in jspdf v1.0+
-  //   //     if (typeof doc.putTotalPages === 'function') {
-  //   //       str = str + ' of ' + totalPagesExp
-  //   //     }
-  //   //     doc.setFontSize(10)
-
-  //   //     // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-  //   //     var pageSize = doc.internal.pageSize
-  //   //     var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
-  //   //     doc.text(str, data.settings.margin.left, pageHeight - 10)
-  //   //   },
-  //   //   margin: { top: 30 },
-  //   // })
-
-  //   // Total page number plugin only available in jspdf v1.0+
-  //   if (typeof doc.putTotalPages === 'function') {
-  //     doc.putTotalPages(totalPagesExp)
-  //   }
-
-  //   // return doc
-  //   doc.output('dataurlnewwindow');
-  // }
 
   headRows() {
     return [
@@ -406,168 +214,6 @@ export class ProductoDetalleComponent implements OnInit {
     }
     return body
   }
-
-
-
-  // getBase64ImageFromURL(url) {
-  //   return new Promise((resolve, reject) => {
-  //     var outputFormat = url.substr(-3) === 'png' ? 'image/png' : 'image/jpeg';
-
-  //     console.log(outputFormat)
-
-  //     var img = new Image();
-  //     img.setAttribute("crossOrigin", "anonymous");
-
-  //     img.onload = () => {
-  //       var canvas = document.createElement("canvas");
-  //       canvas.width = img.width;
-  //       canvas.height = img.height;
-
-  //       var ctx = canvas.getContext("2d");
-  //       ctx.drawImage(img, 0, 0);
-
-  //       var dataURL = canvas.toDataURL(outputFormat);
-  //       // var dataURL = canvas.toDataURL("image/jpeg");
-
-  //       resolve(dataURL);
-  //     };
-
-  //     img.onerror = error => {
-  //       reject(error);
-  //     };
-
-  //     img.src = url;
-  //   });
-  // }
-
-
-
-  // htmlToPdf(autoTableId = '', fileName = '', headerHtmlId = '', footerHtmlId = '', otherHtmlId = '') {
-  //   //let doc = new jsPDF();
-  //   let doc: any = new jsPDF('p', 'pt', 'a4', true);  //pt = px * .75
-
-  //   let table = autoTableId || '';// ? ($("#" + autoTableId).get(0)) : document.getElementById("autoTableId");
-  //   let newFileName = fileName || 'reporte.pdf';// ? (fileName + '.pdf') : 'report.pdf';
-  //   let headerHtml = headerHtmlId || '';// ? ($("#" + headerHtmlId).get(0)) : document.getElementById("headerHtmlId");
-  //   let footerHtml = footerHtmlId || '';// ? ($("#" + footerHtmlId).get(0)) : document.getElementById("footerHtmlId");
-  //   let otherHtml = otherHtmlId || '';// ? ($("#" + otherHtmlId).get(0)) : document.getElementById("otherHtmlId");
-
-  //   let startY = 30;
-  //   // let finalY = doc.previousAutoTable.finalY;
-  //   let pageNumber = doc.internal.getNumberOfPages();
-  //   doc.setPage(pageNumber);
-  //   let totalPagesExp = "{total_pages_count_string}";
-
-  //   // Document default options
-  //   doc.autoTableSetDefaults({
-  //     //headStyles: {fillColor: [155, 89, 182]}, // Purple, fillColor: 0
-  //     //margin: {top: 25},
-  //   });
-
-  //   // Document margin list
-  //   let margins = { mTop: 10, mBottom: 60, mLeft: 50, pTop: 10, pBottom: 60, pLeft: 50, width: 800 };
-
-  //   // Skip elements instead of display: none
-  //   let specialElementHandlers = {
-  //     '#skipText': function (element, renderer) {
-  //       return true;
-  //     }
-  //   };
-
-  //   // Other content options
-  //   let otherContentOptions = {
-  //     'width': margins.width, //max width of content on PDF
-  //     'elementHandlers': specialElementHandlers,
-  //     'pagesplit': true,
-  //   };
-
-  //   // Header content options
-  //   let header = function (data) {
-  //     doc.setFontSize(18);
-  //     doc.setTextColor(40);
-  //     doc.setFontStyle('normal');
-  //     //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
-  //     /*if (base64Img) {
-  //         doc.addImage(base64Img, 'JPEG', data.settings.margin.left, 15, 10, 10);
-  //     }*/
-
-  //     //let headerHtml = '<header>Hello Header</header>';
-  //     //doc.text(headerHtml, data.settings.margin.left + 15, 22);
-  //     doc.fromHTML(
-  //       headerHtml,
-  //       margins.mLeft, //x coord
-  //       margins.mTop, //y coord
-  //       otherContentOptions, //options object
-  //       margins
-  //     );
-  //   };
-
-  //   // Footer content options
-  //   let footer = function (data) {
-  //     let str = "Page " + doc.internal.getNumberOfPages();
-  //     // Total page number plugin only available in jspdf v1.0+
-  //     if (typeof doc.putTotalPages === 'function') {
-  //       str = str + " of " + totalPagesExp;
-  //     }
-  //     doc.setFontSize(10);
-
-  //     // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-  //     let pageSize = doc.internal.pageSize;
-  //     let pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-  //     doc.text(str, data.settings.margin.left, pageHeight - 10);
-  //   };
-
-  //   // Auto table content options
-  //   let autoTableOptions = {
-  //     html: table,
-  //     startY: startY, //false
-  //     //margin: {top: 30},
-  //     theme: 'plain', //striped, plain, grid
-  //     cellWidth: 'auto',
-  //     useCss: true,
-  //     //tableWidth: 'wrap',
-  //     margin: { bottom: 20 },
-  //     tableLineWidth: .75,
-  //     tableLineColor: [0, 0, 0],
-  //     styles: {
-  //       fontSize: 10.5, //14px
-  //       font: 'helvetica', //helvetica, times, courier
-  //       lineColor: [0, 0, 0], //or single value ie. lineColor: 255,
-  //       lineWidth: .75, //1px
-  //       cellPadding: 1.5,
-  //       textColor: [0, 0, 0],
-  //       fillColor: [255, 255, 255], //false for transparent or number or array of number
-  //       valign: 'middle', //top, middle, bottom
-  //       halign: 'left', //left, center, right
-  //       cellWidth: 'auto', //'auto', 'wrap' or a number
-  //       overflow: 'ellipsize', //visible, hidden, ellipsize or linebreak
-  //       fontStyle: 'normal', //normal, bold, italic, bolditalic
-  //     },
-
-  //     // Header & Footer
-  //     didDrawPage: function (data) {
-  //       // Header Content
-  //       header(data);
-
-  //       // Footer Content
-  //       footer(data);
-  //     },
-
-  //   };
-
-  //   // Auto table content
-  //   doc.autoTable(autoTableOptions);
-
-  //   // Total page number
-  //   if (typeof doc.putTotalPages === 'function') {
-  //     doc.putTotalPages(totalPagesExp);
-  //   }
-
-
-  //   // Output
-  //   //doc.save(newFileName);
-  //   doc.output("dataurlnewwindow");
-  // }
 
   listarProducto(id_operacion_financiera: string) {
 
@@ -598,13 +244,9 @@ export class ProductoDetalleComponent implements OnInit {
         // this.productos = res.lista;
         // this.cargando = false;
         // console.log(this.productos);
-        console.log('la operacion es', res)
         this.operaconFinanciera = res;
         // this.operaconFinanciera = res.modelo;
-
         this.cargando = false;
-
-        console.log(res)
 
       }, (err) => {
 
@@ -654,7 +296,15 @@ export class ProductoDetalleComponent implements OnInit {
 
         this.cargandoDetalle = false;
 
-        console.log(res)
+        this.operaconFinancieraDetalle.forEach(cuota => {
+          if (parseInt(cuota['numero_cuota']) > 0) {
+            this.totalPagoCapital += parseFloat(cuota['monto_amortizacion_capital_2']);
+            this.totalPagoInteres += parseFloat(cuota['monto_interes_2']);
+            this.totalAhorroProgramado += parseFloat(cuota['monto_ahorro_programado_2']);
+            this.totalCuota += parseFloat(cuota['monto_cuota_2']);
+          }
+
+        })
 
       }, (err) => {
 
@@ -667,6 +317,53 @@ export class ProductoDetalleComponent implements OnInit {
             text: err.error.msg, icon: 'error'
           });
       });
+  }
+
+  cargarCuota(id: string) {
+    this.serviceOperacionFinancieraDetalle.obtenerOperacionFinancieraDetalle(id).subscribe(res => {
+      this.cuota_numero = res['operacion_financiera_detalle']['numero_cuota'];
+      this.form.controls['cuota_pago_capital'].setValue(parseFloat(res['operacion_financiera_detalle']['ingresos']['monto_amortizacion_capital']).toFixed(2));
+      this.form.controls['cuota_pago_interes'].setValue(parseFloat(res['operacion_financiera_detalle']['ingresos']['monto_interes']).toFixed(2));
+      this.form.controls['cuota_ahorro_programado'].setValue(parseFloat(res['operacion_financiera_detalle']['ahorros']['monto_ahorro_programado']).toFixed(2));
+      this.cuota_id = id;
+      $(this.el.nativeElement.querySelector('#mdlCuota')).modal('show');
+    })
+  }
+
+  guardar() {
+    this.serviceOperacionFinancieraDetalle.actualizarOperacionFinancieraDetalle(this.cuota_id, this.form.value).subscribe(res => {
+      if (res['ok']) {
+        $(this.el.nativeElement.querySelector('#mdlCuota')).modal('hide');
+        Swal.fire({
+          text: res['msg'], icon: 'success'
+        });
+        this.activatedRoute.params.subscribe(({ id }) => {
+          this.listarProductoDetalle(id);
+        })
+      }
+    })
+  }
+
+  darBajaCuota(id:string){
+    this.serviceOperacionFinancieraDetalle.operacionFinancieraDetalleBaja(id).subscribe(res=>{
+      Swal.fire({
+        text: res['msg'], icon: 'success'
+      });
+      this.activatedRoute.params.subscribe(({ id }) => {
+        this.listarProductoDetalle(id);
+      })
+    })
+  }
+
+  validarFechaCuota(fecha_cuota) {
+    const fecha = fecha_cuota.split('/');
+    const fecha_c = dayjs(fecha[2] + '-' + fecha[1] + '-' + fecha[0])
+    const fecha_actual = dayjs();
+    if (fecha_actual.diff(fecha_c, "day") <= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
