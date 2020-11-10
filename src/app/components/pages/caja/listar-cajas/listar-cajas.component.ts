@@ -60,7 +60,7 @@ export class ListarCajasComponent implements OnInit {
                     res['cajasFecha']['caja']['usuario']['persona']['apellido_materno'] 
       console.log(nombre);
       let fecha = new Date()
-      var doc: any = new jsPDF('l')
+      var doc: any = new jsPDF()
       var totalPagesExp = '{ total_pages_count_string }'
     
       const autoTablex: any = {
@@ -76,31 +76,13 @@ export class ListarCajasComponent implements OnInit {
           var img = new Image();
           img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
           if (img.src) {         
-            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
+            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+110, 5, 70, 20);
           }
           doc.text(this.seguridad.usuario + '\n' + 
                   this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  + '\n' + 
                   dayjs().format('DD/MM/YYYY hh:mm:ss a')
                   , data.settings.margin.left , 10 )
-                 
-          // doc.autoTable({
-          //   styles: {  overflow: 'hidden',  cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8  },
-          //   columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
-          //   margin: { right: 240 },
-          //   body: [        
-          //     [ this.seguridad.usuario ],
-          //     [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
-          //     [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-          //   ],
-          //   startY: 5,
-          //   tableWidth: 'wrap',
-          //   showHead: 'firstPage',  
-          //   theme: 'plain' 
-          // })
-
-
-
-
+         
           doc.autoTable({
             styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
             head: [
@@ -123,7 +105,7 @@ export class ListarCajasComponent implements OnInit {
             columnStyles: {
               0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
             },
-            margin: { right: 150 },
+            margin: { right: 100 },
             body: [        
               ['Cajero: ',  nombre ],
               ['Fecha de Apertura: ', res['cajasFecha']['apertura']['fecha_apertura']],
@@ -141,7 +123,7 @@ export class ListarCajasComponent implements OnInit {
             columnStyles: {
               0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
             },
-            margin: { left: 150 },
+            margin: { left: 115 },
             body: [        
               ['Saldo final (S/.): ', (saldoFinal).toFixed(1) ],
               ['Efectivo (S/.) ', (res['cajasFecha']['monto_total_efectivo']*1).toFixed(1)],
@@ -154,7 +136,7 @@ export class ListarCajasComponent implements OnInit {
           doc.autoTable({
             styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
             //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
-            margin: { right: 150 },
+            margin: { right: 107.5 },
             columns: [
               {  header: 'MONTO' },
               {  header: 'CANTIDAD' },
@@ -181,7 +163,7 @@ export class ListarCajasComponent implements OnInit {
             
             styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
             //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
-            margin: { left: 150 },
+            margin: { left: 107.5 },
             columns: [
               {  header: 'MONTO' },
               {  header: 'CANTIDAD' },

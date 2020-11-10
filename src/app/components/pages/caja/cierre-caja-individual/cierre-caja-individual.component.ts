@@ -35,7 +35,15 @@ export class CierreCajaIndividualComponent {
   private seguridad: Seguridad;
   public cajaID: string;
 
-
+  listaErrorRecibo: [] = []
+  listaErrorMonto: [] = []
+  errorRecibo: string
+  errorMonto: string
+  errorOperacion: string
+  resRecibo: boolean
+  resMonto: boolean
+  resOperacion: boolean
+  mostrarTabla : boolean = false
 
   cantidad_doscientos: number = 0
   cantidad_cien: number = 0
@@ -90,7 +98,7 @@ export class CierreCajaIndividualComponent {
     this.form.controls['cajero'].disable(); */
 
     this.cargarCajaDiario();
-
+    
   };
 
   cargarCajaDiario() {
@@ -127,6 +135,47 @@ export class CierreCajaIndividualComponent {
       this.usuarios = res['usuarios'];
     })
   }
+  
+  verificarRecibo(){
+    this.mostrarTabla = true  
+    this.cierreCajaIndividualService.validarRecibo().subscribe(res=>{
+      console.log(res);
+      if (res['ok']) {
+        this.resRecibo = res['ok']         
+      } else {
+        this.resRecibo = res['ok']   
+        this.errorRecibo = res['msg']         
+      }  
+    })
+  }
+  
+
+  verificarMonto(){  
+    this.cierreCajaIndividualService.validarMonto().subscribe(res=>{
+      console.log(res);  
+      if (res['ok']) {
+        this.resMonto = res['ok']        
+      } else {        
+        this.resMonto = res['ok']       
+        this.errorMonto = res['msg']
+      }
+    })
+  }
+  
+  verificarOperacion(){
+    this.cierreCajaIndividualService.validarOperacionesFinancieras().subscribe(res=>{
+      console.log(res);
+      if (res['ok']) {
+        this.resOperacion = res['ok']        
+      } else {
+        this.resOperacion = res['ok']
+        this.errorOperacion = res['msg']   
+        console.log( res['listaReciboError']);
+      }      
+    })
+  }
+
+
 
   guardar() {
 
@@ -236,7 +285,7 @@ export class CierreCajaIndividualComponent {
   verPDF() {
 
     let fecha = new Date()
-    var doc: any = new jsPDF('l')
+    var doc: any = new jsPDF()
     var totalPagesExp = '{ total_pages_count_string }'
 
     const autoTablex: any = {
@@ -251,28 +300,12 @@ export class CierreCajaIndividualComponent {
         var img = new Image();
           img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
           if (img.src) {         
-            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+200, 5, 70, 20);
+            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+110, 5, 70, 20);
           }
           doc.text(this.seguridad.usuario + '\n' + 
                   this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  + '\n' + 
                   dayjs().format('DD/MM/YYYY hh:mm:ss a')
                   , data.settings.margin.left , 10 )
-
-        // doc.autoTable({
-        //   styles: { overflow: 'hidden', cellWidth: ['wrap'], cellPadding: 0.5, fontSize: 8 },
-        //   //columnStyles: { '3': { font: 'bold' } }, // Cells in first column centered and green
-        //   margin: { right: 240 },
-        //   body: [        
-        //     [ this.seguridad.usuario ],
-        //     [this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  ],
-        //     [ dayjs().format('DD/MM/YYYY hh:mm:ss a')],
-        //   ],
-        //   tableWidth: 'wrap',
-        //   startY: 5,
-        //   showHead: 'firstPage',
-        //   theme: 'plain'
-        // })
-
 
         // =============================================================================
         // Content
@@ -299,7 +332,7 @@ export class CierreCajaIndividualComponent {
           columnStyles: {
             0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
           },
-          margin: { right: 150 },
+          margin: { right: 100 },
           body: [
             ['Cajero: ', this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre],
             ['Fecha de Apertura: ', this.form.controls['fecha_apertura'].value],
@@ -317,7 +350,7 @@ export class CierreCajaIndividualComponent {
           columnStyles: {
             0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
           },
-          margin: { left: 150 },
+          margin: { left: 115 },
           body: [
             ['Saldo final (S/.): ', this.form.controls['saldo'].value],
             ['Efectivo (S/.) ', this.monto_total],
@@ -330,7 +363,7 @@ export class CierreCajaIndividualComponent {
         doc.autoTable({
           styles: { overflow: 'visible', cellWidth: ['wrap'] },
           //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
-          margin: { right: 150 },
+          margin: { right: 107.5 },
           columns: [
             { header: 'MONTO' },
             { header: 'CANTIDAD' },
@@ -351,7 +384,7 @@ export class CierreCajaIndividualComponent {
 
           styles: { overflow: 'hidden', cellWidth: ['wrap'] },
           //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
-          margin: { left: 150 },
+          margin: { left: 107.5 },
           columns: [
             { header: 'MONTO' },
             { header: 'CANTIDAD' },

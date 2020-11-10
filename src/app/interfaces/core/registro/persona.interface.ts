@@ -12,10 +12,10 @@ export interface Persona {
     domicilio: String,
     referencia_domicilio: String
     avatar: String,
-    comentario?: String,
-    ubigeo:{
-        distrito: String,
+    comentario?: String
+    ubigeo: {
         departamento: String,
-        provincia: String
+        provincia: String,
+        distrito: String
     }
 }

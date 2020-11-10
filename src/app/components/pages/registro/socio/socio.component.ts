@@ -7,6 +7,9 @@ import { Persona } from '../../../../interfaces/core/registro/persona.interface'
 import { ActivatedRoute } from '@angular/router';
 import { SesionSocioService } from '../../../../services/shared/sesion-socio.service';
 import { Socio } from '../../../../models/core/socio.model';
+import { UbigeoService } from '../../../../services/core/ubigeo.service';
+import { Seguridad } from '../../../../models/auth/seguridad.model';
+import { SeguridadService } from '../../../../services/auth/seguridad.service';
 
 @Component({
   selector: 'app-socio',
@@ -23,17 +26,26 @@ export class SocioComponent implements OnInit {
   public personaSeleccionada: Persona;
   public sesionSocio: Socio
 
+  public departamentos: [] = [];
+  public provincias: [] = [];
+  public distritos: [] = [];
+  private seguridad: Seguridad;
+
   public buttonName = true;
 
 
   constructor(private service: PersonaService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private sesionSocioService: SesionSocioService) {
+    private ubigeoService : UbigeoService,
+    private sesionSocioService: SesionSocioService,
+    private seguridadService: SeguridadService) {
       this.sesionSocio = this.sesionSocioService.sesionSocio;
     }
 
   ngOnInit(): void {
+    this.seguridad = this.seguridadService.seguridad;
+    console.log(this.seguridad.id);
 
     this.activatedRoute.params.subscribe( ({id}) => {
       this.carga(id)
@@ -51,25 +63,52 @@ export class SocioComponent implements OnInit {
       correo_electronico: ['', [Validators.email, Validators.maxLength(150)]],
       domicilio: ['', [Validators.required, Validators.maxLength(200)]],
       referencia_domicilio: ['', [Validators.required, Validators.maxLength(200)]],
+      departamento: ['', []],
+      provincia: ['', []],
+      distrito: ['', []],
       //avatar: [''],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
+
+    this.form.controls['departamento'].valueChanges.subscribe(departamento =>{
+      this.ubigeoService.listarProvinciasxDepartamento(departamento).subscribe(res=>{
+        //this.form.controls['provincia'].setValue("");
+        this.provincias = res['provincias'];
+        //this.form.controls['distrito'].setValue("");
+        this.distritos = [];
+      })
+    });
+
+    this.form.controls['provincia'].valueChanges.subscribe(provincia =>{
+      const departamento = this.form.controls['departamento'].value;
+      //this.form.controls['distrito'].setValue("");
+      this.ubigeoService.listarDistritosxProvincia(departamento, provincia).subscribe(res=>{
+        this.distritos = res['distritos'];
+      })
+    })
+
+    this.cargarDepartamentos();
+    
+  }
+  
+  cargarDepartamentos() {
+    this.ubigeoService.listarDepartamentos().subscribe(res => {
+      this.departamentos = res['departamentos'];
+    })
   }
 
   guardar() {
     if ( this.personaSeleccionada){
       const data = {
         ...this.form.value,
-        id: this.personaSeleccionada.id
+        id: this.personaSeleccionada.id        
       }
-      console.log(data);
       this.service.actualizar(data)
           .subscribe(resp => {
             Swal.fire({
               text: 'La información se actualizó satisfactoriamente.', icon: 'success'
             });
           })
-
     } else {
       this.formSubmitted = true;
       if (!this.form.valid) {
@@ -172,45 +211,50 @@ export class SocioComponent implements OnInit {
   }
 
   carga(id: String){
-    console.log('aquí esta la sesion', this.sesionSocio.id);
+    let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
 
-    if(this.sesionSocio.id === '0'){
+    if(id_persona === '0'){
       return
+    } else {
+      this.service.obtenerPersona(id_persona)
+        .subscribe( persona => {
+          const {          
+            documento_identidad, 
+            nombre, 
+            apellido_materno, 
+            apellido_paterno,
+            fecha_nacimiento,
+            es_masculino,
+            numero_telefono,
+            numero_celular,
+            correo_electronico,
+            domicilio,
+            referencia_domicilio,
+            ubigeo,
+            comentario               
+            } = persona
+          this.personaSeleccionada = persona
+          this.form.setValue({
+            documento_identidad, 
+            nombre, 
+            apellido_materno, 
+            apellido_paterno,
+            fecha_nacimiento,
+            es_masculino,
+            numero_telefono,
+            numero_celular,
+            correo_electronico,
+            domicilio,
+            referencia_domicilio,          
+            departamento: ubigeo.departamento,
+            provincia : ubigeo.provincia,
+            distrito: ubigeo.distrito,
+            comentario:''    
+          })
+          this.form.disable();
+        })
     }
 
-    this.service.obtenerPersona(this.sesionSocio.id)
-      .subscribe( persona => {
-        const {          
-          documento_identidad, 
-          nombre, 
-          apellido_materno, 
-          apellido_paterno,
-          fecha_nacimiento,
-          es_masculino,
-          numero_telefono,
-          numero_celular,
-          correo_electronico,
-          domicilio,
-          referencia_domicilio,
-          comentario               
-          } = persona
-        this.personaSeleccionada = persona
-        this.form.setValue({
-          documento_identidad, 
-          nombre, 
-          apellido_materno, 
-          apellido_paterno,
-          fecha_nacimiento,
-          es_masculino,
-          numero_telefono,
-          numero_celular,
-          correo_electronico,
-          domicilio,
-          referencia_domicilio,
-          comentario:''    
-        })
-        this.form.disable();
-      })
 
   }
 

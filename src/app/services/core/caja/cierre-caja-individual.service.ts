@@ -35,5 +35,22 @@ export class CierreCajaIndividualService {
     return this.http.get(url);
   }
 
+  // ================= Verificar/Validar ==========
+
+  validarMonto(){
+    const url = `${base_url}/caja-diario/verificar-m`;
+    return this.http.get(url)
+  }
+  validarRecibo(){
+    const url = `${base_url}/caja-diario/verificar-r`;
+    return this.http.get(url)
+  }
+
+  validarOperacionesFinancieras(){
+    const url = `${base_url}/caja-diario/verificar-o`;
+    return this.http.get(url)
+  }
+
+
 }
  
