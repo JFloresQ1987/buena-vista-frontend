@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { OperaconFinancieraPago } from '../../../interfaces/core/registro/operacion-financiera-pago';
+// import { UsuarioService } from '../registro/usuario.service';
+import { SeguridadService } from '../../auth/seguridad.service';
 
 const base_url = environment.base_url;
 
@@ -11,7 +13,8 @@ const base_url = environment.base_url;
 })
 export class OperacionFinancieraPagoService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private seguridadService: SeguridadService) { }
 
   listarPagos(analista: string) {
 
@@ -21,7 +24,7 @@ export class OperacionFinancieraPagoService {
 
     // console.log(modelo)
 
-    return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos/${analista}`)
+    return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos/${this.seguridadService.seguridad.id}/${analista}`)
       .pipe(
         map((res: { ok: boolean, lista: [] }) => res.lista)
       );
