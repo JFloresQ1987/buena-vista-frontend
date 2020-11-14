@@ -254,7 +254,6 @@
                           disabled>                                                
               </div>
             </div> 
-
             <div class="form-group row">
                 <div class="col-sm-2">
                     <label class="form-control-label"> S/. 5.00: </label>                    
@@ -271,12 +270,7 @@
                           class="form-control"
                           disabled>                                                
               </div>
-
             </div> 
-
-              
-            
-            
             <div class="form-group row">
               <div
                 class="col-sm-12"
@@ -305,13 +299,19 @@
               <div class="col-sm-12">
                 <button
                   type="button"
+                  (click)="verificarMonto(); verificarRecibo(); verificarOperacion()"
+                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                  <i class="fa fa-times-circle"></i>
+                  &nbsp; Verificar
+                </button>
+                <button
+                  type="button"
                   (click)="cancelar()"
-                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
-                >
+                  class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
                   <i class="fa fa-times-circle"></i>
                   &nbsp; Cancelar
                 </button>
-                <button *ngIf="dif == 0"              
+                <button *ngIf="dif == 0 && this.resRecibo && this.resMonto && this.resOperacion "              
                   type="submit"
                   (click) = "guardar()"      
                   class="btn btn-lg btn-info waves-effect waves-light">
@@ -320,6 +320,25 @@
                 </button>
               </div>
             </div>
+            <br>
+            <br>
+            <br>
+            <table *ngIf="mostrarTabla"
+              class="table table-bordered 
+              color-bordered-table red-bordered-table" >
+              <tbody>
+                <!-- *ngFor="let item of cajas; let i = index" -->
+                <tr >
+                  <td class="text-center" *ngIf="!this.resRecibo"><span class="text-danger">{{this.errorRecibo}}</span></td>
+                 </tr>
+                <tr>
+                  <td class="text-center" *ngIf="!this.resMonto" ><span class="text-danger">{{this.errorMonto}}</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center" *ngIf="!this.resOperacion" ><span class="text-danger">{{this.errorOperacion}}</span></td>
+                </tr>
+              </tbody>
+            </table>
           </form>
         </div>
       </div>
