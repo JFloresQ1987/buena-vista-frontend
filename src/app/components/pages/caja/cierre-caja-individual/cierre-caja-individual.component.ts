@@ -106,6 +106,9 @@ export class CierreCajaIndividualComponent {
         .subscribe(res=>{
           if (!res['ok']) {
             this.cargando = false
+            Swal.fire({
+              text: 'No existe caja abierta', icon: 'warning'
+            })
             
           } else {
             this.cargando = true
@@ -147,8 +150,7 @@ export class CierreCajaIndividualComponent {
         this.errorRecibo = res['msg']         
       }  
     })
-  }
-  
+  }  
 
   verificarMonto(){  
     this.cierreCajaIndividualService.validarMonto().subscribe(res=>{
@@ -174,8 +176,6 @@ export class CierreCajaIndividualComponent {
       }      
     })
   }
-
-
 
   guardar() {
 
