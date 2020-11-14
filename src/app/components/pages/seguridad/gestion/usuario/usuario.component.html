@@ -26,7 +26,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of usuarios; let i = index">
-                <td class="text-center">{{ i + 1 }}</td>
+                <td class="text-center">{{ i + 1 + 10*(paginaActual-1) }}</td>
                 <td class="text-center">{{ item.usuario }}</td>
                 <td>{{ item.persona.nombre }}</td>
                 <td>{{ item.persona.apellido_paterno }}</td> 
