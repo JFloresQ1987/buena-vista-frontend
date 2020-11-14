@@ -7,11 +7,11 @@ import { delay } from 'rxjs/operators';
 import { AnalistaService } from '../../../../services/core/registro/analista.service';
 
 @Component({
-  selector: 'app-producto',
-  templateUrl: './producto.component.html',
-  styleUrls: ['./producto.component.css']
+  selector: 'app-ahorro-consulta',
+  templateUrl: './ahorro-consulta.component.html',
+  styleUrls: ['./ahorro-consulta.component.css']
 })
-export class ProductoComponent implements OnInit {
+export class AhorroConsultaComponent implements OnInit {
 
   public socio: Socio;
   public productos = [];
@@ -52,7 +52,7 @@ export class ProductoComponent implements OnInit {
       return;
     }
 
-    this.service.listarProductos(this.socio.id, 'credito', 'vigente')
+    this.service.listarProductos(this.socio.id, 'ahorro', 'vigente')
       .pipe(
         delay(100)
       )
@@ -296,7 +296,7 @@ export class ProductoComponent implements OnInit {
     // });
   }
 
-  anular(id) {
+  congelar(id, operacion) {
 
     Swal.fire({
       // title: 'Comentario: ' + id,
@@ -317,7 +317,7 @@ export class ProductoComponent implements OnInit {
       //   '<input id="swal-input2" class="swal2-input">',
       showCancelButton: true,
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, anular',
+      confirmButtonText: 'Si, ' + operacion,
       showLoaderOnConfirm: true,
       inputValidator: (value) => {
         if (!value) {
@@ -331,11 +331,11 @@ export class ProductoComponent implements OnInit {
         const comentario: string = value;
 
 
-        this.service.anular(id, comentario)
+        this.service.congelar_descongelar(id, comentario)
           .subscribe(res => {
 
             Swal.fire({
-              text: 'La anulación del recibo se realizó satisfactoriamente.', icon: 'success'
+              text: 'El cambio se realizó satisfactoriamente.', icon: 'success'
             });
 
             this.listarProductos();

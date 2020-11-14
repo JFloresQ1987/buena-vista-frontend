@@ -7,11 +7,11 @@ import { delay } from 'rxjs/operators';
 import { AnalistaService } from '../../../../services/core/registro/analista.service';
 
 @Component({
-  selector: 'app-producto',
-  templateUrl: './producto.component.html',
-  styleUrls: ['./producto.component.css']
+  selector: 'app-producto-historico',
+  templateUrl: './producto-historico.component.html',
+  styleUrls: ['./producto-historico.component.css']
 })
-export class ProductoComponent implements OnInit {
+export class ProductoHistoricoComponent implements OnInit {
 
   public socio: Socio;
   public productos = [];
@@ -52,7 +52,7 @@ export class ProductoComponent implements OnInit {
       return;
     }
 
-    this.service.listarProductos(this.socio.id, 'credito', 'vigente')
+    this.service.listarProductos(this.socio.id, 'credito', 'historico')
       .pipe(
         delay(100)
       )

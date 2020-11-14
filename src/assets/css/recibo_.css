@@ -1,0 +1,541 @@
+﻿/*@font-face {
+  font-family: 'BuenaVista';
+  src: local('Courier'),
+       local('Courier New'),       
+       url(Courier.woff) format('woff');
+	   font-weight: normal;
+       font-style: normal;
+       font-strecht: condensed;
+	   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}*/
+
+body {
+    font-family: Courier;
+    /*Tahoma, Sans-Serif, Arial;*/
+    /*font-family: 'BuenaVista';*/
+    font-size: 6pt;
+    /*font-family: Courier;*/
+    /*font-weight: bold;*/
+    font-weight: 700;
+    font-stretch: extra-condensed;
+    /*font-size: 8pt;*/
+}
+
+
+/*.contenedor {    
+    width: 220px;    
+    height:auto;
+}*/
+
+.row-form-24 {
+    /*border-bottom: 0px solid #DDD !important;
+    border-top: 0px solid white !important;
+    padding: 2px 0px 2px 0px;
+    vertical-align: baseline;*/
+    /*width: 100%;*/
+    width: 220px;
+    /*220px*/
+    height: 1px;
+    /*10px*/
+    /*padding: 1px 0;*/
+    /*border-top: 1px dashed black;*/
+    clear: both;
+}
+
+.span5 {
+    width: 100%;
+    float: left;
+}
+
+.span4 {
+    width: 80%;
+    float: left;
+}
+
+.span3 {
+    width: 60%;
+    float: left;
+}
+
+.span2 {
+    width: 40%;
+    float: left;
+}
+
+.span1 {
+    width: 20%;
+    float: left;
+}
+
+.espacio {
+    width: 100%;
+    height: 2px;
+    float: left;
+}
+
+.linea {
+    width: 100%;
+    margin: 2.5px 0;
+    border-top: 1px dashed black;
+    /*height: 1px;*/
+    float: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.reciboFila0100porCiento {
+    width: 220px;
+    height: 10px;
+    padding: 3px 0;
+    clear: both;
+}
+
+.reciboTituloFila0100porCiento {
+    width: 220px;
+    height: 10px;
+    margin: 5px 0;
+    padding: 3px 0;
+    font-size: 6pt;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    clear: both;
+}
+
+.reciboEspacio0100porCiento {
+    width: 220px;
+    height: 5px;
+    clear: both;
+}
+
+.reciboLinea0100porCiento {
+    width: 220px;
+    height: 5px;
+    margin-top: 3px;
+    border-top: 1px dashed black;
+    clear: both;
+}
+
+
+/*Sub-Total*/
+
+.reciboTextoSubTotal {
+    width: 150px;
+    height: 10px;
+    line-height: 10px;
+    text-align: right;
+    float: left;
+}
+
+.reciboMontoSubTotal {
+    width: 60px;
+    height: 10px;
+    padding-right: 5px;
+    line-height: 10px;
+    text-align: right;
+    font-weight: bold;
+    float: left;
+}
+
+.reciboMontoSubTotal02
+/*SIN NEGRITA*/
+
+{
+    width: 60px;
+    height: 10px;
+    padding-right: 5px;
+    line-height: 10px;
+    text-align: right;
+    /*font-weight:bold;*/
+    float: left;
+}
+
+.reciboMontoSubTotal03
+/*CON SUBRAYADO*/
+
+{
+    width: 60px;
+    height: 10px;
+    /*margin-top:3px;*/
+    padding-right: 5px;
+    line-height: 10px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1px solid black;
+    float: left;
+}
+
+
+/*Cabecera*/
+
+.reciboTextoTitulo {
+    width: 220px;
+    /*height: 10px;*/
+    height: auto;
+    line-height: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 9pt;
+    float: left;
+}
+
+.reciboTextoCabecera {
+    width: 60px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoCabecera01 {
+    width: 65px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoCabecera02 {
+    width: 160px;
+    /*height: 10px;*/
+    height: auto;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoCabecera03 {
+    width: 35px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+
+/*Pie de Pagina*/
+
+.reciboTextoPie {
+    width: 60px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboTextoPie02 {
+    width: 40px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoPie01 {
+    width: 55px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoPie02 {
+    width: 160px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoPie04 {
+    width: 160px;
+    /*height: 10px;*/
+    height: auto;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoPie03 {
+    width: 65px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+
+/*Sub Cabecera*/
+
+.reciboTextoSubCabecera01 {
+    width: 40px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboTextoSubCabecera02 {
+    width: 20px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoSubCabecera01 {
+    width: 180px;
+    /*height: 10px;*/
+    height: auto;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoSubCabecera02 {
+    width: 60px;
+    height: 10px;
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoSubCabecera03 {
+    width: 100px;
+    /*height: 10px;*/
+    height: auto;
+    /*overflow:auto;*/
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+.reciboContenidoSubCabecera04 {
+    width: 70px;
+    height: 10px;
+    /*height: auto;*/
+    line-height: 10px;
+    text-align: left;
+    float: left;
+}
+
+
+/*Items*/
+
+.reciboItemTitulo01 {
+    width: 30px;
+    height: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItem01 {
+    width: 30px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItemDescripcionTitulo01 {
+    width: 60px;
+    height: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItemDescripcion01 {
+    width: 60px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItemDescripcion02 {
+    width: 60px;
+    height: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItemMontoTitulo01 {
+    width: 70px;
+    height: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboItemMonto01 {
+    width: 60px;
+    height: 10px;
+    padding-right: 5px;
+    text-align: right;
+    line-height: 10px;
+    float: left;
+}
+
+
+/*Centro*/
+
+.reciboCenCero001 {
+    width: 220px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboCenCero002 {
+    width: 110px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboCenCero004 {
+    width: 55px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboCenCero005 {
+    width: 45px;
+    height: 10px;
+    text-align: center;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboTituloCenCero005 {
+    width: 45px;
+    height: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 10px;
+    float: left;
+}
+
+
+/*Izquierda sin padding*/
+
+.reciboIzqCero001 {
+    width: 220px;
+    height: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqCero002 {
+    width: 110px;
+    height: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqCero004 {
+    width: 55px;
+    height: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqCero005 {
+    width: 45px;
+    height: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+
+/*Izquierda con padding*/
+
+.reciboIzqDiez001 {
+    width: 210px;
+    height: 10px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqDiez002 {
+    width: 100px;
+    height: 10px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqDiez004 {
+    width: 45px;
+    height: 10px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboIzqDiez005 {
+    width: 35px;
+    height: 10px;
+    padding-left: 10px;
+    text-align: left;
+    line-height: 10px;
+    float: left;
+}
+
+
+/*Derecha sin padding*/
+
+.reciboDerCero001 {
+    width: 220px;
+    height: 10px;
+    text-align: right;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboDerCero002 {
+    width: 110px;
+    height: 10px;
+    text-align: right;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboDerCero004 {
+    width: 55px;
+    height: 10px;
+    text-align: right;
+    line-height: 10px;
+    float: left;
+}
+
+.reciboDerCero005 {
+    width: 45px;
+    height: 10px;
+    text-align: right;
+    line-height: 10px;
+    float: left;
+}

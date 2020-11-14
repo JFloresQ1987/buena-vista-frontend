@@ -21,13 +21,20 @@ import { AnalistaComponent } from './seguridad/gestion/analista/analista.compone
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
-import { AhorroDetalleComponent } from './operaciones/ahorro-detalle/ahorro-detalle.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
 import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-avanzada.component';
 import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
 import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.component';
+import { ConfirmarPagoAnalistaComponent } from './caja/confirmar-pago-analista/confirmar-pago-analista.component';
+import { ReportePagoAnalistaComponent } from './analista/reporte-pago-analista/reporte-pago-analista.component';
+import { ConfirmarPagoAnalistaDetalleComponent } from './caja/confirmar-pago-analista-detalle/confirmar-pago-analista-detalle.component';
+import { AhorroPagoComponent } from './caja/ahorro-pago/ahorro-pago.component';
+import { AhorroConsultaComponent } from './operaciones/ahorro-consulta/ahorro-consulta.component';
+import { AhorroDetalleConsultaComponent } from './operaciones/ahorro-detalle-consulta/ahorro-detalle-consulta.component';
+import { ProductoHistoricoComponent } from './operaciones/producto-historico/producto-historico.component';
+import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detalle-historico/producto-detalle-historico.component';
 
 @NgModule({
   declarations: [
@@ -49,14 +56,21 @@ import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.com
     FormComponent,
     CierreCajaIndividualComponent,
     AhorroComponent,
-    AhorroDetalleComponent,
     AhorroDetallePagoComponent,
     IngresosEgresosComponent,
     CierreCajaIndividualComponent,
     ProductoPrePagoComponent,
     BusquedaAvanzadaComponent,
     ListarCajasComponent,
-    ListarRecibosComponent
+    ListarRecibosComponent,
+    ConfirmarPagoAnalistaComponent,
+    ReportePagoAnalistaComponent,
+    ConfirmarPagoAnalistaDetalleComponent,
+    AhorroPagoComponent,
+    AhorroConsultaComponent,
+    AhorroDetalleConsultaComponent,
+    ProductoHistoricoComponent,
+    ProductoDetalleHistoricoComponent
   ],
   exports: [
     PagesComponent,

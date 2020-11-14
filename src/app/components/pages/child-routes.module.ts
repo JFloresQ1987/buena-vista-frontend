@@ -25,6 +25,15 @@ import { BusquedaAvanzadaComponent } from './inicio/busqueda-avanzada/busqueda-a
 import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component';
 import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.component';
 import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
+import { ReportePagoAnalistaComponent } from './analista/reporte-pago-analista/reporte-pago-analista.component';
+import { ConfirmarPagoAnalistaComponent } from './caja/confirmar-pago-analista/confirmar-pago-analista.component';
+import { ConfirmarPagoAnalistaDetalleComponent } from './caja/confirmar-pago-analista-detalle/confirmar-pago-analista-detalle.component';
+import { AhorroConsultaComponent } from './operaciones/ahorro-consulta/ahorro-consulta.component';
+import { AhorroDetalleConsultaComponent } from './operaciones/ahorro-detalle-consulta/ahorro-detalle-consulta.component';
+import { ProductoHistoricoComponent } from './operaciones/producto-historico/producto-historico.component';
+import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detalle-historico/producto-detalle-historico.component';
+import { AhorroPagoComponent } from './caja/ahorro-pago/ahorro-pago.component';
+import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 
 
 const childRoutes: Routes = [
@@ -131,6 +140,18 @@ const childRoutes: Routes = [
     data: { modulo: 'Caja', menu: 'Pago', item: 'Producto detalle', roles: ["Administrador", "Cajero"] }
   },
   {
+    path: 'caja/pago/ahorro-caja',
+    component: AhorroPagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Ahorro', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'caja/pago/ahorro-detalle-caja/:id',
+    component: AhorroDetallePagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Ahorro detalle', roles: ["Administrador", "Cajero"] }
+  },
+  {
     path: 'caja/gestion/ingresos-egresos',
     component: IngresosEgresosComponent,
     canActivate: [AuthorizationGuard],
@@ -171,6 +192,48 @@ const childRoutes: Routes = [
     component: ProductoPrePagoComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Analista', menu: 'Gestión', item: 'Recaudación', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'analista/gestion/reporte-pago-analista',
+    component: ReportePagoAnalistaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Analista', menu: 'Gestión', item: 'Reporte Recaudación', roles: ["Administrador", "Analista"] }
+  },
+  // {
+  //   path: 'caja/pago/confirmar-pago-analista',
+  //   component: ConfirmarPagoAnalistaComponent,
+  //   canActivate: [AuthorizationGuard],
+  //   data: { modulo: 'Caja', menu: 'Pago', item: 'Confirmar Pago de Analista', roles: ["Administrador", "Cajero"] }
+  // },
+  // {
+  //   path: 'caja/pago/confirmar-pago-analista-detalle',
+  //   component: ConfirmarPagoAnalistaDetalleComponent,
+  //   canActivate: [AuthorizationGuard],
+  //   data: { modulo: 'Caja', menu: 'Pago', item: 'Confirmar Pago de Analista - Detalle', roles: ["Administrador", "Cajero"] }
+  // },
+  {
+    path: 'operaciones/gestion/ahorro-consulta',
+    component: AhorroConsultaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Gestión', item: 'Ahorro', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'operaciones/gestion/ahorro-detalle-consulta/:id',
+    component: AhorroDetalleConsultaComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Gestión', item: 'Ahorro detalle', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'operaciones/consulta/producto-historico',
+    component: ProductoHistoricoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Consulta', item: 'Producto', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'operaciones/consulta/producto-detalle-historico/:id',
+    component: ProductoDetalleHistoricoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Operaciones', menu: 'Consulta', item: 'Producto detalle', roles: ["Administrador", "Analista", "Cajero"] }
   },
 ]
 

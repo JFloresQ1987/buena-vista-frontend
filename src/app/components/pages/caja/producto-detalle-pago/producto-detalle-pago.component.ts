@@ -378,7 +378,7 @@ export class ProductoDetallePagoComponent implements OnInit {
     modelo.documento_identidad_socio = this.sesionSocio.documento_identidad;
     modelo.nombres_apellidos_socio = this.sesionSocio.getNombreCompleto();
 
-    // this.imprimirRecibo();
+    // this.imprimirRecibo(null);
 
     this.serviceOperacionFinancieraPago.pagarProducto(modelo)
       .subscribe(res => {
@@ -622,7 +622,7 @@ export class ProductoDetallePagoComponent implements OnInit {
   //   content.append('<div class="row-form-24"><div class="span5">Socio: ' + data.persona.nombre_completo + '</div></div>');
 
   //   // $.each(data.ListaRecibos, function (index, i) {
-      
+
   //     if (data.responsable)
   //       content.append('<div class="row-form-24"><div class="span5">Analista: ' + data.responsable + '</div></div>');
   //     else
@@ -711,100 +711,288 @@ export class ProductoDetallePagoComponent implements OnInit {
 
 
       if (doc.document) doc = doc.document;
+
+
+
+
       doc.write('<head><title></title>');
       doc.write('<link href="../../../../../assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
       // doc.write('<link href="' + $("#urlBase").val() + '../css/recibo.css" rel="stylesheet" type="text/css"/>');
       doc.write('</head><body onload="this.focus(); this.print();">');
       // doc.write(content + '</body>');
 
-      
 
-      doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.denominacion + '</div></div>');
-      doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.agencia + '</div></div>');
-      doc.write('<div class="row-form-24"><div class="linea"></div></div>');
-      doc.write('<div class="row-form-24"><div class="span3">RUC: ' + data.institucion.ruc + '</div><div class="span2 right">' + data.recibo.numero + '</div></div>');
-      doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
-      doc.write('<div class="row-form-24"><div class="span5">DNI: ' + data.persona.documento_identidad + '</div></div>');
-      doc.write('<div class="row-form-24"><div class="span5">Socio: ' + data.persona.nombre_completo + '</div></div>');
-  
-      // $.each(data.ListaRecibos, function (index, i) {
-        
-        if (data.responsable)
-          doc.write('<div class="row-form-24"><div class="span5">Analista: ' + data.responsable + '</div></div>');
-        else
-          doc.write('<div class="row-form-24"><div class="span5">Responsable: ' + data.analista + '</div></div>');
-  
-        if (data.bancomunal)
-          doc.write('<div class="row-form-24"><div class="span5">Bancomunal: ' + data.bancomunal.grupo + '</div></div>');
-  
-        doc.write('<div class="row-form-24"><div class="span5">Producto: ' + data.producto.descripcion + '</div></div>');
-  
-        //if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
-        //    content.append('<div class="row-form-24"><div class="span5">Concepto: ' + i.ConceptoDetalle + '</div></div>');
-  
-        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
-        doc.write('<div class="row-form-24"><div class="span5">Operaciones en Soles</div></div>');
-        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
-        //content.append('<div class="row-form-24"><div class="span4 center">Detalle Operación</div><div class="span1 center">Monto</div></div>');
-        doc.write('<div class="row-form-24"><div class="span3 center">Detalle Operación</div><div class="span1 center">Cuota</div><div class="span1 center">Monto</div></div>');
-        doc.write('<div class="row-form-24"><div class="linea"></div></div>');
-        //content.append('<div class="row-form-24"><div class="span4">' + i.OperacionFinanciera + '</div><div class="span1 right">' + i.MontoTransaccion + '</div></div>');
-  
-        if (data.producto.monto_gasto)
-          doc.write('<div class="row-form-24"><div class="span4">Gasto Administrativo</div><div class="span1 right">' + data.producto.monto_gasto + '</div></div>');
-        if (data.producto.monto_ahorro_inicial)
-          doc.write('<div class="row-form-24"><div class="span4">Aporte Inicial</div><div class="span1 right">' + data.producto.monto_ahorro_inicial + '</div></div>');
-        if (data.producto.monto_ahorro_voluntario)
-            doc.write('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + data.producto.monto_ahorro_voluntario + '</div></div>');      
-        if (data.producto.monto_ahorro_programado)
-          doc.write('<div class="row-form-24"><div class="span4">Ahorro Programado</div><div class="span1 right">' + data.producto.monto_ahorro_programado + '</div></div>');
-        if (data.producto.monto_amortizacion_capital)
-          doc.write('<div class="row-form-24"><div class="span3">Amortización Capital</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_amortizacion_capital + '</div></div>');
-        if (data.producto.monto_interes)
-          doc.write('<div class="row-form-24"><div class="span3">Interés</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_interes + '</div></div>');
-        if (data.producto.monto_mora)
-          doc.write('<div class="row-form-24"><div class="span4">Mora</div><div class="span1 right">' + data.producto.monto_mora + '</div></div>');
-        if (data.producto.monto_interes_ganado)
-          doc.write('<div class="row-form-24"><div class="span4">Interés ganado</div><div class="span1 right">' + data.producto.monto_interes_ganado + '</div></div>');
-        if (data.producto.monto_retiro_interes_ganado)
-          doc.write('<div class="row-form-24"><div class="span4">Retiro Aporte I.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
-        if (data.producto.monto_retiro_ahorro_voluntario)
-            doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro V.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_voluntario + '</div></div>');
-        if (data.producto.monto_retiro_ahorro_programado)
-          doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro P.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_programado + '</div></div>');
-        if (data.producto.monto_retiro_interes_ganado)
-          doc.write('<div class="row-form-24"><div class="span4">Retiro Interés G.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
-  
-        // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
-        //   var monto = (i.MontoRetiroAhorroVoluntario != '0.00' && i.MontoRetiroAhorroVoluntario != '0') ? i.MontoRetiroAhorroVoluntario : i.MontoAhorroVoluntario;
-        //   content.append('<div class="row-form-24"><div class="span4">' + i.ConceptoOperacionFinanciera + '</div><div class="span1 right">' + monto + '</div></div>');
-        // }
-  
-        // if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
-        //   content.append('<div class="row-form-24"><div class="span5">Det.: ' + i.ConceptoDetalle + '</div></div>');
-  
-        //if (i.MontoAhorroVoluntario != '0.00' && i.MontoAhorroVoluntario != '0')
-        //    content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + i.MontoAhorroVoluntario + '</div></div>');
-  
-        doc.write('<div class="row-form-24"><div class="linea"></div></div>');
-        doc.write('<div class="row-form-24"><div class="span4 center">Total: S/. </div><div class="span1 right">' + data.recibo.monto_total + '</div></div>')
-  
-        // if (i.MontoTotalAhorrosLibres != null && i.MontoTotalAhorrosLibres != '0.00' && i.MontoTotalAhorrosLibres != '0') {
-        //   content.append('<div class="row-form-24"><div class="espacio"></div></div>');
-        //   content.append('<div class="row-form-24"><div class="span4 center">Total Ahorro Restante: S/. </div><div class="span1 right">' + i.MontoTotalAhorrosLibres + '</div></div>')
-        // }
-  
-        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
-        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
-        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
-        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
-        //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
-        doc.write('<div class="row-form-24"><div class="span5">Usuario: ' + data.recibo.usuario + '</div></div>');
-        doc.write('<div class="row-form-24"><div class="span5">Fecha: ' + data.recibo.fecha + '</div></div>');
-        doc.write('<div class="row-form-24"><div class="span5">Recibo: ' + data.recibo.tipo_impresion + '</div></div>');
-        doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
-        doc.write('<div class="row-form-24"><div class="span5 center">** ' + data.institucion.frase + ' **</div></div>');
-      // });
+      doc.write('<div class="ticket">');
+      doc.write('<p class="centrado">' + data.institucion.denominacion);
+      doc.write('<br>' + data.institucion.agencia);
+      // doc.write('<br>RUC: ' + data.institucion.ruc + '</p>');
+
+      // doc.write('<div class="linea"></div>');
+      doc.write('<br>----------------------------------------------</p>');
+
+      doc.write('<table>');
+      doc.write('<tbody>');
+
+      doc.write('<tr>');
+      doc.write('<td class="ruc">RUC: ' + data.institucion.ruc + '</td><td class="recibo derecha">' + data.recibo.numero + '</td>');
+      doc.write('</tr>');
+      // doc.write('<tr>');
+      // doc.write('<td class="detalle" colspan="2">DNI: ' + data.persona.documento_identidad + '</td>');
+      // doc.write('</tr>');
+      // doc.write('<tr>');
+      // doc.write('<td class="detalle" colspan="2">Socio: ' + data.persona.nombre_completo + '</td>');
+      // doc.write('</tr>');
+
+      doc.write('</tbody>');
+      doc.write('</table>');
+
+      doc.write('<p>DNI: ' + data.persona.documento_identidad);
+      doc.write('<br>Socio: ' + data.persona.nombre_completo);
+      // doc.write('</p>');
+
+
+      if (data.responsable)
+        doc.write('<br>Analista: ' + data.responsable);
+      else
+        doc.write('<br>Responsable: ' + data.analista);
+
+      if (data.bancomunal)
+        doc.write('<br>Bancomunal: ' + data.bancomunal.grupo);
+
+      doc.write('<br>Producto: ' + data.producto.descripcion);
+      doc.write('</p>');
+
+      //if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+      //    content.append('<div class="row-form-24"><div class="span5">Concepto: ' + i.ConceptoDetalle + '</div></div>');
+
+      doc.write('<p>');
+      doc.write('Operaciones en Soles');
+      doc.write('</p>');
+
+
+      doc.write('<table>');
+      // doc.write('<thead>');
+      // doc.write('<tr class="border-bottom">');
+      // doc.write('<th class="detalle">Detalle Operación</th>');
+      // doc.write('<th class="monto">Monto</th>');
+      // doc.write('</tr>');
+      // doc.write('</thead>');
+      doc.write('<tbody>');
+
+      doc.write('<tr class="border-bottom">');
+      doc.write('<td class="detalle centrado">Detalle Operación</td>');
+      doc.write('<td class="monto derecha">Monto</td>');
+      doc.write('</tr>');
+
+      if (Number(data.producto.monto_gasto) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Gasto Administrativo</td><td class="monto derecha">' + data.producto.monto_gasto + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_ahorro_inicial) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Aporte Inicial</td><td class="monto derecha">' + data.producto.monto_ahorro_inicial + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_ahorro_voluntario) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Ahorro Voluntario</td><td class="monto derecha">' + data.producto.monto_ahorro_voluntario + '</td>');
+        doc.write('</tr>');
+      }
+      var monto_cuota = 0;
+      if (Number(data.producto.monto_ahorro_programado) > 0) {
+        // doc.write('<tr>');
+        // doc.write('<td class="detalle">Ahorro Programado</td><td class="monto derecha">' + data.producto.monto_ahorro_programado + '</td>');
+        // doc.write('</tr>');
+        monto_cuota += Number(data.producto.monto_ahorro_programado);
+      }
+      if (Number(data.producto.monto_amortizacion_capital) > 0) {
+        // doc.write('<tr>');
+        // doc.write('<td class="detalle">Amortización Capital</td><td class="monto derecha">' + data.producto.monto_amortizacion_capital + '</td>');
+        // doc.write('</tr>');
+        monto_cuota += Number(data.producto.monto_amortizacion_capital);
+      }
+      if (Number(data.producto.monto_interes) > 0) {
+        // doc.write('<tr>');
+        // doc.write('<td class="detalle">Interés</td><td class="monto derecha">' + data.producto.cuota + ' - ' + data.producto.monto_interes + '</td>');
+        // doc.write('</tr>');
+        monto_cuota += Number(data.producto.monto_interes);
+      }
+      if (monto_cuota > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Cuota: ' + data.producto.cuota + '</td><td class="monto derecha">' + monto_cuota.toFixed(2) + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_mora) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Mora</td><td class="monto derecha">' + data.producto.monto_mora + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_interes_ganado) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Interés ganado</td><td class="monto derecha">' + data.producto.monto_interes_ganado + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_retiro_ahorro_programado) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Retiro Ahorro P.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_programado + '</td>');
+        doc.write('</tr>');
+      }
+      if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
+        doc.write('<tr>');
+        doc.write('<td class="detalle">Retiro Interés G.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
+        doc.write('</tr>');
+      }
+
+      // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
+      //   var monto = (i.MontoRetiroAhorroVoluntario != '0.00' && i.MontoRetiroAhorroVoluntario != '0') ? i.MontoRetiroAhorroVoluntario : i.MontoAhorroVoluntario;
+      //   content.append('<div class="row-form-24"><div class="span4">' + i.ConceptoOperacionFinanciera + '</div><div class="span1 right">' + monto + '</div></div>');
+      // }
+
+      // if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+      //   content.append('<div class="row-form-24"><div class="span5">Det.: ' + i.ConceptoDetalle + '</div></div>');
+
+      //if (i.MontoAhorroVoluntario != '0.00' && i.MontoAhorroVoluntario != '0')
+      //    content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + i.MontoAhorroVoluntario + '</div></div>');
+
+      // doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+      doc.write('<tr class="border-top">');
+      doc.write('<td class="detalle centrado negrita">Total: S/. </td><td class="monto derecha negrita">' + data.recibo.monto_total + '</td>')
+      doc.write('</tr>');
+
+      // doc.write('<tr>');
+      // doc.write('<td class="cantidad">asdasdasdasdasd</td>');
+      // doc.write('<td class="producto">abcde fghi</td>');
+      // doc.write('<td class="precio">ASDASDWQDWEF</td>');
+      // doc.write('</tr>');
+      // doc.write('<tr>');
+      // doc.write('<td class="cantidad">1234567890</td>');
+      // doc.write('<td class="producto">jklmnopq restuvwxyz</td>');
+      // doc.write('<td class="precio">tyhtyhtyhr</td>');
+      // doc.write('</tr>');
+      // doc.write('<tr>');
+      // doc.write('<td class="cantidad">REGTRHTYHYTHRY</td>');
+      // doc.write('<td class="producto">ABCDE FGHI</td>');
+      // doc.write('<td class="precio">gfbnghnytjyt</td>');
+      // doc.write('</tr>');
+      // doc.write('<tr>');
+      // doc.write('<td class="cantidad">HGSDHT</td>');
+      // doc.write('<td class="producto">JKLMNOPQ</td>');
+      // doc.write('<td class="precio">tjyjth</td>');
+      // doc.write('</tr>');
+      doc.write('</tbody>');
+      doc.write('</table>');
+      // doc.write('<p class="centrado">RSTUVWXYZ!!');
+      // doc.write('<br>parzibyte.me</p>');
+      // doc.write('</div>');
+
+      doc.write('<p>Usuario: ' + data.recibo.usuario);
+      doc.write('<br>Fecha: ' + data.recibo.fecha);
+      doc.write('<br>Recibo: ' + data.recibo.tipo_impresion + '</p>');
+      // doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      // doc.write('<br>** ' + data.institucion.frase + ' **</p>');
+      doc.write('<p class="centrado">** ' + data.institucion.frase + ' **</p>');
+
+      doc.write('</div>');
+
+
+
+      // doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.denominacion + '</div></div>');
+      // doc.write('<div class="row-form-24"><div class="span5 center">' + data.institucion.agencia + '</div></div>');
+      // doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+      // doc.write('<div class="row-form-24"><div class="span3">RUC: ' + data.institucion.ruc + '</div><div class="span2 right">' + data.recibo.numero + '</div></div>');
+      // doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      // doc.write('<div class="row-form-24"><div class="span5">DNI: ' + data.persona.documento_identidad + '</div></div>');
+      // doc.write('<div class="row-form-24"><div class="span5">Socio: ' + data.persona.nombre_completo + '</div></div>');
+
+      // // $.each(data.ListaRecibos, function (index, i) {
+
+      //   if (data.responsable)
+      //     doc.write('<div class="row-form-24"><div class="span5">Analista: ' + data.responsable + '</div></div>');
+      //   else
+      //     doc.write('<div class="row-form-24"><div class="span5">Responsable: ' + data.analista + '</div></div>');
+
+      //   if (data.bancomunal)
+      //     doc.write('<div class="row-form-24"><div class="span5">Bancomunal: ' + data.bancomunal.grupo + '</div></div>');
+
+      //   doc.write('<div class="row-form-24"><div class="span5">Producto: ' + data.producto.descripcion + '</div></div>');
+
+      //   //if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+      //   //    content.append('<div class="row-form-24"><div class="span5">Concepto: ' + i.ConceptoDetalle + '</div></div>');
+
+      //   doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span5">Operaciones en Soles</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="span4 center">Detalle Operación</div><div class="span1 center">Monto</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span3 center">Detalle Operación</div><div class="span1 center">Cuota</div><div class="span1 center">Monto</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="span4">' + i.OperacionFinanciera + '</div><div class="span1 right">' + i.MontoTransaccion + '</div></div>');
+
+      //   if (data.producto.monto_gasto)
+      //     doc.write('<div class="row-form-24"><div class="span4">Gasto Administrativo</div><div class="span1 right">' + data.producto.monto_gasto + '</div></div>');
+      //   if (data.producto.monto_ahorro_inicial)
+      //     doc.write('<div class="row-form-24"><div class="span4">Aporte Inicial</div><div class="span1 right">' + data.producto.monto_ahorro_inicial + '</div></div>');
+      //   if (data.producto.monto_ahorro_voluntario)
+      //       doc.write('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + data.producto.monto_ahorro_voluntario + '</div></div>');      
+      //   if (data.producto.monto_ahorro_programado)
+      //     doc.write('<div class="row-form-24"><div class="span4">Ahorro Programado</div><div class="span1 right">' + data.producto.monto_ahorro_programado + '</div></div>');
+      //   if (data.producto.monto_amortizacion_capital)
+      //     doc.write('<div class="row-form-24"><div class="span3">Amortización Capital</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_amortizacion_capital + '</div></div>');
+      //   if (data.producto.monto_interes)
+      //     doc.write('<div class="row-form-24"><div class="span3">Interés</div><div class="span1 center">' + data.producto.cuota + '</div><div class="span1 right">' + data.producto.monto_interes + '</div></div>');
+      //   if (data.producto.monto_mora)
+      //     doc.write('<div class="row-form-24"><div class="span4">Mora</div><div class="span1 right">' + data.producto.monto_mora + '</div></div>');
+      //   if (data.producto.monto_interes_ganado)
+      //     doc.write('<div class="row-form-24"><div class="span4">Interés ganado</div><div class="span1 right">' + data.producto.monto_interes_ganado + '</div></div>');
+      //   if (data.producto.monto_retiro_interes_ganado)
+      //     doc.write('<div class="row-form-24"><div class="span4">Retiro Aporte I.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+      //   if (data.producto.monto_retiro_ahorro_voluntario)
+      //       doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro V.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_voluntario + '</div></div>');
+      //   if (data.producto.monto_retiro_ahorro_programado)
+      //     doc.write('<div class="row-form-24"><div class="span4">Retiro Ahorro P.</div><div class="span1 right">' + data.producto.monto_retiro_ahorro_programado + '</div></div>');
+      //   if (data.producto.monto_retiro_interes_ganado)
+      //     doc.write('<div class="row-form-24"><div class="span4">Retiro Interés G.</div><div class="span1 right">' + data.producto.monto_retiro_interes_ganado + '</div></div>');
+
+      //   // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
+      //   //   var monto = (i.MontoRetiroAhorroVoluntario != '0.00' && i.MontoRetiroAhorroVoluntario != '0') ? i.MontoRetiroAhorroVoluntario : i.MontoAhorroVoluntario;
+      //   //   content.append('<div class="row-form-24"><div class="span4">' + i.ConceptoOperacionFinanciera + '</div><div class="span1 right">' + monto + '</div></div>');
+      //   // }
+
+      //   // if (i.ConceptoDetalle != null && i.ConceptoDetalle != '')
+      //   //   content.append('<div class="row-form-24"><div class="span5">Det.: ' + i.ConceptoDetalle + '</div></div>');
+
+      //   //if (i.MontoAhorroVoluntario != '0.00' && i.MontoAhorroVoluntario != '0')
+      //   //    content.append('<div class="row-form-24"><div class="span4">Ahorro Voluntario</div><div class="span1 right">' + i.MontoAhorroVoluntario + '</div></div>');
+
+      //   doc.write('<div class="row-form-24"><div class="linea"></div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span4 center">Total: S/. </div><div class="span1 right">' + data.recibo.monto_total + '</div></div>')
+
+      //   // if (i.MontoTotalAhorrosLibres != null && i.MontoTotalAhorrosLibres != '0.00' && i.MontoTotalAhorrosLibres != '0') {
+      //   //   content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //   content.append('<div class="row-form-24"><div class="span4 center">Total Ahorro Restante: S/. </div><div class="span1 right">' + i.MontoTotalAhorrosLibres + '</div></div>')
+      //   // }
+
+      //   doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   //content.append('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span5">Usuario: ' + data.recibo.usuario + '</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span5">Fecha: ' + data.recibo.fecha + '</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span5">Recibo: ' + data.recibo.tipo_impresion + '</div></div>');
+      //   doc.write('<div class="row-form-24"><div class="espacio"></div></div>');
+      //   doc.write('<div class="row-form-24"><div class="span5 center">** ' + data.institucion.frase + ' **</div></div>');
+      // // });
 
 
 

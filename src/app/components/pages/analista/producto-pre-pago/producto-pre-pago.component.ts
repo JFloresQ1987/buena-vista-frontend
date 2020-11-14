@@ -153,4 +153,8 @@ export class ProductoPrePagoComponent implements OnInit {
 
   }
 
+  verReporte() {
+
+  }
+
 }

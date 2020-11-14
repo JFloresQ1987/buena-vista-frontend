@@ -19,9 +19,11 @@ export class OperacionFinancieraService {
     return this.http.post(url, objeto);
   }
 
-  listarProductos(id_persona: string) {
+  listarProductos(id_persona: string, tipo: string, estado: string) {
 
-    return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}`)
+    console.log(estado)
+    
+    return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}/${tipo}/${estado}`)
     .pipe(
       map((res: { ok: boolean, lista: [] }) => res.lista)
     );
@@ -63,6 +65,18 @@ export class OperacionFinancieraService {
     }
 
     const url = `${base_url}/operacion-financiera/anular/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, modelo);
+  }
+
+  congelar_descongelar(id_operacion_financiera: string, comentario: string) {
+
+    const modelo: any = {
+      comentario: comentario
+    }
+
+    const url = `${base_url}/operacion-financiera/congelar_descongelar/${id_operacion_financiera}`;
 
     // const url = `${base_url}/usuarios/${id}`;
     return this.http.put(url, modelo);

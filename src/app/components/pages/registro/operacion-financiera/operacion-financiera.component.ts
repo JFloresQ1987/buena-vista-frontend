@@ -259,7 +259,7 @@ export class OperacionFinancieraComponent implements OnInit {
 
       // console.log(fecha);        
 
-      if ((fecha.format('d') != '0' && tipo.codigo === "CD")
+      if (((fecha.format('d') != '0' || this.form.get('incluir_domingos').value) && tipo.codigo === "CD")
         // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
         || tipo.codigo === "CP"
         || tipo.codigo === "PEX"
@@ -272,7 +272,7 @@ export class OperacionFinancieraComponent implements OnInit {
           || tipo.codigo === "PEX"
           || tipo.codigo === "BC") {
 
-          if (fecha.format('d') == '0')
+          if (fecha.format('d') == '0' && !this.form.get('incluir_domingos').value)
             fecha = now.add(1, 'day');
           else if (fecha.format('d') == '6' && !this.form.get('incluir_sabados').value)
             fecha = now.add(2, 'day');
@@ -304,9 +304,13 @@ export class OperacionFinancieraComponent implements OnInit {
               fecha_formateada = 'SA - ' + fecha.format('DD/MM/YYYY')
               nombre_dia = 'Sábado';
               break;
+            case '0':
+              fecha_formateada = 'DO - ' + fecha.format('DD/MM/YYYY')
+              nombre_dia = 'Domingo';
+              break;
           }
 
-          if (fecha.format('d') == '0')
+          if (fecha.format('d') == '0' && !this.form.get('incluir_domingos').value)
             fecha = now.add(-1, 'day');
           else if (fecha.format('d') == '6' && !this.form.get('incluir_sabados').value)
             fecha = now.add(-2, 'day');
@@ -502,7 +506,8 @@ export class OperacionFinancieraComponent implements OnInit {
       tipo: id_tipo,
       codigo_programacion: programacion.codigo_programacion,
       programacion: programacion.descripcion,
-      color: tipo.color
+      color: tipo.color,
+      es_prestamo: true
       // color: color
     };
 

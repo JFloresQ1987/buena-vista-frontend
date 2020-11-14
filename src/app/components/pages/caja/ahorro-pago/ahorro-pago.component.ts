@@ -10,11 +10,11 @@ import jsPDF from 'jspdf';
 import { OperaconFinancieraPago } from '../../../../interfaces/core/registro/operacion-financiera-pago';
 
 @Component({
-  selector: 'app-producto-pago',
-  templateUrl: './producto-pago.component.html',
-  styleUrls: ['./producto-pago.component.css']
+  selector: 'app-ahorro-pago',
+  templateUrl: './ahorro-pago.component.html',
+  styleUrls: ['./ahorro-pago.component.css']
 })
-export class ProductoPagoComponent implements OnInit {
+export class AhorroPagoComponent implements OnInit {
 
   public socio: Socio;
   public productos = [];
@@ -55,7 +55,7 @@ export class ProductoPagoComponent implements OnInit {
       return;
     }
 
-    this.service.listarProductos(this.socio.id, 'credito', 'vigente')
+    this.service.listarProductos(this.socio.id, 'ahorro', 'vigente')
       .pipe(
         delay(100)
       )

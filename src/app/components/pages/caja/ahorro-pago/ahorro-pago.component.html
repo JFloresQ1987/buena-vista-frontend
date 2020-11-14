@@ -32,12 +32,12 @@
                     </p>
                 </h4>
                 <!-- <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p> -->
-                <button *ngIf="item.desembolso.se_desembolso_prestamo" [routerLink]="['/caja/pago/producto-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">
+                <button [routerLink]="['/caja/pago/ahorro-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">
                     <i class="fa fa-eye"></i> &nbsp; Ver detalle
                 </button>
-                <button *ngIf="!item.desembolso.se_desembolso_prestamo" (click)="realizarDesembolsoPago(item.id)" class="btn btn-danger">
+                <!-- <button *ngIf="!item.desembolso.se_desembolso_prestamo" (click)="realizarDesembolsoPago(item.id)" class="btn btn-danger">
                     <i class="fa fa-money"></i> &nbsp; Desembolsar producto
-                </button>
+                </button> -->
 
                 <!-- <div class="ribbon-wrapper card">
                     <div class="ribbon ribbon-bookmark  ribbon-default">{{ producto.fecha_inicio }}</div>

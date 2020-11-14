@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { OperaconFinancieraPago } from '../../../interfaces/core/registro/operacion-financiera-pago';
@@ -13,14 +13,20 @@ export class OperacionFinancieraPagoService {
 
   constructor(private http: HttpClient) { }
 
-  listarPagos() {
+  listarPagos(analista: string) {
 
-    return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos`)
+    // const headers = new HttpHeaders({
+    //   'analista': modelo.analista
+    // });
+
+    // console.log(modelo)
+
+    return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos/${analista}`)
       .pipe(
         map((res: { ok: boolean, lista: [] }) => res.lista)
       );
   }
-  
+
   listarProductoDetalle(id_operacion_financiera: string) {
 
     return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
@@ -109,6 +115,14 @@ export class OperacionFinancieraPagoService {
     //   .pipe(
     //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
     //   );
+  }
+
+  confirmarPagoAnalista(id_analista: string) {
+
+
+    const url = `${base_url}/operacion-financiera-pago/confirmar-pago-analista/${id_analista}`;
+
+    return this.http.put(url, null);
   }
 
 }

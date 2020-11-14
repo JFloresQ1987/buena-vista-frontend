@@ -44,7 +44,8 @@ export interface Producto {
     // descripcion: String,
     codigo_programacion: String,
     programacion: String,
-    color: String
+    color: String,
+    es_prestamo: boolean
 }
 
 export interface Configuracion {

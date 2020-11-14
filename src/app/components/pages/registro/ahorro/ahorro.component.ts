@@ -249,7 +249,8 @@ export class AhorroComponent implements OnInit {
       tipo: id_tipo,
       codigo_programacion: programacion ? programacion.codigo_programacion : '',
       programacion: programacion ? programacion.descripcion : '',
-      color: tipo.color
+      color: tipo.color,
+      es_prestamo: false
       // color: color
     };
 
