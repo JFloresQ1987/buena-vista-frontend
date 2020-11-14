@@ -1,64 +1,62 @@
 <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          
-          <div class="row">
-            <div class="col-sm-4">
-              <label class="form-control-label">Desde:</label>
-              <input type="date" class="form-control" [(ngModel)]="desde">
-            </div>
+        <div class="card">
+            <div class="card-body">
 
-            <div class="col-sm-4">
-              <label class="form-control-label">Hasta:</label>
-              <input type="date" class="form-control" [(ngModel)]="hasta">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="form-control-label">Desde:</label>
+                        <input type="date" class="form-control" [(ngModel)]="desde">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label class="form-control-label">Hasta:</label>
+                        <input type="date" class="form-control" [(ngModel)]="hasta">
+                    </div>
+
+                    <div class="col-sm-2" style="margin-top: 33px;">
+                        <button type="button" class="btn btn-primary" (click)="elegirFecha(desde, hasta)">Buscar</button>
+                    </div>
+
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th class="text-center" width="10%">Fecha apertura</th>
+                                <th class="text-center" width="10%">Fecha cierre</th>
+                                <th class="text-center" width="7%">Cantidad operaciones</th>
+                                <th class="text-center" width="7%">Total apertura</th>
+                                <th class="text-center" width="7%">Total operaciones</th>
+                                <th class="text-center" width="7%">Total efectivo</th>
+                                <th class="text-center" width="7%">Estado</th>
+                                <th class="text-center" width="7%">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cajas; let i = index">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <td class="text-center">{{ item.apertura.fecha_apertura }}</td>
+                                <td class="text-center">{{ item.cierre.fecha_cierre }}</td>
+                                <td>{{ item.cantidad_operaciones }}</td>
+                                <td>{{item.monto_total_apertura}} </td>
+                                <td>{{item.monto_total_operaciones}} </td>
+                                <td>{{item.monto_total_efectivo}} </td>
+                                <!-- <td>{{item.estado}} </td> -->
+                                <td class="text-center" *ngIf="item.estado == 'Cerrado'  ">
+                                    <span class="label label-danger">{{ item.estado}} </span>
+                                </td>
+                                <td class="text-center" *ngIf="item.estado == 'Abierto'  ">
+                                    <span class="label label-success">{{ item.estado}} </span>
+                                </td>
+                                <td><button class="btn btn-outline-primary" (click)="cargarReporte(item.apertura.fecha_apertura)">Ver Reporte</button> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            
-            <div class="col-sm-2" style="margin-top: 33px;">
-              <button type="button"
-              class="btn btn-primary"
-              (click)="elegirFecha(desde, hasta)">buscar</button>
-            </div>
-            
-          </div>
-          <br>
-          <div class="table-responsive">
-            <table class="table table-bordered color-bordered-table purple-bordered-table">
-              <thead>
-                <tr>
-                  <th width="3%">#</th>
-                  <th class="text-center" width="10%">Fecha Apertura</th>
-                  <th class="text-center" width="10%">Fecha Cierre</th>
-                  <th class="text-center"  width="7%">Cantidad Operaciones</th>
-                  <th class="text-center"  width="7%">Monto Total Apertura</th>
-                  <th class="text-center"  width="7%">Monto Total Operaciones</th>
-                  <th class="text-center" width="7%">Monto Total Efectivo</th>
-                  <th class="text-center"  width="7%">Estado</th>
-                  <th class="text-center" width="7%">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of cajas; let i = index">
-                  <td class="text-center">{{ i + 1 }}</td>
-                  <td class="text-center">{{ item.apertura.fecha_apertura }}</td>                  
-                  <td class="text-center">{{ item.cierre.fecha_cierre }}</td>
-                  <td>{{ item.cantidad_operaciones }}</td>
-                  <td>{{item.monto_total_apertura}} </td>
-                  <td>{{item.monto_total_operaciones}} </td>
-                  <td>{{item.monto_total_efectivo}} </td>
-                  <!-- <td>{{item.estado}} </td> -->
-                  <td class="text-center" *ngIf="item.estado == 'Cerrado'  ">
-                    <span class="label label-danger">{{ item.estado}} </span>
-                  </td>
-                  <td class="text-center" *ngIf="item.estado == 'Abierto'  ">
-                    <span class="label label-success">{{ item.estado}} </span>
-                  </td>
-                  <td><button class="btn btn-outline-primary" (click) ="cargarReporte(item.apertura.fecha_apertura)">Ver Reporte</button> </td>                  
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

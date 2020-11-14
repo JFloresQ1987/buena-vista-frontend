@@ -1,10 +1,9 @@
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <div class="text-right">
-          <a class="btn btn-success" [routerLink]="['./nuevo']"
-            ><i class="ti-plus"></i> Nuevo</a
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <a class="btn btn-success" [routerLink]="['./nuevo']"><i class="ti-plus"></i> Nuevo</a
           >
         </div>
         <br />
@@ -15,7 +14,7 @@
             <thead>
               <tr>
                 <th width="3%">#</th>
-                <th class="text-center">Descripcion</th>
+                <th class="text-center">Descripción</th>
                 <th class="text-center">Producto</th>
                 <th class="text-center">Usuario</th>
                 <th class="text-center">Analista</th>
@@ -33,25 +32,25 @@
                   <a [routerLink]="['/seguridad/gestion/analista', item.id]" data-toggle="tooltip" data-original-title="Edit">
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Close">
-                    <i class="fa fa-close text-danger"></i>
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <a href="#" data-toggle="tooltip" data-original-title="Close">
+                        <i class="fa fa-close text-danger"></i>
+                    </a>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <button (click)="cambiarPagina(-10)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
+                        <button (click)="cambiarPagina(10)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                    </div>
+                    <div class="text-right col-sm-3">
+                        <span class="text-info">{{ totalRegistros }}</span> Registros
+                        <span class="text-info">{{ totalPaginas }}</span> Paginas
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-          <div class="col-sm-9">
-            <button (click)="cambiarPagina(-10)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
-            <button (click)="cambiarPagina(10)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
-          </div>
-          <div class="text-right col-sm-3">
-            <span class="text-info">{{ totalRegistros }}</span> Registros
-            <span class="text-info">{{ totalPaginas }}</span> Paginas
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
