@@ -20,18 +20,12 @@ export class InterceptorService implements HttpInterceptor {
     private sesionSocioService: SesionSocioService*/) {
     
     // this.seguridad = this.service.seguridad
-    // console.log('ejecutando inter')
   };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    // console.log('Interceptor token')
-
     this.seguridad = this.seguridadService.seguridad;
     // this.socio = this.sesionSocioService.sesionSocio;
-
-    // console.log(this.socio)
-
 
     const headers = new HttpHeaders ({
       'x-token': localStorage.getItem('token') || '',/*,
@@ -57,7 +51,6 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   gestionError(err: HttpErrorResponse){
-    // console.log('ressssss', err);
     Swal.fire({
       text: err.error.msg, icon: 'error'
 

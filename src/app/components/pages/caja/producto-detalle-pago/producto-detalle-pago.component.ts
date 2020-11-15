@@ -60,15 +60,14 @@ export class ProductoDetallePagoComponent implements OnInit {
     })
 
     this.form = this.formBuilder.group({
-      monto_cancelar: ['0', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_cancelar: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
       monto_ahorro_voluntario: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      monto_total: ['0', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
-      monto_recibido: ['0', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
+      monto_total: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
+      monto_recibido: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
       monto_vuelto: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
     });
 
     // setTimeout(() => {
-    //   // console.log(this.socio.getNombreCompleto());
     //   this.listarProducto();
     // }, 100);
   }
@@ -87,8 +86,6 @@ export class ProductoDetallePagoComponent implements OnInit {
         doc.setFontSize(20)
         doc.setTextColor(40)
 
-        // console.log(this.base64Img);
-
         var img = new Image();
         img.src = "https://images.pexels.com/photos/209640/pexels-photo-209640.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=300";
         // img.src = path.resolve('sample.jpg');
@@ -99,7 +96,6 @@ export class ProductoDetallePagoComponent implements OnInit {
         // doc.save("new.pdf");
 
         if (img.src) {
-          // console.log('entroo') 
           // doc.addImage(imgg, 'JPEG', data.settings.margin.left, 15, 10, 10)
           doc.addImage(img, 'PNG', data.settings.margin.left, 15, 10, 10);
         }
@@ -167,9 +163,6 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     // this.cargando = true;
     // // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // // console.log(this.sesionSocioService.sesionSocio);
-    // // console.log(this.socio.getId());
-    // // console.log(this.socio.getNombreCompleto());
 
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
@@ -180,7 +173,6 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     this.cargando = true;
 
-    // console.log(this.id_operacion_financiera)
 
     this.serviceOperacionFinanciera.listarProducto(id_operacion_financiera)
       // .pipe(
@@ -188,17 +180,13 @@ export class ProductoDetallePagoComponent implements OnInit {
       // )
       .subscribe((res: any) => {
 
-        // console.log(res)
         // this.productos = res.lista;
         // this.cargando = false;
-        // console.log(this.productos);
 
         this.operaconFinanciera = res;
         // this.operaconFinanciera = res.modelo;
 
         this.cargando = false;
-
-        console.log(res)
 
       }, (err) => {
 
@@ -217,9 +205,6 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     // this.cargando = true;
     // // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // // console.log(this.sesionSocioService.sesionSocio);
-    // // console.log(this.socio.getId());
-    // // console.log(this.socio.getNombreCompleto());
 
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
@@ -230,25 +215,19 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     this.cargandoDetalle = true;
 
-    // console.log(this.id_operacion_financiera)
-
     this.serviceOperacionFinancieraPago.listarProductoDetalle(id_operacion_financiera)
       // .pipe(
       //   delay(100)
       // )
       .subscribe((res: any) => {
 
-        // console.log(res)
         // this.productos = res.lista;
         // this.cargando = false;
-        // console.log(this.productos);
 
         this.operaconFinancieraDetalle = res;
         // this.operaconFinanciera = res.modelo;
 
         this.cargandoDetalle = false;
-
-        console.log(res)
 
       }, (err) => {
 
@@ -264,10 +243,6 @@ export class ProductoDetallePagoComponent implements OnInit {
   }
 
   agregarCuota(id: string, agregar: boolean) {
-
-    // console.log(document.getElementById('md_checkbox_21'));
-
-    // console.log(event);
 
     // const element = document.getElementById('md_checkbox_21');
 
@@ -285,7 +260,6 @@ export class ProductoDetallePagoComponent implements OnInit {
       this.form.controls.monto_cancelar.setValue((Number(monto_cancelar) - Number(cuota.monto_cuota)).toFixed(2));
     }
 
-    // console.log(this.listaCuotasPagar)
     this.calcularMontos();
   }
 
@@ -305,7 +279,6 @@ export class ProductoDetallePagoComponent implements OnInit {
         monto_cancelar += Number(item.monto_cuota);
         // this.form.get(item.id).setValue(true);
         // document.getElementById(item.id)//.checked==true;
-        // console.log(document.getElementById(item.id));
         // document.getElementById(item.id) = true;
 
         let element: any = document.getElementById(item.id);
@@ -323,10 +296,6 @@ export class ProductoDetallePagoComponent implements OnInit {
 
     this.form.get('monto_cancelar').setValue(monto_cancelar.toFixed(2));
 
-    // console.log(this.listaCuotasPagar);
-
-    // // console.log(event);
-
     // // const element = document.getElementById('md_checkbox_21');
 
     // const cuota: any = this.operaconFinancieraDetalle.find((item: any) => item.id === id);
@@ -343,7 +312,6 @@ export class ProductoDetallePagoComponent implements OnInit {
     //   this.form.controls.monto_cancelar.setValue(Number(monto_cancelar) - Number(cuota.monto_cuota));
     // }
 
-    // // console.log(this.listaCuotasPagar)
     this.calcularMontos();
   }
 
@@ -364,11 +332,7 @@ export class ProductoDetallePagoComponent implements OnInit {
       return;
     }
 
-    // console.log('Pagando...')    
-
     const modelo: OperaconFinancieraPago = this.form.value;
-
-    // console.log(modelo);
 
     // modelo.monto_ahorro_voluntario = this.form.get('monto_ahorro_voluntario').value;
     // modelo.monto_recibido = this.form.get('monto_recibido').value
@@ -383,7 +347,6 @@ export class ProductoDetallePagoComponent implements OnInit {
     this.serviceOperacionFinancieraPago.pagarProducto(modelo)
       .subscribe(res => {
 
-        // console.log(res);
         Swal.fire({
           text: 'El pago se realizó satisfactoriamente.', icon: 'success'
         });
@@ -429,15 +392,11 @@ export class ProductoDetallePagoComponent implements OnInit {
     //     return;
     //   }
 
-    // console.log(this.form.get('monto_ahorro_voluntario').value)
-    // console.log(this.form.get('monto_recibido').value)
-
     const monto_cancelar = this.form.get('monto_cancelar').value;
     const monto_ahorro_voluntario = this.form.get('monto_ahorro_voluntario').value || 0;
 
     const monto_total = Number(monto_cancelar) + Number(monto_ahorro_voluntario);
     // const monto_total = this.form.get('monto_total').value;
-    // console.log(monto_total)
 
     const monto_recibido = this.form.get('monto_recibido').value || 0;
     // const monto_vuelto = this.form.get('monto_vuelto').value;
@@ -450,130 +409,127 @@ export class ProductoDetallePagoComponent implements OnInit {
     this.form.controls.monto_vuelto.setValue(monto_vuelto.toFixed(2));
   }
 
-  imprimirRecibo2(recibo: []) {
+  // imprimirRecibo2(recibo: []) {
 
-    const opciones: any = {
-      orientation: 'p',
-      unit: 'cm',
-      format: [16, 16]
-    };
+  //   const opciones: any = {
+  //     orientation: 'p',
+  //     unit: 'cm',
+  //     format: [16, 16]
+  //   };
 
-    // var doc = new jsPDF(opciones);
+  //   // var doc = new jsPDF(opciones);
 
-    // doc.setFontSize(10);
-    // doc.text('       Buenavista La Bolsa S.A.C.', 10, 30);
-    // doc.text('            Agencia Ayacucho', 10, 35);
-    // doc.text('------------------------------------------', 10, 40);
-    // doc.text('RUC: 20574744599                I-00000009', 10, 45);
-    // doc.text('', 10, 55);
-    // doc.text('DNI: 44684165', 10, 60);
-    // doc.text('Socio: Jorge Flores Quispe', 10, 65);
-    // doc.text('Analista: Jorge Flores Quispe', 10, 70);
-    // doc.text('Producto: Créditos Personales', 10, 90);
-    // doc.text('Operación en Soles', 10, 95);
-    // doc.text('', 10, 100);
-    // doc.text('Detalle Operación', 10, 105);
-    // doc.text('------------------------------------------', 10, 110);
-    // doc.text('Ahorro voluntario', 10, 115);
-    // doc.text('Amortización Capital', 10, 120);
-    // doc.text('Interés', 10, 125);
-    // doc.text('------------------------------------------', 10, 130);
-    // doc.text('Total', 10, 135);
-    // doc.text('', 10, 140);
-    // doc.text('Usuario: 44684165', 10, 145);
-    // doc.text('Fecha: 09/09/2020 06:15:56 pm', 10, 150);
-    // doc.text('Recibo: Original', 10, 155);
-    // doc.text('** Frase **', 10, 160);
+  //   // doc.setFontSize(10);
+  //   // doc.text('       Buenavista La Bolsa S.A.C.', 10, 30);
+  //   // doc.text('            Agencia Ayacucho', 10, 35);
+  //   // doc.text('------------------------------------------', 10, 40);
+  //   // doc.text('RUC: 20574744599                I-00000009', 10, 45);
+  //   // doc.text('', 10, 55);
+  //   // doc.text('DNI: 44684165', 10, 60);
+  //   // doc.text('Socio: Jorge Flores Quispe', 10, 65);
+  //   // doc.text('Analista: Jorge Flores Quispe', 10, 70);
+  //   // doc.text('Producto: Créditos Personales', 10, 90);
+  //   // doc.text('Operación en Soles', 10, 95);
+  //   // doc.text('', 10, 100);
+  //   // doc.text('Detalle Operación', 10, 105);
+  //   // doc.text('------------------------------------------', 10, 110);
+  //   // doc.text('Ahorro voluntario', 10, 115);
+  //   // doc.text('Amortización Capital', 10, 120);
+  //   // doc.text('Interés', 10, 125);
+  //   // doc.text('------------------------------------------', 10, 130);
+  //   // doc.text('Total', 10, 135);
+  //   // doc.text('', 10, 140);
+  //   // doc.text('Usuario: 44684165', 10, 145);
+  //   // doc.text('Fecha: 09/09/2020 06:15:56 pm', 10, 150);
+  //   // doc.text('Recibo: Original', 10, 155);
+  //   // doc.text('** Frase **', 10, 160);
 
-    // doc.autoPrint({ variant: 'non-conform' });
-    // doc.save('comprobante.pdf');
+  //   // doc.autoPrint({ variant: 'non-conform' });
+  //   // doc.save('comprobante.pdf');
 
-    var doc: any = new jsPDF(opciones)
+  //   var doc: any = new jsPDF(opciones)
 
-    // doc.setFontSize(12);
+  //   // doc.setFontSize(12);
 
-    // doc.text('Theme "striped"', 14, 16)
-    // doc.autoTable({ head: headRows(), body: bodyRows(5), startY: 20 })
+  //   // doc.text('Theme "striped"', 14, 16)
+  //   // doc.autoTable({ head: headRows(), body: bodyRows(5), startY: 20 })
 
-    // doc.text('Theme "grid"', 14, doc.lastAutoTable.finalY + 10)
-    // doc.autoTable({
-    //   head: headRows(),
-    //   body: bodyRows(5),
-    //   startY: doc.lastAutoTable.finalY + 14,
-    //   theme: 'grid',
-    // })
+  //   // doc.text('Theme "grid"', 14, doc.lastAutoTable.finalY + 10)
+  //   // doc.autoTable({
+  //   //   head: headRows(),
+  //   //   body: bodyRows(5),
+  //   //   startY: doc.lastAutoTable.finalY + 14,
+  //   //   theme: 'grid',
+  //   // })
 
-    // doc.text('Theme "plain"', 14, 16)
-    // doc.text('Theme "plain"', 14, doc.lastAutoTable.finalY + 10)
-
-
-    // doc.autoTable({
-    //   head: this.headRows(),
-    //   body: this.bodyRows(5),
-    //   startY: 20,
-    //   // startY: doc.lastAutoTable.finalY + 14,
-    //   theme: 'plain',
-    // })
-
-    // const body = this.bodyRows(5);
-
-    // console.log('body');
-    // console.log(body);
-
-    // doc.text('Theme "striped"', 0, 5)
-
-    doc.autoTable({
-      // startX: 0,
-      startY: 0.5,
-      margin: {
-        right: 0,
-        left: 0
-      },
-      styles: {
-        valign: 'middle',
-        font: 'courier',
-        // font: 'monospace',
-        // font: 'courier-boldregular',
-        // font: 'meta',
-        fontSize: 16,
-        // fontSize: 10,
-        fontStyle: 'bold',
-        // fillColor: [255, 255, 255],
-        textColor: [0, 0, 0],
-        // lineColor: [0, 0, 0],
-        rowHeight: 0.5,
-        // columnWidth: '100',
-        cellPadding: 0,
-        charSpace: '50'
-        // lineWidth: 1
-      },
-      // styles: {overflow: 'linebreak', columnWidth: '100', font: 'arial', fontSize: 10, cellPadding: 4, overflowColumns: 'linebreak'}
-      // head: [
-      //   [
-      //     {
-      //       content: 'Buenavista La Bolsa S.A.C.',
-      //       colSpan: 3,
-      //       styles: { halign: 'center' },
-      //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-      //       columnHeight: 35
-      //     },
-      //   ],
-      // ],
-      body: recibo,
-      theme: 'plain',
-      // theme: 'grid',
-    });
-
-    doc.setCharSpace('50');
+  //   // doc.text('Theme "plain"', 14, 16)
+  //   // doc.text('Theme "plain"', 14, doc.lastAutoTable.finalY + 10)
 
 
-    doc.autoPrint();//<- para llamar a imprimir    
-    doc.output('dataurlnewwindow');//<-- para ver pdf en nueva pestaña
-    // doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
-    // doc.output('datauristring');        //returns the data uri string
-    // doc.output('datauri');              //opens the data uri in current window
-    // doc.output('dataurlnewwindow');     //opens the data uri in new window
-  }
+  //   // doc.autoTable({
+  //   //   head: this.headRows(),
+  //   //   body: this.bodyRows(5),
+  //   //   startY: 20,
+  //   //   // startY: doc.lastAutoTable.finalY + 14,
+  //   //   theme: 'plain',
+  //   // })
+
+  //   // const body = this.bodyRows(5);
+
+  //   // doc.text('Theme "striped"', 0, 5)
+
+  //   doc.autoTable({
+  //     // startX: 0,
+  //     startY: 0.5,
+  //     margin: {
+  //       right: 0,
+  //       left: 0
+  //     },
+  //     styles: {
+  //       valign: 'middle',
+  //       font: 'courier',
+  //       // font: 'monospace',
+  //       // font: 'courier-boldregular',
+  //       // font: 'meta',
+  //       fontSize: 16,
+  //       // fontSize: 10,
+  //       fontStyle: 'bold',
+  //       // fillColor: [255, 255, 255],
+  //       textColor: [0, 0, 0],
+  //       // lineColor: [0, 0, 0],
+  //       rowHeight: 0.5,
+  //       // columnWidth: '100',
+  //       cellPadding: 0,
+  //       charSpace: '50'
+  //       // lineWidth: 1
+  //     },
+  //     // styles: {overflow: 'linebreak', columnWidth: '100', font: 'arial', fontSize: 10, cellPadding: 4, overflowColumns: 'linebreak'}
+  //     // head: [
+  //     //   [
+  //     //     {
+  //     //       content: 'Buenavista La Bolsa S.A.C.',
+  //     //       colSpan: 3,
+  //     //       styles: { halign: 'center' },
+  //     //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
+  //     //       columnHeight: 35
+  //     //     },
+  //     //   ],
+  //     // ],
+  //     body: recibo,
+  //     theme: 'plain',
+  //     // theme: 'grid',
+  //   });
+
+  //   doc.setCharSpace('50');
+
+
+  //   doc.autoPrint();//<- para llamar a imprimir    
+  //   doc.output('dataurlnewwindow');//<-- para ver pdf en nueva pestaña
+  //   // doc.output('save', 'filename.pdf'); //Try to save PDF as a file (not works on ie before 10, and some mobile devices)
+  //   // doc.output('datauristring');        //returns the data uri string
+  //   // doc.output('datauri');              //opens the data uri in current window
+  //   // doc.output('dataurlnewwindow');     //opens the data uri in new window
+  // }
 
   validarError(campo: string): boolean {
 
@@ -603,8 +559,6 @@ export class ProductoDetallePagoComponent implements OnInit {
 
   //   // content.html('');
   //   const content: any = document.getElementById('divRecibo');
-
-  //   // console.log(content)
 
   //   content.innerHTML = '';
   //   // content.html('');
@@ -709,18 +663,13 @@ export class ProductoDetallePagoComponent implements OnInit {
       // const content = document.getElementById('divRecibo').innerHTML;
       let doc = (iframe.contentWindow || iframe.contentDocument);
 
-
       if (doc.document) doc = doc.document;
-
-
-
 
       doc.write('<head><title></title>');
       doc.write('<link href="../../../../../assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
       // doc.write('<link href="' + $("#urlBase").val() + '../css/recibo.css" rel="stylesheet" type="text/css"/>');
       doc.write('</head><body onload="this.focus(); this.print();">');
       // doc.write(content + '</body>');
-
 
       doc.write('<div class="ticket">');
       doc.write('<p class="centrado">' + data.institucion.denominacion);
@@ -1003,5 +952,4 @@ export class ProductoDetallePagoComponent implements OnInit {
       self.print();
     }
   }
-
 }

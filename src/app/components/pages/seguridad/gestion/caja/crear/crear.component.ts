@@ -67,7 +67,6 @@ export class CrearCajaComponent {
         ...this.form.value,
         id: this.cajaSeleccionada.id
       }
-      console.log(data);
       this.service.actualizar(data)
           .subscribe(resp => {
             Swal.fire({
@@ -87,7 +86,6 @@ export class CrearCajaComponent {
       
       this.service.crear(this.form.value)
         .subscribe(res => {  
-          // console.log(res);
           Swal.fire({
             text: 'La información se guardó satisfactoriamente.', icon: 'success'
           });

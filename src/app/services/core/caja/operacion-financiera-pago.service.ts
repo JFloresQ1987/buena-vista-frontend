@@ -22,8 +22,6 @@ export class OperacionFinancieraPagoService {
     //   'analista': modelo.analista
     // });
 
-    // console.log(modelo)
-
     return this.http.get(`${base_url}/operacion-financiera-pago/listar_pagos/${this.seguridadService.seguridad.id}/${analista}`)
       .pipe(
         map((res: { ok: boolean, lista: [] }) => res.lista)

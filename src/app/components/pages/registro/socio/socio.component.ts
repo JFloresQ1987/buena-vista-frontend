@@ -47,7 +47,6 @@ export class SocioComponent implements OnInit {
 
   ngOnInit(): void {
     this.seguridad = this.seguridadService.seguridad;
-    console.log(this.seguridad.id);
 
     setTimeout(() => {
       this.activatedRoute.params.subscribe( ({id}) => {
@@ -125,7 +124,6 @@ export class SocioComponent implements OnInit {
       
       this.service.crear(this.form.value)
         .subscribe(res => {  
-          // console.log(res);
           Swal.fire({
             text: 'La información se guardó satisfactoriamente.', icon: 'success'
           });  
@@ -196,7 +194,6 @@ export class SocioComponent implements OnInit {
           ...this.form.value,
           id: this.personaSeleccionada.id
         }
-        console.log(data);
         this.service.actualizar(data)
             .subscribe(resp => {
               Swal.fire({
@@ -215,7 +212,6 @@ export class SocioComponent implements OnInit {
         
         this.service.crear(this.form.value)
           .subscribe(res => {  
-            // console.log(res);
             Swal.fire({
               text: 'La información se guardó satisfactoriamente.', icon: 'success'
             });  
@@ -261,7 +257,6 @@ export class SocioComponent implements OnInit {
   carga(id: String){
     // let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
     let id_persona = this.sesionSocio.id
-    console.log(this.sesionSocio.id);
     if(id_persona === '0'){
       return
     } else {

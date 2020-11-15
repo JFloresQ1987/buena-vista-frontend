@@ -33,7 +33,6 @@ export class ProductoPagoComponent implements OnInit {
     // this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
     setTimeout(() => {
-      // console.log(this.socio.getNombreCompleto());
       this.listarProductos();
     }, 100);
 
@@ -44,9 +43,6 @@ export class ProductoPagoComponent implements OnInit {
 
     this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // console.log(this.sesionSocioService.sesionSocio);
-    // console.log(this.socio.getId());
-    // console.log(this.socio.getNombreCompleto());
 
     if (this.socio.getId() === '0') {
       Swal.fire({
@@ -61,11 +57,9 @@ export class ProductoPagoComponent implements OnInit {
       )
       .subscribe((res: []) => {
 
-        // console.log(res)
         this.productos = res;
         // this.productos = res.lista;
         this.cargando = false;
-        console.log(this.productos);
 
       }, (err) => {
 

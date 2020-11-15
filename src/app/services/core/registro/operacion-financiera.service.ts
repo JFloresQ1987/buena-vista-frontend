@@ -20,8 +20,6 @@ export class OperacionFinancieraService {
   }
 
   listarProductos(id_persona: string, tipo: string, estado: string) {
-
-    console.log(estado)
     
     return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}/${tipo}/${estado}`)
     .pipe(

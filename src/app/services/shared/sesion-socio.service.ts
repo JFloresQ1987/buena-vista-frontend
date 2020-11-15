@@ -16,14 +16,10 @@ export class SesionSocioService {
 
   constructor(private http: HttpClient) {
 
-    // console.log('entrooo')
-
     // this.sesionSocio = new Socio();
 
-    console.log('entro para buscando xxx')
-
     if (localStorage.getItem('socio')) {
-      // console.log('entrooo 111'+localStorage.getItem('socio'))
+
       this.buscarSocio(localStorage.getItem('socio')).subscribe((res: any) => {
 
         const { persona } = res
@@ -67,14 +63,9 @@ export class SesionSocioService {
 
   buscarSocio(documento_identidad: string) {
 
-
-    console.log('buscando')
-
     return this.http.get(`${this.base_url}/personas/buscar_socio/${documento_identidad}`);
     // return this.http.get(`${this.base_url}/personas/buscar_socio/${documento_identidad}`).pipe(
     //   tap((res: any) => {
-    //     // console.log('entrooo')
-    //     // console.log(res)
 
     //     const { persona } = res
 

@@ -14,7 +14,6 @@ const base_url = environment.base_url;
 export class PersonaService {
 
   constructor(private http: HttpClient) {
-    console.log('entro para buscando persona')
   }
 
    

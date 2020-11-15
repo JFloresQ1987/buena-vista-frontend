@@ -93,7 +93,6 @@ export class CierreCajaIndividualComponent {
       comentario: ['', [Validators.required]],
     });
 
-    console.log('aqui el id del sesion', this.seguridad.usuario);
     /* this.form.controls['cajero'].setValue(this.seguridad.id);
     this.form.controls['cajero'].disable(); */
 
@@ -142,7 +141,6 @@ export class CierreCajaIndividualComponent {
   verificarRecibo(){
     this.mostrarTabla = true  
     this.cierreCajaIndividualService.validarRecibo().subscribe(res=>{
-      console.log(res);
       if (res['ok']) {
         this.resRecibo = res['ok']         
       } else {
@@ -154,7 +152,6 @@ export class CierreCajaIndividualComponent {
 
   verificarMonto(){  
     this.cierreCajaIndividualService.validarMonto().subscribe(res=>{
-      console.log(res);  
       if (res['ok']) {
         this.resMonto = res['ok']        
       } else {        
@@ -166,13 +163,11 @@ export class CierreCajaIndividualComponent {
   
   // verificarOperacion(){
   //   this.cierreCajaIndividualService.validarOperacionesFinancieras().subscribe(res=>{
-  //     console.log(res);
   //     if (res['ok']) {
   //       this.resOperacion = res['ok']        
   //     } else {
   //       this.resOperacion = res['ok']
   //       this.errorOperacion = res['msg']   
-  //       console.log( res['listaReciboError']);
   //     }      
   //   })
   // }
@@ -195,7 +190,6 @@ export class CierreCajaIndividualComponent {
       cantidad_diez_centimos_cierre: parseFloat(this.form.controls['cantidad_diez_centimos_cierre'].value),
       comentario: this.form.controls['comentario'].value,
     }
-    console.log(data)
     this.cierreCajaIndividualService.getCierreCaja(data)
       .subscribe(res => {
         Swal.fire({

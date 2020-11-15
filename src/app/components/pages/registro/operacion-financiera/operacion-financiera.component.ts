@@ -50,7 +50,6 @@ export class OperacionFinancieraComponent implements OnInit {
   ngOnInit(): void {
 
     setTimeout(() => {
-      // console.log(this.socio.getNombreCompleto());
       // this.listarProductos();
       if (this.sesionSocio.id === '0') {
 
@@ -100,7 +99,6 @@ export class OperacionFinancieraComponent implements OnInit {
     // this.analistaService.getListaDesplegablexProducto()
     //   .subscribe(res => {
     //     this.analistas = res;
-    //     // console.log(this.analistas)
     //   });
 
     // this.productoService.listar_programacion(0)
@@ -124,10 +122,6 @@ export class OperacionFinancieraComponent implements OnInit {
     // this.form.setValue({ "programacion_pago": '' });
 
     // element.getAttribute('formControlName')
-
-    // console.log(tipo)
-    // console.log(this.form. .getAttribute('formControlName'))
-
 
     // this.form.controls.programacion_pago.setValue('');
     // this.form.controls.analista.setValue('');
@@ -156,7 +150,6 @@ export class OperacionFinancieraComponent implements OnInit {
       .subscribe(res => {
         this.programacion_pago = res.lista;
         this.configuracion_pago = res.configuracion;
-        // console.log(res)
 
         this.form.get('monto_gasto').setValue(this.configuracion_pago.monto_gasto);
         this.form.get('tasa_interes').setValue(this.configuracion_pago.tasa_interes);
@@ -168,11 +161,10 @@ export class OperacionFinancieraComponent implements OnInit {
         this.calcularMontoAhorroInicial();
       });
 
-      this.analistaService.getListaDesplegablexProducto(tipo)
+    this.analistaService.getListaDesplegablexProducto(tipo)
       .subscribe(res => {
         this.analistas = res;
-        // console.log(this.analistas)
-      });    
+      });
   }
 
   calcular() {
@@ -183,8 +175,6 @@ export class OperacionFinancieraComponent implements OnInit {
       });
       return;
     }
-
-    // console.log(this.sesionSocio)
 
     this.formSubmitted = true;
     if (!this.form.valid) {
@@ -205,7 +195,6 @@ export class OperacionFinancieraComponent implements OnInit {
     // })
 
     // const dd = dayjs().locale('es');
-    // console.log(dd.format('dddd'));
 
     const capital = this.form.get('monto_capital').value;
     // const cantidad_cuotas = this.form.get('programacion_pago').value;
@@ -213,32 +202,21 @@ export class OperacionFinancieraComponent implements OnInit {
     const tipo = this.tipos.find(item => item.id === id_tipo);
     const codigo_programacion = this.form.get('programacion_pago').value;
     const programacion = this.programacion_pago.find(item => item.codigo === codigo_programacion);
-    // console.log(this.tipos)
-    // console.log(this.programacion_pago)
-    // console.log(id_tipo)
-    // console.log(tipo)
-    // console.log(codigo_programacion)
-    // console.log(programacion)
     const cantidad_cuotas = programacion.numero_cuotas;
     const tasa_interes = this.form.get('tasa_interes').value;
     const tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
     const now = dayjs(this.form.get('fecha_inicio').value).locale('es');
     // const now = dayjs();
 
-    // console.log(this.form.get('fecha_inicio').value)//fecha_inicio
-
-    // console.log(this.form.get('tipo').value)
-    // console.log(cantidad_cuotas)
-    // // console.log(thitipos)
-    // console.log(tipo)
-
     // let dias = [];
 
     this.cuotas = [];
 
+    const existe_cuota_cero: boolean = this.form.get('monto_gasto').value > 0 || this.form.get('monto_ahorro_inicial').value > 0
+
     for (let i = 1; i <= cantidad_cuotas; i++) {
       let fecha: any;
-      let nombre_dia:string;
+      let nombre_dia: string;
       // let fecha = now.add(i, 'day');
 
       if (tipo.codigo === "CD")
@@ -256,8 +234,6 @@ export class OperacionFinancieraComponent implements OnInit {
         fecha = now.add((i * 7), 'day');
       else if (tipo.codigo === "BC" && programacion.tipo_pago === "quincenal")
         fecha = now.add((i * 14), 'day');
-
-      // console.log(fecha);        
 
       if (((fecha.format('d') != '0' || this.form.get('incluir_domingos').value) && tipo.codigo === "CD")
         // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
@@ -326,10 +302,8 @@ export class OperacionFinancieraComponent implements OnInit {
           //   ]
           // })
 
-          // console.log(fecha.format('dddd'))
-          // console.log(fecha.format('DD/MM/YYYY'))
-
           this.cuotas.push({
+            estado: existe_cuota_cero ? 'Prependiente' : 'Pendiente',
             nombre_dia_cuota: nombre_dia,
             fecha_cuota: fecha.format('DD/MM/YYYY'),
             fecha_cuota_visual: fecha_formateada,
@@ -383,16 +357,7 @@ export class OperacionFinancieraComponent implements OnInit {
     else
       monto_cuota_ahorro_programado = Math.ceil(((monto_cuota * tasa_ahorro_programado) / 100) * 10) / 10;
 
-    // console.log(monto_cuota)
-    // console.log(tasa_ahorro_programado)
-    // console.log(monto_cuota_ahorro_programado)
-    // console.log((monto_cuota * (tasa_ahorro_programado / 100)))
-
     const monto_cuota_total = (monto_cuota + monto_cuota_ahorro_programado).toFixed(2);
-
-    // console.log(monto_cuota);
-    // console.log(monto_cuota_ahorro_programado);
-    // console.log(monto_cuota_total);
 
     // this.cuotas = [];
 
@@ -433,20 +398,22 @@ export class OperacionFinancieraComponent implements OnInit {
       this.cuotas[i - 1] = Object.assign(cuota, this.cuotas[i - 1]);
     }
 
-    this.cuotas.push({
-      estado: 'Pendiente',
-      numero_cuota: 0,
-      nombre_dia_cuota: '',
-      fecha_cuota: dayjs().format('DD/MM/YYYY'),
-      fecha_plazo_cuota: dayjs().format('DD/MM/YYYY'),
-      ingresos: {
-        monto_gasto: this.form.get('monto_gasto').value,
-      },
-      ahorros: {
-        monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
-      }
-    });
+    if (existe_cuota_cero) {
 
+      this.cuotas.push({
+        estado: 'Pendiente',
+        numero_cuota: 0,
+        nombre_dia_cuota: '',
+        fecha_cuota: dayjs().format('DD/MM/YYYY'),
+        fecha_plazo_cuota: dayjs().format('DD/MM/YYYY'),
+        ingresos: {
+          monto_gasto: this.form.get('monto_gasto').value,
+        },
+        ahorros: {
+          monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
+        }
+      });
+    }
   }
 
   guardar() {
@@ -475,12 +442,8 @@ export class OperacionFinancieraComponent implements OnInit {
       return;
     }
 
-    // console.log('entro 1: '+this.form.get('tipo').value);
-
     // const tipoX = this.tipos.find(tipo => tipo.id == this.form.get('tipo').value);
-    // console.log('entro 2: '+ this.form.get('programacion_pago').value);
     // const programacionX = this.programacion_pago.find(programacion => programacion.id == this.form.get('programacion_pago').value);
-    // console.log('entro 3');
     // let color: string;
     const id_tipo = this.form.get('tipo').value;
     const tipo = this.tipos.find(item => item.id === id_tipo);
@@ -495,12 +458,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // else
     //   color = "primary";
 
-    // console.log(tipoX);
-    // console.log(color);
-    // console.log(programacionX);
     const modelo: OperaconFinanciera = this.form.value;
-
-    // console.log(modelo);
 
     modelo.producto = {
       tipo: id_tipo,
@@ -510,8 +468,6 @@ export class OperacionFinancieraComponent implements OnInit {
       es_prestamo: true
       // color: color
     };
-
-    // console.log(modelo);
 
     // modelo.producto.tipo = id_tipo;//tipo.id;
     // modelo.producto.codigo_programacion = programacion.codigo_programacion;
@@ -546,8 +502,6 @@ export class OperacionFinancieraComponent implements OnInit {
     modelo.monto_capital = this.form.get('monto_capital').value;
     modelo.detalle = this.cuotas;
 
-    console.log(modelo);
-
     // this.cuotas.push({
     //   numero_cuota: 0,
     //   fecha_cuota: dayjs().format('DD/MM/YYYY'),
@@ -555,15 +509,11 @@ export class OperacionFinancieraComponent implements OnInit {
     //   monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
     // });
 
-    // console.log('entro a guardar')
-    // console.log(modelo)
-
     this.cargando = true;
 
     this.service.crear(modelo)
       .subscribe(res => {
 
-        // console.log(res);
         Swal.fire({
           text: 'La información se guardó satisfactoriamente.', icon: 'success'
         });

@@ -25,8 +25,6 @@ export class CierreCajaIndividualService {
 
   getCajas(desde: string, hasta: string ){
     const url = `${base_url}/caja-diario?desde=${desde}&hasta=${hasta}`;
-    console.log('servicio', desde);
-    console.log('servicio1', hasta);
     return this.http.get(url);
   }
 

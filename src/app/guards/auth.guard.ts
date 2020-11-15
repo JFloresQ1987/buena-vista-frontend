@@ -21,16 +21,9 @@ export class AuthGuard implements CanActivate, CanLoad {
       .pipe(
         tap(({ esta_autenticado, debe_cambiar_clave_inicio_sesion }) => {
           // tap((esta_autenticado: any) => {
-          //  console.log(esta_autenticado);
-
-
-          // console.log('validando token ... 1')
-          // console.log(esta_autenticado)
 
           if (!esta_autenticado)
             this.router.navigateByUrl('/login');
-
-          console.log(debe_cambiar_clave_inicio_sesion)
 
           // if (esta_autenticado.debe_cambiar_clave_inicio_sesion)
           //   this.router.navigateByUrl('/cambiar-clave');
@@ -49,15 +42,9 @@ export class AuthGuard implements CanActivate, CanLoad {
       .pipe(
         tap(({ esta_autenticado, debe_cambiar_clave_inicio_sesion }) => {
           // tap((esta_autenticado: any) => {
-          // console.log(esta_autenticado);
-
-          // console.log('validando token ... 2')
 
           if (!esta_autenticado)
             this.router.navigateByUrl('/login');
-
-          console.log(debe_cambiar_clave_inicio_sesion)
-
         }),
         map(({ esta_autenticado }) => esta_autenticado)
       );

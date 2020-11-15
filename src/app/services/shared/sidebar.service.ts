@@ -13,6 +13,5 @@ export class SidebarService {
   }  
   
   constructor() {
-    console.log('entro para buscando side bar')
    }
 }

@@ -48,7 +48,6 @@ export class AhorroComponent implements OnInit {
   ngOnInit(): void {
 
     setTimeout(() => {
-      // console.log(this.socio.getNombreCompleto());
       // this.listarProductos();
       if (this.sesionSocio.id === '0') {
 
@@ -80,8 +79,6 @@ export class AhorroComponent implements OnInit {
 
     // this.form.get('tipo').valueChanges
     //   .subscribe(tipo => {
-
-    //     console.log(this.programacion_pago.length)
 
     //     if (this.programacion_pago.length > 0)
     //       this.form.get('programacion_pago').setValidators([Validators.required]);
@@ -159,7 +156,6 @@ export class AhorroComponent implements OnInit {
       .subscribe(res => {
         this.programacion_pago = res.lista;
         this.configuracion_pago = res.configuracion;
-        // console.log(res)
 
         this.form.get('monto_gasto').setValue(this.configuracion_pago.monto_gasto);
         this.form.get('tasa_interes_ganado').setValue(this.configuracion_pago.tasa_interes_ganado);
@@ -175,7 +171,6 @@ export class AhorroComponent implements OnInit {
     // this.analistaService.getListaDesplegablexProducto(tipo)
     // .subscribe(res => {
     //   this.analistas = res;
-    //   // console.log(this.analistas)
     // });    
   }
 
@@ -215,12 +210,9 @@ export class AhorroComponent implements OnInit {
       return;
     }
 
-    // console.log('entro 1: '+this.form.get('tipo').value);
 
     // const tipoX = this.tipos.find(tipo => tipo.id == this.form.get('tipo').value);
-    // console.log('entro 2: '+ this.form.get('programacion_pago').value);
     // const programacionX = this.programacion_pago.find(programacion => programacion.id == this.form.get('programacion_pago').value);
-    // console.log('entro 3');
     // let color: string;
     const id_tipo = this.form.get('tipo').value;
     const tipo = this.tipos.find(item => item.id === id_tipo);
@@ -238,12 +230,7 @@ export class AhorroComponent implements OnInit {
     // else
     //   color = "primary";
 
-    // console.log(tipoX);
-    // console.log(color);
-    // console.log(programacionX);
     const modelo: OperaconFinanciera = this.form.value;
-
-    // console.log(modelo);
 
     modelo.producto = {
       tipo: id_tipo,
@@ -253,8 +240,6 @@ export class AhorroComponent implements OnInit {
       es_prestamo: false
       // color: color
     };
-
-    // console.log(modelo);
 
     // modelo.producto.tipo = id_tipo;//tipo.id;
     // modelo.producto.codigo_programacion = programacion.codigo_programacion;
@@ -333,8 +318,6 @@ export class AhorroComponent implements OnInit {
     //   }
     // });
 
-    // console.log(modelo);
-
     // this.cuotas.push({
     //   numero_cuota: 0,
     //   fecha_cuota: dayjs().format('DD/MM/YYYY'),
@@ -342,15 +325,11 @@ export class AhorroComponent implements OnInit {
     //   monto_ahorro_inicial: this.form.get('monto_ahorro_inicial').value
     // });
 
-    // console.log('entro a guardar')
-    // console.log(modelo)
-
     this.cargando = true;
 
     this.service.crear(modelo)
       .subscribe(res => {
 
-        // console.log(res);
         Swal.fire({
           text: 'La información se guardó satisfactoriamente.', icon: 'success'
         });

@@ -38,12 +38,9 @@ export class ListarRecibosComponent implements OnInit {
       // )
       .subscribe((res: []) => {
 
-        // console.log(res)
         this.lista = res;
         // this.productos = res.lista;
         this.cargando = false;
-        // console.log(this.productos);
-
       });
   }
 
@@ -127,8 +124,6 @@ export class ListarRecibosComponent implements OnInit {
       },
       preConfirm: (value) => {
 
-        // console.log(value)
-
         const comentario: string = value;
 
         // const modelo: OperaconFinancieraPago = {
@@ -162,7 +157,6 @@ export class ListarRecibosComponent implements OnInit {
 
         // if (result.isConfirmed) {
 
-        //   console.log('entrooo a eliminar')
         // }
 
         //   return fetch(`//api.github.com/users/${login}`)

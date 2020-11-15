@@ -26,9 +26,6 @@ export class HeaderComponent implements OnInit {
 
     this.seguridad = seguridadService.seguridad;
     this.sesionSocio = sesionSocioService.sesionSocio;
-
-    // console.log(this.seguridad)
-    // console.log(this.sesionSocio)
   }
 
   ngOnInit(): void {
@@ -53,7 +50,6 @@ export class HeaderComponent implements OnInit {
   // buscarSocio(documento_identidad: string) {
   buscarSocio(documento_identidad: string) {
 
-    // console.log(documento_identidad)
     if (documento_identidad.length != 8) {
       Swal.fire({
         text: "Ingrese un documento de identidad correcto.", icon: 'warning'
@@ -97,12 +93,10 @@ export class HeaderComponent implements OnInit {
         // this.sesionSocio.apellido_materno = persona.apellido_materno;
 
         localStorage.setItem('socio', documento_identidad);
-        console.log(persona.id);
         localStorage.setItem('socio1', persona.id);
         // this.documento_identidad='';
         // document.getElementById('documento_identidad').value = '';
 
-        // console.log(document.getElementById('documento_identidad'))
         // document.getElementById('documento_identidad').value=""
         this.router.navigateByUrl('/dashboard/socio');
 

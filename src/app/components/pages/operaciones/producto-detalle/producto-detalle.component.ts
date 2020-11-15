@@ -68,7 +68,6 @@ export class ProductoDetalleComponent implements OnInit {
     })
 
     // setTimeout(() => {
-    //   // console.log(this.socio.getNombreCompleto());
     //   this.listarProducto();
     // }, 100);
   }
@@ -219,9 +218,6 @@ export class ProductoDetalleComponent implements OnInit {
 
     // this.cargando = true;
     // // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // // console.log(this.sesionSocioService.sesionSocio);
-    // // console.log(this.socio.getId());
-    // // console.log(this.socio.getNombreCompleto());
 
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
@@ -232,18 +228,14 @@ export class ProductoDetalleComponent implements OnInit {
 
     this.cargando = true;
 
-    // console.log(this.id_operacion_financiera)
-
     this.serviceOperacionFinanciera.listarProducto(id_operacion_financiera)
       // .pipe(
       //   delay(100)
       // )
       .subscribe((res: any) => {
 
-        // console.log(res)
         // this.productos = res.lista;
         // this.cargando = false;
-        // console.log(this.productos);
         this.operaconFinanciera = res;
         // this.operaconFinanciera = res.modelo;
         this.cargando = false;
@@ -265,9 +257,6 @@ export class ProductoDetalleComponent implements OnInit {
 
     // this.cargando = true;
     // // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // // console.log(this.sesionSocioService.sesionSocio);
-    // // console.log(this.socio.getId());
-    // // console.log(this.socio.getNombreCompleto());
 
     // if (this.socio.getId() === '0') {
     //   Swal.fire({
@@ -278,18 +267,14 @@ export class ProductoDetalleComponent implements OnInit {
 
     this.cargandoDetalle = true;
 
-    // console.log(this.id_operacion_financiera)
-
     this.serviceOperacionFinancieraDetalle.listarProductoDetalle(id_operacion_financiera)
       // .pipe(
       //   delay(100)
       // )
       .subscribe((res: any) => {
 
-        // console.log(res)
         // this.productos = res.lista;
         // this.cargando = false;
-        // console.log(this.productos);
 
         this.operaconFinancieraDetalle = res;
         // this.operaconFinanciera = res.modelo;

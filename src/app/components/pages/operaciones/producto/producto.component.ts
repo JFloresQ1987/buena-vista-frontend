@@ -30,7 +30,6 @@ export class ProductoComponent implements OnInit {
     // this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
     setTimeout(() => {
-      // console.log(this.socio.getNombreCompleto());
       this.listarProductos();
     }, 100);
 
@@ -41,9 +40,6 @@ export class ProductoComponent implements OnInit {
 
     this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    // console.log(this.sesionSocioService.sesionSocio);
-    // console.log(this.socio.getId());
-    // console.log(this.socio.getNombreCompleto());
 
     if (this.socio.getId() === '0') {
       Swal.fire({
@@ -58,11 +54,9 @@ export class ProductoComponent implements OnInit {
       )
       .subscribe((res: []) => {
 
-        // console.log(res)
         this.productos = res;
         // this.productos = res.lista;
         this.cargando = false;
-        console.log(this.productos);
 
       }, (err) => {
 
@@ -82,7 +76,6 @@ export class ProductoComponent implements OnInit {
     this.analistaService.getListaDesplegablexProducto(tipo)
       .subscribe(res => {
         this.analistas = res;
-        // console.log(this.analistas)
 
         let controls = '';
         controls += '<select id="analista" class="swal2-input" autofocus>';
@@ -276,8 +269,6 @@ export class ProductoComponent implements OnInit {
     //   },
     //   preConfirm: (value) => {
 
-    //     // console.log(value)
-
     //     const comentario: string = value;
 
 
@@ -325,8 +316,6 @@ export class ProductoComponent implements OnInit {
         }
       },
       preConfirm: (value) => {
-
-        // console.log(value)
 
         const comentario: string = value;
 

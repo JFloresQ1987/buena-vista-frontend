@@ -17,26 +17,14 @@ export class SidebarComponent implements OnInit {
   constructor(public sidebarService: SidebarService,
     public sesionSocioService: SesionSocioService) {
 
-    //console.log(this.socio)
-    // console.log(sesionSocioService.sesionSocio)
-
     // if (localStorage.getItem('socio')) {
       this.sesionSocio = sesionSocioService.sesionSocio;
     // } else {
     //   this.socio = new Socio();
     // }
-// console.log('--sidebar--')
-//     console.log(this.socio.getNombreCompleto())
-//     console.log('--sidebar--')
-
-//     console.log("Hello");
-// setTimeout(() => { console.log(this.socio.getNombreCompleto()); }, 2000);
-// console.log("Goodbye!");
 
 // if(!this.socio)
 // this.socio = new Socio();
-
-    // console.log(this.socio.nombre);
   }
 
   ngOnInit(): void {

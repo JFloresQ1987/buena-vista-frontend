@@ -12,8 +12,6 @@ export class DashboardSocioComponent implements OnInit {
   constructor(private service: SesionSocioService) { }
 
   ngOnInit(): void {
-
-    console.log(this.service.sesionSocio)
     
     // this.activatedRoute.params
     // .subscribe(({ documento_identidad }) => {
@@ -26,7 +24,6 @@ export class DashboardSocioComponent implements OnInit {
 
   //   this.service.buscarSocio(documento_identidad)
   //   .subscribe(res => {
-  //     console.log(res);
       
   //   });
 

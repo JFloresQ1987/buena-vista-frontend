@@ -19,16 +19,13 @@ export class SeguridadService {
   public seguridad: Seguridad;
 
   constructor(private http: HttpClient/*,
-    private sesionSocioService: SesionSocioService*/) {
+   private sesionSocioService: SesionSocioService*/) {
 
-    console.log('entro para buscando seguridad')
   }
 
   validarToken(): Observable<any> {
 
     const token = localStorage.getItem('token') || '';
-
-    // console.log(token)
 
     return this.http.get(`${base_url}/login/renovar_token`).pipe(
       tap((res: any) => {

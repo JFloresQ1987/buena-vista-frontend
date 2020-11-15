@@ -95,7 +95,6 @@ export class CrearComponent {
         }
         delete data['_id'];
         delete data['ubigeo'];
-        console.log(data)
         const roles = [];
         rol.forEach(r => {
           if (r == 'Administrador') {
@@ -110,7 +109,6 @@ export class CrearComponent {
         this.form.patchValue(data);
         this.form.controls['provincia'].setValue(data.provincia);
         this.form.controls['distrito'].setValue(data.distrito);
-        console.log(this.form.controls['provincia'].value);
       });
     } else {
       return;

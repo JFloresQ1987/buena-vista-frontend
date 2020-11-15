@@ -47,7 +47,6 @@ export class IngresosEgresosComponent implements OnInit {
     });
 
     this.form.controls['concepto'].valueChanges.subscribe(data => {
-      console.log(data);
       if (data == "") {
         return
       }
@@ -394,9 +393,6 @@ export class IngresosEgresosComponent implements OnInit {
 
 
     // const body = this.bodyRows(5);
-
-    // console.log('body');
-    // console.log(body);
 
     // doc.text('Theme "striped"', 0, 5)
 

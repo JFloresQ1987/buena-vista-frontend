@@ -26,7 +26,6 @@ export class ProductoPrePagoComponent implements OnInit {
     // this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
     setTimeout(() => {
-      // console.log(this.socio.getNombreCompleto());
       this.listarProductos();
     }, 100);
 
@@ -43,12 +42,9 @@ export class ProductoPrePagoComponent implements OnInit {
       )
       .subscribe((res: []) => {
 
-        // console.log(res)
         this.lista = res;
         // this.productos = res.lista;
         this.cargando = false;
-        // console.log(this.lista);
-
       });
   }
 
@@ -70,8 +66,6 @@ export class ProductoPrePagoComponent implements OnInit {
         })
     });
 
-    // console.log(this.listaPago);
-
     if (this.listaPago.length === 0) {
       Swal.fire({
         text: "Ingresar al menos un monto a pagar.", icon: 'warning'
@@ -87,11 +81,7 @@ export class ProductoPrePagoComponent implements OnInit {
     // //   return;
     // // }
 
-    // // console.log('Pagando...')    
-
     // const modelo: OperaconFinancieraPago = this.form.value;
-
-    // // console.log(modelo);
 
     // // modelo.monto_ahorro_voluntario = this.form.get('monto_ahorro_voluntario').value;
     // // modelo.monto_recibido = this.form.get('monto_recibido').value
@@ -106,7 +96,6 @@ export class ProductoPrePagoComponent implements OnInit {
     // this.serviceOperacionFinancieraPago.pagarProducto(modelo)
     //   .subscribe(res => {
 
-    //     // console.log(res);
     //     Swal.fire({
     //       text: 'El pago se realizó satisfactoriamente.', icon: 'success'
     //     });

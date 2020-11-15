@@ -14,10 +14,8 @@ export class CajaComponent implements OnInit {
   constructor(private caja: CajaService) { }
 
   ngOnInit(): void {
-    console.log('Haciendo la peticion');
     this.caja.listar().subscribe(res=>{
       this.cajas = res['cajas'];
-      console.log(res);
     })
   }
  

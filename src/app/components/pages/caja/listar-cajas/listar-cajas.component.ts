@@ -34,7 +34,6 @@ export class ListarCajasComponent implements OnInit {
 
     this.listarCajas.getCajas(this.desde, this.hasta).subscribe(res=>{
       this.cajas = res['cajas'];
-      console.log(res);
     })    
   }
 
@@ -43,8 +42,6 @@ export class ListarCajasComponent implements OnInit {
     hasta= this.hasta
     this.listarCajas.getCajas(desde, hasta).subscribe(res=>{
       this.cajas = res['cajas'];
-      console.log(res);
-
     })
   }
 
@@ -58,7 +55,6 @@ export class ListarCajasComponent implements OnInit {
       let nombre = res['cajasFecha']['caja']['usuario']['persona']['nombre'] + ' '+ 
                     res['cajasFecha']['caja']['usuario']['persona']['apellido_paterno'] + ' '+
                     res['cajasFecha']['caja']['usuario']['persona']['apellido_materno'] 
-      console.log(nombre);
       let fecha = new Date()
       var doc: any = new jsPDF()
       var totalPagesExp = '{ total_pages_count_string }'
