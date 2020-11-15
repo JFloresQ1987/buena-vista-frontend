@@ -299,7 +299,7 @@
               <div class="col-sm-12">
                 <button
                   type="button"
-                  (click)="verificarMonto(); verificarRecibo(); verificarOperacion()"
+                  (click)="verificarMonto(); verificarRecibo()"
                   class="btn btn-lg btn-primary waves-effect waves-light m-r-10">
                   <i class="fa fa-times-circle"></i>
                   &nbsp; Verificar
@@ -334,9 +334,9 @@
                 <tr>
                   <td class="text-center" *ngIf="!this.resMonto" ><span class="text-danger">{{this.errorMonto}}</span></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td class="text-center" *ngIf="!this.resOperacion" ><span class="text-danger">{{this.errorOperacion}}</span></td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </form>

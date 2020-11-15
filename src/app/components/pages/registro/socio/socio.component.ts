@@ -132,9 +132,52 @@ export class SocioComponent implements OnInit {
   } 
 
   cancelar() {    
+
+    let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
+
+    if(id_persona === '0'){
+      this.formSubmitted=false
+      // this.form.reset()
+    } else {
+      this.service.obtenerPersona(id_persona)
+        .subscribe( persona => {
+          const {          
+            documento_identidad, 
+            nombre, 
+            apellido_materno, 
+            apellido_paterno,
+            fecha_nacimiento,
+            es_masculino,
+            numero_telefono,
+            numero_celular,
+            correo_electronico,
+            domicilio,
+            referencia_domicilio,
+            ubigeo,
+            comentario               
+            } = persona
+          this.personaSeleccionada = persona
+          this.form.setValue({
+            documento_identidad, 
+            nombre, 
+            apellido_materno, 
+            apellido_paterno,
+            fecha_nacimiento,
+            es_masculino,
+            numero_telefono,
+            numero_celular,
+            correo_electronico,
+            domicilio,
+            referencia_domicilio,          
+            departamento: ubigeo.departamento,
+            provincia : ubigeo.provincia,
+            distrito: ubigeo.distrito,
+            comentario:''    
+          })
+          this.form.disable();
+        })
+    }
     
-    this.formSubmitted=false
-    this.form.reset()
   }
 
   editar(){

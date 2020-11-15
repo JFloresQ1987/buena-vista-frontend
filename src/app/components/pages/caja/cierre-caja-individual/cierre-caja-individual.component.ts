@@ -164,18 +164,18 @@ export class CierreCajaIndividualComponent {
     })
   }
   
-  verificarOperacion(){
-    this.cierreCajaIndividualService.validarOperacionesFinancieras().subscribe(res=>{
-      console.log(res);
-      if (res['ok']) {
-        this.resOperacion = res['ok']        
-      } else {
-        this.resOperacion = res['ok']
-        this.errorOperacion = res['msg']   
-        console.log( res['listaReciboError']);
-      }      
-    })
-  }
+  // verificarOperacion(){
+  //   this.cierreCajaIndividualService.validarOperacionesFinancieras().subscribe(res=>{
+  //     console.log(res);
+  //     if (res['ok']) {
+  //       this.resOperacion = res['ok']        
+  //     } else {
+  //       this.resOperacion = res['ok']
+  //       this.errorOperacion = res['msg']   
+  //       console.log( res['listaReciboError']);
+  //     }      
+  //   })
+  // }
 
   guardar() {
 
