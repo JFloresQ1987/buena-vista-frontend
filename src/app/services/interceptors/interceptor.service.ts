@@ -25,7 +25,7 @@ export class InterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    console.log('Interceptor token')
+    // console.log('Interceptor token')
 
     this.seguridad = this.seguridadService.seguridad;
     // this.socio = this.sesionSocioService.sesionSocio;
