@@ -97,6 +97,8 @@ export class HeaderComponent implements OnInit {
         // this.sesionSocio.apellido_materno = persona.apellido_materno;
 
         localStorage.setItem('socio', documento_identidad);
+        console.log(persona.id);
+        localStorage.setItem('socio1', persona.id);
         // this.documento_identidad='';
         // document.getElementById('documento_identidad').value = '';
 

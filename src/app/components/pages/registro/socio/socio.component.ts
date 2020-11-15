@@ -10,6 +10,7 @@ import { Socio } from '../../../../models/core/socio.model';
 import { UbigeoService } from '../../../../services/core/ubigeo.service';
 import { Seguridad } from '../../../../models/auth/seguridad.model';
 import { SeguridadService } from '../../../../services/auth/seguridad.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-socio',
@@ -39,7 +40,8 @@ export class SocioComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private ubigeoService : UbigeoService,
     private sesionSocioService: SesionSocioService,
-    private seguridadService: SeguridadService) {
+    private seguridadService: SeguridadService,
+    private router: Router) {
       this.sesionSocio = this.sesionSocioService.sesionSocio;
     }
 
@@ -47,9 +49,12 @@ export class SocioComponent implements OnInit {
     this.seguridad = this.seguridadService.seguridad;
     console.log(this.seguridad.id);
 
-    this.activatedRoute.params.subscribe( ({id}) => {
-      this.carga(id)
-    })
+    setTimeout(() => {
+      this.activatedRoute.params.subscribe( ({id}) => {
+        this.carga(id)
+      })
+    }, 100);
+    
 
     this.form = this.formBuilder.group({
       documento_identidad: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
@@ -132,51 +137,51 @@ export class SocioComponent implements OnInit {
   } 
 
   cancelar() {    
+    this.router.navigateByUrl('/dashboard/socio');
 
-    let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
+    // let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
 
-    if(id_persona === '0'){
-      this.formSubmitted=false
-      // this.form.reset()
-    } else {
-      this.service.obtenerPersona(id_persona)
-        .subscribe( persona => {
-          const {          
-            documento_identidad, 
-            nombre, 
-            apellido_materno, 
-            apellido_paterno,
-            fecha_nacimiento,
-            es_masculino,
-            numero_telefono,
-            numero_celular,
-            correo_electronico,
-            domicilio,
-            referencia_domicilio,
-            ubigeo,
-            comentario               
-            } = persona
-          this.personaSeleccionada = persona
-          this.form.setValue({
-            documento_identidad, 
-            nombre, 
-            apellido_materno, 
-            apellido_paterno,
-            fecha_nacimiento,
-            es_masculino,
-            numero_telefono,
-            numero_celular,
-            correo_electronico,
-            domicilio,
-            referencia_domicilio,          
-            departamento: ubigeo.departamento,
-            provincia : ubigeo.provincia,
-            distrito: ubigeo.distrito,
-            comentario:''    
-          })
-          this.form.disable();
-        })
-    }
+    // if(id_persona === '0'){
+    //   this.formSubmitted=false
+    // } else {
+    //   this.service.obtenerPersona(id_persona)
+    //     .subscribe( persona => {
+    //       const {          
+    //         documento_identidad, 
+    //         nombre, 
+    //         apellido_materno, 
+    //         apellido_paterno,
+    //         fecha_nacimiento,
+    //         es_masculino,
+    //         numero_telefono,
+    //         numero_celular,
+    //         correo_electronico,
+    //         domicilio,
+    //         referencia_domicilio,
+    //         ubigeo,
+    //         comentario               
+    //         } = persona
+    //       this.personaSeleccionada = persona
+    //       this.form.setValue({
+    //         documento_identidad, 
+    //         nombre, 
+    //         apellido_materno, 
+    //         apellido_paterno,
+    //         fecha_nacimiento,
+    //         es_masculino,
+    //         numero_telefono,
+    //         numero_celular,
+    //         correo_electronico,
+    //         domicilio,
+    //         referencia_domicilio,          
+    //         departamento: ubigeo.departamento,
+    //         provincia : ubigeo.provincia,
+    //         distrito: ubigeo.distrito,
+    //         comentario:''    
+    //       })
+    //       this.form.disable();
+    //     })
+    // }
     
   }
 
@@ -254,8 +259,9 @@ export class SocioComponent implements OnInit {
   }
 
   carga(id: String){
-    let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
-
+    // let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
+    let id_persona = this.sesionSocio.id
+    console.log(this.sesionSocio.id);
     if(id_persona === '0'){
       return
     } else {
