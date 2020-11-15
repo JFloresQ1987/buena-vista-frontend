@@ -21,7 +21,7 @@ export class IngresosEgresosComponent implements OnInit {
   public subconceptos: [] = [];
   public form: FormGroup;
 
-  constructor(private router: Router,private formBuilder: FormBuilder, private usuarioService: UsuarioService, private pagoConcepto: PagoConceptoService, private operacionFinancieraPagoService: OperacionFinancieraPagoService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private usuarioService: UsuarioService, private pagoConcepto: PagoConceptoService, private operacionFinancieraPagoService: OperacionFinancieraPagoService) { }
 
   ngOnInit(): void {
 
@@ -31,8 +31,8 @@ export class IngresosEgresosComponent implements OnInit {
       operacion: ['', [Validators.required]],
       concepto: ['', [Validators.required]],
       sub_concepto: ['', [Validators.required]],
-      detalle: ['', [Validators.required]],
-      numero_comprobante: ['', [Validators.required]],
+      detalle: ['',],
+      numero_comprobante: ['',],
       responsable: ['', [Validators.required]],
       monto: ['', [Validators.required]]
     });
@@ -45,6 +45,7 @@ export class IngresosEgresosComponent implements OnInit {
         this.conceptos = res['conceptos'];
       })
       this.form.controls['concepto'].setValue("");
+      this.validar();
     });
 
     this.form.controls['concepto'].valueChanges.subscribe(data => {
@@ -77,35 +78,39 @@ export class IngresosEgresosComponent implements OnInit {
   }
 
   guardar() {
-    if (this.form.valid) {
-      let es_ingreso = false;
-      const form = this.form.value;
-      const { operacion } = form;
-      const monto = parseFloat(this.form.controls['monto'].value);
-      if(operacion=='i'){
-        es_ingreso=true
-      }
-      delete form['operacion'];
-      delete form['monto'];
-      const data = {
-          es_ingreso,
-          concepto: form,
-          monto
-      }
-      
-      this.operacionFinancieraPagoService.registrarIngresoEgreso(data).subscribe(res => {
-        Swal.fire({
-          text: 'El pago se realizó satisfactoriamente.', icon: 'success'
-        });
-        // this.router.navigateByUrl('/dashboard');
-        // this.imprimirRecibo(res);
-        const recibo = new Recibo();
-
-        recibo.imprimirRecibo(res)
-
-        // this.router.navigateByUrl('/dashboard');
+    if (!this.form.valid) { 
+      return Swal.fire({
+        text:"Necesita completar toda la informacion", icon:'error'
       })
     }
+
+    let es_ingreso = false;
+    const form = this.form.value;
+    const { operacion } = form;
+    const monto = parseFloat(this.form.controls['monto'].value);
+    if (operacion == 'i') {
+      es_ingreso = true
+    }
+    delete form['operacion'];
+    delete form['monto'];
+    const data = {
+      es_ingreso,
+      concepto: form,
+      monto
+    }
+
+    this.operacionFinancieraPagoService.registrarIngresoEgreso(data).subscribe(res => {
+      Swal.fire({
+        text: 'El pago se realizó satisfactoriamente.', icon: 'success'
+      });
+      // this.router.navigateByUrl('/dashboard');
+      // this.imprimirRecibo(res);
+      const recibo = new Recibo();
+
+      recibo.imprimirRecibo(res)
+
+      // this.router.navigateByUrl('/dashboard');
+    })
   }
 
   // imprimirRecibo(recibo: []) {
@@ -445,5 +450,13 @@ export class IngresosEgresosComponent implements OnInit {
   cancelar() {
     //this.router.navigateByUrl('caja/gestion/ingresos-egresos');
     this.form.reset();
+  }
+
+  validar(){
+    if(this.form.controls['operacion'].value === 'i'){
+      this.form.controls['responsable'].setValidators(null);
+    } else {
+      this.form.controls['responsable'].setValidators(Validators.required);
+    }
   }
 }
