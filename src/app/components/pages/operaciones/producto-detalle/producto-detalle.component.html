@@ -417,7 +417,7 @@
                   >
                   <span
                     *ngIf="
-                      cuota.estado == 'Pendiente' &&
+                      cuota.estado == 'Pendiente' || cuota.estado == 'Amortizado' &&
                       validarFechaCuota(cuota.fecha_cuota)
                     "
                     class="label label-danger"
@@ -445,12 +445,12 @@
                     class="cursor"
                   >
                     <i
-                      *ngIf="cuota.estado !== 'Pagado'"
+                      *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'"
                       (click)="cargarCuota(cuota.id)"
                       class="fa fa-pencil text-info m-r-10"
                     ></i>
                     <!-- <a *ngIf="cuota.estado!=='Pagado'" type="button" class="btn btn-circle" (click)="cargarCuota(cuota.id)" data-toggle="modal" data-whatever="@mdo"><i class="fa fa-pencil text-info m-r-10"></i></button> -->
-                    <i (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
+                    <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
                   </a>
                 </td>
               </tr>
