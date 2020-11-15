@@ -29,13 +29,22 @@
                             <input type="text" class="form-control" [(ngModel)]="apellidoMat" placeholder="Ingrese el apellido materno aquí">
                         </div>
                         <div class="col-sm-2" *ngIf="seleccion === 'nombre'">
-                            <button class="btn btn-primary" (click)="buscarPorNombre(nombre)">Buscar</button>
+                            <button class="btn btn-primary" (click)="buscarPorNombre(nombre)">
+                                <i class="fa fa-search"></i>
+                                &nbsp; Buscar
+                            </button>
                         </div>
                         <div class="col-sm-2" *ngIf="seleccion === 'apPaterno'">
-                            <button class="btn btn-primary" (click)="buscarPorApellido(apellido)">Buscar</button>
+                            <button class="btn btn-primary" (click)="buscarPorApellido(apellido)">
+                                <i class="fa fa-search"></i>
+                                &nbsp; Buscar
+                            </button>
                         </div>
                         <div class="col-sm-2" *ngIf="seleccion === 'apMaterno'">
-                            <button class="btn btn-primary" (click)="buscarPorApellidoMat(apellidoMat)">Buscar</button>
+                            <button class="btn btn-primary" (click)="buscarPorApellidoMat(apellidoMat)">
+                                <i class="fa fa-search"></i>
+                                &nbsp; Buscar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -74,27 +83,37 @@
                                 <td>{{item.apellido_paterno}}</td>
                                 <td>{{item.apellido_materno}}</td>
                                 <td>{{item.domicilio}}</td>
-                                <td><a class="btn btn-primary" (click)="buscarSocioDni(item.documento_identidad)">Cargar Sesión</a> </td>
+                                <td class="text-center">
+                                    <a (click)="buscarSocioDni(item.documento_identidad)" data-toggle="tooltip" data-original-title="Cargar en sesión">
+                                        <!-- Cargar Sesión -->
+                                        <i class="fa fa-thumb-tack text-primary pointer"></i>
+                                    </a>
+                                </td>
+
+                                <!-- fa-thumb-tack -->
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-9" *ngIf="seleccion === 'nombre'">
-                        <button (click)="cambiarPaginaNombre(nombre, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
-                        <button (click)="cambiarPaginaNombre(nombre,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                        <button (click)="cambiarPaginaNombre(nombre, -15)" class="btn btn-info" *ngIf="paginaActual!=1"><i class="fa fa-angle-left"></i>&nbsp;Anterior</button>&nbsp;
+                        <button (click)="cambiarPaginaNombre(nombre,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i
+                                class="fa fa-angle-right"></i></button>
                     </div>
                     <div class="col-sm-9" *ngIf="seleccion === 'apPaterno'">
-                        <button (click)="cambiarPaginaApPat(apellido, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
-                        <button (click)="cambiarPaginaApPat(apellido,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                        <button (click)="cambiarPaginaApPat(apellido, -15)" class="btn btn-info" *ngIf="paginaActual!=1"><i class="fa fa-angle-left"></i>&nbsp; Anterior</button>&nbsp;
+                        <button (click)="cambiarPaginaApPat(apellido,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i
+                                class="fa fa-angle-right"></i></button>
                     </div>
                     <div class="col-sm-9" *ngIf="seleccion === 'apMaterno'">
-                        <button (click)="cambiarPaginaApMat(apellidoMat, -15)" class="btn btn-info" *ngIf="paginaActual!=1">Anterior</button>&nbsp;
-                        <button (click)="cambiarPaginaApMat(apellidoMat,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente</button>
+                        <button (click)="cambiarPaginaApMat(apellidoMat, -15)" class="btn btn-info" *ngIf="paginaActual!=1"><i class="fa fa-angle-left"></i>&nbsp; Anterior</button>&nbsp;
+                        <button (click)="cambiarPaginaApMat(apellidoMat,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i
+                                class="fa fa-angle-right"></i></button>
                     </div>
                     <div class="text-right col-sm-3">
                         <span class="text-info">{{ totalRegistros }}</span> Registros
-                        <span class="text-info">{{ totalPaginas }}</span> Paginas
+                        <span class="text-info">{{ totalPaginas }}</span> Páginas
                     </div>
                 </div>
             </div>
