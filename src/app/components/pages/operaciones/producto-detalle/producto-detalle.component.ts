@@ -281,15 +281,7 @@ export class ProductoDetalleComponent implements OnInit {
 
         this.cargandoDetalle = false;
 
-        this.operaconFinancieraDetalle.forEach(cuota => {
-          if (parseInt(cuota['numero_cuota']) > 0) {
-            this.totalPagoCapital += parseFloat(cuota['monto_amortizacion_capital_2']);
-            this.totalPagoInteres += parseFloat(cuota['monto_interes_2']);
-            this.totalAhorroProgramado += parseFloat(cuota['monto_ahorro_programado_2']);
-            this.totalCuota += parseFloat(cuota['monto_cuota_2']);
-          }
-
-        })
+        this.calcularMontos();
 
       }, (err) => {
 
@@ -302,6 +294,25 @@ export class ProductoDetalleComponent implements OnInit {
             text: err.error.msg, icon: 'error'
           });
       });
+  }
+
+  calcularMontos() {
+    this.totalPagoCapital = 0;
+    this.totalPagoInteres = 0;
+    this.totalAhorroProgramado = 0;
+    this.totalCuota = 0;
+    this.totalCuotaPagada = 0;
+    this.totalAhorroVoluntario = 0;
+    this.totalPagoMora = 0;
+    this.operaconFinancieraDetalle.forEach(cuota => {
+      if (parseInt(cuota['numero_cuota']) > 0) {
+        this.totalPagoCapital += parseFloat(cuota['monto_amortizacion_capital_2']);
+        this.totalPagoInteres += parseFloat(cuota['monto_interes_2']);
+        this.totalAhorroProgramado += parseFloat(cuota['monto_ahorro_programado_2']);
+        this.totalCuota += parseFloat(cuota['monto_cuota_2']);
+      }
+
+    })
   }
 
   cargarCuota(id: string) {
@@ -329,8 +340,8 @@ export class ProductoDetalleComponent implements OnInit {
     })
   }
 
-  darBajaCuota(id:string){
-    this.serviceOperacionFinancieraDetalle.operacionFinancieraDetalleBaja(id).subscribe(res=>{
+  darBajaCuota(id: string) {
+    this.serviceOperacionFinancieraDetalle.operacionFinancieraDetalleBaja(id).subscribe(res => {
       Swal.fire({
         text: res['msg'], icon: 'success'
       });
