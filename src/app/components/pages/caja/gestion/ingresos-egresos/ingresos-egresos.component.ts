@@ -105,10 +105,9 @@ export class IngresosEgresosComponent implements OnInit {
       });
       // this.router.navigateByUrl('/dashboard');
       // this.imprimirRecibo(res);
+      // this.router.navigateByUrl('/dashboard');
       const recibo = new Recibo();
-
       recibo.imprimirRecibo(res)
-
       // this.router.navigateByUrl('/dashboard');
     })
   }

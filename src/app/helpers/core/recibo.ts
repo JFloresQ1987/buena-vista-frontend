@@ -1,6 +1,7 @@
 export class Recibo {
 
     imprimirRecibo(data: any) {
+
         try {
             const iframe: any = document.getElementById('ifrmPrint');
             let doc = (iframe.contentWindow || iframe.contentDocument);
@@ -38,12 +39,14 @@ export class Recibo {
                 doc.write('<br>Analista: ' + data.analista);
 
             if (data.responsable)
-                doc.write('<br>Responsable: ' + data.responsable);
+                doc.write('<br>Responsable: ' + data.responsable.nombre_completo);
 
             if (data.bancomunal)
                 doc.write('<br>Bancomunal: ' + data.bancomunal.grupo);
 
-            doc.write('<br>Producto: ' + data.producto.descripcion);
+            if (data.producto)
+                doc.write('<br>Producto: ' + data.producto.descripcion);
+
             doc.write('</p>');
             doc.write('<p>');
             doc.write('Operaciones en Soles');
@@ -55,68 +58,73 @@ export class Recibo {
             doc.write('<td class="monto derecha">Monto</td>');
             doc.write('</tr>');
 
-            if (Number(data.producto.monto_gasto) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Gasto Administrativo</td><td class="monto derecha">' + data.producto.monto_gasto + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_ahorro_inicial) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Aporte Inicial</td><td class="monto derecha">' + data.producto.monto_ahorro_inicial + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_ahorro_voluntario) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Ahorro Voluntario</td><td class="monto derecha">' + data.producto.monto_ahorro_voluntario + '</td>');
-                doc.write('</tr>');
+            if (data.producto) {
+
+                if (Number(data.producto.monto_gasto) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Gasto Administrativo</td><td class="monto derecha">' + data.producto.monto_gasto + '</td>');
+                    doc.write('</tr>');
+                }
+
+                if (Number(data.producto.monto_ahorro_inicial) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Aporte Inicial</td><td class="monto derecha">' + data.producto.monto_ahorro_inicial + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_ahorro_voluntario) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Ahorro Voluntario</td><td class="monto derecha">' + data.producto.monto_ahorro_voluntario + '</td>');
+                    doc.write('</tr>');
+                }
+
+                var monto_cuota = 0;
+
+                if (Number(data.producto.monto_ahorro_programado) > 0) {
+                    monto_cuota += Number(data.producto.monto_ahorro_programado);
+                }
+                if (Number(data.producto.monto_amortizacion_capital) > 0) {
+                    monto_cuota += Number(data.producto.monto_amortizacion_capital);
+                }
+                if (Number(data.producto.monto_interes) > 0) {
+                    monto_cuota += Number(data.producto.monto_interes);
+                }
+                if (monto_cuota > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Cuota: ' + data.producto.cuota + '</td><td class="monto derecha">' + monto_cuota.toFixed(2) + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_mora) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Mora</td><td class="monto derecha">' + data.producto.monto_mora + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_interes_ganado) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Interés ganado</td><td class="monto derecha">' + data.producto.monto_interes_ganado + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_retiro_ahorro_programado) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Retiro Ahorro P.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_programado + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Retiro Interés G.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
+                    doc.write('</tr>');
+                }
             }
 
-            var monto_cuota = 0;
-
-            if (Number(data.producto.monto_ahorro_programado) > 0) {
-                monto_cuota += Number(data.producto.monto_ahorro_programado);
-            }
-            if (Number(data.producto.monto_amortizacion_capital) > 0) {
-                monto_cuota += Number(data.producto.monto_amortizacion_capital);
-            }
-            if (Number(data.producto.monto_interes) > 0) {
-                monto_cuota += Number(data.producto.monto_interes);
-            }
-            if (monto_cuota > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Cuota: ' + data.producto.cuota + '</td><td class="monto derecha">' + monto_cuota.toFixed(2) + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_mora) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Mora</td><td class="monto derecha">' + data.producto.monto_mora + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_interes_ganado) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Interés ganado</td><td class="monto derecha">' + data.producto.monto_interes_ganado + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_retiro_ahorro_programado) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Retiro Ahorro P.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_programado + '</td>');
-                doc.write('</tr>');
-            }
-            if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
-                doc.write('<tr>');
-                doc.write('<td class="detalle">Retiro Interés G.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
-                doc.write('</tr>');
-            }
             if (data.concepto) {
                 doc.write('<tr>');
                 doc.write('<td class="detalle">' + data.concepto.descripcion + '</td><td class="monto derecha">' + data.recibo.monto_total + '</td>');
@@ -149,7 +157,9 @@ export class Recibo {
             doc.write('</body>');
 
             doc.close();
+
         } catch (e) {
+
             self.print();
         }
     }
