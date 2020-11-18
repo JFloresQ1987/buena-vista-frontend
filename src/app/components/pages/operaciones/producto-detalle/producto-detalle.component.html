@@ -468,7 +468,7 @@
               </tr>
               <tr style="font-weight: bold; text-align: center">
                 <td colspan="6">TOTAL PENDIENTE (S/.)</td>
-                <td></td>
+                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -476,7 +476,7 @@
               </tr>
               <tr style="font-weight: bold; text-align: center">
                 <td colspan="6">SALDO LIQUIDADO (S/.)</td>
-                <td></td>
+                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada - totalAhorroVoluntario - operaconFinanciera.monto_ahorro_inicial}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
