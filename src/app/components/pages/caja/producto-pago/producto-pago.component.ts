@@ -103,7 +103,8 @@ export class ProductoPagoComponent implements OnInit {
           cuotas: [],
           id_socio: this.socio.id,
           documento_identidad_socio: this.socio.documento_identidad,
-          nombres_apellidos_socio: this.socio.getNombreCompleto()
+          nombres_apellidos_socio: this.socio.getNombreCompleto(),
+          es_ingreso: true
         }
 
         this.operacionFinancieraPagoService.desembolsarProducto(id, modelo)
