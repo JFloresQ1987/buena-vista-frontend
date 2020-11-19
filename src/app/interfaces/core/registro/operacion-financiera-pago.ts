@@ -5,5 +5,6 @@ export interface OperaconFinancieraPago {
     cuotas: string[],
     id_socio: string,
     documento_identidad_socio: string,
-    nombres_apellidos_socio: string
+    nombres_apellidos_socio: string,
+    es_ingreso: boolean
 }

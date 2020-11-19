@@ -8,6 +8,8 @@ import { AnalistaService } from '../../../../services/core/registro/analista.ser
 import Swal from 'sweetalert2';
 import * as dayjs from 'dayjs';
 import { OperaconFinanciera } from '../../../../interfaces/core/registro/operacion-financiera.interface';
+import { OperacionFinancieraPagoService } from '../../../../services/core/caja/operacion-financiera-pago.service';
+import { Recibo } from '../../../../helpers/core/recibo';
 
 @Component({
   selector: 'app-ahorro',
@@ -35,7 +37,8 @@ export class AhorroComponent implements OnInit {
   // public color: string;
   // public programacion: string;
 
-  constructor(private service: OperacionFinancieraService,
+  constructor(private service: OperacionFinancieraPagoService,
+    // pri
     private formBuilder: FormBuilder,
     private sesionSocioService: SesionSocioService,
     private productoService: ProductoService,
@@ -272,6 +275,7 @@ export class AhorroComponent implements OnInit {
     // modelo.monto_ahorro_inicial = 0;//this.form.get('monto_ahorro_inicial').value;
     // modelo.monto_capital = 0;//this.form.get('monto_capital').value;
     // modelo.detalle = this.cuotas;
+    modelo.monto_recibido = this.form.get('monto_ahorro_voluntario').value,
 
     this.cuotas.push({
       estado: 'Vigente',
@@ -327,12 +331,16 @@ export class AhorroComponent implements OnInit {
 
     this.cargando = true;
 
-    this.service.crear(modelo)
+    this.service.crearPagarAhorro(modelo)
       .subscribe(res => {
 
         Swal.fire({
           text: 'La información se guardó satisfactoriamente.', icon: 'success'
         });
+
+        const recibo = new Recibo();
+
+        recibo.imprimirRecibo(res)
 
         this.cancelar();
         this.cargando = false;

@@ -33,6 +33,7 @@ export interface OperaconFinanciera {
     // tasa_aporte_programado: number,
     // tasa_interes: number,
     // tasa_mora: number,
+    monto_recibido: number,
     se_desembolso_prestamo: boolean,
     comentario: String,
     detalle: OperaconFinancieraDetalle[]

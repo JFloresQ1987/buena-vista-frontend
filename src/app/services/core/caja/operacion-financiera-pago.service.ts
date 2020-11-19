@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { OperaconFinancieraPago } from '../../../interfaces/core/registro/operacion-financiera-pago';
 // import { UsuarioService } from '../registro/usuario.service';
 import { SeguridadService } from '../../auth/seguridad.service';
+import { OperaconFinanciera } from '../../../interfaces/core/registro/operacion-financiera.interface';
 
 const base_url = environment.base_url;
 
@@ -124,6 +125,34 @@ export class OperacionFinancieraPagoService {
     const url = `${base_url}/operacion-financiera-pago/confirmar-pago-analista/${id_analista}`;
 
     return this.http.put(url, null);
+  }
+
+  crearPagarAhorro(objeto: OperaconFinanciera) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const url = `${base_url}/operacion-financiera-pago/crear-pagar-ahorro`;
+    return this.http.post(url, objeto)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
+  }
+
+  pagarAhorro(objeto: OperaconFinancieraPago) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const url = `${base_url}/operacion-financiera-pago/pagar-ahorro`;
+    return this.http.post(url, objeto)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
   }
 
 }
