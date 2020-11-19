@@ -15,6 +15,8 @@ import * as dayjs from 'dayjs';
 import { PersonaService } from '../../../../services/core/registro/persona.service';
 import { Persona } from '../../../../interfaces/core/registro/persona.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
+
 
 declare const $: any;
 
@@ -85,7 +87,7 @@ export class ProductoDetalleComponent implements OnInit {
           doc.setFontSize(8)
           doc.setTextColor(40)
           var img = new Image();
-          img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
+          img.src = `${environment.base_url}/upload/buenavista-logo.png`
           if (img.src) {
             doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
           }
@@ -310,6 +312,9 @@ export class ProductoDetalleComponent implements OnInit {
         this.totalPagoInteres += parseFloat(cuota['monto_interes_2']);
         this.totalAhorroProgramado += parseFloat(cuota['monto_ahorro_programado_2']);
         this.totalCuota += parseFloat(cuota['monto_cuota_2']);
+        this.totalCuotaPagada += parseFloat(cuota['monto_cuota_pagada']);
+        this.totalAhorroVoluntario += parseFloat(cuota['monto_ahorro_voluntario']);
+        this.totalPagoMora += parseFloat(cuota['monto_pago_mora']);
       }
 
     })
