@@ -7,8 +7,7 @@ import { OperacionFinancieraPagoService } from '../../../../services/core/caja/o
 @Component({
   selector: 'app-producto-pre-pago',
   templateUrl: './producto-pre-pago.component.html',
-  styles: [
-  ]
+  styleUrls: ['./producto-pre-pago.component.css']
 })
 export class ProductoPrePagoComponent implements OnInit {
 

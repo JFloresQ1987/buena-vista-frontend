@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as dayjs from 'dayjs';
-import { environment } from '../../../../../environments/environment';
+// import { environment } from '../../../../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class CierreCajaIndividualComponent {
   resRecibo: boolean
   resMonto: boolean
   resOperacion: boolean
-  mostrarTabla : boolean = false
+  mostrarTabla: boolean = false
 
   cantidad_doscientos: number = 0
   cantidad_cien: number = 0
@@ -98,39 +99,39 @@ export class CierreCajaIndividualComponent {
     this.form.controls['cajero'].disable(); */
 
     this.cargarCajaDiario();
-    
+
   };
 
   cargarCajaDiario() {
     this.cierreCajaIndividualService.getOperacionesCajaInd()
-        .subscribe(res=>{
-          if (!res['ok']) {
-            this.cargando = false
-            Swal.fire({
-              text: 'No existe caja abierta', icon: 'warning'
-            })
-            
-          } else {
-            this.cargando = true
-            this.cajaID= res["idCaja"]
-            
-            this.form.controls['fecha_apertura'].setValue(res['fecha_apertura']);
-            this.form.controls['fecha_apertura'].disable();
-  
-            this.form.controls['monto_total_apertura'].setValue(res["monto_total_apertura"]);
-            this.form.controls['monto_total_apertura'].disable();
-  
-            this.form.controls['monto_total_operaciones'].setValue(res["monto_total_operaciones"]);
-            this.form.controls['monto_total_operaciones'].disable();
-  
-            this.form.controls['cant_operaciones'].setValue(res["cant_operaciones"]);
-            this.form.controls['cant_operaciones'].disable();
-  
-            const saldo = this.form.controls['monto_total_apertura'].value + this.form.controls['monto_total_operaciones'].value;
-            this.form.controls['saldo'].setValue(saldo);
-            this.form.controls['saldo'].disable();
-          }
-    })
+      .subscribe(res => {
+        if (!res['ok']) {
+          this.cargando = false
+          Swal.fire({
+            text: 'No existe caja abierta', icon: 'warning'
+          })
+
+        } else {
+          this.cargando = true
+          this.cajaID = res["idCaja"]
+
+          this.form.controls['fecha_apertura'].setValue(res['fecha_apertura']);
+          this.form.controls['fecha_apertura'].disable();
+
+          this.form.controls['monto_total_apertura'].setValue(res["monto_total_apertura"]);
+          this.form.controls['monto_total_apertura'].disable();
+
+          this.form.controls['monto_total_operaciones'].setValue(res["monto_total_operaciones"]);
+          this.form.controls['monto_total_operaciones'].disable();
+
+          this.form.controls['cant_operaciones'].setValue(res["cant_operaciones"]);
+          this.form.controls['cant_operaciones'].disable();
+
+          const saldo = this.form.controls['monto_total_apertura'].value + this.form.controls['monto_total_operaciones'].value;
+          this.form.controls['saldo'].setValue(saldo);
+          this.form.controls['saldo'].disable();
+        }
+      })
   }
 
   cargarCajeros() {
@@ -138,30 +139,30 @@ export class CierreCajaIndividualComponent {
       this.usuarios = res['usuarios'];
     })
   }
-  
-  verificarRecibo(){
-    this.mostrarTabla = true  
-    this.cierreCajaIndividualService.validarRecibo().subscribe(res=>{
-      if (res['ok']) {
-        this.resRecibo = res['ok']         
-      } else {
-        this.resRecibo = res['ok']   
-        this.errorRecibo = res['msg']         
-      }  
-    })
-  }  
 
-  verificarMonto(){  
-    this.cierreCajaIndividualService.validarMonto().subscribe(res=>{
+  verificarRecibo() {
+    this.mostrarTabla = true
+    this.cierreCajaIndividualService.validarRecibo().subscribe(res => {
       if (res['ok']) {
-        this.resMonto = res['ok']        
-      } else {        
-        this.resMonto = res['ok']       
+        this.resRecibo = res['ok']
+      } else {
+        this.resRecibo = res['ok']
+        this.errorRecibo = res['msg']
+      }
+    })
+  }
+
+  verificarMonto() {
+    this.cierreCajaIndividualService.validarMonto().subscribe(res => {
+      if (res['ok']) {
+        this.resMonto = res['ok']
+      } else {
+        this.resMonto = res['ok']
         this.errorMonto = res['msg']
       }
     })
   }
-  
+
   // verificarOperacion(){
   //   this.cierreCajaIndividualService.validarOperacionesFinancieras().subscribe(res=>{
   //     if (res['ok']) {
@@ -194,14 +195,20 @@ export class CierreCajaIndividualComponent {
     this.cierreCajaIndividualService.getCierreCaja(data)
       .subscribe(res => {
         Swal.fire({
-          text: 'La informaciónse actualizó correctamente', icon: 'success'
+          text: 'La información se actualizó correctamente', icon: 'success'
         })
+
+        setTimeout(() => {
+          // this.pdf()
+          this.verPDF()
+          this.router.navigateByUrl('/dashboard/socio');
+        }, 1000);
       })
-    setTimeout(() => {
-      // this.pdf()
-      this.verPDF()
-      this.router.navigateByUrl('/dashboard/socio');
-    }, 1000);
+    // setTimeout(() => {
+    //   // this.pdf()
+    //   this.verPDF()
+    //   this.router.navigateByUrl('/dashboard/socio');
+    // }, 1000);
   }
 
   cancelar() {
@@ -293,27 +300,27 @@ export class CierreCajaIndividualComponent {
         // Header
         // =============================================================================
         var img = new Image();
-          // img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
-          img.src = `${environment.base_url}/upload/buenavista-logo.png`
-          if (img.src) {         
-            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+110, 5, 70, 20);
-          }
-          doc.text(this.seguridad.usuario + '\n' + 
-                  this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  + '\n' + 
-                  dayjs().format('DD/MM/YYYY hh:mm:ss a')
-                  , data.settings.margin.left , 10 )
+        // img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
+        img.src = `${environment.base_url}/upload/buenavista-logo.png`
+        if (img.src) {
+          doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
+        }
+        doc.text(this.seguridad.usuario + '\n' +
+          this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre + '\n' +
+          dayjs().format('DD/MM/YYYY hh:mm:ss a')
+          , data.settings.margin.left, 10)
 
         // =============================================================================
         // Content
         // =============================================================================
         doc.autoTable({
-          styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
+          styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
           head: [
             [
               {
                 content: 'Control de Saldos',
                 colSpan: 3,
-                styles: { halign: 'center',  },
+                styles: { halign: 'center', },
               },
             ],
           ],
@@ -408,7 +415,7 @@ export class CierreCajaIndividualComponent {
         // =============================================================================
         // Footer
         // =============================================================================
-        
+
         var str = 'Página ' + doc.internal.getNumberOfPages()
         var fuente = `Fuente: Base de datos institucional`
         var oficina = `Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.`
@@ -416,11 +423,11 @@ export class CierreCajaIndividualComponent {
         var pagWeb = `http://www.buenavistalabolsa.com/`
         // Total page number plugin only available in jspdf v1.0+
         if (typeof doc.putTotalPages === 'function') {
-          str = fuente + '\n' + 
-                oficina + '\n' +
-                año + '\n' +
-                pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' + 
-                str + ' de ' + totalPagesExp
+          str = fuente + '\n' +
+            oficina + '\n' +
+            año + '\n' +
+            pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' +
+            str + ' de ' + totalPagesExp
         }
         doc.setFontSize(8)
 

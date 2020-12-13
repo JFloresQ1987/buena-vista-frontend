@@ -1,10 +1,9 @@
 <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="text-right">
-            <a class="btn btn-success" [routerLink]="['./nuevo']"
-            ><i class="ti-plus"></i> Nuevo</a
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <a class="btn btn-success" [routerLink]="['./nuevo']"><i class="ti-plus"></i> Nuevo</a
           >
           </div>
           <br>
@@ -15,9 +14,10 @@
               <thead>
                 <tr>
                   <th width="3%">#</th>
+                  <th class="text-center">Código</th>
                   <th class="text-center">Descripción</th>
                   <th class="text-center">ip</th>
-                  <th class="text-center">Nombre de pc</th>
+                  <!-- <th class="text-center">Nombre de pc</th> -->
                   <th class="text-center">Usuario</th>
                   <!-- Cajero -->
                   <th class="text-center">Cajero</th>
@@ -27,9 +27,10 @@
               <tbody>
                 <tr *ngFor="let item of cajas; let i = index">
                   <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">{{ item.codigo }}</td>
                   <td class="text-center">{{ item.descripcion }}</td>
                   <td>{{ item.ip }}</td>
-                  <td>{{ item.pc_nombre }}</td>
+                  <!-- <td>{{ item.pc_nombre }}</td> -->
                   <td>{{item.usuario.usuario}} </td>
                   <td>{{item.usuario.persona.nombre}} {{item.usuario.persona.apellido_paterno}} {{item.usuario.persona.apellido_materno}}</td>
                   <ng-template #bloqueado
@@ -45,18 +46,17 @@
                       <i class="fa fa-pencil text-inverse m-r-10"></i>
                     </a>
                     <a href="#" data-toggle="tooltip" data-original-title="Close">
-                      <i class="fa fa-close text-danger"></i>
+                        <i class="fa fa-close text-danger"></i>
                     </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- ============================================================== -->
-  <!-- End PAge Content -->
-  <!-- ============================================================== -->
-  
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

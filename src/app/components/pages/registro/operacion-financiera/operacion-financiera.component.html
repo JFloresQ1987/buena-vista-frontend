@@ -95,9 +95,7 @@
                             }" formControlName="analista" (change)="volverCalcular()">
                                 <option value="" selected="">--Seleccionar--</option>
                                 <option *ngFor="let item of analistas" value="{{item.id}}">
-                                    {{item.usuario.persona.nombre}}
-                                    {{item.usuario.persona.apellido_paterno}}
-                                    {{item.usuario.persona.apellido_materno}}
+                                    {{item.nombre_usuario}}
                                 </option>
                             </select>
                             <small class="form-control-feedback">
@@ -302,7 +300,8 @@
                             <small class="form-control-feedback">
                                 <p *ngIf="validarCampo('tasa_ahorro_inicial', 'required')">La tasa de ahorro inicial
                                     es un dato obligatorio.</p>
-                                <p *ngIf="validarCampo('tasa_ahorro_inicial', 'maxlength')">Ingrese una tasa de ahorro inicial
+                                <p *ngIf="validarCampo('tasa_ahorro_inicial', 'maxlength')">Ingrese una tasa de ahorro
+                                    inicial
                                     correcto.</p>
                             </small>
                         </div>

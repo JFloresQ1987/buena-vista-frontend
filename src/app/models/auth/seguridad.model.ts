@@ -7,6 +7,7 @@ export class Seguridad {
     constructor(
         public id?: string,
         public usuario?: string,
+        public local_atencion?: string,
         public nombre?: string,
         public apellido_paterno?: string,
         public apellido_materno?: string,

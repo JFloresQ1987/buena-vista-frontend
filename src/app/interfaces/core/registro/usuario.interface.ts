@@ -11,4 +11,12 @@ export interface Usuario {
     correo_electronico: String,
     domicilio: String,
     rol: Array<string>[]
+    ubigeo: Ubigeo
+}
+
+export interface Ubigeo {
+
+    departamento: String,
+    provincia: String,
+    distrito: String
 }

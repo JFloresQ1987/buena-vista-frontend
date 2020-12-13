@@ -89,9 +89,10 @@ export class ProductoComponent implements OnInit {
           else
             controls += '<option value="' + this.analistas[i].id + '">';
 
-          controls += this.analistas[i].usuario.persona.nombre;
-          controls += ' ' + this.analistas[i].usuario.persona.apellido_paterno;
-          controls += ' ' + this.analistas[i].usuario.persona.apellido_materno;
+          controls += this.analistas[i].nombre_usuario;
+          // controls += this.analistas[i].usuario.persona.nombre;
+          // controls += ' ' + this.analistas[i].usuario.persona.apellido_paterno;
+          // controls += ' ' + this.analistas[i].usuario.persona.apellido_materno;
           controls += '</option>';
         }
 

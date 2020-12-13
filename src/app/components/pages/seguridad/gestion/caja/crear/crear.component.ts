@@ -22,105 +22,133 @@ export class CrearCajaComponent {
   public form: FormGroup;
   public formSubmitted = false;
 
-  public usuarios:[] = [];
+  public usuarios: any = [];
   public cajaSeleccionada: Caja
 
-  constructor(    
+  constructor(
     private service: CajaService,
     private usuarioService: UsuarioService,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute, 
+    private activatedRoute: ActivatedRoute,
     private router: Router
-    ) {  }
+  ) { }
 
   ngOnInit(): void {
 
-    this.activatedRoute.params.subscribe( ({id}) => {
+    this.activatedRoute.params.subscribe(({ id }) => {
       this.carga(id)
     })
 
     this.cargarUsuarios()
-    
+
     this.form = this.formBuilder.group({
       descripcion: ['', [Validators.required, Validators.maxLength(200)]],
       ip: ['', [Validators.required, Validators.maxLength(15)]],
       pc_nombre: ['', [Validators.required, Validators.maxLength(50)]],
+      codigo: ['', [Validators.required, Validators.maxLength(50)]],
       usuario: ['', [Validators.required, Validators.maxLength(50)]],
       comentario: ['', [Validators.required, Validators.maxLength(200)]],
       serie: ['', [Validators.required, Validators.maxLength(10)]],
-      es_caja_principal: ['', [Validators.required]],
+      es_caja_principal: [false, [Validators.required]],
       local_atencion: ['', [Validators.required]],
     });
 
   }
 
   cargarUsuarios() {
-    this.usuarioService.listarxrol("Cajero").subscribe(res=>{
+    this.usuarioService.listarxrol("Cajero").subscribe(res => {
       this.usuarios = res['usuarios'];
-      
+
     })
   }
 
   guardar() {
-    if ( this.cajaSeleccionada){
-      const data = {
-        ...this.form.value,
-        id: this.cajaSeleccionada.id
-      }
+
+    this.formSubmitted = true;
+    
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar la información proporcionada.", icon: 'warning'
+      });
+      return;
+    }
+
+    const id_usuario = this.form.get('usuario').value;
+    const usuario = this.usuarios.find(item => item.id === id_usuario);
+
+    const data: Caja = this.form.value;
+
+    data.nombre_usuario = usuario.persona.apellido_paterno + ' ' + usuario.persona.apellido_materno + ', ' + usuario.persona.nombre;
+    data.documento_identidad_usuario = usuario.persona.documento_identidad;
+
+    if (this.cajaSeleccionada) {
+
+      // const data:Caja = {
+      //   ...this.form.value,
+      //   id: this.cajaSeleccionada.id
+      // }
+
+      data.id = this.cajaSeleccionada.id;
+
       this.service.actualizar(data)
-          .subscribe(resp => {
-            Swal.fire({
-              text: 'La información se actualizó satisfactoriamente.', icon: 'success'
-            });
-            this.router.navigateByUrl('seguridad/gestion/caja');
-          })
+        .subscribe(resp => {
+          Swal.fire({
+            text: 'La información se actualizó satisfactoriamente.', icon: 'success'
+          });
+          this.router.navigateByUrl('seguridad/gestion/caja');
+        })
 
     } else {
       this.formSubmitted = true;
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
-      
-      this.service.crear(this.form.value)
-        .subscribe(res => {  
+      // if (!this.form.valid) {
+      //   Swal.fire({
+      //     text: "Validar la información proporcionada.", icon: 'warning'
+      //   });
+      //   return;
+      // }
+
+      // const data = this.form.value;
+
+      // this.service.crear(this.form.value)
+      this.service.crear(data)
+        .subscribe(res => {
           Swal.fire({
             text: 'La información se guardó satisfactoriamente.', icon: 'success'
           });
-            
-          this.cancelar();          
+
+          this.cancelar();
         });
 
     }
 
-  } 
+  }
 
-  carga(id: String){
+  carga(id: String) {
     if (id != 'nuevo') {
       this.service.obtenerCaja(id)
-        .subscribe( caja => {
-          const {          
-            descripcion, 
-            ip, 
-            pc_nombre, 
+        .subscribe(caja => {
+          const {
+            codigo,
+            descripcion,
+            ip,
+            pc_nombre,
             usuario,
             serie,
             es_caja_principal,
             local_atencion,
-            comentario               
-            } = caja
+            comentario
+          } = caja
           this.cajaSeleccionada = caja
           this.form.setValue({
-            descripcion, 
-            ip, 
-            pc_nombre, 
+            codigo,
+            descripcion,
+            ip,
+            pc_nombre,
             usuario,
             serie,
             es_caja_principal,
             local_atencion,
-            comentario:''    
+            comentario: ''
           })
         })
     }
@@ -136,7 +164,7 @@ export class CrearCajaComponent {
   }
 
   validarCampo(campo: string, validar: string): boolean {
-    
+
     if (this.form.get(campo).hasError(validar) &&
       (this.formSubmitted || this.form.get(campo).touched))
       return true;
@@ -144,7 +172,7 @@ export class CrearCajaComponent {
       return false;
   }
 
-  validarError(campo: string): boolean {    
+  validarError(campo: string): boolean {
 
     if (this.form.get(campo).invalid &&
       (this.formSubmitted || this.form.get(campo).touched))
@@ -153,7 +181,7 @@ export class CrearCajaComponent {
       return false;
   }
 
-  validarSuccess(campo: string): boolean {    
+  validarSuccess(campo: string): boolean {
 
     if (this.form.get(campo).valid &&
       (this.formSubmitted || this.form.get(campo).touched))
@@ -164,7 +192,7 @@ export class CrearCajaComponent {
 
   validarNumero(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode
-    if (charCode >= 48 && charCode <= 57){
+    if (charCode >= 48 && charCode <= 57) {
       return true
     }
 

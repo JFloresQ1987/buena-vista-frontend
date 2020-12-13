@@ -14,7 +14,7 @@
 
 <div class="row" *ngIf="!(cargandoDetalle)">
     <!-- <div class="row" *ngIf="!(cargando || cargandoDetalle)"> -->
-    <div class="col-8">
+    <div class="col-7">
         <div class="card card-body printableArea">
             <!-- <h3><b>Agencia Ayacucho</b> <span class="pull-right">I-00000001</span></h3>
             <hr> -->
@@ -148,7 +148,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-5">
         <div class="card">
             <div class="card-body">
 
@@ -195,20 +195,20 @@
                                     </div>
                                 </div>
                             </b></h3>-->
-                        <hr>
+                        <!-- <hr> -->
                         <!-- <div class="col-md-6"> -->
 
                         <div class="form-group row m-b-15">
-                            <label class="col-7 col-form-label">Operación:</label>
-                            <div class="col-5">
+                            <label class="col-6 col-form-label">Operación:</label>
+                            <div class="col-6">
                                 <!-- <input type="text" class="form-control" formControlName="monto_cancelar" readonly> -->
 
 
                                 <!-- <label for="" class="form-control-label"> Operación </label> -->
                                 <select class="form-control" formControlName="operacion">
-                                    <option value="">Seleccione</option>
-                                    <option value="i">Ingreso</option>
-                                    <option value="e">Egreso</option>
+                                    <option value="">--Seleccionar--</option>
+                                    <option value="i">Ahorrar</option>
+                                    <option value="e">Retirar</option>
                                 </select>
 
 
@@ -221,9 +221,9 @@
                                 'has-danger': validarError('monto_recibido')
                             }">
 
-                            <div class="form-group row m-b-15">
-                                <label class="col-7 col-form-label">Monto recibido:</label>
-                                <div class="col-md-5">
+                            <div class="form-group row">
+                                <label class="col-6 col-form-label">Monto recibido:</label>
+                                <div class="col-md-6">
                                     <input type="text" class="form-control" formControlName="monto_recibido" [ngClass]="validarSuccess('monto_recibido') ? 'form-control-success' : 'form-control-danger'" (keyup)="calcularMontos()">
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
 
                     </div>
                     <div class="clearfix"></div>
-                    <hr>
+                    <!-- <hr> -->
                     <!-- <div class="text-right">
                         <button class="btn btn-danger" type="submit">
                             Proceed to payment

@@ -1,3 +1,12 @@
 .pointer {
     cursor: pointer;
 }
+
+.font-table {
+    font-size: 12px;
+    padding: .25rem;
+}
+
+.w100 {
+    width: 100px;
+}

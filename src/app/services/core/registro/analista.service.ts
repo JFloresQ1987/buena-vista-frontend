@@ -33,6 +33,14 @@ export class AnalistaService {
     return this.http.put(url, objeto);
   }
 
+  getListaDesplegable() {
+    const url = `${base_url}/analistas/lista-desplegable`;
+    return this.http.get(url)
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
+  }
+
   getListaDesplegablexProducto(producto: string) {
     const url = `${base_url}/analistas/lista-desplegable-por-producto/${producto}`;
     return this.http.get(url)

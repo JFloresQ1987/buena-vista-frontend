@@ -7,6 +7,7 @@ import { SeguridadService } from './../../../../services/auth/seguridad.service'
 import * as jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 import * as dayjs from 'dayjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-listar-cajas',
@@ -70,7 +71,8 @@ export class ListarCajasComponent implements OnInit {
           
           
           var img = new Image();
-          img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
+          // img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
+          img.src = `${environment.base_url}/upload/buenavista-logo.png`
           if (img.src) {         
             doc.addImage(img, /* 'PNG', */ data.settings.margin.right+110, 5, 70, 20);
           }

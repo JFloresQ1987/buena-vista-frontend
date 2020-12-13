@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { UsuarioService } from '../../../../../services/core/registro/usuario.service';
 import { ProductoService } from '../../../../../services/core/configuracion/producto.service';
+import { Analista } from '../../../../../interfaces/core/registro/analista.interface';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { ProductoService } from '../../../../../services/core/configuracion/prod
 export class FormComponent implements OnInit {
 
   public button: string = "Guardar";
-  public analistas: [] = [];
+  public analistas: any = [];
   public productos: [] = [];
   public cargando: boolean = false;
   public form: FormGroup;
@@ -35,9 +36,11 @@ export class FormComponent implements OnInit {
     this.cargarProductos();
 
     this.form = this.formBuilder.group({
+      codigo: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
       producto: ['', [Validators.required]],
       usuario: ['', [Validators.required]],
+      local_atencion: ['', [Validators.required]],
       comentario: ['', [Validators.required]]
     });
     this.activatedRoute.params.subscribe(({ id }) => {
@@ -56,8 +59,10 @@ export class FormComponent implements OnInit {
       this.analistaService.getAnalista(id).subscribe(res => {
         const analista = res['analista'];
         const data = {
+          codigo: analista['codigo'],
           descripcion: analista['descripcion'],
           producto: analista['producto'],
+          local_atencion: analista['local_atencion'],
           usuario: analista['usuario'],
           comentario: ''
         }
@@ -68,14 +73,31 @@ export class FormComponent implements OnInit {
 
   guardar() {
     this.formSubmitted = true;
+
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar la información proporcionada.", icon: 'warning'
+      });
+      return;
+    }
+
+    const id_usuario = this.form.get('usuario').value;
+    const usuario = this.analistas.find(item => item.id === id_usuario);
+    
+    const data: Analista = this.form.value;
+
+    data.nombre_usuario = usuario.persona.apellido_paterno + ' ' + usuario.persona.apellido_materno + ', ' + usuario.persona.nombre;
+    data.documento_identidad_usuario = usuario.persona.documento_identidad;
+
     if (this._id == 'nuevo') {
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
-      this.analistaService.crear(this.form.value).subscribe(res => {
+      // if (!this.form.valid) {
+      //   Swal.fire({
+      //     text: "Validar la información proporcionada.", icon: 'warning'
+      //   });
+      //   return;
+      // }
+      this.analistaService.crear(data).subscribe(res => {
+      // this.analistaService.crear(this.form.value).subscribe(res => {
         this.formSubmitted = false;
         if (res['ok']) {
           Swal.fire({
@@ -89,13 +111,14 @@ export class FormComponent implements OnInit {
         }
       })
     } else {
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
-      this.analistaService.editar(this._id, this.form.value).subscribe(res => {
+      // if (!this.form.valid) {
+      //   Swal.fire({
+      //     text: "Validar la información proporcionada.", icon: 'warning'
+      //   });
+      //   return;
+      // }
+      this.analistaService.editar(this._id, data).subscribe(res => {
+      // this.analistaService.editar(this._id, this.form.value).subscribe(res => {
         this.formSubmitted = false;
         if (res['ok']) {
           Swal.fire({

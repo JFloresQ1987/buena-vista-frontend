@@ -3,117 +3,117 @@
 <!-- ============================================================== -->
 
 <div class="row animated fadeIn fast" *ngIf="cargando || cargandoDetalle">
-  <div class="col-12">
-    <div class="alert alert-info text-center">
-      <h4 class="alert-heading">Cargando...</h4>
-      <i class="fa fa-spin fa-refresh fa-2x"></i>
-      <p class="mb-0">Por favor espere</p>
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="row" *ngIf="!(cargando || cargandoDetalle)">
-  <div class="col-lg-3">
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <!-- <span class="lstick m-r-20"></span> -->
-            <!-- <img src="../assets/images/icon/income.png" alt="Income"> -->
-            <i class="ti-package"></i>
-          </div>
-          <div class="align-self-center">
-            <!-- <h6 class="text-muted m-t-10 m-b-0">Producto</h6> -->
-            <h4 class="m-t-0">
-              {{ operaconFinanciera.producto.tipo.descripcion }}
-            </h4>
-          </div>
+    <div class="col-lg-3">
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <!-- <span class="lstick m-r-20"></span> -->
+                        <!-- <img src="../assets/images/icon/income.png" alt="Income"> -->
+                        <i class="ti-package"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <!-- <h6 class="text-muted m-t-10 m-b-0">Producto</h6> -->
+                        <h4 class="m-t-0">
+                            {{ operaconFinanciera.producto.tipo.descripcion }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <span class="lstick m-r-20"></span>
-            <!-- <img src="../assets/images/icon/income.png" alt="Income"> -->
-            <i class="ti-money"></i>
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-muted m-t-10 m-b-0">Préstamo</h6>
-            <h2 class="m-t-0">{{ operaconFinanciera.monto_capital }}</h2>
-          </div>
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <span class="lstick m-r-20"></span>
+                        <!-- <img src="../assets/images/icon/income.png" alt="Income"> -->
+                        <i class="ti-money"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <h6 class="text-muted m-t-10 m-b-0">Préstamo</h6>
+                        <h2 class="m-t-0">{{ operaconFinanciera.monto_capital }}</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="col-lg-3">
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <!-- <span class="lstick m-r-20"></span> -->
-            <!-- <img src="../assets/images/icon/expense.png" alt="Income"> -->
-            <i class="ti-server"></i>
-          </div>
-          <div class="align-self-center">
-            <!-- <h6 class="text-muted m-t-10 m-b-0">Programación</h6> -->
-            <h4 class="m-t-0">
-              {{ operaconFinanciera.producto.programacion }}
-            </h4>
-          </div>
+    <div class="col-lg-3">
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <!-- <span class="lstick m-r-20"></span> -->
+                        <!-- <img src="../assets/images/icon/expense.png" alt="Income"> -->
+                        <i class="ti-server"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <!-- <h6 class="text-muted m-t-10 m-b-0">Programación</h6> -->
+                        <h4 class="m-t-0">
+                            {{ operaconFinanciera.producto.programacion }}
+                        </h4>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <span class="lstick m-r-20"></span>
-            <!-- <img src="../assets/images/icon/expense.png" alt="Income"> -->
-            <i class="ti-money"></i>
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-muted m-t-10 m-b-0">Gasto</h6>
-            <h2 class="m-t-0">{{ operaconFinanciera.monto_gasto }}</h2>
-          </div>
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <span class="lstick m-r-20"></span>
+                        <!-- <img src="../assets/images/icon/expense.png" alt="Income"> -->
+                        <i class="ti-money"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <h6 class="text-muted m-t-10 m-b-0">Gasto</h6>
+                        <h2 class="m-t-0">{{ operaconFinanciera.monto_gasto }}</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="col-lg-3">
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <!-- <span class="lstick m-r-20"></span> -->
-            <!-- <img src="../assets/images/icon/assets.png" alt="Income"> -->
-            <i class="ti-calendar"></i>
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-muted m-t-10 m-b-0">Desembolso</h6>
-            <h4 class="m-t-0">{{ operaconFinanciera.fecha_inicio }}</h4>
-          </div>
+    <div class="col-lg-3">
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <!-- <span class="lstick m-r-20"></span> -->
+                        <!-- <img src="../assets/images/icon/assets.png" alt="Income"> -->
+                        <i class="ti-calendar"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <h6 class="text-muted m-t-10 m-b-0">Desembolso</h6>
+                        <h4 class="m-t-0">{{ operaconFinanciera.fecha_inicio }}</h4>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="card h100">
-      <div class="card-body">
-        <div class="d-flex no-block">
-          <div class="m-r-20 align-self-center">
-            <span class="lstick m-r-20"></span>
-            <!-- <img src="../assets/images/icon/assets.png" alt="Income"> -->
-            <i class="ti-money"></i>
-          </div>
-          <div class="align-self-center">
-            <h6 class="text-muted m-t-10 m-b-0">Ahorro inicial</h6>
-            <h2 class="m-t-0">{{ operaconFinanciera.monto_ahorro_inicial }}</h2>
-          </div>
+        <div class="card h100">
+            <div class="card-body">
+                <div class="d-flex no-block">
+                    <div class="m-r-20 align-self-center">
+                        <span class="lstick m-r-20"></span>
+                        <!-- <img src="../assets/images/icon/assets.png" alt="Income"> -->
+                        <i class="ti-money"></i>
+                    </div>
+                    <div class="align-self-center">
+                        <h6 class="text-muted m-t-10 m-b-0">Ahorro inicial</h6>
+                        <h2 class="m-t-0">{{ operaconFinanciera.monto_ahorro_inicial }}</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- <div class="col-lg-3">
+    <!-- <div class="col-lg-3">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex no-block">
@@ -126,14 +126,14 @@
             </div>
         </div>
     </div> -->
-  <!-- ============================================================== -->
-  <!-- visit charts-->
-  <!-- ============================================================== -->
-  <div class="col-lg-3 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title"><span class="lstick"></span>Estadísticas</h4>
-        <!--<div id="visitor" style="height: 280px; width: 100%; max-height: 280px; position: relative;" class="c3">
+    <!-- ============================================================== -->
+    <!-- visit charts-->
+    <!-- ============================================================== -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"><span class="lstick"></span>Estadísticas</h4>
+                <!--<div id="visitor" style="height: 280px; width: 100%; max-height: 280px; position: relative;" class="c3">
                      <svg width="346.5" height="280" style="overflow: hidden;">
                         <defs>
                             <clipPath id="c3-1598942463733-clip">
@@ -154,44 +154,44 @@
                         </defs>
                         <g transform="translate(0.5,4.5)">
                             <text class="c3-text c3-empty" text-anchor="middle" dominant-baseline="middle" x="173.25" y="128" style="opacity: 0;"></text><rect class="c3-zoom-rect" width="346.5" height="256" style="opacity: 0;"></rect><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip)" class="c3-regions" style="visibility: hidden;"></g><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-grid)" class="c3-grid" style="visibility: hidden;"><g class="c3-xgrid-focus"><line class="c3-xgrid-focus" x1="-10" x2="-10" y1="0" y2="256" style="visibility: hidden;"></line></g></g><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip)" class="c3-chart"><g class="c3-event-rects c3-event-rects-single" style="fill-opacity: 0;"><rect class=" c3-event-rect c3-event-rect-0" x="0.75" y="0" width="346.5" height="256"></rect></g><g class="c3-chart-bars"><g class="c3-chart-bar c3-target c3-target-Other" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Other c3-bars c3-bars-Other" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Desktop" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Desktop c3-bars c3-bars-Desktop" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Tablet" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Tablet c3-bars c3-bars-Tablet" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Mobile" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Mobile c3-bars c3-bars-Mobile" style="cursor: pointer;"></g></g></g><g class="c3-chart-lines"><g class="c3-chart-line c3-target c3-target-Other" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Other c3-lines c3-lines-Other"></g><g class=" c3-shapes c3-shapes-Other c3-areas c3-areas-Other"></g><g class=" c3-selected-circles c3-selected-circles-Other"></g><g class=" c3-shapes c3-shapes-Other c3-circles c3-circles-Other" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Desktop" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Desktop c3-lines c3-lines-Desktop"></g><g class=" c3-shapes c3-shapes-Desktop c3-areas c3-areas-Desktop"></g><g class=" c3-selected-circles c3-selected-circles-Desktop"></g><g class=" c3-shapes c3-shapes-Desktop c3-circles c3-circles-Desktop" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Tablet" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Tablet c3-lines c3-lines-Tablet"></g><g class=" c3-shapes c3-shapes-Tablet c3-areas c3-areas-Tablet"></g><g class=" c3-selected-circles c3-selected-circles-Tablet"></g><g class=" c3-shapes c3-shapes-Tablet c3-circles c3-circles-Tablet" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Mobile" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Mobile c3-lines c3-lines-Mobile"></g><g class=" c3-shapes c3-shapes-Mobile c3-areas c3-areas-Mobile"></g><g class=" c3-selected-circles c3-selected-circles-Mobile"></g><g class=" c3-shapes c3-shapes-Mobile c3-circles c3-circles-Mobile" style="cursor: pointer;"></g></g></g><g class="c3-chart-arcs" transform="translate(173.25,123)"><text class="c3-chart-arcs-title" style="text-anchor: middle; opacity: 1;">Visits</text><g class="c3-chart-arc c3-target c3-target-Other"><g class=" c3-shapes c3-shapes-Other c3-arcs c3-arcs-Other"><path class=" c3-shape c3-shape c3-arc c3-arc-Other" transform="" style="fill: rgb(236, 239, 241); cursor: pointer; opacity: 1;" d="M-109.2566479577907,41.43558105092031A116.85,116.85 0 0,1 -54.30290265331442,-103.46553659757754L-45.008439212439036,-85.75641608451335A96.85,96.85 0 0,0 -90.55632310408241,34.343483310069594Z"></path></g><text dy=".35em" class="" transform="translate(-87.40531836623258,-33.14846484073623)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Desktop"><g class=" c3-shapes c3-shapes-Desktop c3-arcs c3-arcs-Desktop"><path class=" c3-shape c3-shape c3-arc c3-arc-Desktop" transform="" style="fill: rgb(116, 90, 242); cursor: pointer; opacity: 1;" d="M-54.30290265331442,-103.46553659757754A116.85,116.85 0 0,1 -1.2524864511401484e-13,-116.85L-1.0381113632257028e-13,-96.85A96.85,96.85 0 0,0 -45.008439212439036,-85.75641608451335Z"></path></g><text dy=".35em" class="" transform="translate(-22.371228297600982,-90.76364109298733)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Tablet"><g class=" c3-shapes c3-shapes-Tablet c3-arcs c3-arcs-Tablet"><path class=" c3-shape c3-shape c3-arc c3-arc-Tablet" transform="" style="fill: rgb(38, 198, 218); cursor: pointer; opacity: 1;" d="M77.48588261543694,87.46348092379313A116.85,116.85 0 0,1 -109.2566479577907,41.43558105092031L-90.55632310408241,34.343483310069594A96.85,96.85 0 0,0 64.22342945062103,72.49326596037112Z"></path></g><text dy=".35em" class="" transform="translate(-22.371228297600872,90.76364109298734)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Mobile"><g class=" c3-shapes c3-shapes-Mobile c3-arcs c3-arcs-Mobile"><path class=" c3-shape c3-shape c3-arc c3-arc-Mobile" transform="" style="fill: rgb(30, 136, 229); cursor: pointer; opacity: 1;" d="M7.154998924018411e-15,-116.85A116.85,116.85 0 0,1 77.48588261543694,87.46348092379313L64.22342945062103,72.49326596037112A96.85,96.85 0 0,0 5.930352124871058e-15,-96.85Z"></path></g><text dy=".35em" class="" transform="translate(87.40531836623258,-33.14846484073624)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g></g><g class="c3-chart-texts"><g class="c3-chart-text c3-target c3-target-Other" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Other"></g></g><g class="c3-chart-text c3-target c3-target-Desktop" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Desktop"></g></g><g class="c3-chart-text c3-target c3-target-Tablet" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Tablet"></g></g><g class="c3-chart-text c3-target c3-target-Mobile" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Mobile"></g></g></g></g><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-grid)" class="c3-grid c3-grid-lines"><g class="c3-xgrid-lines"></g><g class="c3-ygrid-lines"></g></g><g class="c3-axis c3-axis-x" clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-xaxis)" transform="translate(0,256)" style="visibility: visible; opacity: 0;"><text class="c3-axis-x-label" transform="" style="text-anchor: end;" x="346.5" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(174, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><path class="domain" d="M0,6V0H346.5V6"></path></g><g class="c3-axis c3-axis-y" clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-yaxis)" transform="translate(0,0)" style="visibility: visible; opacity: 0;"><text class="c3-axis-y-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="1.2em"></text><g class="tick" transform="translate(0,235)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">10</tspan></text></g><g class="tick" transform="translate(0,209)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">15</tspan></text></g><g class="tick" transform="translate(0,182)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">20</tspan></text></g><g class="tick" transform="translate(0,156)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">25</tspan></text></g><g class="tick" transform="translate(0,129)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">30</tspan></text></g><g class="tick" transform="translate(0,102)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">35</tspan></text></g><g class="tick" transform="translate(0,76)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">40</tspan></text></g><g class="tick" transform="translate(0,49)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">45</tspan></text></g><g class="tick" transform="translate(0,23)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">50</tspan></text></g><path class="domain" d="M-6,1H0V256H-6"></path></g><g class="c3-axis c3-axis-y2" transform="translate(346.5,0)" style="visibility: hidden; opacity: 0;"><text class="c3-axis-y2-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(0,256)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0</tspan></text></g><g class="tick" transform="translate(0,231)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.1</tspan></text></g><g class="tick" transform="translate(0,205)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.2</tspan></text></g><g class="tick" transform="translate(0,180)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.3</tspan></text></g><g class="tick" transform="translate(0,154)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.4</tspan></text></g><g class="tick" transform="translate(0,129)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.5</tspan></text></g><g class="tick" transform="translate(0,103)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.6</tspan></text></g><g class="tick" transform="translate(0,78)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.7</tspan></text></g><g class="tick" transform="translate(0,52)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.8</tspan></text></g><g class="tick" transform="translate(0,27)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.9</tspan></text></g><g class="tick" transform="translate(0,1)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">1</tspan></text></g><path class="domain" d="M6,1H0V256H6"></path></g></g><g transform="translate(0.5,280.5)" style="visibility: hidden;"><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-subchart)" class="c3-chart"><g class="c3-chart-bars"></g><g class="c3-chart-lines"></g></g><g clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip)" class="c3-brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><rect class="background" x="0" width="202.25" style="visibility: hidden; cursor: crosshair;"></rect><rect class="extent" x="0" width="0" style="cursor: move;"></rect><g class="resize e" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g><g class="resize w" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g></g><g class="c3-axis-x" transform="translate(0,0)" clip-path="url(file:///C:/Users/Jorge/Desktop/main/index3.html#c3-1598942463733-clip-xaxis)" style="visibility: hidden; opacity: 0;"><g class="tick" transform="translate(174, 0)" style="opacity: 1;"><line y2="6" x1="0" x2="0"></line><text y="9" x="0" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><path class="domain" d="M0,6V0H346.5V6"></path></g></g><g transform="translate(0,260)"><g class="c3-legend-item c3-legend-item-Other" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Other</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(236, 239, 241); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Desktop" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Desktop</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(116, 90, 242); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Tablet" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Tablet</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(38, 198, 218); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Mobile" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Mobile</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(30, 136, 229); pointer-events: none;"></line></g></g><text class="c3-title" x="173.25" y="0"></text></svg><div class="c3-tooltip-container" style="position: absolute; pointer-events: none; display: none; top: 226.5px; left: 74.75px;"><table class="c3-tooltip"><tbody><tr class="c3-tooltip-name--Tablet"><td class="name"><span style="background-color:#26c6da"></span>Tablet</td><td class="value">30.8%</td></tr></tbody></table></div></div> -->
-        <table class="table vm font-14 m-b-0">
-          <tbody>
-            <tr>
-              <td class="b-0">Mobile</td>
-              <td class="text-right font-medium b-0">38.5%</td>
-            </tr>
-            <tr>
-              <td>Tablet</td>
-              <td class="text-right font-medium">30.8%</td>
-            </tr>
-            <tr>
-              <td>Desktop</td>
-              <td class="text-right font-medium">7.7%</td>
-            </tr>
-            <tr>
-              <td>Other</td>
-              <td class="text-right font-medium">23.1%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <table class="table vm font-14 m-b-0">
+                    <tbody>
+                        <tr>
+                            <td class="b-0">Mobile</td>
+                            <td class="text-right font-medium b-0">38.5%</td>
+                        </tr>
+                        <tr>
+                            <td>Tablet</td>
+                            <td class="text-right font-medium">30.8%</td>
+                        </tr>
+                        <tr>
+                            <td>Desktop</td>
+                            <td class="text-right font-medium">7.7%</td>
+                        </tr>
+                        <tr>
+                            <td>Other</td>
+                            <td class="text-right font-medium">23.1%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="row" *ngIf="!(cargando || cargandoDetalle)">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-body">
-        <!-- <div id="cabecera">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- <div id="cabecera">
                     <h4 class="card-title">Data Export</h4>
                     <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                 </div> -->
 
-        <!-- <h4 class="card-title">Success Table</h4>
+                <!-- <h4 class="card-title">Success Table</h4>
                 <h6 class="card-subtitle">Add class <code>.full-color-table .full-success-table .hover-table</code></h6> -->
 
-        <!-- <div class="card bg-primary p-3 text-center text-white">
+                <!-- <div class="card bg-primary p-3 text-center text-white">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
                     <footer>
                         <small>
@@ -200,18 +200,14 @@
                     </footer>
                 </div> -->
 
-        <div class="text-right">
-          <button
-            type="button"
-            (click)="verPDF()"
-            class="btn btn-success waves-effect waves-light m-r-10"
-          >
-            <i class="fa fa-cogs"></i>
-            &nbsp; Ver en PDF
-          </button>
-        </div>
+                <div class="text-right">
+                    <button type="button" (click)="verPDF()" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-cogs"></i>
+                        &nbsp; Ver en PDF
+                    </button>
+                </div>
 
-        <!-- <div class="row m-t-30">
+                <!-- <div class="row m-t-30">
                     <div class="col-sm-4">
                         <div class="card p-3 text-center text-white m-b-10">
                             <p class="m-b-0">Créditos diarios</p>
@@ -308,259 +304,174 @@
                     </div>
                 </div> -->
 
-        <div class="table-responsive m-t-20">
-          <table
-            id="example"
-            class="table full-color-table full-success-table hover-table"
-          >
-            <thead>
-              <tr>
-                <th class="vertical-middle text-center w100">#</th>
-                <th class="vertical-middle text-center w100">
-                  <small>Fecha cuota</small>
-                </th>
-                <!-- <th class="vertical-middle text-center w100"><small>Saldo capital</small></th> -->
-                <th class="vertical-middle text-center w100">
-                  <small>Pago capital</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Pago interés</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Ahorro prog.</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Cuota</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Cuota pagada</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Ahorro voluntario</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Pago mora</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Estado</small>
-                </th>
-                <th class="vertical-middle text-center w100">
-                  <small>Acciones</small>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let cuota of operaconFinancieraDetalle">
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.numero_cuota }}
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.fecha_cuota }}
-                </td>
-                <!-- <td text-center *ngIf="cuota.numero_cuota>0">{{ cuota.saldo_capital }}</td> -->
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.monto_amortizacion_capital }}
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.monto_interes }}
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.monto_ahorro_programado }}
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  {{ cuota.monto_cuota }}
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  0
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  0
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  0
-                </td>
-                <td
-                  *ngIf="cuota.numero_cuota > 0"
-                  class="text-center font-table"
-                >
-                  <span
-                    *ngIf="cuota.estado == 'Pagado'"
-                    class="label label-success"
-                    >{{ cuota.estado }}</span
-                  >
-                  <span
-                    *ngIf="
-                      cuota.estado == 'Pendiente' || cuota.estado == 'Amortizado' &&
+                <div class="table-responsive m-t-20">
+                    <!-- <table id="example" class="table full-color-table full-success-table hover-table"> -->
+                    <!-- <table id="example" class="table table-bordered color-bordered-table purple-bordered-table"> -->
+                    <table id="example" class="table table-bordered color-bordered-table purple-bordered-table  
+                                    table-hover full-color-table full-primary-table">
+                        <thead>
+                            <tr>
+                                <th class="vertical-middle text-center w100">#</th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Fecha cuota</small>
+                                </th>
+                                <!-- <th class="vertical-middle text-center w100"><small>Saldo capital</small></th> -->
+                                <th class="vertical-middle text-center w100">
+                                    <small>Pago capital</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Pago interés</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Ahorro prog.</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Cuota</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Cuota pagada</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Ahorro voluntario</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Pago mora</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Estado</small>
+                                </th>
+                                <th class="vertical-middle text-center w100">
+                                    <small>Acciones</small>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cuota of operaconFinancieraDetalle">
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.numero_cuota }}
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.fecha_cuota }}
+                                </td>
+                                <!-- <td text-center *ngIf="cuota.numero_cuota>0">{{ cuota.saldo_capital }}</td> -->
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.monto_amortizacion_capital }}
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.monto_interes }}
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.monto_ahorro_programado }}
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    {{ cuota.monto_cuota }}
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    0
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    0
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    0
+                                </td>
+                                <td *ngIf="cuota.numero_cuota > 0" class="text-center font-table">
+                                    <span *ngIf="cuota.estado == 'Pagado'" class="label label-success">{{ cuota.estado }}</span>
+                                    <span *ngIf="
+                      cuota.estado == 'Amortizado' &&
                       validarFechaCuota(cuota.fecha_cuota)
-                    "
-                    class="label label-danger"
-                    >{{ cuota.estado }}</span
-                  >
-                  <span
-                    *ngIf="
+                    " class="label label-danger">{{ cuota.estado }}</span>
+                                    <span *ngIf="
                       cuota.estado == 'Pendiente' &&
                       !validarFechaCuota(cuota.fecha_cuota)
-                    "
-                    class="label label-warning"
-                    >{{ cuota.estado }}</span
-                  >
-                  <!-- <ng-template #pasado_fecha>
+                    " class="label label-warning">{{ cuota.estado }}</span>
+                                    <!-- <ng-template #pasado_fecha>
                     <span class="label label-warning">{{ cuota.estado }}</span>
-                  </ng-template> -->
-                </td>
-                <td
-                  class="text-center font-table"
-                  *ngIf="cuota.numero_cuota > 0"
-                >
-                  <a
-                    data-toggle="tooltip"
-                    data-original-title="Close"
-                    class="cursor"
-                  >
-                    <i
-                      *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'"
-                      (click)="cargarCuota(cuota.id)"
-                      class="fa fa-pencil text-info m-r-10"
-                    ></i>
-                    <!-- <a *ngIf="cuota.estado!=='Pagado'" type="button" class="btn btn-circle" (click)="cargarCuota(cuota.id)" data-toggle="modal" data-whatever="@mdo"><i class="fa fa-pencil text-info m-r-10"></i></button> -->
-                    <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
-                  </a>
-                </td>
-              </tr>
-              <tr style="font-weight: bold; text-align: center">
-                <td colspan="2">TOTAL (S/.)</td>
-                <td>{{ totalPagoCapital.toFixed(2) }}</td>
-                <td>{{ totalPagoInteres.toFixed(2) }}</td>
-                <td>{{ totalAhorroProgramado.toFixed(2) }}</td>
-                <td>{{ totalCuota.toFixed(2) }}</td>
-                <td>{{ totalCuotaPagada }}</td>
-                <td>{{ totalAhorroVoluntario }}</td>
-                <td>{{ totalPagoMora }}</td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr style="font-weight: bold; text-align: center">
-                <td colspan="6">TOTAL PENDIENTE (S/.)</td>
-                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr style="font-weight: bold; text-align: center">
-                <td colspan="6">SALDO LIQUIDADO (S/.)</td>
-                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada - totalAhorroVoluntario - operaconFinanciera.monto_ahorro_inicial}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          <div
-            class="modal fade"
-            id="mdlCuota"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel1"
-            aria-hidden="true"
-            style="display: none"
-          >
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="exampleModalLabel1">
-                    Cuota numero {{ cuota_numero }}
-                  </h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
+                                    </ng-template> -->
+                                </td>
+                                <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
+                                    <a data-toggle="tooltip" data-original-title="Close" class="cursor">
+                                        <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="cargarCuota(cuota.id)" class="fa fa-pencil text-inverse m-r-10"></i>
+                                        <!-- <a *ngIf="cuota.estado!=='Pagado'" type="button" class="btn btn-circle" (click)="cargarCuota(cuota.id)" data-toggle="modal" data-whatever="@mdo"><i class="fa fa-pencil text-info m-r-10"></i></button> -->
+                                        <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr style="font-weight: bold; text-align: center">
+                                <td colspan="2">Total (S/.)</td>
+                                <td>{{ totalPagoCapital.toFixed(2) }}</td>
+                                <td>{{ totalPagoInteres.toFixed(2) }}</td>
+                                <td>{{ totalAhorroProgramado.toFixed(2) }}</td>
+                                <td>{{ totalCuota.toFixed(2) }}</td>
+                                <td>{{ totalCuotaPagada }}</td>
+                                <td>{{ totalAhorroVoluntario }}</td>
+                                <td>{{ totalPagoMora }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr style="font-weight: bold; text-align: center">
+                                <td colspan="6">Total pendiente (S/.)</td>
+                                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr style="font-weight: bold; text-align: center">
+                                <td colspan="6">Saldo liquidado (S/.)</td>
+                                <td>
+                                    {{+totalCuota.toFixed(2) - totalCuotaPagada - totalAhorroVoluntario - operaconFinanciera.monto_ahorro_inicial}}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="mdlCuota" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true" style="display: none">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel1">
+                                        Cuota número {{ cuota_numero }}
+                                    </h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form ngForm [formGroup]="form" (submit)="guardar()">
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label for="recipient-name1" class="">Pago capital:</label>
+                                            <input type="text" class="form-control" id="recipient-name1" formControlName="cuota_pago_capital" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pago_interes" class="">Pago interes:</label>
+                                            <input type="text" class="form-control" id="pago_interes" formControlName="cuota_pago_interes" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ahorro_programado" class="">Ahorro programado:</label>
+                                            <input type="text" class="form-control" id="ahorro_programado" formControlName="cuota_ahorro_programado" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <form ngForm [formGroup]="form" (submit)="guardar()">
-                <div class="modal-body">
-                  
-                  <div class="form-group">
-                    <label for="recipient-name1" class="">Pago capital:</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="recipient-name1"
-                      formControlName="cuota_pago_capital"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="pago_interes" class="">Pago Interes:</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="pago_interes"
-                      formControlName="cuota_pago_interes"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="ahorro_programado" class=""
-                      >Ahorro programado:</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ahorro_programado"
-                      formControlName="cuota_ahorro_programado"
-                    />
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-default"
-                    data-dismiss="modal"
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Guardar
-                  </button>
-                </div>
-              </form>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- ============================================================== -->
 <!-- End PAge Content -->

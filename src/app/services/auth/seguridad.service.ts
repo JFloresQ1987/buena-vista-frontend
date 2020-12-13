@@ -30,11 +30,12 @@ export class SeguridadService {
     return this.http.get(`${base_url}/login/renovar_token`).pipe(
       tap((res: any) => {
 
-        const { id, usuario, persona } = res.usuario
+        const { id, usuario, local_atencion, persona } = res.usuario
 
         this.seguridad = new Seguridad(
           id,
           usuario,
+          local_atencion,
           persona.nombre,
           persona.apellido_paterno,
           persona.apellido_materno,

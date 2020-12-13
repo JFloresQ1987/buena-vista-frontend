@@ -25,6 +25,7 @@ export interface OperaconFinanciera {
     // numero_ciclo: number,
     fecha_inicio: String,
     fecha_fin: String,
+    ejercicio: String,
     monto_gasto: number,
     monto_ahorro_inicial: number,
     monto_capital: number,
@@ -43,6 +44,8 @@ export interface Producto {
 
     tipo: any,
     // descripcion: String,
+    codigo: String,
+    descripcion: String,
     codigo_programacion: String,
     programacion: String,
     color: String,

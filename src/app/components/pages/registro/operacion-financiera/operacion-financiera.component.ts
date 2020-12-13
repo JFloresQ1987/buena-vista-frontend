@@ -206,6 +206,8 @@ export class OperacionFinancieraComponent implements OnInit {
     const tasa_interes = this.form.get('tasa_interes').value;
     const tasa_ahorro_programado = this.form.get('tasa_ahorro_programado').value;
     const now = dayjs(this.form.get('fecha_inicio').value).locale('es');
+
+    let monto_saldo_capital = this.form.get('monto_capital').value;
     // const now = dayjs();
 
     // let dias = [];
@@ -363,8 +365,13 @@ export class OperacionFinancieraComponent implements OnInit {
 
     for (let i = 1; i <= cantidad_cuotas_calculada; i++) {
 
-      if (i === cantidad_cuotas_calculada)
+      monto_saldo_capital = monto_saldo_capital - monto_cuota_capital;
+
+      if (i === cantidad_cuotas_calculada) {
+
         this.fecha_fin = this.cuotas[i - 1].fecha_cuota;
+        monto_saldo_capital = 0;
+      }
 
       // let fecha = now.add(i, 'day')
       let cuota = {
@@ -380,7 +387,8 @@ export class OperacionFinancieraComponent implements OnInit {
         monto_cuota_capital_visual,
         monto_cuota_interes_visual,
         monto_cuota,
-        monto_cuota_total
+        monto_cuota_total,
+        monto_saldo_capital: (monto_saldo_capital).toFixed(2)
       };
 
       // this.cuotas.push({
@@ -447,8 +455,10 @@ export class OperacionFinancieraComponent implements OnInit {
     // let color: string;
     const id_tipo = this.form.get('tipo').value;
     const tipo = this.tipos.find(item => item.id === id_tipo);
+    // const codigo_tipo = this.tipos.find(item => item.id === id_tipo);
     // const programacion = this.programacion_pago.find(programacion => programacion.id == this.form.get('programacion_pago').value);
     const codigo_programacion = this.form.get('programacion_pago').value;
+    // const codigo_programacion = this.form.get('programacion_pago').value;
     const programacion = this.programacion_pago.find(item => item.codigo === codigo_programacion);
 
     // if (tipo.codigo == 'CD')
@@ -460,9 +470,13 @@ export class OperacionFinancieraComponent implements OnInit {
 
     const modelo: OperaconFinanciera = this.form.value;
 
+    // console.log(codigo_programacion)
+
     modelo.producto = {
       tipo: id_tipo,
-      codigo_programacion: programacion.codigo_programacion,
+      codigo: tipo.codigo,
+      descripcion: tipo.descripcion,
+      codigo_programacion: codigo_programacion,
       programacion: programacion.descripcion,
       color: tipo.color,
       es_prestamo: true
@@ -495,6 +509,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // modelo.analista = '';
     // modelo.estado = 'PreVigente'
     modelo.fecha_inicio = dayjs(this.form.get('fecha_inicio').value).format('DD/MM/YYYY');
+    modelo.ejercicio = dayjs(this.form.get('fecha_inicio').value).format('YYYY');
     // modelo.fecha_inicio = this.form.get('fecha_inicio').value;
     modelo.fecha_fin = this.fecha_fin;
     modelo.monto_gasto = this.form.get('monto_gasto').value;

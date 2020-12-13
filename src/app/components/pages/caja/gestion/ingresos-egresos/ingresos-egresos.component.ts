@@ -16,10 +16,11 @@ import { Recibo } from '../../../../../helpers/core/recibo';
   ]
 })
 export class IngresosEgresosComponent implements OnInit {
-  public usuarios: [] = [];
-  public conceptos: [] = [];
-  public subconceptos: [] = [];
+  public usuarios: any = [];
+  public conceptos: any = [];
+  public subconceptos: any = [];
   public form: FormGroup;
+  public formSubmitted = false;
 
   constructor(private router: Router, private formBuilder: FormBuilder, private usuarioService: UsuarioService, private pagoConcepto: PagoConceptoService, private operacionFinancieraPagoService: OperacionFinancieraPagoService) { }
 
@@ -33,12 +34,14 @@ export class IngresosEgresosComponent implements OnInit {
       sub_concepto: ['', [Validators.required]],
       detalle: ['',],
       numero_comprobante: ['',],
-      responsable: ['', [Validators.required]],
+      responsable: ['',],
       monto: ['', [Validators.required]]
     });
 
     this.form.controls['operacion'].valueChanges.subscribe(data => {
       if (data == "") {
+        this.conceptos = [];
+        this.subconceptos = [];
         return
       }
       this.pagoConcepto.listarConceptos(data).subscribe(res => {
@@ -50,6 +53,7 @@ export class IngresosEgresosComponent implements OnInit {
 
     this.form.controls['concepto'].valueChanges.subscribe(data => {
       if (data == "") {
+        this.subconceptos = [];
         return
       }
       this.pagoConcepto.listarSubConceptos(data).subscribe(res => {
@@ -78,9 +82,12 @@ export class IngresosEgresosComponent implements OnInit {
   }
 
   guardar() {
-    if (!this.form.valid) { 
+
+    this.formSubmitted = true;
+
+    if (!this.form.valid) {
       return Swal.fire({
-        text:"Necesita completar toda la informacion", icon:'error'
+        text: "Necesita completar toda la informacion", icon: 'error'
       })
     }
 
@@ -93,11 +100,44 @@ export class IngresosEgresosComponent implements OnInit {
     }
     delete form['operacion'];
     delete form['monto'];
-    const data = {
+
+    const id_responsable = this.form.get('responsable').value;
+    if (!id_responsable)
+      delete form['responsable'];
+
+    const data: any = {
       es_ingreso,
       concepto: form,
       monto
     }
+
+    const id_concepto = this.form.get('concepto').value;
+    const concepto = this.conceptos.find(item => item._id === id_concepto);
+    data.concepto.codigo_concepto = concepto.codigo;
+    data.concepto.descripcion = concepto.descripcion;
+
+    const id_sub_concepto = this.form.get('sub_concepto').value;
+    if (id_sub_concepto) {
+
+      const sub_concepto = this.subconceptos.find(item => item._id === id_sub_concepto);
+      data.concepto.codigo_sub_concepto = sub_concepto.codigo;
+      data.concepto.descripcion_sub_concepto = sub_concepto.descripcion;
+    }
+
+    // const id_responsable = this.form.get('responsable').value;
+    if (id_responsable) {
+
+      const responsable = this.usuarios.find(item => item.id === id_responsable);
+      data.concepto.nombre_responsable = responsable.persona.apellido_paterno + ' ' + responsable.persona.apellido_materno + ', ' + responsable.persona.nombre;
+      data.concepto.documento_identidad_responsable = responsable.persona.documento_identidad;
+    }
+    // else{
+    //   // delete data['concepto.responsable'];
+    //   // console.log(data)
+    //   delete form['responsable'];
+    // }
+
+    // console.log(id_responsable)
 
     this.operacionFinancieraPagoService.registrarIngresoEgreso(data).subscribe(res => {
       Swal.fire({
@@ -109,353 +149,49 @@ export class IngresosEgresosComponent implements OnInit {
       const recibo = new Recibo();
       recibo.imprimirRecibo(res)
       // this.router.navigateByUrl('/dashboard');
+      this.cancelar();
     })
   }
 
-  // imprimirRecibo(recibo: []) {
-
-  //   const opciones: any = {
-  //     orientation: 'p',
-  //     unit: 'mm',
-  //     format: [76, 140]
-  //   };
-
-  //   // var doc = new jsPDF(opciones);
-
-  //   // doc.setFontSize(10);
-  //   // doc.text('       Buenavista La Bolsa S.A.C.', 10, 30);
-  //   // doc.text('            Agencia Ayacucho', 10, 35);
-  //   // doc.text('------------------------------------------', 10, 40);
-  //   // doc.text('RUC: 20574744599                I-00000009', 10, 45);
-  //   // doc.text('', 10, 55);
-  //   // doc.text('DNI: 44684165', 10, 60);
-  //   // doc.text('Socio: Jorge Flores Quispe', 10, 65);
-  //   // doc.text('Analista: Jorge Flores Quispe', 10, 70);
-  //   // doc.text('Producto: Créditos Personales', 10, 90);
-  //   // doc.text('Operación en Soles', 10, 95);
-  //   // doc.text('', 10, 100);
-  //   // doc.text('Detalle Operación', 10, 105);
-  //   // doc.text('------------------------------------------', 10, 110);
-  //   // doc.text('Ahorro voluntario', 10, 115);
-  //   // doc.text('Amortización Capital', 10, 120);
-  //   // doc.text('Interés', 10, 125);
-  //   // doc.text('------------------------------------------', 10, 130);
-  //   // doc.text('Total', 10, 135);
-  //   // doc.text('', 10, 140);
-  //   // doc.text('Usuario: 44684165', 10, 145);
-  //   // doc.text('Fecha: 09/09/2020 06:15:56 pm', 10, 150);
-  //   // doc.text('Recibo: Original', 10, 155);
-  //   // doc.text('** Frase **', 10, 160);
-
-  //   // doc.autoPrint({ variant: 'non-conform' });
-  //   // doc.save('comprobante.pdf');
-
-  //   var doc: any = new jsPDF(opciones)
-
-  //   // doc.setFontSize(12);
-
-  //   // doc.text('Theme "striped"', 14, 16)
-  //   // doc.autoTable({ head: headRows(), body: bodyRows(5), startY: 20 })
-
-  //   // doc.text('Theme "grid"', 14, doc.lastAutoTable.finalY + 10)
-  //   // doc.autoTable({
-  //   //   head: headRows(),
-  //   //   body: bodyRows(5),
-  //   //   startY: doc.lastAutoTable.finalY + 14,
-  //   //   theme: 'grid',
-  //   // })
-
-  //   // doc.text('Theme "plain"', 14, 16)
-  //   // doc.text('Theme "plain"', 14, doc.lastAutoTable.finalY + 10)
-
-
-  //   // doc.autoTable({
-  //   //   head: this.headRows(),
-  //   //   body: this.bodyRows(5),
-  //   //   startY: 20,
-  //   //   // startY: doc.lastAutoTable.finalY + 14,
-  //   //   theme: 'plain',
-  //   // })
-
-  //   // const body = [
-  //   //   [
-  //   //     {
-  //   //       content: 'Buenavista La Bolsa S.A.C.',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Agencia Ayacucho',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   // [
-  //   //   //   {
-  //   //   //     content: 'RUC: 20574744599',
-  //   //   //     colSpan: 3,
-  //   //   //     styles: { halign: 'center' },
-  //   //   //     // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //   //   },
-  //   //   // ],
-  //   //   [
-  //   //     {
-  //   //       content: '------------------------------------',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'RUC: 20574744599',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: '',
-  //   //       colSpan: 1,
-  //   //       // styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: 'I-00000009',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'right' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'DNI: 44684165',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Socio: Jorge Flores Quispe',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Analista: Jorge Flores Quispe',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Producto: Créditos Personales',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Operaciones en Soles',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: '------------------------------------',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Detalle Operación',
-  //   //       colSpan: 2,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: 'Monto',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'right' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: '------------------------------------',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Ahorro Voluntario es la prueba para ver como entra cuando es tet largo...',
-  //   //       colSpan: 2,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: '999.00',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'right' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Amortización Capital',
-  //   //       colSpan: 2,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: '9999.99',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'right' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: '------------------------------------',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // rowHeight: 2
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Total: S/.',
-  //   //       colSpan: 2,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     },
-  //   //     {
-  //   //       content: '99999.99',
-  //   //       colSpan: 1,
-  //   //       styles: { halign: 'right' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     // {
-  //   //     //   colSpan: 3
-  //   //     // }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Usuario: 44684165',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Fecha: 03/09/2020 12:44:58',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: 'Recibo: Original',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'left' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   //   [
-  //   //     // {
-  //   //     //   colSpan: 3
-  //   //     // }
-  //   //   ],
-  //   //   [
-  //   //     {
-  //   //       content: '** **',
-  //   //       colSpan: 3,
-  //   //       styles: { halign: 'center' },
-  //   //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //   //     }
-  //   //   ],
-  //   // ];
-
-
-  //   // const body = this.bodyRows(5);
-
-  //   // doc.text('Theme "striped"', 0, 5)
-
-  //   doc.autoTable({
-  //     // startX: 0,
-  //     startY: 5,
-  //     margin: {
-  //       right: 0,
-  //       left: 0
-  //     },
-  //     styles: {
-  //       valign: 'middle',
-  //       font: 'courier',
-  //       fontSize: 10,
-  //       fontStyle: 'bold',
-  //       // fillColor: [255, 255, 255],
-  //       textColor: [0, 0, 0],
-  //       // lineColor: [0, 0, 0],
-  //       rowHeight: 4,
-  //       cellPadding: 0,
-  //       // lineWidth: 1
-  //     },
-  //     // head: [
-  //     //   [
-  //     //     {
-  //     //       content: 'Buenavista La Bolsa S.A.C.',
-  //     //       colSpan: 3,
-  //     //       styles: { halign: 'center' },
-  //     //       // styles: { halign: 'center', fillColor: [22, 160, 133] },
-  //     //       columnHeight: 35
-  //     //     },
-  //     //   ],
-  //     // ],
-  //     body: recibo,
-  //     theme: 'plain',
-  //     // theme: 'grid',
-  //   })
-
-
-  //   doc.autoPrint();//<- para llamar a imprimir    
-  //   doc.output('dataurlnewwindow');//<-- para ver pdf en nueva pestaña
-  // }
-
   cancelar() {
     //this.router.navigateByUrl('caja/gestion/ingresos-egresos');
+    this.formSubmitted = false;
+    // this.conceptos = [];
     this.form.reset();
   }
 
-  validar(){
-    if(this.form.controls['operacion'].value === 'i'){
+  validar() {
+    if (this.form.controls['operacion'].value === 'i') {
       this.form.controls['responsable'].setValidators(null);
     } else {
       this.form.controls['responsable'].setValidators(Validators.required);
     }
+  }
+
+  validarCampo(campo: string, validar: string): boolean {
+
+    if (this.form.get(campo).hasError(validar) &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarError(campo: string): boolean {
+
+    if (this.form.get(campo).invalid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarSuccess(campo: string): boolean {
+
+    if (this.form.get(campo).valid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
   }
 }

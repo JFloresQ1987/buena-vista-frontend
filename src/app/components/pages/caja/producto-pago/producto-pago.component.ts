@@ -8,6 +8,7 @@ import { OperacionFinancieraDetalleService } from '../../../../services/core/reg
 import { OperacionFinancieraPagoService } from '../../../../services/core/caja/operacion-financiera-pago.service';
 import jsPDF from 'jspdf';
 import { OperaconFinancieraPago } from '../../../../interfaces/core/registro/operacion-financiera-pago';
+import { Recibo } from '../../../../helpers/core/recibo';
 
 @Component({
   selector: 'app-producto-pago',
@@ -113,6 +114,12 @@ export class ProductoPagoComponent implements OnInit {
             Swal.fire({
               text: 'El desembolso se realizó satisfactoriamente.', icon: 'success'
             });
+
+            const recibo = new Recibo();
+
+            console.log(res)
+
+            recibo.imprimirRecibo(res)
 
             this.listarProductos();
             // this.imprimirRecibo(res);

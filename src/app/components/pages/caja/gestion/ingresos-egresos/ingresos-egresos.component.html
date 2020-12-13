@@ -4,73 +4,154 @@
             <div class="card-body">
                 <form action="" ngForm [formGroup]="form" (submit)="guardar()">
                     <div class="form-group row">
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Responsable </label>
-                            <select class="form-control" formControlName="responsable">
-                <option value="">Seleccione</option>
-                <option *ngFor="let item of usuarios" value="{{ item.id }}">
-                  {{ item.persona.nombre }},
-                  {{ item.persona.apellido_paterno }}
-                  {{ item.persona.apellido_materno }}
-                </option>
-              </select>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('responsable'),
+                            'has-danger': validarError('responsable')
+                        }">
+                            <label for="" class="form-control-label">
+                                Responsable:
+                            </label>
+                            <select class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('responsable'),
+                                'form-control-danger': validarError('responsable')
+                            }" formControlName="responsable">
+                                <option value="">--Seleccionar--</option>
+                                <option *ngFor="let item of usuarios" value="{{ item.id }}">
+                                    {{ item.persona.nombre }},
+                                    {{ item.persona.apellido_paterno }}
+                                    {{ item.persona.apellido_materno }}
+                                </option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('responsable', 'required')">El responsable
+                                    es un dato obligatorio.</p>
+                            </small>
                         </div>
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Operación </label>
-                            <select class="form-control" formControlName="operacion">
-                <option value="">Seleccione</option>
-                <option value="i">Ingreso</option>
-                <option value="e">Egreso</option>
-              </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Concepto </label>
-                            <select class="form-control" formControlName="concepto">
-                <option value="">seleccione</option>
-                <option *ngFor="let item of conceptos" value="{{ item._id }}">
-                  {{ item.descripcion }}
-                </option>
-              </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Sub - Concepto </label>
-                            <select class="form-control" formControlName="sub_concepto">
-                <option value="">Seleccione</option>
-                <option
-                  *ngFor="let item of subconceptos"
-                  value="{{ item._id }}"
-                >
-                  {{ item.descripcion }}
-                </option>
-              </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Detalle </label>
-                            <input class="form-control" type="text" formControlName="detalle" />
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="" class="form-control-label"> N° Comprobante </label>
-                            <input class="form-control" type="text" formControlName="numero_comprobante" />
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('operacion'),
+                            'has-danger': validarError('operacion')
+                        }">
+                            <label for="" class="form-control-label">
+                                Operación: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('operacion'),
+                                'form-control-danger': validarError('operacion')
+                            }" formControlName="operacion">
+                                <option value="">--Seleccionar--</option>
+                                <option value="i">Ingreso</option>
+                                <option value="e">Egreso</option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('operacion', 'required')">La operación
+                                    es un dato obligatorio.</p>
+                            </small>
                         </div>
                     </div>
                     <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('concepto'),
+                            'has-danger': validarError('concepto')
+                        }">
+                            <label for="" class="form-control-label">
+                                Concepto: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('concepto'),
+                                'form-control-danger': validarError('concepto')
+                            }" formControlName="concepto">
+                                <option value="">--Seleccionar--</option>
+                                <option *ngFor="let item of conceptos" value="{{ item._id }}">
+                                    {{ item.descripcion }}
+                                </option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('concepto', 'required')">El concepto
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('sub_concepto'),
+                            'has-danger': validarError('sub_concepto')
+                        }">
+                            <label for="" class="form-control-label">
+                                Sub - Concepto: <span class="text-danger">(*)</span>
+                            </label>
+                            <select class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('sub_concepto'),
+                                'form-control-danger': validarError('sub_concepto')
+                            }" formControlName="sub_concepto">
+                                <option value="">--Seleccionar--</option>
+                                <option *ngFor="let item of subconceptos" value="{{ item._id }}">
+                                    {{ item.descripcion }}
+                                </option>
+                            </select>
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('sub_concepto', 'required')">El sub - concepto
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('detalle'),
+                            'has-danger': validarError('detalle')
+                        }">
+                            <label for="" class="form-control-label">
+                                Detalle:
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('detalle'),
+                                'form-control-danger': validarError('detalle')
+                            }" type="text" formControlName="detalle" />
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('detalle', 'required')">El detalle
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
+                            'has-success': validarSuccess('numero_comprobante'),
+                            'has-danger': validarError('numero_comprobante')
+                        }">
+                            <label for="" class="form-control-label">
+                                N° Comprobante:
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('numero_comprobante'),
+                                'form-control-danger': validarError('numero_comprobante')
+                            }" type="text" formControlName="numero_comprobante" />
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('numero_comprobante', 'required')">El comprobante
+                                    es un dato obligatorio.</p>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group row" [ngClass]="{
+                        'has-success': validarSuccess('monto'),
+                        'has-danger': validarError('monto')
+                    }">
                         <div class="col-sm-6">
-                            <label for="" class="form-control-label"> Monto S/. </label>
-                            <input class="form-control" type="text" (keypress)="numberOnly($event)" formControlName="monto" />
+                            <label for="" class="form-control-label">
+                                Monto (S/.): <span class="text-danger">(*)</span>
+                            </label>
+                            <input class="form-control" [ngClass]="{
+                                'form-control-success': validarSuccess('monto'),
+                                'form-control-danger': validarError('monto')
+                            }" type="text" (keypress)="numberOnly($event)" formControlName="monto" />
+                            <small class="form-control-feedback">
+                                <p *ngIf="validarCampo('monto', 'required')">El monto
+                                    es un dato obligatorio.</p>
+                            </small>
                         </div>
                         <div class="col-sm-6 text-right mt-3">
                             <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
-                <i class="fa fa-times-circle"></i>
-                &nbsp; Cancelar
-              </button>
+                                <i class="fa fa-times-circle"></i>
+                                &nbsp; Cancelar
+                            </button>
                             <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
-                <i class="fa fa-save"></i>
-                &nbsp; Registrar
-              </button>
+                                <i class="fa fa-save"></i>
+                                &nbsp; Registrar
+                            </button>
                         </div>
                     </div>
                 </form>

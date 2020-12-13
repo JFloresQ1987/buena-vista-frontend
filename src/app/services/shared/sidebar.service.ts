@@ -7,11 +7,11 @@ export class SidebarService {
 
   public menu = [];
 
-  cargarMenu(){
+  cargarMenu() {
 
     this.menu = JSON.parse(localStorage.getItem('menu')) || [];
-  }  
-  
+  }
+
   constructor() {
-   }
+  }
 }

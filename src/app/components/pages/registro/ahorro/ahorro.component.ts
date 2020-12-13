@@ -237,7 +237,10 @@ export class AhorroComponent implements OnInit {
 
     modelo.producto = {
       tipo: id_tipo,
-      codigo_programacion: programacion ? programacion.codigo_programacion : '',
+      codigo: tipo.codigo,
+      descripcion: tipo.descripcion,
+      codigo_programacion: programacion ? codigo_programacion : '',
+      // codigo_programacion: programacion ? programacion.codigo_programacion : '',
       programacion: programacion ? programacion.descripcion : '',
       color: tipo.color,
       es_prestamo: false

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SidebarService } from '../../../services/shared/sidebar.service';
 import { Socio } from '../../../models/core/socio.model';
 import { SesionSocioService } from '../../../services/shared/sesion-socio.service';
@@ -9,7 +9,7 @@ import { SesionSocioService } from '../../../services/shared/sesion-socio.servic
   styles: [
   ]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
 
   menu: any[];
   sesionSocio: Socio;
@@ -17,18 +17,10 @@ export class SidebarComponent implements OnInit {
   constructor(public sidebarService: SidebarService,
     public sesionSocioService: SesionSocioService) {
 
-    // if (localStorage.getItem('socio')) {
-      this.sesionSocio = sesionSocioService.sesionSocio;
-    // } else {
-    //   this.socio = new Socio();
-    // }
-
-// if(!this.socio)
-// this.socio = new Socio();
-  }
-
-  ngOnInit(): void {
-
+    this.sesionSocio = sesionSocioService.sesionSocio;
+    // setTimeout(() => {
+    //   this.menu = sidebarService.menu;
+    // }, 100);
   }
 
   limpiarSesionSocio() {

@@ -25,9 +25,12 @@ export class ListarRecibosComponent implements OnInit {
 
     this.listarRecibos('0');
 
-    this.usuarioService.listarxrol("Analista").subscribe(res => {
-      this.analistas = res['usuarios'];
+    this.analistaService.getListaDesplegable().subscribe(res => {
+      this.analistas = res;
     })
+    // this.usuarioService.listarxrol("Analista").subscribe(res => {
+    //   this.analistas = res['usuarios'];
+    // })
   }
 
   listarRecibos(analista: string) {
@@ -187,7 +190,7 @@ export class ListarRecibosComponent implements OnInit {
 
   buscarRecibos(id) {
 
-    const analista = id || 0;    
+    const analista = id || 0;
     this.listarRecibos(analista);
     this.analista = id;
   }

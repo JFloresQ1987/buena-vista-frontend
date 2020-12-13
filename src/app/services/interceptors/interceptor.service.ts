@@ -15,10 +15,10 @@ export class InterceptorService implements HttpInterceptor {
 
   private seguridad: Seguridad;
   // private socio: Socio;
-  
+
   constructor(private seguridadService: SeguridadService/*,
     private sesionSocioService: SesionSocioService*/) {
-    
+
     // this.seguridad = this.service.seguridad
   };
 
@@ -27,7 +27,7 @@ export class InterceptorService implements HttpInterceptor {
     this.seguridad = this.seguridadService.seguridad;
     // this.socio = this.sesionSocioService.sesionSocio;
 
-    const headers = new HttpHeaders ({
+    const headers = new HttpHeaders({
       'x-token': localStorage.getItem('token') || '',/*,
       'uid': this.seguridad.id,
       'usuario': this.seguridad.usuario,
@@ -35,27 +35,38 @@ export class InterceptorService implements HttpInterceptor {
 
       'id_usuario_sesion': this.seguridad ? this.seguridad.id : '0',
       'usuario_sesion': this.seguridad ? this.seguridad.usuario : '',
+      'local_atencion': this.seguridad ? this.seguridad.local_atencion : '',
       'nombre_sesion': this.seguridad ? this.seguridad.nombre : ''
     });
 
     const req_clone = req.clone({
       headers
     });
-    
+
     return next.handle(req_clone)
-    .pipe(      
-      catchError(this.gestionError)
-    );
+      .pipe(
+        catchError(this.gestionError)
+      );
 
     // return next.handle( req );
   }
 
-  gestionError(err: HttpErrorResponse){
+  gestionError(err: HttpErrorResponse) {
+
+    let message_error = '';
+
+    if (err.error.msg)
+      message_error = err.error.msg;
+    else if (err.error && err.message)
+      message_error = 'Tiempo de espera agotado al conectarse con el servidor.';
+      // message_error = err.message;
+    else
+      message_error = 'Ocurrió un error inesperado en la aplicación.';
+
     Swal.fire({
-      text: err.error.msg, icon: 'error'
-
-// cons
-
+      text: message_error,
+      // text: err.error ? err.error.msg : 'Ocurrió un error inesperado en la aplicación.',
+      icon: 'error'
     });
     return throwError('Error personalizado.');
   }

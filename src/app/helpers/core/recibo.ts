@@ -9,9 +9,12 @@ export class Recibo {
             if (doc.document) doc = doc.document;
 
             doc.write('<head><title></title>');
-            doc.write('<link href="../../../../../assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
+            doc.write('<link href="./assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
+            // doc.write('<link href="../../../../../assets/css/recibo.css" rel="stylesheet" type="text/css"/>');
             doc.write('</head><body onload="this.focus(); this.print();">');
 
+            // console.log('inicio recibo')
+            
             doc.write('<div class="ticket">');
             doc.write('<p class="centrado">' + data.institucion.denominacion);
             doc.write('<br>' + data.institucion.agencia);
@@ -39,6 +42,7 @@ export class Recibo {
                 doc.write('<br>Analista: ' + data.analista);
 
             if (data.responsable)
+            // if (data.responsable.nombre_completo)
                 doc.write('<br>Responsable: ' + data.responsable.nombre_completo);
 
             if (data.bancomunal)
@@ -46,6 +50,9 @@ export class Recibo {
 
             if (data.producto)
                 doc.write('<br>Producto: ' + data.producto.descripcion);
+
+            if (data.concepto)
+                doc.write('<br>Producto: ' + data.concepto.producto);
 
             doc.write('</p>');
             doc.write('<p>');
@@ -60,6 +67,12 @@ export class Recibo {
 
             if (data.producto) {
 
+                if (Number(data.producto.monto_desembolso) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Desembolso</td><td class="monto derecha">' + data.producto.monto_desembolso + '</td>');
+                    doc.write('</tr>');
+                }
+                
                 if (Number(data.producto.monto_gasto) > 0) {
                     doc.write('<tr>');
                     doc.write('<td class="detalle">Gasto Administrativo</td><td class="monto derecha">' + data.producto.monto_gasto + '</td>');
@@ -108,6 +121,7 @@ export class Recibo {
                     doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
                     doc.write('</tr>');
                 }
+
                 if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
                     doc.write('<tr>');
                     doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
@@ -129,6 +143,24 @@ export class Recibo {
                 doc.write('<tr>');
                 doc.write('<td class="detalle">' + data.concepto.descripcion + '</td><td class="monto derecha">' + data.recibo.monto_total + '</td>');
                 doc.write('</tr>');
+
+                if (data.concepto.sub_concepto) {                    
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">' + data.concepto.sub_concepto + '</td><td class="monto derecha"></td>');
+                    doc.write('</tr>');
+                }
+                if (data.concepto.detalle) {                    
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Det.: ' + data.concepto.detalle + '</td><td class="monto derecha"></td>');
+                    doc.write('</tr>');
+                }
+                if (data.concepto.numero_comprobante) {                    
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Comprobante: ' + data.concepto.numero_comprobante + '</td><td class="monto derecha"></td>');
+                    doc.write('</tr>');
+                }
+
+
             }
 
             // if (i.ConceptoOperacionFinanciera != null && i.ConceptoOperacionFinanciera != '') {
@@ -155,6 +187,8 @@ export class Recibo {
             doc.write('</div>');
 
             doc.write('</body>');
+
+            // console.log('fin recibo')
 
             doc.close();
 

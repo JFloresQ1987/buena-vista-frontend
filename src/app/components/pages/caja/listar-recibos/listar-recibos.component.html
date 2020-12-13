@@ -34,8 +34,7 @@
                             <select class="form-control" (change)="buscarRecibos($event.target.value)">
                                 <option value="">Seleccione un analista</option>
                                 <option *ngFor="let item of analistas" value="{{ item.id }}">
-                                    {{ item.persona.nombre }}, {{item.persona.apellido_paterno}}
-                                    {{item.persona.apellido_materno}}
+                                    {{ item.nombre_usuario }}
                                 </option>
                             </select>
                         </div>
@@ -59,32 +58,34 @@
                     <table class="table table-bordered color-bordered-table purple-bordered-table">
                         <thead>
                             <tr>
-                                <th width="3%">#</th>
-                                <th class="text-center">Estado</th>
-                                <th class="text-center">N° recibo</th>
-                                <th class="text-center">Fecha</th>
-                                <th class="text-center">DNI</th>
-                                <th class="text-center">Nombres y apellidos</th>
-                                <th class="text-center">Monto (S/.)</th>
-                                <th class="text-nowrap center" width="5%">Acciones</th>
+                                <th class="font-table" width="3%">#</th>
+                                <th class="text-center font-table">Estado</th>
+                                <th class="text-center font-table">N° recibo</th>
+                                <th class="text-center font-table">Fecha</th>
+                                <th class="text-center font-table">DNI</th>
+                                <th class="text-center font-table">Nombres y apellidos</th>
+                                <th class="text-center font-table">Producto / Concepto</th>
+                                <th class="text-center font-table">Programación / Subconcepto</th>
+                                <th class="text-center font-table">Monto (S/.)</th>
+                                <th class="text-nowrap center font-table" width="5%">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of lista; let i = index">
-                                <td class="text-center">{{ i + 1 }}</td>
+                                <td class="text-center font-table">{{ i + 1 }}</td>
 
                                 <ng-template [ngIf]="item.recibo.estado==='Vigente'">
-                                    <td class="text-center">
+                                    <td class="text-center font-table">
                                         <span class="label label-success">{{item.recibo.estado}}</span>
                                     </td>
                                 </ng-template>
                                 <ng-template [ngIf]="item.recibo.estado==='Previgente'">
-                                    <td class="text-center">
+                                    <td class="text-center font-table">
                                         <span class="label label-warning">{{item.recibo.estado}}</span>
                                     </td>
                                 </ng-template>
                                 <ng-template [ngIf]="item.recibo.estado==='Anulado'">
-                                    <td class="text-center">
+                                    <td class="text-center font-table">
                                         <span class="label label-danger">{{item.recibo.estado}}</span>
                                     </td>
                                 </ng-template>
@@ -116,13 +117,20 @@
                                         <span class="label label-danger">{{item.recibo.estado}}</span>
                                     </td>
                                 </ng-template> -->
-                                <td class="text-center">{{ item.recibo.numero }}</td>
-                                <td class="text-center">{{ item.recibo.fecha }}</td>
+                                <td class="text-center font-table">{{ item.recibo.numero }}</td>
+                                <td class="text-center font-table">{{ item.recibo.fecha }}</td>
 
-                                <td>44684165</td>
-                                <td>Jorge Flores Quispe</td>
+                                <td class="text-center font-table">
+                                    {{ item.producto.documento_identidad_persona || item.concepto.documento_identidad_responsable }}
+                                </td>
+                                <td class="font-table">
+                                    {{ item.producto.nombre_persona || item.concepto.nombre_responsable }}</td>
 
-                                <td>{{ item.recibo.monto_total }}</td>
+                                <td class="font-table w100">{{ item.producto.codigo || item.concepto.codigo_concepto }}
+                                </td>
+                                <td class="font-table w100">
+                                    {{ item.producto.codigo_programacion || item.concepto.codigo_sub_concepto }}</td>
+                                <td class="font-table w100">{{ item.recibo.monto_total }}</td>
                                 <!-- <td>{{ item.persona.apellido_materno }}</td>
                                 <td class="text-center" *ngIf="item.es_bloqueado; else bloqueado">
                                     <span class="label label-danger">Si</span>
@@ -138,7 +146,7 @@
                                         <span class="label label-danger">No</span>
                                     </td>
                                 </ng-template> -->
-                                <td class="text-nowrap text-center">
+                                <td class="text-nowrap text-center font-table w100">
                                     <a *ngIf="item.recibo.estado!='Anulado'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
                                         <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
                                     </a>

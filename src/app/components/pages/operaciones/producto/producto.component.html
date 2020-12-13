@@ -48,7 +48,7 @@
                 <a *ngIf="item.estado === 'Vigente'" [routerLink]="['/operaciones/gestion/producto-detalle', item.id]" class="btn btn-{{ item.producto.color }}">
                     <i class="fa fa-eye"></i> &nbsp; Ver detalle
                 </a>
-                <button *ngIf="item.estado === 'Vigente'" type="button" (click)="anular(item.id)" class="btn btn-danger m-l-10">
+                <button *ngIf="item.estado === 'Vigente' && !item.desembolso.se_desembolso_prestamo" type="button" (click)="anular(item.id)" class="btn btn-danger m-l-10">
                     <i class="fa fa-ban"></i>
                     &nbsp; Anular
                 </button>

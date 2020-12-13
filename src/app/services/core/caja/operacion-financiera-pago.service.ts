@@ -70,12 +70,15 @@ export class OperacionFinancieraPagoService {
     const url = `${base_url}/operacion-financiera-pago/desembolsar/${id_operacion_financiera}`;
 
     // const url = `${base_url}/usuarios/${id}`;
-    return this.http.put(url, modelo);
+    return this.http.put(url, modelo)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
 
     // return this.http.post(url, objeto)
     //   .pipe(
     //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
-    //   );
+    //   
   }
 
   anularRecibo(id_operacion_financiera: string, comentario: string) {

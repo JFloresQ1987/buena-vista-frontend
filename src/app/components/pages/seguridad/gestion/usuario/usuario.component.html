@@ -3,81 +3,71 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-right">
-                    <a class="btn btn-success" [routerLink]="['./nuevo']"><i class="ti-plus"></i> Nuevo</a
-          >
-        </div>
-        <br>
-        <div class="table-responsive">
-          <table
-            class="table table-bordered color-bordered-table purple-bordered-table"
-          >
-            <thead>
-              <tr>
-                <th width="3%">#</th>
-                <th class="text-center">Usuario</th>
-                <th class="text-center">Nombre</th>
-                <th class="text-center">Apellido paterno</th>
-                <th class="text-center">Apellido materno</th>
-                <th class="text-center">Bloqueado</th>
-                <th class="text-center">Vigente</th>
-                <th class="text-nowrap center" width="5%">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of usuarios; let i = index">
-                <td class="text-center">{{ i + 1 + 10*(paginaActual-1) }}</td>
-                <td class="text-center">{{ item.usuario }}</td>
-                <td>{{ item.persona.nombre }}</td>
-                <td>{{ item.persona.apellido_paterno }}</td> 
-                <td>{{ item.persona.apellido_materno }}</td>
-                <td
-                  class="text-center"
-                  *ngIf="item.es_bloqueado; else bloqueado"
-                >
-                  <span class="label label-danger">Si</span>
-                </td>
-                <td class="text-center" *ngIf="item.es_vigente; else vigente">
-                  <span class="label label-success">Si</span>
-                </td>
-                <ng-template #bloqueado
-                  ><td class="text-center"></td
-                ></ng-template>
-                <ng-template #vigente
-                  ><td class="text-center">
-                    <span class="label label-danger">No</span>
-                  </td></ng-template
-                >
-                <td class="text-nowrap">
-                  <a
-                    [routerLink]="['/seguridad/gestion/usuario', item.id]"
-                    data-toggle="tooltip"
-                    data-original-title="Edit"
-                  >
-                    <i class="fa fa-pencil text-inverse m-r-10"></i>
-                  </a>
-                    <a href="#" data-toggle="tooltip" data-original-title="Close">
-                        <i class="fa fa-close text-danger m-r-10"></i>
-                    </a>
-                    <a (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close" class="cursor">
-                        <i *ngIf="!item.es_vigente" class="fa fa-thumbs-o-up text-info m-r-10"></i>
-                        <i *ngIf="item.es_vigente" class="fa fa-thumbs-o-down text-info m-r-10"></i>
-                    </a>
-                    <!-- <button class="btn btn-circle" (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close">
+                    <a class="btn btn-success" [routerLink]="['./nuevo']"><i class="ti-plus"></i> Nuevo</a>
+                </div>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th width="3%">#</th>
+                                <th class="text-center">Usuario</th>
+                                <th class="text-center">Nombre</th>
+                                <th class="text-center">Apellido paterno</th>
+                                <th class="text-center">Apellido materno</th>
+                                <th class="text-center">Bloqueado</th>
+                                <th class="text-center">Vigente</th>
+                                <th class="text-nowrap center" width="5%">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of usuarios; let i = index">
+                                <td class="text-center">{{ i + 1 + 10*(paginaActual-1) }}</td>
+                                <td class="text-center">{{ item.usuario }}</td>
+                                <td>{{ item.persona.nombre }}</td>
+                                <td>{{ item.persona.apellido_paterno }}</td>
+                                <td>{{ item.persona.apellido_materno }}</td>
+                                <td class="text-center" *ngIf="item.es_bloqueado; else bloqueado">
+                                    <span class="label label-danger">Si</span>
+                                </td>
+                                <td class="text-center" *ngIf="item.es_vigente; else vigente">
+                                    <span class="label label-success">Si</span>
+                                </td>
+                                <ng-template #bloqueado>
+                                    <td class="text-center"></td>
+                                </ng-template>
+                                <ng-template #vigente>
+                                    <td class="text-center">
+                                        <span class="label label-danger">No</span>
+                                    </td>
+                                </ng-template>
+                                <td class="text-nowrap">
+                                    <a [routerLink]="['/seguridad/gestion/usuario', item.id]" data-toggle="tooltip" data-original-title="Edit">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <!-- <button class="btn btn-circle" (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close">
                     <i class="fa fa-arrow-down text-inverse m-r-10"></i>
                   </button> -->
-                    <a class="cursor" (click)="cambiarClave(item.id)" data-toggle="tooltip" data-original-title="Close">
-                        <i class="fa fa-key text-inverse m-r-10"></i>
-                    </a>
-                    </td>
-                    </tr>
-                    </tbody>
+                                    <a class="cursor" (click)="cambiarClave(item.id)" data-toggle="tooltip" data-original-title="Close">
+                                        <i class="fa fa-key text-warning m-r-10"></i>
+                                    </a>
+                                    <a (click)="cambiarVigencia(item.id)" data-toggle="tooltip" data-original-title="Close" class="cursor">
+                                        <i *ngIf="!item.es_vigente" class="fa fa-thumbs-o-up text-info m-r-10"></i>
+                                        <i *ngIf="item.es_vigente" class="fa fa-thumbs-o-down text-info m-r-10"></i>
+                                    </a>
+                                    <a href="#" data-toggle="tooltip" data-original-title="Close">
+                                        <i class="fa fa-close text-danger m-r-10"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-9">
-                        <button (click)="cambiarPagina(-10)" class="btn btn-info" *ngIf="paginaActual!=1"><i class="fa fa-angle-left"></i>&nbsp;Anterior</button>&nbsp;
-                        <button (click)="cambiarPagina(10)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i
-              class="fa fa-angle-right"></i></button>
+                        <button (click)="cambiarPagina(-10)" class="btn btn-info" *ngIf="paginaActual!=1"><i
+                class="fa fa-angle-left"></i>&nbsp;Anterior</button>&nbsp;
+                        <button (click)="cambiarPagina(10)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i class="fa fa-angle-right"></i></button>
                     </div>
                     <div class="text-right col-sm-3">
                         <span class="text-info">{{ totalRegistros }}</span> Registros

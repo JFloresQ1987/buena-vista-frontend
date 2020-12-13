@@ -46,13 +46,15 @@ export class SocioComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    
+    this.cargarDepartamentos();
     this.seguridad = this.seguridadService.seguridad;
 
-    setTimeout(() => {
-      this.activatedRoute.params.subscribe( ({id}) => {
-        this.carga(id)
-      })
-    }, 100);
+    // setTimeout(() => {
+    //   this.activatedRoute.params.subscribe( ({id}) => {
+    //     this.carga(id)
+    //   })
+    // }, 100);
     
 
     this.form = this.formBuilder.group({
@@ -91,7 +93,13 @@ export class SocioComponent implements OnInit {
       })
     })
 
-    this.cargarDepartamentos();
+    // this.cargarDepartamentos();
+
+    setTimeout(() => {
+      this.activatedRoute.params.subscribe( ({id}) => {
+        this.carga(id)
+      })
+    }, 100);
     
   }
   

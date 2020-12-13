@@ -1,31 +1,22 @@
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <form ngForm [formGroup]="form" (submit)="guardar()">
-          <div class="form-group row">
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form ngForm [formGroup]="form" (submit)="guardar()">
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('documento_identidad'),
                 'has-danger': validarError('documento_identidad')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 DNI: <span class="text-danger">(*)</span>
               </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('documento_identidad')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="documento_identidad"
-                maxlength="8"
-              />
-              <small class="form-control-feedback">
+                " formControlName="documento_identidad" maxlength="8" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('documento_identidad', 'required')">
                   El documento de identidad es un dato obligatorio.
                 </p>
@@ -36,29 +27,20 @@
                   Ingrese un documento de identidad correcto.
                 </p>
               </small>
-            </div>
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('nombre'),
                 'has-danger': validarError('nombre')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 Nombre: <span class="text-danger">(*)</span>
               </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('nombre')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="nombre"
-                maxlength="50"
-              />
-              <small class="form-control-feedback">
+                " formControlName="nombre" maxlength="50" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('nombre', 'required')">
                   El nombre es un dato obligatorio.
                 </p>
@@ -66,31 +48,22 @@
                   Ingrese un nombre correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('apellido_paterno'),
                 'has-danger': validarError('apellido_paterno')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 Apellido paterno: <span class="text-danger">(*)</span>
               </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('apellido_paterno')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="apellido_paterno"
-                maxlength="50"
-              />
-              <small class="form-control-feedback">
+                " formControlName="apellido_paterno" maxlength="50" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('apellido_paterno', 'required')">
                   El apellido paterno es un dato obligatorio.
                 </p>
@@ -98,29 +71,20 @@
                   Ingrese un apellido paterno correcto.
                 </p>
               </small>
-            </div>
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('apellido_materno'),
                 'has-danger': validarError('apellido_materno')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 Apellido materno: <span class="text-danger">(*)</span>
               </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('apellido_materno')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="apellido_materno"
-                maxlength="50"
-              />
-              <small class="form-control-feedback">
+                " formControlName="apellido_materno" maxlength="50" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('apellido_materno', 'required')">
                   El apellido materno es un dato obligatorio.
                 </p>
@@ -128,43 +92,34 @@
                   Ingrese un apellido materno correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-6">
-              <label class="form-control-label">Rol</label>
-              <select id="roles" multiple="multiple" formControlName="rol">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="form-control-label">Rol:</label>
+                            <select id="roles" multiple="multiple" formControlName="rol">
                 <option value="Administrador">Administrador</option>
                 <!-- " 0: 'Administrador'" -->
                 <option value="Cajero">Cajero</option>
                 <!-- ["0: 'Adminsitrador'","1: 'Cajero'"] -->
                 <option value="Analista">Analista</option>
               </select>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group row">
-                <div
-                  class="col-sm-12"
-                  [ngClass]="{
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <div class="col-sm-12" [ngClass]="{
                     'has-success': validarSuccess('fecha_nacimiento'),
                     'has-danger': validarError('fecha_nacimiento')
-                  }"
-                >
-                  <label class="form-control-label">
+                  }">
+                                    <label class="form-control-label">
                     Fecha de nacimiento: <span class="text-danger">(*)</span>
                   </label>
-                  <input
-                    class="form-control"
-                    [ngClass]="
+                                    <input class="form-control" [ngClass]="
                       validarSuccess('fecha_nacimiento')
                         ? 'form-control-success'
                         : 'form-control-danger'
-                    "
-                    type="date"
-                    formControlName="fecha_nacimiento"
-                    maxlength="10"
-                  />
-                  <small class="form-control-feedback">
+                    " type="date" formControlName="fecha_nacimiento" maxlength="10" />
+                                    <small class="form-control-feedback">
                     <p *ngIf="validarCampo('fecha_nacimiento', 'required')">
                       La fecha de nacimiento es un dato obligatorio.
                     </p>
@@ -175,98 +130,94 @@
                       Ingrese una fecha de nacimiento correcto.
                     </p>
                   </small>
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label for="inputEmail3" class="col-form-label">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-12" [ngClass]="{
+                    'has-success': validarSuccess('local_atencion'),
+                    'has-danger': validarError('local_atencion')
+                  }">
+                                    <label class="form-control-label">
+                    Local de atención: <span class="text-danger">(*)</span>
+                  </label>
+                                    <select class="form-control" [ngClass]="
+                  validarSuccess('local_atencion')
+                    ? 'form-control-success'
+                    : 'form-control-danger'
+                " formControlName="local_atencion">
+                    <option value="">--Seleccionar--</option>
+                    <option value="Agencia Ayacucho">Agencia Ayacucho</option>
+                    <option value="Agencia Huanta">Agencia Huanta</option>
+                    <option value="Agencia San Francisco">Agencia San Francisco</option>
+                  </select>
+                                    <small class="form-control-feedback">
+                    <p *ngIf="validarCampo('local_atencion', 'required')">
+                      El local de atención es un dato obligatorio.
+                    </p>                   
+                  </small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <label for="inputEmail3" class="col-form-label">
                     ¿Masculino?: <span class="text-danger">(*)</span>
                   </label>
-                  <div class="col-sm-12">
-                    <input
-                      id="checkbox33"
-                      type="checkbox"
-                      formControlName="es_masculino"
-                    />
-                    <label for="checkbox33"></label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+                                    <div class="col-sm-12">
+                                        <input id="checkbox33" type="checkbox" formControlName="es_masculino" />
+                                        <label for="checkbox33"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('numero_celular'),
                 'has-danger': validarError('numero_celular')
-              }"
-            >
-              <label class="form-control-label"> Número de celular: </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+              }">
+                            <label class="form-control-label"> Número de celular: </label>
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('numero_celular')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="numero_celular"
-                maxlength="15"
-              />
-              <small class="form-control-feedback">
+                " formControlName="numero_celular" maxlength="15" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('numero_celular', 'maxlength')">
                   Ingrese un número de celular correcto.
                 </p>
               </small>
-            </div>
-            <div
-              class="col-sm-6"
-              [ngClass]="{
+                        </div>
+                        <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('numero_telefono'),
                 'has-danger': validarError('numero_telefono')
-              }"
-            >
-              <label class="form-control-label"> Número de teléfono: </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+              }">
+                            <label class="form-control-label"> Número de teléfono: </label>
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('numero_telefono')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="numero_telefono"
-                maxlength="15"
-              />
-              <small class="form-control-feedback">
+                " formControlName="numero_telefono" maxlength="15" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('numero_telefono', 'maxlength')">
                   Ingrese un número de teléfono correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-12"
-              [ngClass]="{
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
                 'has-success': validarSuccess('correo_electronico'),
                 'has-danger': validarError('correo_electronico')
-              }"
-            >
-              <label class="form-control-label"> Correo electrónico: </label>
-              <input
-                type="email"
-                class="form-control"
-                [ngClass]="
+              }">
+                            <label class="form-control-label"> Correo electrónico: </label>
+                            <input type="email" class="form-control" [ngClass]="
                   validarSuccess('correo_electronico')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="correo_electronico"
-                maxlength="150"
-              />
-              <small class="form-control-feedback">
+                " formControlName="correo_electronico" maxlength="150" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('correo_electronico', 'email')">
                   Ingrese un correo electronico correcto.
                 </p>
@@ -274,67 +225,58 @@
                   Ingrese un correo electronico correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-4">
-              <label class="form-control-label">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="form-control-label">
                 Ubigeo: <span class="text-danger">(*)</span>
               </label>
-              <select name="" class="form-control" id="" formControlName="departamento">
+                            <select name="" class="form-control" id="" formControlName="departamento">
                 <option value="">Departamento</option>
                 <option *ngFor="let d of departamentos" value="{{ d._id }}">
                   {{ d.departamento }}
                 </option>
               </select>
-            </div>
-            <div class="col-sm-4">
-              <label class="form-control-label">
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="form-control-label">
                 <span class="text-danger">&nbsp;</span>
               </label>
-              <select name="" id="" class="form-control" formControlName="provincia">
+                            <select name="" id="" class="form-control" formControlName="provincia">
                 <option value="">Provincia</option>
                 <option *ngFor="let p of provincias" value="{{ p._id }}">
                   {{ p.provincia }}
                 </option>
               </select>
-            </div>
-            <div class="col-sm-4">
-              <label class="form-control-label">
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="form-control-label">
                 <span class="text-danger">&nbsp;</span>
               </label>
-              <select name="" id="" class="form-control" formControlName="distrito">
+                            <select name="" id="" class="form-control" formControlName="distrito">
                 <option value="">Distrito</option>
                 <option *ngFor="let di of distritos" value="{{ di._id }}">
                   {{ di.distrito }}
                 </option>
               </select>
-            </div>
-            <br />
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-12"
-              [ngClass]="{
+                        </div>
+                        <br />
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
                 'has-success': validarSuccess('domicilio'),
                 'has-danger': validarError('domicilio')
-              }"
-            >
-            <label class="form-control-label">
-              Domicilio: <span class="text-danger">(*)</span>
-            </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+              }">
+                            <label class="form-control-label">
+                Domicilio: <span class="text-danger">(*)</span>
+              </label>
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('domicilio')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="domicilio"
-                maxlength="200"
-              />
-              <small class="form-control-feedback">
+                " formControlName="domicilio" maxlength="200" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('domicilio', 'required')">
                   El domicilio es un dato obligatorio.
                 </p>
@@ -342,31 +284,22 @@
                   Ingrese un domicilio correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-12"
-              [ngClass]="{
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
                 'has-success': validarSuccess('referencia_domicilio'),
                 'has-danger': validarError('referencia_domicilio')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 Referencia del domicilio: <span class="text-danger">(*)</span>
               </label>
-              <input
-                type="text"
-                class="form-control"
-                [ngClass]="
+                            <input type="text" class="form-control" [ngClass]="
                   validarSuccess('referencia_domicilio')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="referencia_domicilio"
-                maxlength="200"
-              />
-              <small class="form-control-feedback">
+                " formControlName="referencia_domicilio" maxlength="200" />
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('referencia_domicilio', 'required')">
                   La referencia del domicilio es un dato obligatorio.
                 </p>
@@ -374,30 +307,22 @@
                   Ingrese una referencia del domicilio correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-sm-12"
-              [ngClass]="{
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12" [ngClass]="{
                 'has-success': validarSuccess('comentario'),
                 'has-danger': validarError('comentario')
-              }"
-            >
-              <label class="form-control-label">
+              }">
+                            <label class="form-control-label">
                 Comentario: <span class="text-danger">(*)</span>
               </label>
-              <textarea
-                class="form-control"
-                [ngClass]="
+                            <textarea class="form-control" [ngClass]="
                   validarSuccess('comentario')
                     ? 'form-control-success'
                     : 'form-control-danger'
-                "
-                formControlName="comentario"
-                rows="5"
-              ></textarea>
-              <small class="form-control-feedback">
+                " formControlName="comentario" rows="5"></textarea>
+                            <small class="form-control-feedback">
                 <p *ngIf="validarCampo('comentario', 'required')">
                   El comentario es un dato obligatorio.
                 </p>
@@ -405,30 +330,23 @@
                   Ingrese un comentario correcto.
                 </p>
               </small>
-            </div>
-          </div>
-          <hr />
-          <div class="form-group text-right row m-b-0">
-            <div class="col-sm-12">
-              <button
-                type="reset"
-                (click)="cancelar()"
-                class="btn btn-lg btn-inverse waves-effect waves-light m-r-10"
-              >
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group text-right row m-b-0">
+                        <div class="col-sm-12">
+                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
                 <i class="fa fa-times-circle"></i>
                 &nbsp; Cancelar
               </button>
-              <button
-                type="submit"
-                class="btn btn-lg btn-info waves-effect waves-light"
-              >
+                            <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
                 <i class="fa fa-save"></i>
                 &nbsp; Guardar
               </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
