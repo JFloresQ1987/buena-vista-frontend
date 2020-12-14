@@ -3,6 +3,15 @@ import { OperacionFinancieraService } from '../../../../services/core/registro/o
 import { delay } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { OperacionFinancieraPagoService } from '../../../../services/core/caja/operacion-financiera-pago.service';
+import { ProductoService } from '../../../../services/core/configuracion/producto.service';
+// import autoTable from 'jspdf-autotable';
+import { environment } from 'src/environments/environment';
+// import * as jsPDF from 'jspdf';
+import { Seguridad } from '../../../../models/auth/seguridad.model';
+import { SeguridadService } from '../../../../services/auth/seguridad.service';
+import * as jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'app-producto-pre-pago',
@@ -14,28 +23,41 @@ export class ProductoPrePagoComponent implements OnInit {
   public lista = [];
   public listaPago = [];
   public cargando: boolean = true;
+  public ultimo_monto_amortizacion: number = 0;
+  public ultimo_monto_ahorro: number = 0;
+  public tipos = [];
+  private seguridad: Seguridad;
 
   constructor(private service: OperacionFinancieraService,
-    private serviceOperacionFinancieraPago: OperacionFinancieraPagoService) {
+    private serviceOperacionFinancieraPago: OperacionFinancieraPagoService,
+    private productoService: ProductoService,
+    private seguridadService: SeguridadService) {
 
   }
 
   ngOnInit(): void {
 
+    this.seguridad = this.seguridadService.seguridad;
+
     // this.cargando = true;
     // this.sesionSocio = this.sesionSocioService.sesionSocio;
-    setTimeout(() => {
-      this.listarProductos();
-    }, 100);
+    // setTimeout(() => {
+    //   this.listarProductos();
+    // }, 100);
 
     // this.listarProductos();
+
+    this.productoService.listar(true)
+      .subscribe(res => {
+        this.tipos = res;
+      });
   }
 
-  listarProductos() {
+  listarProductos(tipo: string) {
 
     this.cargando = true;
 
-    this.service.listarProductosXAnalista()
+    this.service.listarProductosXAnalista(tipo)
       .pipe(
         delay(100)
       )
@@ -43,7 +65,9 @@ export class ProductoPrePagoComponent implements OnInit {
 
         this.lista = res;
         // this.productos = res.lista;
-        this.cargando = false;
+
+        if (this.lista.length > 0)
+          this.cargando = false;
       });
   }
 
@@ -143,6 +167,276 @@ export class ProductoPrePagoComponent implements OnInit {
 
   verReporte() {
 
+    const opciones: any = {
+      orientation: 'l',
+      unit: 'mm',
+      format: 'a4'
+      // format: [16, 16]
+    };
+
+    var doc: any = new jsPDF(opciones);
+    var totalPagesExp = '{ total_pages_count_string }';
+    const autoTablex: any = {
+      styles: { halign: 'center' },
+      html: '#reporte',
+      margin: { top: 30, bottom: 22.5 },
+      startY: 50,
+      // startY: 105,
+      didDrawPage: (data) => {
+        doc.setFontSize(8)
+        doc.setTextColor(40)
+        var img = new Image();
+        img.src = `${environment.base_url}/upload/buenavista-logo.png`
+        if (img.src) {
+          doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 199, 5, 70, 20);
+        }
+        doc.text(this.seguridad.usuario + '\n' +
+          this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre + '\n' +
+          dayjs().format('DD/MM/YYYY hh:mm:ss a')
+          , data.settings.margin.left, 10)
+
+        if (data.pageNumber == 1) {
+          doc.autoTable({
+            styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
+            head: [
+              [
+                {
+                  content: 'Reporte de pagos',
+                  colSpan: 3,
+                  styles: { halign: 'center', },
+                },
+              ],
+            ],
+            startY: 28,
+            showHead: 'firstPage',
+          })
+          // doc.autoTable({
+          //   showHead: false,
+          //   styles: { overflow: 'visible', cellWidth: ['wrap'] },
+          //   //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+          //   columnStyles: {
+          //     0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
+          //   },
+          //   margin: { right: 110 },
+          //   body: [
+          //     // ['Monto(S/.): ', this.operaconFinanciera.monto_capital],
+          //     // ['Beneficiario: ', persona.apellido_paterno + ' ' + persona.apellido_materno + ', ' + persona.nombre],
+          //     // ['Domicilio: ', persona.domicilio],
+          //     // ['Departamento: ', persona.ubigeo.departamento],
+          //     // ['Provincia: ', persona.ubigeo.provincia],
+          //     // ['Distrito: ', persona.ubigeo.distrito],
+          //     // ['Gastos Admin. (S/.): ', this.operaconFinanciera.monto_gasto],
+          //   ],
+          //   startY: 45,
+          //   // showHead: 'firstPage', 
+          //   theme: 'striped',
+          // })
+          // doc.autoTable({
+          //   styles: { overflow: 'hidden', cellWidth: ['wrap'] },
+          //   //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+          //   columnStyles: {
+          //     0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 48 },
+          //   },
+          //   margin: { left: 110 },
+          //   body: [
+          //     // ['Fecha Desembolso (S/.): ', this.operaconFinanciera.fecha_inicio],
+          //     // ['Producto: ', this.operaconFinanciera.producto.tipo.descripcion],
+          //     // ['Periodo de Ejecucion:', this.operaconFinanciera.producto.programacion],
+          //     // ['DNI: ', persona.documento_identidad],
+          //     // ['Celular: ', persona.numero_celular],
+          //     // ['Ahorro Inicial (S/.): ', this.operaconFinanciera.monto_ahorro_inicial],
+          //   ],
+          //   startY: 45,
+          //   showHead: 'firstPage',
+          //   theme: 'striped',
+
+          // })
+        }
+
+        var str = 'Página ' + doc.internal.getNumberOfPages()
+        var fuente = `Fuente: Base de datos institucional`
+        var oficina = `Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.`
+        var año = `© 2020 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.`
+        var pagWeb = `http://www.buenavistalabolsa.com/`
+        // Total page number plugin only available in jspdf v1.0+
+        if (typeof doc.putTotalPages === 'function') {
+          str = fuente + '\n' +
+            oficina + '\n' +
+            año + '\n' +
+            pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' +
+            str + ' de ' + totalPagesExp
+        }
+        doc.setFontSize(8)
+
+        // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+        var pageSize = doc.internal.pageSize
+        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+        doc.text(str, data.settings.margin.left, pageHeight - 20)
+      },
+    }
+
+    autoTable(doc, autoTablex);
+
+    // Total page number plugin only available in jspdf v1.0+
+    if (typeof doc.putTotalPages === 'function') {
+      doc.putTotalPages(totalPagesExp)
+    }
+
+    var blob = doc.output("blob");
+    window.open(URL.createObjectURL(blob));
+
+
+    // this.personaService.obtenerDatosPersona(this.operaconFinanciera.persona['_id']).subscribe(persona => {
+    //   var doc: any = new jsPDF();
+    //   var totalPagesExp = '{ total_pages_count_string }';
+    //   const autoTablex: any = {
+    //     styles: { halign: 'center' },
+    //     html: '#example',
+    //     margin: { top: 30, bottom: 22.5 },
+    //     startY: 105,
+    //     didDrawPage: (data) => {
+    //       doc.setFontSize(8)
+    //       doc.setTextColor(40)
+    //       var img = new Image();
+    //       img.src = `${environment.base_url}/upload/buenavista-logo.png`
+    //       if (img.src) {
+    //         doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
+    //       }
+    //       doc.text(this.seguridad.usuario + '\n' +
+    //         this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre + '\n' +
+    //         dayjs().format('DD/MM/YYYY hh:mm:ss a')
+    //         , data.settings.margin.left, 10)
+
+    //       if (data.pageNumber == 1) {
+    //         doc.autoTable({
+    //           styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
+    //           head: [
+    //             [
+    //               {
+    //                 content: 'Reporte de pagos',
+    //                 colSpan: 3,
+    //                 styles: { halign: 'center', },
+    //               },
+    //             ],
+    //           ],
+    //           startY: 28,
+    //           showHead: 'firstPage',
+    //         })
+    //         doc.autoTable({
+    //           showHead: false,
+    //           styles: { overflow: 'visible', cellWidth: ['wrap'] },
+    //           //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
+    //           columnStyles: {
+    //             0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
+    //           },
+    //           margin: { right: 110 },
+    //           body: [
+    //             // ['Monto(S/.): ', this.operaconFinanciera.monto_capital],
+    //             // ['Beneficiario: ', persona.apellido_paterno + ' ' + persona.apellido_materno + ', ' + persona.nombre],
+    //             // ['Domicilio: ', persona.domicilio],
+    //             // ['Departamento: ', persona.ubigeo.departamento],
+    //             // ['Provincia: ', persona.ubigeo.provincia],
+    //             // ['Distrito: ', persona.ubigeo.distrito],
+    //             // ['Gastos Admin. (S/.): ', this.operaconFinanciera.monto_gasto],
+    //           ],
+    //           startY: 45,
+    //           // showHead: 'firstPage', 
+    //           theme: 'striped',
+    //         })
+    //         doc.autoTable({
+    //           styles: { overflow: 'hidden', cellWidth: ['wrap'] },
+    //           //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+    //           columnStyles: {
+    //             0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 48 },
+    //           },
+    //           margin: { left: 110 },
+    //           body: [
+    //             // ['Fecha Desembolso (S/.): ', this.operaconFinanciera.fecha_inicio],
+    //             // ['Producto: ', this.operaconFinanciera.producto.tipo.descripcion],
+    //             // ['Periodo de Ejecucion:', this.operaconFinanciera.producto.programacion],
+    //             // ['DNI: ', persona.documento_identidad],
+    //             // ['Celular: ', persona.numero_celular],
+    //             // ['Ahorro Inicial (S/.): ', this.operaconFinanciera.monto_ahorro_inicial],
+    //           ],
+    //           startY: 45,
+    //           showHead: 'firstPage',
+    //           theme: 'striped',
+
+    //         })
+    //       }
+
+    //       var str = 'Página ' + doc.internal.getNumberOfPages()
+    //       var fuente = `Fuente: Base de datos institucional`
+    //       var oficina = `Oficina Principal: Jr. Miller N°334 Ayacucho, Huamanga, Ayacucho; Central Telefónica 066-311613.`
+    //       var año = `© 2020 BuenaVista La Bolsa S.A.C. Todos los derechos reservados.`
+    //       var pagWeb = `http://www.buenavistalabolsa.com/`
+    //       // Total page number plugin only available in jspdf v1.0+
+    //       if (typeof doc.putTotalPages === 'function') {
+    //         str = fuente + '\n' +
+    //           oficina + '\n' +
+    //           año + '\n' +
+    //           pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' +
+    //           str + ' de ' + totalPagesExp
+    //       }
+    //       doc.setFontSize(8)
+
+    //       // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+    //       var pageSize = doc.internal.pageSize
+    //       var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight()
+    //       doc.text(str, data.settings.margin.left, pageHeight - 20)
+    //     },
+    //   }
+
+    //   autoTable(doc, autoTablex);
+
+    //   // Total page number plugin only available in jspdf v1.0+
+    //   if (typeof doc.putTotalPages === 'function') {
+    //     doc.putTotalPages(totalPagesExp)
+    //   }
+
+    //   var blob = doc.output("blob");
+    //   window.open(URL.createObjectURL(blob));
+    // })
+  }
+
+  setUltimoMontoAmortizacion(id: string) {
+
+    const amortizacion: any = document.getElementById(id + '_amortizacion');
+    this.ultimo_monto_amortizacion = Number(amortizacion.value);
+  }
+
+  setUltimoMontoAhorro(id: string) {
+
+    const ahorro: any = document.getElementById(id + '_ahorro');
+    this.ultimo_monto_ahorro = Number(ahorro.value);
+  }
+
+  calcularTotalAmortizacion(id: string) {
+
+    const total_amortizacion: any = document.getElementById('total_amortizacion');
+    const monto_amortizacion: any = document.getElementById(id + '_amortizacion');
+    const nuevo_total_amortizacion: number = Number(total_amortizacion.value) + Number(monto_amortizacion.value) - this.ultimo_monto_amortizacion;
+
+    total_amortizacion.value = nuevo_total_amortizacion;
+  }
+
+  calcularTotalAhorro(id: string) {
+
+    const total_ahorro: any = document.getElementById('total_ahorro');
+    const monto_ahorro: any = document.getElementById(id + '_ahorro');
+    const nuevo_total_ahorro: number = Number(total_ahorro.value) + Number(monto_ahorro.value) - this.ultimo_monto_ahorro;
+
+    total_ahorro.value = nuevo_total_ahorro;
+  }
+
+  buscarCarteraSocios(tipo: string) {
+
+    if (tipo === "") {
+      this.cargando = true;
+      this.lista = [];
+    }
+    else
+      this.listarProductos(tipo);
   }
 
 }

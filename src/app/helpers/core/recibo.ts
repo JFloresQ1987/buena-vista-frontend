@@ -18,6 +18,7 @@ export class Recibo {
             doc.write('<div class="ticket">');
             doc.write('<p class="centrado">' + data.institucion.denominacion);
             doc.write('<br>' + data.institucion.agencia);
+            doc.write('<br>' + data.institucion.direccion);
             doc.write('<br>----------------------------------------------</p>');
             doc.write('<table>');
             doc.write('<tbody>');

@@ -27,9 +27,9 @@ export class OperacionFinancieraService {
     );
   }
 
-  listarProductosXAnalista() {
+  listarProductosXAnalista(tipo: string) {
 
-    return this.http.get(`${base_url}/operacion-financiera/listar-productos-por-analista`)
+    return this.http.get(`${base_url}/operacion-financiera/listar-productos-por-analista/${tipo}`)
     .pipe(
       map((res: { ok: boolean, lista: [] }) => res.lista)
     );
