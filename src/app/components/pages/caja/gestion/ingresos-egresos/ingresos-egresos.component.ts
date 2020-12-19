@@ -5,8 +5,8 @@ import { PagoConceptoService } from '../../../../../services/core/configuracion/
 import { OperacionFinancieraPagoService } from '../../../../../services/core/caja/operacion-financiera-pago.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import autoTable from 'jspdf-autotable';
-import jsPDF from 'jspdf';
+// import autoTable from 'jspdf-autotable';
+// import jsPDF from 'jspdf';
 import { Recibo } from '../../../../../helpers/core/recibo';
 
 @Component({
@@ -38,34 +38,80 @@ export class IngresosEgresosComponent implements OnInit {
       monto: ['', [Validators.required]]
     });
 
-    this.form.controls['operacion'].valueChanges.subscribe(data => {
-      if (data == "") {
-        this.conceptos = [];
-        this.subconceptos = [];
-        return
-      }
-      this.pagoConcepto.listarConceptos(data).subscribe(res => {
-        this.conceptos = res['conceptos'];
-      })
-      this.form.controls['concepto'].setValue("");
-      this.validar();
-    });
+    // this.form.controls['operacion'].valueChanges.subscribe(data => {
 
-    this.form.controls['concepto'].valueChanges.subscribe(data => {
-      if (data == "") {
-        this.subconceptos = [];
-        return
-      }
-      this.pagoConcepto.listarSubConceptos(data).subscribe(res => {
-        this.subconceptos = res['sub_conceptos'];
-        this.form.controls['sub_concepto'].enable();
-        if (this.subconceptos.length == 0) {
-          this.form.controls['sub_concepto'].disable();
-        }
-      })
-    });
+    //   this.form.controls['concepto'].setValue("");
+    //   this.form.controls['sub_concepto'].setValue("");
+
+    //   if (data === "") {
+    //     this.conceptos = [];
+    //     this.subconceptos = [];
+    //     // this.form.controls['concepto'].setValue("");
+    //     // this.form.controls['sub_concepto'].setValue("");
+    //     return
+    //   }
+    //   this.pagoConcepto.listarConceptos(data).subscribe(res => {
+    //     this.conceptos = res['conceptos'];
+    //   })
+    //   // this.form.controls['concepto'].setValue("");
+    //   this.validar();
+    // });
+
+    // this.form.controls['concepto'].valueChanges.subscribe(data => {
+
+    //   this.form.controls['sub_concepto'].setValue("");
+
+    //   if (data === "") {
+    //     this.subconceptos = [];
+    //     return
+    //   }
+    //   this.pagoConcepto.listarSubConceptos(data).subscribe(res => {
+    //     this.subconceptos = res['sub_conceptos'];
+    //     this.form.controls['sub_concepto'].enable();
+    //     if (this.subconceptos.length == 0) {
+    //       this.form.controls['sub_concepto'].disable();
+    //     }
+    //   })
+    // });
   }
 
+  buscarConceptos(data: string) {
+
+    this.form.get('concepto').setValue('');
+    this.form.get('sub_concepto').setValue('');
+
+    if (!data) {
+
+      this.conceptos = [];
+      this.subconceptos = [];
+      return;
+    }
+
+    this.pagoConcepto.listarConceptos(data).subscribe(res => {
+      this.conceptos = res['conceptos'];
+    })
+  }
+
+  buscarSubConceptos(data: string) {
+
+    this.form.get('sub_concepto').setValue('');
+
+    if (!data) {
+
+      this.subconceptos = [];
+      return;
+    }
+
+    this.pagoConcepto.listarSubConceptos(data).subscribe(res => {
+      this.subconceptos = res['sub_conceptos'];
+      this.form.controls['sub_concepto'].enable();
+      if (this.subconceptos.length == 0) {
+        this.form.controls['sub_concepto'].disable();
+      }
+    })
+
+    this.validar();
+  }
 
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -155,9 +201,13 @@ export class IngresosEgresosComponent implements OnInit {
 
   cancelar() {
     //this.router.navigateByUrl('caja/gestion/ingresos-egresos');
+    this.conceptos = [];
+    this.subconceptos = [];
     this.formSubmitted = false;
     // this.conceptos = [];
     this.form.reset();
+    // this.form.controls['concepto'].setValue("");
+    // this.form.controls['sub_concepto'].setValue("");
   }
 
   validar() {

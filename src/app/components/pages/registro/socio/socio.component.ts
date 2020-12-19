@@ -38,15 +38,15 @@ export class SocioComponent implements OnInit {
   constructor(private service: PersonaService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private ubigeoService : UbigeoService,
+    private ubigeoService: UbigeoService,
     private sesionSocioService: SesionSocioService,
     private seguridadService: SeguridadService,
     private router: Router) {
-      this.sesionSocio = this.sesionSocioService.sesionSocio;
-    }
+    this.sesionSocio = this.sesionSocioService.sesionSocio;
+  }
 
   ngOnInit(): void {
-    
+
     this.cargarDepartamentos();
     this.seguridad = this.seguridadService.seguridad;
 
@@ -55,7 +55,7 @@ export class SocioComponent implements OnInit {
     //     this.carga(id)
     //   })
     // }, 100);
-    
+
 
     this.form = this.formBuilder.group({
       documento_identidad: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
@@ -69,15 +69,15 @@ export class SocioComponent implements OnInit {
       correo_electronico: ['', [Validators.email, Validators.maxLength(150)]],
       domicilio: ['', [Validators.required, Validators.maxLength(200)]],
       referencia_domicilio: ['', [Validators.required, Validators.maxLength(200)]],
-      departamento: ['', []],
-      provincia: ['', []],
-      distrito: ['', []],
+      departamento: ['', [Validators.required]],
+      provincia: ['', [Validators.required]],
+      distrito: ['', [Validators.required]],
       //avatar: [''],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
-    this.form.controls['departamento'].valueChanges.subscribe(departamento =>{
-      this.ubigeoService.listarProvinciasxDepartamento(departamento).subscribe(res=>{
+    this.form.controls['departamento'].valueChanges.subscribe(departamento => {
+      this.ubigeoService.listarProvinciasxDepartamento(departamento).subscribe(res => {
         //this.form.controls['provincia'].setValue("");
         this.provincias = res['provincias'];
         //this.form.controls['distrito'].setValue("");
@@ -85,10 +85,10 @@ export class SocioComponent implements OnInit {
       })
     });
 
-    this.form.controls['provincia'].valueChanges.subscribe(provincia =>{
+    this.form.controls['provincia'].valueChanges.subscribe(provincia => {
       const departamento = this.form.controls['departamento'].value;
       //this.form.controls['distrito'].setValue("");
-      this.ubigeoService.listarDistritosxProvincia(departamento, provincia).subscribe(res=>{
+      this.ubigeoService.listarDistritosxProvincia(departamento, provincia).subscribe(res => {
         this.distritos = res['distritos'];
       })
     })
@@ -96,53 +96,53 @@ export class SocioComponent implements OnInit {
     // this.cargarDepartamentos();
 
     setTimeout(() => {
-      this.activatedRoute.params.subscribe( ({id}) => {
+      this.activatedRoute.params.subscribe(({ id }) => {
         this.carga(id)
       })
     }, 100);
-    
+
   }
-  
+
   cargarDepartamentos() {
     this.ubigeoService.listarDepartamentos().subscribe(res => {
       this.departamentos = res['departamentos'];
     })
   }
 
-  guardar() {
-    if ( this.personaSeleccionada){
-      const data = {
-        ...this.form.value,
-        id: this.personaSeleccionada.id        
-      }
-      this.service.actualizar(data)
-          .subscribe(resp => {
-            Swal.fire({
-              text: 'La información se actualizó satisfactoriamente.', icon: 'success'
-            });
-          })
-    } else {
-      this.formSubmitted = true;
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
-      
-      this.service.crear(this.form.value)
-        .subscribe(res => {  
-          Swal.fire({
-            text: 'La información se guardó satisfactoriamente.', icon: 'success'
-          });  
-          this.cancelar();          
-        });
+  // guardar() {
+  //   if (this.personaSeleccionada) {
+  //     const data = {
+  //       ...this.form.value,
+  //       id: this.personaSeleccionada.id
+  //     }
+  //     this.service.actualizar(data)
+  //       .subscribe(resp => {
+  //         Swal.fire({
+  //           text: 'La información se actualizó satisfactoriamente.', icon: 'success'
+  //         });
+  //       })
+  //   } else {
+  //     this.formSubmitted = true;
+  //     if (!this.form.valid) {
+  //       Swal.fire({
+  //         text: "Validar la información proporcionada.", icon: 'warning'
+  //       });
+  //       return;
+  //     }
 
-    }
+  //     this.service.crear(this.form.value)
+  //       .subscribe(res => {
+  //         Swal.fire({
+  //           text: 'La información se guardó satisfactoriamente.', icon: 'success'
+  //         });
+  //         this.cancelar();
+  //       });
 
-  } 
+  //   }
 
-  cancelar() {    
+  // }
+
+  cancelar() {
     this.router.navigateByUrl('/dashboard/socio');
 
     // let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
@@ -188,55 +188,81 @@ export class SocioComponent implements OnInit {
     //       this.form.disable();
     //     })
     // }
-    
+
   }
 
-  editar(){
-    this.form.enable();
-  }
+  // editar() {
+  //   this.form.enable();
+  // }
 
-  cambiarFuncion(){
-    if (this.buttonName === false){
-      if ( this.personaSeleccionada){
+  cambiarFuncion() {
+
+    // this.buttonName = !this.buttonName;
+
+    if (this.buttonName === false) {
+
+      this.formSubmitted = true;
+      if (!this.form.valid) {
+        Swal.fire({
+          text: "Validar la información proporcionada.", icon: 'warning'
+        });
+        // this.buttonName = false;
+        return;
+      }
+
+      // console.log(this.personaSeleccionada)
+
+      const id_persona = this.sesionSocio.id
+
+      // if (this.personaSeleccionada) {
+      if (id_persona === '0') {
+
+        
+        console.log(this.form.value)
+        
+        this.service.crear(this.form.value)
+          .subscribe(res => {
+            Swal.fire({
+              text: 'La información se guardó satisfactoriamente.', icon: 'success'
+            });
+            this.cancelar();
+          });
+      } else {
+
         const data = {
           ...this.form.value,
           id: this.personaSeleccionada.id
         }
         this.service.actualizar(data)
-            .subscribe(resp => {
-              Swal.fire({
-                text: 'La información se actualizó satisfactoriamente.', icon: 'success'
-              });
-            })
-  
-      } else {
-        this.formSubmitted = true;
-        if (!this.form.valid) {
-          Swal.fire({
-            text: "Validar la información proporcionada.", icon: 'warning'
-          });
-          return;
-        }
-        
-        this.service.crear(this.form.value)
-          .subscribe(res => {  
+          .subscribe(resp => {
             Swal.fire({
-              text: 'La información se guardó satisfactoriamente.', icon: 'success'
-            });  
-            this.cancelar();          
-          });          
+              text: 'La información se actualizó satisfactoriamente.', icon: 'success'
+            });
+            this.buttonName = true;
+            this.form.disable();
+          })
+
+        // this.formSubmitted = true;
+        // if (!this.form.valid) {
+        //   Swal.fire({
+        //     text: "Validar la información proporcionada.", icon: 'warning'
+        //   });
+        //   return;
+        // }
+
+
       }
-      this.form.disable();
     } else {
+      this.buttonName = false;
       this.form.enable();
     }
   }
 
 
   validarCampo(campo: string, validar: string): boolean {
-    
-    
-    
+
+
+
     if (this.form.get(campo).hasError(validar) &&
       (this.formSubmitted || this.form.get(campo).touched))
       return true;
@@ -244,7 +270,7 @@ export class SocioComponent implements OnInit {
       return false;
   }
 
-  validarError(campo: string): boolean {    
+  validarError(campo: string): boolean {
 
     if (this.form.get(campo).invalid &&
       (this.formSubmitted || this.form.get(campo).touched))
@@ -253,7 +279,7 @@ export class SocioComponent implements OnInit {
       return false;
   }
 
-  validarSuccess(campo: string): boolean {    
+  validarSuccess(campo: string): boolean {
 
     if (this.form.get(campo).valid &&
       (this.formSubmitted || this.form.get(campo).touched))
@@ -262,18 +288,21 @@ export class SocioComponent implements OnInit {
       return false;
   }
 
-  carga(id: String){
+  carga(id: String) {
     // let id_persona = localStorage.getItem('socio')? localStorage.getItem('socio') : '0'
-    let id_persona = this.sesionSocio.id
-    if(id_persona === '0'){
+    const id_persona = this.sesionSocio.id
+    if (id_persona === '0') {
+      this.buttonName = false;
+      // this.personaSeleccionada = null;
       return
     } else {
+      this.buttonName = true;
       this.service.obtenerPersona(id_persona)
-        .subscribe( persona => {
-          const {          
-            documento_identidad, 
-            nombre, 
-            apellido_materno, 
+        .subscribe(persona => {
+          const {
+            documento_identidad,
+            nombre,
+            apellido_materno,
             apellido_paterno,
             fecha_nacimiento,
             es_masculino,
@@ -283,13 +312,13 @@ export class SocioComponent implements OnInit {
             domicilio,
             referencia_domicilio,
             ubigeo,
-            comentario               
-            } = persona
+            comentario
+          } = persona
           this.personaSeleccionada = persona
           this.form.setValue({
-            documento_identidad, 
-            nombre, 
-            apellido_materno, 
+            documento_identidad,
+            nombre,
+            apellido_materno,
             apellido_paterno,
             fecha_nacimiento,
             es_masculino,
@@ -297,11 +326,11 @@ export class SocioComponent implements OnInit {
             numero_celular,
             correo_electronico,
             domicilio,
-            referencia_domicilio,          
+            referencia_domicilio,
             departamento: ubigeo.departamento,
-            provincia : ubigeo.provincia,
+            provincia: ubigeo.provincia,
             distrito: ubigeo.distrito,
-            comentario:''    
+            comentario: ''
           })
           this.form.disable();
         })

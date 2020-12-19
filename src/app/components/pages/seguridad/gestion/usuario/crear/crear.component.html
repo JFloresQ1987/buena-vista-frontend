@@ -154,7 +154,7 @@
                                     <small class="form-control-feedback">
                     <p *ngIf="validarCampo('local_atencion', 'required')">
                       El local de atención es un dato obligatorio.
-                    </p>                   
+                    </p>
                   </small>
                                 </div>
                             </div>
@@ -227,39 +227,104 @@
               </small>
                         </div>
                     </div>
+
+
+
+                    <!-- <div class="form-group row">
+            <div class="col-sm-12" [ngClass]="{
+                'has-success': validarSuccess('local_atencion'),
+                'has-danger': validarError('local_atencion')
+              }">
+              <label class="form-control-label">
+                Local de atención: <span class="text-danger">(*)</span>
+              </label>
+              <select class="form-control" [ngClass]="
+              validarSuccess('local_atencion')
+                ? 'form-control-success'
+                : 'form-control-danger'
+            " formControlName="local_atencion">
+                <option value="">--Seleccionar--</option>
+                <option value="Agencia Ayacucho">Agencia Ayacucho</option>
+                <option value="Agencia Huanta">Agencia Huanta</option>
+                <option value="Agencia San Francisco">Agencia San Francisco</option>
+              </select>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('local_atencion', 'required')">
+                  El local de atención es un dato obligatorio.
+                </p>
+              </small>
+            </div>
+          </div> -->
+
                     <div class="form-group row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" [ngClass]="{
+                          'has-success': validarSuccess('departamento'),
+                          'has-danger': validarError('departamento')
+                        }">
                             <label class="form-control-label">
                 Ubigeo: <span class="text-danger">(*)</span>
               </label>
-                            <select name="" class="form-control" id="" formControlName="departamento">
-                <option value="">Departamento</option>
+                            <select name="" class="form-control" id="" [ngClass]="
+              validarSuccess('departamento')
+                ? 'form-control-success'
+                : 'form-control-danger'
+            " formControlName="departamento">
+                <option value="">--Departamento--</option>
                 <option *ngFor="let d of departamentos" value="{{ d._id }}">
                   {{ d.departamento }}
                 </option>
               </select>
+                            <small class="form-control-feedback">
+                <p *ngIf="validarCampo('departamento', 'required')">
+                  El departamento es un dato obligatorio.
+                </p>
+              </small>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" [ngClass]="{
+                          'has-success': validarSuccess('provincia'),
+                          'has-danger': validarError('provincia')
+                        }">
                             <label class="form-control-label">
                 <span class="text-danger">&nbsp;</span>
               </label>
-                            <select name="" id="" class="form-control" formControlName="provincia">
-                <option value="">Provincia</option>
+                            <select name="" id="" class="form-control" [ngClass]="
+              validarSuccess('provincia')
+                ? 'form-control-success'
+                : 'form-control-danger'
+            " formControlName="provincia">
+                <option value="">--Provincia--</option>
                 <option *ngFor="let p of provincias" value="{{ p._id }}">
                   {{ p.provincia }}
                 </option>
               </select>
+                            <small class="form-control-feedback">
+                <p *ngIf="validarCampo('provincia', 'required')">
+                  La provincia es un dato obligatorio.
+                </p>
+              </small>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" [ngClass]="{
+                          'has-success': validarSuccess('distrito'),
+                          'has-danger': validarError('distrito')
+                        }">
                             <label class="form-control-label">
                 <span class="text-danger">&nbsp;</span>
               </label>
-                            <select name="" id="" class="form-control" formControlName="distrito">
-                <option value="">Distrito</option>
+                            <select name="" id="" class="form-control" [ngClass]="
+              validarSuccess('distrito')
+                ? 'form-control-success'
+                : 'form-control-danger'
+            " formControlName="distrito">
+                <option value="">--Distrito--</option>
                 <option *ngFor="let di of distritos" value="{{ di._id }}">
                   {{ di.distrito }}
                 </option>
               </select>
+                            <small class="form-control-feedback">
+                <p *ngIf="validarCampo('distrito', 'required')">
+                  El distrito es un dato obligatorio.
+                </p>
+              </small>
                         </div>
                         <br />
                     </div>
