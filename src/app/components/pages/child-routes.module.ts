@@ -38,6 +38,7 @@ import { LibroDiarioIngresosComponent } from './caja/libro-diario-ingresos/libro
 import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-diario-egresos.component';
 import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
 import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
+import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/producto-retiro-ahorros.component';
 
 
 const childRoutes: Routes = [
@@ -154,6 +155,12 @@ const childRoutes: Routes = [
     component: AhorroPagoComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Caja', menu: 'Pago', item: 'Ahorros', roles: ["Administrador", "Cajero"] }
+  },
+  {
+    path: 'caja/retiro/producto-retiro-ahorros',
+    component: ProductoRetiroAhorrosComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Caja', menu: 'Pago', item: 'Retiro Ahorros Producto', roles: ["Administrador", "Cajero"] }
   },
   {
     path: 'caja/pago/ahorro-detalle-caja/:id',

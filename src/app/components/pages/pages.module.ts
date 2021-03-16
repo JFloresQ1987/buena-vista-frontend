@@ -39,6 +39,7 @@ import { LibroDiarioIngresosComponent } from './caja/libro-diario-ingresos/libro
 import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-diario-egresos.component';
 import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
 import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
+import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/producto-retiro-ahorros.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear
     ProductoDetalleHistoricoComponent,
     LibroDiarioIngresosComponent,
     LibroDiarioEgresosComponent,
-    SaldoCreditoComponent
+    SaldoCreditoComponent,
+    ProductoRetiroAhorrosComponent
   ],
   exports: [
     PagesComponent,

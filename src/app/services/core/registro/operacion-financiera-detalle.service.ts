@@ -39,4 +39,12 @@ export class OperacionFinancieraDetalleService {
         map((res: { ok: boolean, ahorros: any }) => res.ahorros)
       );
   }
+
+  // obtenerProductosConAhorrosPorPersona(id_persona: string) {
+
+  //   return this.http.get(`${base_url}/operacion-financiera-detalle/obtener-ahorros-producto/${id_persona}`)
+  //     .pipe(
+  //       map((res: { ok: boolean, lista: [] }) => res.lista)
+  //     );
+  // }
 }

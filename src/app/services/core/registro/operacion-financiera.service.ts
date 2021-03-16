@@ -79,4 +79,12 @@ export class OperacionFinancieraService {
     // const url = `${base_url}/usuarios/${id}`;
     return this.http.put(url, modelo);
   }
+
+  obtenerProductosConAhorrosPorPersona(id_persona: string) {
+
+    return this.http.get(`${base_url}/operacion-financiera/obtener-ahorros-producto/${id_persona}`)
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
+  }
 }
