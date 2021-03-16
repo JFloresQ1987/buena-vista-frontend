@@ -29,6 +29,18 @@ export class OperacionFinancieraPagoService {
       );
   }
 
+  listarLibroDiario(tipo: string, desde: number = 0) {
+
+    // const headers = new HttpHeaders({
+    //   'analista': modelo.analista
+    // });
+
+    return this.http.get(`${base_url}/operacion-financiera-pago/listar-libro-diario/${tipo}?desde=${desde}`)
+      .pipe(
+        map((res: { ok: boolean, lista: [], total: number }) => res)
+      );
+  }
+
   listarProductoDetalle(id_operacion_financiera: string) {
 
     return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
@@ -68,6 +80,27 @@ export class OperacionFinancieraPagoService {
     //   );
 
     const url = `${base_url}/operacion-financiera-pago/desembolsar/${id_operacion_financiera}`;
+
+    // const url = `${base_url}/usuarios/${id}`;
+    return this.http.put(url, modelo)
+      .pipe(
+        map((res: { ok: boolean, recibo: [] }) => res.recibo)
+      );
+
+    // return this.http.post(url, objeto)
+    //   .pipe(
+    //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
+    //   
+  }
+
+  retirarAhorrosProducto(id_operacion_financiera: string, modelo: any) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const url = `${base_url}/operacion-financiera-pago/retirar-ahorros/${id_operacion_financiera}`;
 
     // const url = `${base_url}/usuarios/${id}`;
     return this.http.put(url, modelo)

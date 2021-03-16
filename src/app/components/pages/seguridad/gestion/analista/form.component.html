@@ -1,22 +1,22 @@
 <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <form ngForm [formGroup]="form" (submit)="guardar()">
-                    <div class="form-group row">
-                        <div class="col-sm-6" [ngClass]="{
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form ngForm [formGroup]="form" (submit)="guardar()">
+          <div class="form-group row">
+            <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('codigo'),
                 'has-danger': validarError('codigo')
               }">
-                            <label class="form-control-label">
+              <label class="form-control-label">
                 Código: <span class="text-danger">(*)</span>
               </label>
-                            <input type="text" class="form-control" [ngClass]="
+              <input type="text" class="form-control" [ngClass]="
                   validarSuccess('codigo')
                     ? 'form-control-success'
                     : 'form-control-danger'
                 " formControlName="codigo" maxlength="50" />
-                            <small class="form-control-feedback">
+              <small class="form-control-feedback">
                 <p *ngIf="validarCampo('codigo', 'required')">
                   El código es un dato obligatorio.
                 </p>
@@ -24,20 +24,20 @@
                   Ingrese una código correcto.
                 </p>
               </small>
-                        </div>
-                        <div class="col-sm-6" [ngClass]="{
+            </div>
+            <div class="col-sm-6" [ngClass]="{
                 'has-success': validarSuccess('descripcion'),
                 'has-danger': validarError('descripcion')
               }">
-                            <label class="form-control-label">
+              <label class="form-control-label">
                 Descripción: <span class="text-danger">(*)</span>
               </label>
-                            <input type="text" class="form-control" [ngClass]="
+              <input type="text" class="form-control" [ngClass]="
                   validarSuccess('descripcion')
                     ? 'form-control-success'
                     : 'form-control-danger'
                 " formControlName="descripcion" maxlength="50" />
-                            <small class="form-control-feedback">
+              <small class="form-control-feedback">
                 <p *ngIf="validarCampo('descripcion', 'required')">
                   La descripción es un dato obligatorio.
                 </p>
@@ -45,17 +45,17 @@
                   Ingrese una descripción correcto.
                 </p>
               </small>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6" [ngClass]="{
+            </div>
+          </div>
+          <div class="form-group row">
+            <!-- <div class="col-sm-6" [ngClass]="{
               'has-success': validarSuccess('producto'),
               'has-danger': validarError('producto')
             }">
-                            <label class="form-control-label">
+              <label class="form-control-label">
                 Producto: <span class="text-danger">(*)</span>
               </label>
-                            <select type="text" class="form-control" [ngClass]="
+              <select type="text" class="form-control" [ngClass]="
                 validarSuccess('producto')
                   ? 'form-control-success'
                   : 'form-control-danger'
@@ -63,7 +63,7 @@
                 <option value="">--Seleccionar--</option>
                 <option *ngFor="let item of productos" value="{{item.id}}">{{item.descripcion}}</option>
               </select>
-                            <small class="form-control-feedback">
+              <small class="form-control-feedback">
                 <p *ngIf="validarCampo('producto', 'required')">
                   El producto es un dato obligatorio.
                 </p>
@@ -71,41 +71,16 @@
                   Ingrese un producto correcto.
                 </p>
               </small>
-                        </div>
+            </div> -->
 
-                        <div class="col-sm-6" [ngClass]="{
-                          'has-success': validarSuccess('local_atencion'),
-                          'has-danger': validarError('local_atencion')
-                        }">
-                            <label class="form-control-label">
-                Local de atención: <span class="text-danger">(*)</span>
-              </label>
-                            <select class="form-control" [ngClass]="
-                        validarSuccess('local_atencion')
-                          ? 'form-control-success'
-                          : 'form-control-danger'
-                        " formControlName="local_atencion">
-                <option value="">--Seleccionar--</option>
-                <option value="Agencia Ayacucho">Agencia Ayacucho</option>
-                <option value="Agencia Huanta">Agencia Huanta</option>
-                <option value="Agencia San Francisco">Agencia San Francisco</option>
-              </select>
-                            <small class="form-control-feedback">
-                <p *ngIf="validarCampo('local_atencion', 'required')">
-                  El local de atención es un dato obligatorio.
-                </p>
-              </small>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-6" [ngClass]="{
+            <div class="col-sm-6" [ngClass]="{
               'has-success': validarSuccess('usuario'),
               'has-danger': validarError('usuario')
             }">
-                            <label class="form-control-label">
+              <label class="form-control-label">
                 Analista: <span class="text-danger">(*)</span>
               </label>
-                            <select type="text" class="form-control" [ngClass]="
+              <select type="text" class="form-control" [ngClass]="
                 validarSuccess('usuario')
                   ? 'form-control-success'
                   : 'form-control-danger'
@@ -115,27 +90,134 @@
                   {{ item.persona.nombre }}, {{item.persona.apellido_paterno}} {{item.persona.apellido_materno}}
                 </option>
               </select>
-                            <small class="form-control-feedback">
+              <small class="form-control-feedback">
                 <p *ngIf="validarCampo('usuario', 'required')">
                   El analista es un dato obligatorio.
                 </p>
               </small>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12" [ngClass]="{
+            </div>
+
+            <!-- <div class="col-sm-6">
+              <div class="form-group row"> -->
+            <div class="col-sm-6" [ngClass]="{
+                  'has-success': validarSuccess('local_atencion'),
+                  'has-danger': validarError('local_atencion')
+                }">
+              <label class="form-control-label">
+                Local de atención: <span class="text-danger">(*)</span>
+              </label>
+              <select class="form-control" [ngClass]="
+                validarSuccess('local_atencion')
+                  ? 'form-control-success'
+                  : 'form-control-danger'
+                " formControlName="local_atencion">
+                <option value="">--Seleccionar--</option>
+                <option value="Agencia Ayacucho">Agencia Ayacucho</option>
+                <option value="Agencia Huanta">Agencia Huanta</option>
+                <option value="Agencia San Francisco">Agencia San Francisco</option>
+              </select>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('local_atencion', 'required')">
+                  El local de atención es un dato obligatorio.
+                </p>
+              </small>
+            </div>
+            <!-- </div> -->
+            <!-- <div class="form-group row m-b-0">
+                <div class="col-sm-12" [ngClass]="{
+                  'has-success': validarSuccess('usuario'),
+                  'has-danger': validarError('usuario')
+                }">
+                  <label class="form-control-label">
+                    Analista: <span class="text-danger">(*)</span>
+                  </label>
+                  <select type="text" class="form-control" [ngClass]="
+                    validarSuccess('usuario')
+                      ? 'form-control-success'
+                      : 'form-control-danger'
+                  " formControlName="usuario">
+                    <option value="">--Seleccionar--</option>
+                    <option *ngFor="let item of analistas" value="{{ item.id }}">
+                      {{ item.persona.nombre }}, {{item.persona.apellido_paterno}} {{item.persona.apellido_materno}}
+                    </option>
+                  </select>
+                  <small class="form-control-feedback">
+                    <p *ngIf="validarCampo('usuario', 'required')">
+                      El analista es un dato obligatorio.
+                    </p>
+                  </small>
+                </div>
+              </div> -->
+            <!-- <div class="form-group row m-b-0">
+                <div class="col-sm-12">
+                  <select class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple"
+                    data-placeholder="Choose">
+                    <option value="CA">California</option>
+                    <option value="NV">Nevada</option>
+                    <option value="OR">Oregon</option>
+                    <option value="WA">Washington</option>
+                  </select>
+                </div>
+              </div> -->
+            <!-- </div> -->
+          </div>
+          <!-- <div class="form-group row">
+            <div class="col-sm-6" [ngClass]="{
+              'has-success': validarSuccess('usuario'),
+              'has-danger': validarError('usuario')
+            }">
+              <label class="form-control-label">
+                Analista: <span class="text-danger">(*)</span>
+              </label>
+              <select type="text" class="form-control" [ngClass]="
+                validarSuccess('usuario')
+                  ? 'form-control-success'
+                  : 'form-control-danger'
+              " formControlName="usuario">
+                <option value="">--Seleccionar--</option>
+                <option *ngFor="let item of analistas" value="{{ item.id }}">
+                  {{ item.persona.nombre }}, {{item.persona.apellido_paterno}} {{item.persona.apellido_materno}}
+                </option>
+              </select>
+              <small class="form-control-feedback">
+                <p *ngIf="validarCampo('usuario', 'required')">
+                  El analista es un dato obligatorio.
+                </p>
+              </small>
+            </div>            
+          </div> -->
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label class="form-control-label">Producto:</label>
+              <select id="productos_seleccionados" class="select2 m-b-10 select2-multiple" style="width: 100%"
+                multiple="multiple" data-placeholder="Choose" formControlName="productos">
+                <option value="Nevada">Nevada</option>
+                <!-- <option value="CA">California</option>
+                <option value="NV">Nevada</option>
+                <option value="OR">Oregon</option>
+                <option value="WA">Washington</option> -->
+
+                <!-- <option *ngFor="let item of productos" [value]="item.id">{{item.descripcion}}</option> -->
+              </select>
+              <!-- <select id="productos_seleccionados" multiple="multiple" formControlName="productos">                
+                <option *ngFor="let item of productos" [value]="item.id">{{item.descripcion}}</option>
+              </select> -->
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12" [ngClass]="{
                 'has-success': validarSuccess('comentario'),
                 'has-danger': validarError('comentario')
               }">
-                            <label class="form-control-label">
+              <label class="form-control-label">
                 Comentario: <span class="text-danger">(*)</span>
               </label>
-                            <textarea class="form-control" [ngClass]="
+              <textarea class="form-control" [ngClass]="
                   validarSuccess('comentario')
                     ? 'form-control-success'
                     : 'form-control-danger'
                 " formControlName="comentario" rows="5"></textarea>
-                            <small class="form-control-feedback">
+              <small class="form-control-feedback">
                 <p *ngIf="validarCampo('comentario', 'required')">
                   El comentario es un dato obligatorio.
                 </p>
@@ -143,23 +225,23 @@
                   Ingrese un comentario correcto.
                 </p>
               </small>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group text-right row m-b-0">
-                        <div class="col-sm-12">
-                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+            </div>
+          </div>
+          <hr />
+          <div class="form-group text-right row m-b-0">
+            <div class="col-sm-12">
+              <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
                 <i class="fa fa-times-circle"></i>
                 &nbsp; Cancelar
               </button>
-                            <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
+              <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">
                 <i class="fa fa-save"></i>
                 &nbsp; {{button}}
               </button>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

@@ -12,9 +12,9 @@ export class ProductoService {
 
   constructor(private http: HttpClient) { }
 
-  listar(es_prestamo: boolean) {
+  listar(es_todo: boolean, es_prestamo: boolean) {
 
-    return this.http.get(`${base_url}/producto/listar/${es_prestamo}`)
+    return this.http.get(`${base_url}/producto/listar/${es_todo}/${es_prestamo}`)
       .pipe(
         map((res: { ok: boolean, lista: [] }) => res.lista)
       );

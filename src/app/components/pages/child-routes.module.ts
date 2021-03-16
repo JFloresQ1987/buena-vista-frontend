@@ -17,7 +17,7 @@ import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/produ
 import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
-import { FormComponent } from './seguridad/gestion/analista/form.component';
+// import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
@@ -26,27 +26,31 @@ import { ListarCajasComponent } from './caja/listar-cajas/listar-cajas.component
 import { ListarRecibosComponent } from './caja/listar-recibos/listar-recibos.component';
 import { ProductoPrePagoComponent } from './analista/producto-pre-pago/producto-pre-pago.component';
 import { ReportePagoAnalistaComponent } from './analista/reporte-pago-analista/reporte-pago-analista.component';
-import { ConfirmarPagoAnalistaComponent } from './caja/confirmar-pago-analista/confirmar-pago-analista.component';
-import { ConfirmarPagoAnalistaDetalleComponent } from './caja/confirmar-pago-analista-detalle/confirmar-pago-analista-detalle.component';
+// import { ConfirmarPagoAnalistaComponent } from './caja/confirmar-pago-analista/confirmar-pago-analista.component';
+// import { ConfirmarPagoAnalistaDetalleComponent } from './caja/confirmar-pago-analista-detalle/confirmar-pago-analista-detalle.component';
 import { AhorroConsultaComponent } from './operaciones/ahorro-consulta/ahorro-consulta.component';
 import { AhorroDetalleConsultaComponent } from './operaciones/ahorro-detalle-consulta/ahorro-detalle-consulta.component';
 import { ProductoHistoricoComponent } from './operaciones/producto-historico/producto-historico.component';
 import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detalle-historico/producto-detalle-historico.component';
 import { AhorroPagoComponent } from './caja/ahorro-pago/ahorro-pago.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
+import { LibroDiarioIngresosComponent } from './caja/libro-diario-ingresos/libro-diario-ingresos.component';
+import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-diario-egresos.component';
+import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
+import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
 
 
 const childRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    data: { modulo: 'Buenavista', menu: 'Home', item: 'Dashboard' }
+    data: { modulo: 'Buenavista', menu: 'Home', item: 'Dashboard de Usuario' }
   },
   {
     path: 'dashboard/socio',
     component: DashboardSocioComponent,
     canActivate: [AuthorizationGuard],
-    data: { modulo: 'Buenavista', menu: 'Home', item: 'Perfil del Socio', roles: ["Administrador", "Analista", "Cajero"] }
+    data: { modulo: 'Buenavista', menu: 'Home', item: 'Dashboard de Socio', roles: ["Administrador", "Analista", "Cajero"] }
   },
   {
     path: 'seguridad/gestion/usuario',
@@ -74,10 +78,16 @@ const childRoutes: Routes = [
   },
   {
     path: 'seguridad/gestion/analista/:id',
-    component: FormComponent,
+    component: CrearAnalistaComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Detalle Analista', roles: ["Administrador"] }
   },
+  // {
+  //   path: 'seguridad/gestion/analista/:id',
+  //   component: FormComponent,
+  //   canActivate: [AuthorizationGuard],
+  //   data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Detalle Analista', roles: ["Administrador"] }
+  // },
   {
     path: 'seguridad/gestion/caja',
     component: CajaComponent,
@@ -234,6 +244,24 @@ const childRoutes: Routes = [
     component: ProductoDetalleHistoricoComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Operaciones', menu: 'Consulta', item: 'Producto Detalle', roles: ["Administrador", "Analista", "Cajero"] }
+  },
+  {
+    path: 'reporte/libro-diario/ingresos',
+    component: LibroDiarioIngresosComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Reportes', menu: 'Libro Diario', item: 'Ingresos', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'reporte/libro-diario/egresos',
+    component: LibroDiarioEgresosComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Reportes', menu: 'Libro Diario', item: 'Egresos', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'reporte/analista/saldo-creditos',
+    component: SaldoCreditoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Reportes', menu: 'Analistas', item: 'Saldo Créditos', roles: ["Administrador"] }
   },
 ]
 

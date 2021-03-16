@@ -1,7 +1,3 @@
-<!-- ============================================================== -->
-<!-- Start Page Content -->
-<!-- ============================================================== -->
-
 <div class="row animated fadeIn fast" *ngIf="cargando">
     <!-- <div class="row animated fadeIn fast" *ngIf="(cargando || cargandoDetalle)"> -->
     <div class="col-12">
@@ -19,7 +15,7 @@
         <div class="card">
             <div class="card-body">
 
-                <div class="text-left">
+                <!-- <div class="text-left">
                     <div class="row">
                         <div class="col-sm-12">
                             <label class="form-control-label">
@@ -29,8 +25,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6">
-                            <!-- <select class="form-control" [(ngModel)]="seleccion"> -->
+                        <div class="col-sm-6">                            
                             <select class="form-control" (change)="buscarRecibos($event.target.value)">
                                 <option value="">Seleccione un analista</option>
                                 <option *ngFor="let item of analistas" value="{{ item.id }}">
@@ -45,13 +40,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
-
-                <!-- <div class="text-right">
-                    <button type="button" (click)="confirmarPagos()" class="btn btn-danger waves-effect waves-light m-r-10">
-                        <i class="fa fa-check"></i>
-                        &nbsp; Confirmar pagos
-                    </button>
                 </div> -->
 
                 <div class="table-responsive m-t-20">
@@ -63,16 +51,26 @@
                                 <th class="align-table text-center font-table">N° recibo</th>
                                 <th class="align-table text-center font-table">Fecha</th>
                                 <th class="align-table text-center font-table">DNI</th>
-                                <th class="align-table text-center font-table">Apellidos y nombres</th>
+                                <th class="align-table text-center font-table">Nombres y apellidos</th>
                                 <th class="align-table text-center font-table">Producto / Concepto</th>
                                 <th class="align-table text-center font-table">Programación / Subconcepto</th>
+                                <th class="align-table text-center font-table">Detalle</th>
+                                <th class="align-table text-center font-table">Grupo BC</th>
+                                <th class="align-table text-center font-table">Analista</th>
+                                <th class="align-table text-center font-table">k</th>
+                                <th class="align-table text-center font-table">i</th>
+                                <th class="align-table text-center font-table">AP</th>
+                                <th class="align-table text-center font-table">AV</th>
+                                <th class="align-table text-center font-table">AI</th>
+                                <th class="align-table text-center font-table">G</th>
+                                <th class="align-table text-center font-table">M</th>
                                 <th class="align-table text-center font-table">Monto (S/.)</th>
-                                <th class="align-table text-nowrap center font-table" width="5%">Acciones</th>
+                                <!-- <th class="text-nowrap center font-table" width="5%">Acciones</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of lista; let i = index">
-                                <td class="align-table text-center font-table">{{ i + 1 }}</td>
+                                <td class="align-table text-center font-table">{{ i + 1 + 10*(paginaActual-1) }}</td>
 
                                 <ng-template [ngIf]="item.recibo.estado==='Vigente'">
                                     <td class="align-table text-center font-table">
@@ -90,35 +88,8 @@
                                     </td>
                                 </ng-template>
 
-                                <!-- <ng-container [ngSwitch]="item.recibo.estado">
-                                    <ng-template *ngSwitchCase="'Vigente'">
-                                        <td class="text-center">
-                                            <span class="label label-success">{{item.recibo.estado}}</span>
-                                        </td>
-                                    </ng-template>
-                                    <ng-template *ngSwitchCase="'Previgente'">
-                                        <td class="text-center">
-                                            <span class="label label-alert">{{item.recibo.estado}}</span>
-                                        </td>
-                                    </ng-template>
-                                    <ng-template *ngSwitchCase="'Anulado'">
-                                        <td class="text-center">
-                                            <span class="label label-danger">{{item.recibo.estado}}</span>
-                                        </td>
-                                    </ng-template>
-                                    <div *ngSwitchDefault>Other String</div>
-                                </ng-container> -->
-
-                                <!-- <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
-                                    <span class="label label-success">{{item.recibo.estado}}</span>
-                                </td>                                
-                                <ng-template #estado_recibo>
-                                    <td class="text-center">
-                                        <span class="label label-danger">{{item.recibo.estado}}</span>
-                                    </td>
-                                </ng-template> -->
                                 <td class="align-table text-center font-table">{{ item.recibo.numero }}</td>
-                                <td class="align-table text-center font-table">{{ item.recibo.fecha }}</td>
+                                <td class="align-table text-center font-table">{{ item.recibo.fecha | slice:0:10 }}</td>
 
                                 <td class="align-table text-center font-table">
                                     {{ item.producto.documento_identidad_persona || item.concepto.documento_identidad_responsable }}
@@ -130,40 +101,44 @@
                                 </td>
                                 <td class="align-table font-table w100">
                                     {{ item.producto.codigo_programacion || item.concepto.codigo_sub_concepto }}</td>
-                                <td class="align-table text-right font-table w100">{{ item.recibo.monto_total.toFixed(2) }}</td>
-                                <!-- <td>{{ item.persona.apellido_materno }}</td>
-                                <td class="text-center" *ngIf="item.es_bloqueado; else bloqueado">
-                                    <span class="label label-danger">Si</span>
-                                </td>
-                                <td class="text-center" *ngIf="item.es_vigente; else vigente">
-                                    <span class="label label-success">Si</span>
-                                </td>
-                                <ng-template #bloqueado>
-                                    <td class="text-center"></td>
-                                </ng-template>
-                                <ng-template #vigente>
-                                    <td class="text-center">
-                                        <span class="label label-danger">No</span>
-                                    </td>
-                                </ng-template> -->
-                                <td class="align-table text-nowrap text-center font-table w100">
+                                <td class="align-table font-table w100">
+                                    {{ item.concepto.detalle }}</td>
+                                <td class="align-table font-table w100">
+                                    {{ item.producto.bancomunal.descripcion }}</td>
+                                <td class="align-table font-table w100">
+                                    {{ item.producto.nombre_analista }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_amortizacion_capital }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_interes }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_programado }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_voluntario }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_inicial }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_gasto }}</td>
+                                <td class="align-table font-table w100">{{ item.producto.monto_mora }}</td>
+                                <td class="align-table font-table w100">{{ item.recibo.monto_total }}</td>
+
+                                <!-- <td class="text-nowrap text-center font-table w100">
                                     <a *ngIf="item.recibo.estado!='Anulado'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
                                         <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
                                     </a>
                                     <a *ngIf="(item.recibo.estado==='Vigente' || item.recibo.estado==='Previgente') && item.diario.estado==='Abierto'" (click)="anularRecibo(item.id)" data-toggle="tooltip" data-original-title="Anular recibo">
                                         <i class="fa fa-ban text-danger pointer"></i>
                                     </a>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
+                <div class="row">
+                    <div class="col-sm-9">
+                        <button (click)="cambiarPagina(-50)" class="btn btn-info" *ngIf="paginaActual!=1"><i
+                class="fa fa-angle-left"></i>&nbsp;Anterior</button>&nbsp;
+                        <button (click)="cambiarPagina(50)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i class="fa fa-angle-right"></i></button>
+                    </div>
+                    <div class="text-right col-sm-3">
+                        <span class="text-info">{{ totalRegistros }}</span> Registros | <span class="text-info">{{ totalPaginas }}</span> Páginas
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- ============================================================== -->
-<!-- End PAge Content -->
-<!-- ============================================================== -->

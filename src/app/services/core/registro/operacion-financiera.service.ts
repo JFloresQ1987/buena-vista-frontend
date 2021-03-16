@@ -20,19 +20,19 @@ export class OperacionFinancieraService {
   }
 
   listarProductos(id_persona: string, tipo: string, estado: string) {
-    
+
     return this.http.get(`${base_url}/operacion-financiera/listar-productos/${id_persona}/${tipo}/${estado}`)
-    .pipe(
-      map((res: { ok: boolean, lista: [] }) => res.lista)
-    );
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
   }
 
   listarProductosXAnalista(tipo: string) {
 
     return this.http.get(`${base_url}/operacion-financiera/listar-productos-por-analista/${tipo}`)
-    .pipe(
-      map((res: { ok: boolean, lista: [] }) => res.lista)
-    );
+      // .pipe(
+      //   map((res: { ok: boolean, lista: [], analista: string }) => { res.lista, res.analista })
+      // );
   }
 
   listarProducto(id_operacion_financiera: string) {

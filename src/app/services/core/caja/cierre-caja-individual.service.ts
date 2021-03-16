@@ -23,8 +23,8 @@ export class CierreCajaIndividualService {
     return this.http.get(url);
   }
 
-  getCajas(desde: string, hasta: string ){
-    const url = `${base_url}/caja-diario?desde=${desde}&hasta=${hasta}`;
+  getCajas(desde: string, hasta: string, desde_paginacion:number = 0){
+    const url = `${base_url}/caja-diario?desde=${desde}&hasta=${hasta}&desde_paginacion=${desde_paginacion}`;
     return this.http.get(url);
   }
 

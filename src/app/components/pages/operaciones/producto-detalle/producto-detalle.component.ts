@@ -45,7 +45,7 @@ export class ProductoDetalleComponent implements OnInit {
   public cuota_numero: number = 0;
   public form: FormGroup;
   public cuota_id: string;
-
+  public formSubmitted = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -59,6 +59,7 @@ export class ProductoDetalleComponent implements OnInit {
     this.form = this.formBuilder.group({
       cuota_pago_capital: ['', [Validators.required]],
       cuota_pago_interes: ['', [Validators.required]],
+      cuota_pago_mora: ['', [Validators.required]],
       cuota_ahorro_programado: ['', [Validators.required]],
     });
     this.fecha_actual = dayjs().format('DD/MM/YYYY');
@@ -325,6 +326,7 @@ export class ProductoDetalleComponent implements OnInit {
       this.cuota_numero = res['operacion_financiera_detalle']['numero_cuota'];
       this.form.controls['cuota_pago_capital'].setValue(parseFloat(res['operacion_financiera_detalle']['ingresos']['monto_amortizacion_capital']).toFixed(2));
       this.form.controls['cuota_pago_interes'].setValue(parseFloat(res['operacion_financiera_detalle']['ingresos']['monto_interes']).toFixed(2));
+      this.form.controls['cuota_pago_mora'].setValue(parseFloat(res['operacion_financiera_detalle']['ingresos']['monto_mora']).toFixed(2));
       this.form.controls['cuota_ahorro_programado'].setValue(parseFloat(res['operacion_financiera_detalle']['ahorros']['monto_ahorro_programado']).toFixed(2));
       this.cuota_id = id;
       $(this.el.nativeElement.querySelector('#mdlCuota')).modal('show');
@@ -332,6 +334,15 @@ export class ProductoDetalleComponent implements OnInit {
   }
 
   guardar() {
+    
+    this.formSubmitted = true;
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar la información proporcionada.", icon: 'warning'
+      });
+      return;
+    }
+    
     this.serviceOperacionFinancieraDetalle.actualizarOperacionFinancieraDetalle(this.cuota_id, this.form.value).subscribe(res => {
       if (res['ok']) {
         $(this.el.nativeElement.querySelector('#mdlCuota')).modal('hide');
@@ -365,6 +376,35 @@ export class ProductoDetalleComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  validarCampo(campo: string, validar: string): boolean {
+
+
+
+    if (this.form.get(campo).hasError(validar) &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarError(campo: string): boolean {
+
+    if (this.form.get(campo).invalid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarSuccess(campo: string): boolean {
+
+    if (this.form.get(campo).valid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
   }
 
 }

@@ -89,9 +89,10 @@ export class AhorroConsultaComponent implements OnInit {
           else
             controls += '<option value="' + this.analistas[i].id + '">';
 
-          controls += this.analistas[i].usuario.persona.nombre;
-          controls += ' ' + this.analistas[i].usuario.persona.apellido_paterno;
-          controls += ' ' + this.analistas[i].usuario.persona.apellido_materno;
+          controls += this.analistas[i].nombre_usuario;
+          // controls += this.analistas[i].usuario.persona.nombre;
+          // controls += ' ' + this.analistas[i].usuario.persona.apellido_paterno;
+          // controls += ' ' + this.analistas[i].usuario.persona.apellido_materno;
           controls += '</option>';
         }
 
@@ -104,37 +105,17 @@ export class AhorroConsultaComponent implements OnInit {
           // title: 'Cambiar analista',
           icon: 'info',
           html: controls,
-          // html:
-          //   // '<select id="analista" class="swal2-input" autofocus>' +
-          //   // // '<select id="analista" class="swal2-input" autofocus>' +
-          //   // '<option value="1">Analista 1</option>' +
-          //   // '<option value="2" selected>Analista 2</option>' +
-          //   // '</select>' +
-
-          //   '<select id="analista" class="swal2-input" autofocus>' +
-          //   '<option *ngFor="let item of analistas" value="{{item.id}}">' +
-          //   '{{item.usuario.persona.nombre}}' +
-          //   '{{item.usuario.persona.apellido_paterno}}' +
-          //   '{{item.usuario.persona.apellido_materno}}' +
-          //   '</option>' +
-          //   '</select>' +
-
-          //   '<textarea id="comentario" class="form-control" rows="5" placeholder="Escriba un comentario aquí...">',
-
           focusConfirm: false,
           confirmButtonText: 'Si, cambiar',
           showCancelButton: true,
           cancelButtonColor: '#d33',
           preConfirm: () => {
-            // return [
-            //   // document.getElementById('swal-input1').value,
-            //   // document.getElementById('swal-input2').value
-            //   (<HTMLInputElement>document.getElementById('analista')).value,
-            //   (<HTMLInputElement>document.getElementById('comentario')).value
-            // ]
             
             const analista = (<HTMLInputElement>document.getElementById('analista')).value;
             const comentario = (<HTMLInputElement>document.getElementById('comentario')).value;
+
+            if (!comentario)
+              return Swal.showValidationMessage("Ingrese un comentario correcto.");
 
             this.service.cambiarAnalista(id, analista, comentario)
               .subscribe(res => {
@@ -154,137 +135,7 @@ export class AhorroConsultaComponent implements OnInit {
         // }
 
 
-      });
-
-    // const controls = '<select id="analista" class="swal2-input" autofocus>' +
-    // // '<select id="analista" class="swal2-input" autofocus>' +
-    // '<option value="1">Analista 1</option>' +
-    // '<option value="2" selected>Analista 2</option>' +
-    // '</select>' +
-    // '<textarea id="comentario" class="form-control" rows="5" placeholder="Escriba un comentario aquí...">'
-
-    // const { value: formValues } = await Swal.fire({
-    //   // title: 'Cambiar analista',
-    //   icon: 'info',
-    //   html: controls,
-    //   // html:
-    //   //   // '<select id="analista" class="swal2-input" autofocus>' +
-    //   //   // // '<select id="analista" class="swal2-input" autofocus>' +
-    //   //   // '<option value="1">Analista 1</option>' +
-    //   //   // '<option value="2" selected>Analista 2</option>' +
-    //   //   // '</select>' +
-
-    //   //   '<select id="analista" class="swal2-input" autofocus>' +
-    //   //   '<option *ngFor="let item of analistas" value="{{item.id}}">' +
-    //   //   '{{item.usuario.persona.nombre}}' +
-    //   //   '{{item.usuario.persona.apellido_paterno}}' +
-    //   //   '{{item.usuario.persona.apellido_materno}}' +
-    //   //   '</option>' +
-    //   //   '</select>' +
-
-    //   //   '<textarea id="comentario" class="form-control" rows="5" placeholder="Escriba un comentario aquí...">',
-
-    //   focusConfirm: false,
-    //   confirmButtonText: 'Si, cambiar',
-    //   showCancelButton: true,
-    //   cancelButtonColor: '#d33',
-    //   preConfirm: () => {
-    //     return [
-    //       // document.getElementById('swal-input1').value,
-    //       // document.getElementById('swal-input2').value
-    //       (<HTMLInputElement>document.getElementById('analista')).value,
-    //       (<HTMLInputElement>document.getElementById('comentario')).value
-    //     ]
-    //   }
-    // })
-
-    // if (formValues) {
-    //   Swal.fire(JSON.stringify(formValues))
-    // }
-
-
-
-
-
-
-    // const { value: fruit } = await Swal.fire({
-    //   title: 'Select field validation',
-    //   input: 'select',
-    //   inputOptions: {
-    //     // 'Fruits': {
-    //     //   apples: 'Apples',
-    //     //   bananas: 'Bananas',
-    //     //   grapes: 'Grapes',
-    //     //   oranges: 'Oranges'
-    //     // },
-    //     // 'Vegetables': {
-    //     //   potato: 'Potato',
-    //     //   broccoli: 'Broccoli',
-    //     //   carrot: 'Carrot'
-    //     // },
-    //     'icecream': 'Ice cream'
-    //   },
-    //   inputPlaceholder: '--Seleccionar--',
-    //   showCancelButton: true,
-    //   inputValidator: (value) => {
-    //     return new Promise((resolve) => {
-    //       if (value === 'oranges') {
-    //         resolve()
-    //       } else {
-    //         resolve('You need to select oranges :)')
-    //       }
-    //     })
-    //   }
-    // })
-
-    // // if (fruit) {
-    // //   Swal.fire(`You selected: ${fruit}`)
-    // // }
-
-    // Swal.fire({
-    //   // title: 'Comentario: ' + id,
-    //   // text: "Comentario xxx",
-    //   icon: 'warning',
-    //   // input: 'text',
-    //   // inputAttributes: {
-    //   //   autocapitalize: 'off'
-    //   // },
-    //   input: 'textarea',
-    //   inputPlaceholder: 'Escriba un comentario aquí...',
-    //   // inputAttributes: {
-    //   //   'aria-label': 'Type your message here'
-    //   // },
-    //   // html:
-    //   //   'Comentario' +
-    //   //   '<input id="swal-input1" class="swal2-input">' +
-    //   //   '<input id="swal-input2" class="swal2-input">',
-    //   showCancelButton: true,
-    //   cancelButtonColor: '#d33',
-    //   confirmButtonText: 'Si, cambiar analista',
-    //   showLoaderOnConfirm: true,
-    //   inputValidator: (value) => {
-    //     if (!value) {
-    //       return 'Ingrese un comentario correcto.'
-    //     }
-    //   },
-    //   preConfirm: (value) => {
-
-    //     const comentario: string = value;
-
-
-    //     this.service.cambiarAnalista(id, '', comentario)
-    //       .subscribe(res => {
-
-    //         Swal.fire({
-    //           text: 'La anulación del recibo se realizó satisfactoriamente.', icon: 'success'
-    //         });
-
-    //         this.listarProductos();
-    //         // this.imprimirRecibo(res);
-    //       });
-
-    //   }
-    // });
+      });    
   }
 
   congelar(id, operacion) {

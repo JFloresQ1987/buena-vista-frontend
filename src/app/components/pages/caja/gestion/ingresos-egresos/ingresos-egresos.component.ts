@@ -21,6 +21,7 @@ export class IngresosEgresosComponent implements OnInit {
   public subconceptos: any = [];
   public form: FormGroup;
   public formSubmitted = false;
+  public disabled_button: boolean = false;
 
   constructor(private router: Router, private formBuilder: FormBuilder, private usuarioService: UsuarioService, private pagoConcepto: PagoConceptoService, private operacionFinancieraPagoService: OperacionFinancieraPagoService) { }
 
@@ -129,11 +130,13 @@ export class IngresosEgresosComponent implements OnInit {
 
   guardar() {
 
+    this.disabled_button = true;
     this.formSubmitted = true;
 
     if (!this.form.valid) {
+      this.disabled_button = false;
       return Swal.fire({
-        text: "Necesita completar toda la informacion", icon: 'error'
+        text: "Necesita completar toda la informacion", icon: 'warning'
       })
     }
 
@@ -196,6 +199,7 @@ export class IngresosEgresosComponent implements OnInit {
       recibo.imprimirRecibo(res)
       // this.router.navigateByUrl('/dashboard');
       this.cancelar();
+      this.disabled_button = false;
     })
   }
 

@@ -5,8 +5,7 @@ import { AnalistaService } from '../../../../../services/core/registro/analista.
 @Component({
   selector: 'app-analista',
   templateUrl: './analista.component.html',
-  styles: [
-  ]
+  styleUrls: ['./analista.component.css']
 })
 export class AnalistaComponent implements OnInit {
 

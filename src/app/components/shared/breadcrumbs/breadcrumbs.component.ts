@@ -15,32 +15,32 @@ export class BreadcrumbsComponent implements OnDestroy {
   public menu: string;
   public item: string;
   public tituloSubs: Subscription;
-  
-  constructor(private router: Router) { 
-    
+
+  constructor(private router: Router) {
+
     this.getArgumentosRuta();
-    
+
     this.tituloSubs = this.getArgumentosRuta().subscribe( ({ modulo, menu, item }) => {
-      
+
       this.modulo = modulo;
       this.menu = menu;
       this.item = item;
       document.title = `Buenavista - ${ item }`;
     })
-  }  
+  }
 
   ngOnDestroy(): void {
-    
+
     this.tituloSubs.unsubscribe();
   }
 
   getArgumentosRuta() {
-    
+
     return this.router.events
-    .pipe(
-      filter( event => event instanceof ActivationEnd ),
-      filter( ( event: ActivationEnd ) => event.snapshot.firstChild === null ),
-      map( ( event: ActivationEnd ) => event.snapshot.data)
-    );
+      .pipe(
+        filter(event => event instanceof ActivationEnd),
+        filter((event: ActivationEnd) => event.snapshot.firstChild === null),
+        map((event: ActivationEnd) => event.snapshot.data)
+      );
   }
 }

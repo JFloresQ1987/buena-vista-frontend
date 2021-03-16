@@ -1,0 +1,244 @@
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <form class="form-horizontal" [formGroup]="form" (submit)=consultarReporte()>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label class="form-control-label">
+                                Analista:
+                            </label>
+                            <select class="custom-select col-12" formControlName="analista">
+                                <option value="">--Todos--</option>
+                                <option *ngFor="let item of analistas" value="{{ item.id }}">
+                                    {{ item.nombre_usuario }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="form-control-label">
+                                Fecha inicio:
+                            </label>
+                            <input class="form-control" type="date" formControlName="fecha_inicio" maxlength="10">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-control-label">
+                                Fecha fin:
+                            </label>
+                            <input class="form-control" type="date" formControlName="fecha_fin" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="form-group text-right row m-b-0">
+                        <div class="col-sm-12">
+                            <button type="reset" (click)="cancelar()" class="btn btn-inverse waves-effect waves-light m-r-10">
+                                <i class="fa fa-times-circle"></i>
+                                &nbsp; Limpiar
+                            </button>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">
+                                <i class="fa fa-search"></i>
+                                &nbsp; Consultar reporte
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-6" *ngIf="!cargando">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-resumen m-t-20">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th class="text-center font-table">Resumen</th>
+                                <th class="text-center font-table">S/.</th>
+                                <th class="text-center font-table">%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-table text-left font-table">CPP</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_monto_cpp }}</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_porcentaje_cpp }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-table text-left font-table">Deficiente</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_monto_deficiente }}</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_porcentaje_deficiente }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-table text-left font-table">Dudoso</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_monto_dudoso }}</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_porcentaje_dudoso }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-table text-left font-table">Pérdida</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_monto_perdida }}</td>
+                                <td class="align-table text-right font-table">{{ resumen.total_porcentaje_perdida }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="align-table text-center font-table font-bold">Total retrasos</td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_retraso }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_porcentaje_retraso }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <!-- <div class="row animated fadeIn fast" *ngIf="(cargando || cargandoDetalle)"> -->
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive m-t-20">
+                    <table class="table table-bordered color-bordered-table purple-bordered-table">
+                        <thead>
+                            <tr>
+                                <th class="align-table text-center font-table" width="3%">#</th>
+                                <th class="align-table text-center font-table">Socio</th>
+                                <th class="align-table text-center font-table">Producto</th>
+                                <th class="align-table text-center font-table">Programación</th>
+                                <th class="align-table text-center font-table">Fecha inicio</th>
+                                <th class="align-table text-center font-table">Fecha final</th>
+                                <th class="align-table text-center font-table">Monto préstamo</th>
+                                <th class="align-table text-center font-table">Pago cuota</th>
+                                <th class="align-table text-center font-table">Aporte inicial</th>
+                                <th class="align-table text-center font-table">Total amortización</th>
+                                <th class="align-table text-center font-table">Total ahorros</th>
+                                <th class="align-table text-center font-table">Total retiro</th>
+                                <th class="align-table text-center font-table">Saldo capital</th>
+                                <th class="align-table text-center font-table">Saldo interés</th>
+                                <th class="align-table text-center font-table">Saldo neto</th>
+                                <th class="align-table text-center font-table">Saldo liquidado</th>
+                                <th class="align-table text-center font-table">Días vencidos</th>
+                                <th class="align-table text-center font-table">Calificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lista; let i = index">
+                                <td class="align-table text-center font-table">{{ i + 1 }}</td>
+                                <!-- 
+                                <ng-template [ngIf]="item.recibo.estado==='Vigente'">
+                                    <td class="text-center font-table">
+                                        <span class="label label-success">{{item.}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.recibo.estado==='Previgente'">
+                                    <td class="text-center font-table">
+                                        <span class="label label-warning">{{item.}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.recibo.estado==='Anulado'">
+                                    <td class="text-center font-table">
+                                        <span class="label label-danger">{{item.}}</span>
+                                    </td>
+                                </ng-template> -->
+
+
+                                <td class="align-table text-left font-table">{{ item.socio }}</td>
+                                <td class="align-table text-center font-table">{{ item.producto }}</td>
+                                <td class="align-table text-center font-table">{{ item.programacion }}</td>
+                                <td class="align-table text-center font-table">{{ item.fecha_inicio }}</td>
+                                <td class="align-table text-center font-table">{{ item.fecha_fin }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_prestamo }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_cuota }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_ahorro_inicial }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_amortizacion }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_ahorro }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_retiro }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_saldo_capital }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_saldo_interes }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_saldo_neto }}</td>
+                                <td class="align-table text-right font-table">{{ item.monto_saldo_liquidado }}</td>
+                                <td class="align-table text-center font-table">{{ item.dias_vencido }}</td>
+                                <!-- <td class="text-center font-table">{{ item.calificacion }}</td> -->
+                                <ng-template [ngIf]="item.calificacion==='No vencido'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-no-vencido">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.calificacion==='Normal'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-info">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.calificacion==='CPP'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-success">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.calificacion==='Deficiente'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-warning">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.calificacion==='Dudoso'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-dudoso">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                                <ng-template [ngIf]="item.calificacion==='Pérdida'">
+                                    <td class="align-table text-center font-table">
+                                        <span class="label label-danger">{{item.calificacion}}</span>
+                                    </td>
+                                </ng-template>
+                            </tr>
+                            <tr>
+                                <td class="align-table text-center font-table font-bold" colspan="6">Total S/.</td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_prestamo }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_cuota }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_ahorro_inicial }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_amortizacion }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_ahorro }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_retiro }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_saldo_capital }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_saldo_interes }}
+                                </td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_saldo_neto }}</td>
+                                <td class="align-table text-right font-table font-bold">{{ resumen.total_monto_saldo_liquidado }}
+                                </td>
+                                <td class="align-table text-center font-table font-bold" colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->

@@ -31,4 +31,12 @@ export class OperacionFinancieraDetalleService {
   operacionFinancieraDetalleBaja(id: string){
     return this.http.get(`${base_url}/operacion-financiera-detalle/cuota_baja/${id}`);
   }
+
+  obtenerAhorros(id_operacion_financiera: string) {
+
+    return this.http.get(`${base_url}/operacion-financiera-detalle/obtener-ahorros/${id_operacion_financiera}`)
+      .pipe(
+        map((res: { ok: boolean, ahorros: any }) => res.ahorros)
+      );
+  }
 }

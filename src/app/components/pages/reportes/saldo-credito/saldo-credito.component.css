@@ -1,0 +1,51 @@
+.pointer {
+    cursor: pointer;
+}
+
+.table-resumen {
+    margin: auto !important;
+    width: 250px !important;
+}
+
+.align-table {
+    vertical-align: middle !important;
+}
+
+.font-table {
+    font-size: 12px;
+    padding: .25rem;
+}
+
+.w100 {
+    width: 100px;
+}
+
+.label-no-vencido {
+    color: #ffffff;
+    background-color: #2f3d4a;
+}
+
+.label-normal {
+    color: #ffffff;
+    background-color: #00B050;
+}
+
+.label-cpp {
+    color: #ffffff;
+    background-color: #66FF33;
+}
+
+.label-deficiente {
+    color: #ffffff;
+    background-color: #FF9900;
+}
+
+.label-dudoso {
+    color: #ffffff;
+    background-color: #ea4c89;
+}
+
+.label-perdida {
+    color: #ffffff;
+    background-color: Red;
+}

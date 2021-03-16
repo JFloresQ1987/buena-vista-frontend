@@ -31,6 +31,7 @@ export class AhorroDetallePagoComponent implements OnInit {
   // public modelo: OperaconFinancieraPago;
   public id_operacion_financiera: string;
   public sesionSocio: Socio;
+  public disabled_button: boolean = false;
   // public recibo;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -64,11 +65,11 @@ export class AhorroDetallePagoComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       operacion: ['', [Validators.required]],
-      monto_cancelar: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
-      monto_ahorro_voluntario: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      monto_total: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
+      // monto_cancelar: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
+      // monto_ahorro_voluntario: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
+      // monto_total: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
       monto_recibido: ['0', [Validators.required, Validators.min(0.1), Validators.maxLength(10)]],
-      monto_vuelto: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      // monto_vuelto: ['0', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
     });
 
     // setTimeout(() => {
@@ -321,6 +322,10 @@ export class AhorroDetallePagoComponent implements OnInit {
 
   realizarPago() {
 
+    this.disabled_button = true;
+
+
+    
     // if (this.listaCuotasPagar.length === 0) {
     //   Swal.fire({
     //     text: "Seleccionar al menos una cuota a pagar.", icon: 'warning'
@@ -328,13 +333,14 @@ export class AhorroDetallePagoComponent implements OnInit {
     //   return;
     // }
 
-    // this.formSubmitted = true;
-    // if (!this.form.valid) {
-    //   Swal.fire({
-    //     text: "Validar la información proporcionada.", icon: 'warning'
-    //   });
-    //   return;
-    // }
+    this.formSubmitted = true;
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar la información proporcionada.", icon: 'warning'
+      });
+      this.disabled_button = false;
+      return;
+    }
 
     const modelo: OperaconFinancieraPago = this.form.value;
 
@@ -374,6 +380,8 @@ export class AhorroDetallePagoComponent implements OnInit {
         recibo.imprimirRecibo(res)
 
         this.cancelar();
+
+        this.disabled_button = false;
         // this.form.reset();
         // this.form.reset(this.form.value);
         // this.form.resetForm({resetType:ResetFormType.ControlsOnly});

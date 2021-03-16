@@ -12,15 +12,17 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-listar-cajas',
   templateUrl: './listar-cajas.component.html',
-  styles: [
-  ]
+  styleUrls: [ './listar-cajas.component.css' ]
 })
 export class ListarCajasComponent implements OnInit {
 
-  cajas:[] = [];
-
-  desde: string  = '1969-01-01' 
-  hasta: string  = '2050-01-01' 
+  cajas: [] = [];
+  desde: string = '1969-01-01'
+  hasta: string = '2050-01-01'
+  totalRegistros: number = 0;
+  desde_paginacion: number = 0;
+  paginaActual: number = 1;
+  totalPaginas: number;
 
   private seguridad: Seguridad;
 
@@ -33,62 +35,71 @@ export class ListarCajasComponent implements OnInit {
 
     this.seguridad = this.seguridadService.seguridad;
 
-    this.listarCajas.getCajas(this.desde, this.hasta).subscribe(res=>{
-      this.cajas = res['cajas'];
-    })    
+    // this.listarCajas.getCajas(this.desde, this.hasta).subscribe(res => {
+    //   this.cajas = res['cajas'];
+    // })
+    this.cargarCajaDiarios(this.desde_paginacion)
   }
 
-  elegirFecha(desde: string, hasta: string){
+  cargarCajaDiarios(desde_paginacion: number) {
+    this.listarCajas.getCajas(this.desde, this.hasta, desde_paginacion).subscribe((res) => {
+      this.cajas = res['cajas'];
+      this.totalRegistros = res['total'];
+      this.totalPaginas = this.calcularPaginas(this.totalRegistros);
+    });
+  }
+
+  elegirFecha(desde: string, hasta: string) {
     desde = this.desde
-    hasta= this.hasta
-    this.listarCajas.getCajas(desde, hasta).subscribe(res=>{
+    hasta = this.hasta
+    this.listarCajas.getCajas(desde, hasta).subscribe(res => {
       this.cajas = res['cajas'];
     })
   }
 
-  cargarReporte(fecha_apertura: string){
-    this.listarCajas.getCajasFecha(fecha_apertura).subscribe(res=>{
+  cargarReporte(fecha_apertura: string) {
+    this.listarCajas.getCajasFecha(fecha_apertura).subscribe(res => {
       // this.cajas = res{['cajas']};
 
 
       // Reporte      
       let saldoFinal = res['cajasFecha']['monto_total_apertura'] - res['cajasFecha']['monto_total_operaciones']
-      let nombre = res['cajasFecha']['caja']['usuario']['persona']['nombre'] + ' '+ 
-                    res['cajasFecha']['caja']['usuario']['persona']['apellido_paterno'] + ' '+
-                    res['cajasFecha']['caja']['usuario']['persona']['apellido_materno'] 
+      let nombre = res['cajasFecha']['caja']['usuario']['persona']['nombre'] + ' ' +
+        res['cajasFecha']['caja']['usuario']['persona']['apellido_paterno'] + ' ' +
+        res['cajasFecha']['caja']['usuario']['persona']['apellido_materno']
       let fecha = new Date()
       var doc: any = new jsPDF()
       var totalPagesExp = '{ total_pages_count_string }'
-    
+
       const autoTablex: any = {
-             
+
         didDrawPage: async (data) => {
           // Header
           doc.setFontSize(8)
           doc.setTextColor(40)
 
           // Header
-          
-          
+
+
           var img = new Image();
           // img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
           img.src = `${environment.base_url}/upload/buenavista-logo.png`
-          if (img.src) {         
-            doc.addImage(img, /* 'PNG', */ data.settings.margin.right+110, 5, 70, 20);
+          if (img.src) {
+            doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
           }
-          doc.text(this.seguridad.usuario + '\n' + 
-                  this.seguridad.apellido_paterno+ ' '+ this.seguridad.apellido_materno+', '+this.seguridad.nombre  + '\n' + 
-                  dayjs().format('DD/MM/YYYY hh:mm:ss a')
-                  , data.settings.margin.left , 10 )
-         
+          doc.text(this.seguridad.usuario + '\n' +
+            this.seguridad.apellido_paterno + ' ' + this.seguridad.apellido_materno + ', ' + this.seguridad.nombre + '\n' +
+            dayjs().format('DD/MM/YYYY hh:mm:ss a')
+            , data.settings.margin.left, 10)
+
           doc.autoTable({
-            styles: {  overflow: 'visible',halign: ['center'],  cellWidth: ['wrap'], fontSize: [20] },            
+            styles: { overflow: 'visible', halign: ['center'], cellWidth: ['wrap'], fontSize: [20] },
             head: [
               [
                 {
                   content: 'Control de Saldos',
                   colSpan: 3,
-                  styles: { halign: 'center',  },
+                  styles: { halign: 'center', },
                 },
               ],
             ],
@@ -98,95 +109,95 @@ export class ListarCajasComponent implements OnInit {
             // head: headRows(),
             // body: bodyRows(),
             showHead: false,
-            styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+            styles: { overflow: 'visible', cellWidth: ['wrap'] },
             //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
             columnStyles: {
               0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
             },
             margin: { right: 100 },
-            body: [        
-              ['Cajero: ',  nombre ],
+            body: [
+              ['Cajero: ', nombre],
               ['Fecha de Apertura: ', res['cajasFecha']['apertura']['fecha_apertura']],
-              ['Apertura (S/.): ', (res['cajasFecha']['monto_total_apertura']*1).toFixed(1)],
-              ['Operaciones (S/.): ',( res['cajasFecha']['monto_total_operaciones']*1).toFixed(1)],
+              ['Apertura (S/.): ', (res['cajasFecha']['monto_total_apertura'] * 1).toFixed(1)],
+              ['Operaciones (S/.): ', (res['cajasFecha']['monto_total_operaciones'] * 1).toFixed(1)],
               ['N° de operaciones: ', res['cajasFecha']['cantidad_operaciones']],
             ],
             startY: 45,
             // showHead: 'firstPage', 
-            theme: 'grid' 
+            theme: 'grid'
           })
           doc.autoTable({
-            styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
-          //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
+            styles: { overflow: 'hidden', cellWidth: ['wrap'] },
+            //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
             columnStyles: {
               0: { fillColor: [41, 128, 185], textColor: 255, fontStyle: 'bold', cellWidth: 40 },
             },
             margin: { left: 115 },
-            body: [        
-              ['Saldo final (S/.): ', (saldoFinal).toFixed(1) ],
-              ['Efectivo (S/.) ', (res['cajasFecha']['monto_total_efectivo']*1).toFixed(1)],
-              ['Diferencia (S/.): ', (saldoFinal - res['cajasFecha']['monto_total_efectivo']).toFixed(1) ],
+            body: [
+              ['Saldo final (S/.): ', (saldoFinal).toFixed(1)],
+              ['Efectivo (S/.) ', (res['cajasFecha']['monto_total_efectivo'] * 1).toFixed(1)],
+              ['Diferencia (S/.): ', (saldoFinal - res['cajasFecha']['monto_total_efectivo']).toFixed(1)],
             ],
             startY: 45,
-            showHead: 'firstPage',  
-            theme: 'grid' 
+            showHead: 'firstPage',
+            theme: 'grid'
           })
           doc.autoTable({
-            styles: {  overflow: 'visible',  cellWidth: ['wrap'] },
+            styles: { overflow: 'visible', cellWidth: ['wrap'] },
             //columnStyles: { '': { halign: 'center', minCellWidth: [5] } }, // Cells in first column centered and green
             margin: { right: 107.5 },
             columns: [
-              {  header: 'MONTO' },
-              {  header: 'CANTIDAD' },
-              {  header: 'VALOR' },
+              { header: 'MONTO' },
+              { header: 'CANTIDAD' },
+              { header: 'VALOR' },
             ],
-            body: [        
-              ['S/. 200.00',res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'] * 200).toFixed(1)],
-              ['S/. 100.00', res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'] * 100).toFixed(1)],
-              ['S/. 50.00', res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'] * 50).toFixed(1)],
-              ['S/. 20.00', res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'] * 20).toFixed(1)],
-              ['S/. 10.00', res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'] * 10).toFixed(1)],
-              ['S/. 5.00', res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'], 
-                            (res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'] * 5).toFixed(1)]
+            body: [
+              ['S/. 200.00', res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_doscientos_soles_cierre'] * 200).toFixed(1)],
+              ['S/. 100.00', res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_cien_soles_cierre'] * 100).toFixed(1)],
+              ['S/. 50.00', res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_cincuenta_soles_cierre'] * 50).toFixed(1)],
+              ['S/. 20.00', res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_veinte_soles_cierre'] * 20).toFixed(1)],
+              ['S/. 10.00', res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_diez_soles_cierre'] * 10).toFixed(1)],
+              ['S/. 5.00', res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_cinco_soles_cierre'] * 5).toFixed(1)]
             ],
             startY: 90,
-            showHead: 'firstPage',  
+            showHead: 'firstPage',
           })
           doc.autoTable({
-            
-            styles: {  overflow: 'hidden',  cellWidth: ['wrap'] },
+
+            styles: { overflow: 'hidden', cellWidth: ['wrap'] },
             //columnStyles: { '': { halign: 'center' } }, // Cells in first column centered and green
             margin: { left: 107.5 },
             columns: [
-              {  header: 'MONTO' },
-              {  header: 'CANTIDAD' },
-              {  header: 'VALOR' },
+              { header: 'MONTO' },
+              { header: 'CANTIDAD' },
+              { header: 'VALOR' },
             ],
-            body: [        
-              ['S/. 2.00',res['cajasFecha']['cierre']['cantidad_dos_soles_cierre'], 
-                          (res['cajasFecha']['cierre']['cantidad_dos_soles_cierre'] * 2).toFixed(1)],
-              ['S/. 1.00', res['cajasFecha']['cierre']['cantidad_un_sol_cierre'], 
-                          (res['cajasFecha']['cierre']['cantidad_un_sol_cierre']).toFixed(1)],
-              ['S/. 0.50', res['cajasFecha']['cierre']['cantidad_cincuenta_centimos_cierre'], 
-                          (res['cajasFecha']['cierre']['cantidad_cincuenta_centimos_cierre'] * 0.5).toFixed(2)],
-              ['S/. 0.20', res['cajasFecha']['cierre']['cantidad_veinte_centimos_cierre'], 
-                          (res['cajasFecha']['cierre']['cantidad_veinte_centimos_cierre'] * 0.2).toFixed(2)],
-              ['S/. 0.10',res['cajasFecha']['cierre']['cantidad_diez_centimos_cierre'], 
-                          (res['cajasFecha']['cierre']['cantidad_diez_centimos_cierre'] * 0.1).toFixed(2)],
+            body: [
+              ['S/. 2.00', res['cajasFecha']['cierre']['cantidad_dos_soles_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_dos_soles_cierre'] * 2).toFixed(1)],
+              ['S/. 1.00', res['cajasFecha']['cierre']['cantidad_un_sol_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_un_sol_cierre']).toFixed(1)],
+              ['S/. 0.50', res['cajasFecha']['cierre']['cantidad_cincuenta_centimos_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_cincuenta_centimos_cierre'] * 0.5).toFixed(2)],
+              ['S/. 0.20', res['cajasFecha']['cierre']['cantidad_veinte_centimos_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_veinte_centimos_cierre'] * 0.2).toFixed(2)],
+              ['S/. 0.10', res['cajasFecha']['cierre']['cantidad_diez_centimos_cierre'],
+                (res['cajasFecha']['cierre']['cantidad_diez_centimos_cierre'] * 0.1).toFixed(2)],
             ],
             startY: 90,
-            showHead: 'firstPage',  
+            showHead: 'firstPage',
           })
           doc.autoTable({
-            styles: {  overflow: 'visible',  cellWidth: ['wrap'], fontStyle: ['bold'],  halign: ['center'], valign:['middle'] },
+            styles: { overflow: 'visible', cellWidth: ['wrap'], fontStyle: ['bold'], halign: ['center'], valign: ['middle'] },
             margin: { top: 40 },
-            body: [        
-              ['Comentario: ', res['cajasFecha']['comentario']],        
+            body: [
+              ['Comentario: ', res['cajasFecha']['comentario']],
             ],
             startY: 145,
           })
@@ -210,11 +221,11 @@ export class ListarCajasComponent implements OnInit {
           var pagWeb = `http://www.buenavistalabolsa.com/`
           // Total page number plugin only available in jspdf v1.0+
           if (typeof doc.putTotalPages === 'function') {
-            str = fuente + '\n' + 
-                  oficina + '\n' +
-                  año + '\n' +
-                  pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' + 
-                  str + ' de ' + totalPagesExp
+            str = fuente + '\n' +
+              oficina + '\n' +
+              año + '\n' +
+              pagWeb + '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t' +
+              str + ' de ' + totalPagesExp
           }
           doc.setFontSize(8)
 
@@ -224,14 +235,14 @@ export class ListarCajasComponent implements OnInit {
           doc.text(str, data.settings.margin.left, pageHeight - 20)
         },
       };
-      
+
       autoTable(doc, autoTablex);
-    
+
       // Total page number plugin only available in jspdf v1.0+
       if (typeof doc.putTotalPages === 'function') {
         doc.putTotalPages(totalPagesExp)
       }
-    
+
       // return doc
       // doc.save('reporte.pdf')
       // doc.output('dataurlnewwindow');
@@ -242,5 +253,21 @@ export class ListarCajasComponent implements OnInit {
     })
   }
 
+  calcularPaginas(registros: number) {
+    const pag = registros / 10;
+    if (String(pag).includes('.')) {
+      return Math.trunc(pag) + 1;
+    }
+    return pag;
+  }
 
+  cambiarPagina(desde: number) {
+    this.desde_paginacion += desde;
+    if (desde < 0) {
+      this.paginaActual--;
+    } else {
+      this.paginaActual++;
+    }
+    this.cargarCajaDiarios(this.desde_paginacion);
+  }
 }

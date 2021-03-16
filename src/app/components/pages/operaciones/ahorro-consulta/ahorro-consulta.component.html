@@ -28,19 +28,19 @@
                     <p class="card-text text-center">
                         <!-- Período de ejecución:
                         <br> -->
-                        {{ item.producto.programacion }}
+                        <!-- {{ item.producto.programacion }} -->
                         <!-- <br> <span class="label label-{{ item.producto.color }}">{{item.analista}}</span> -->
                         <!-- <br> {{ item.analista }} -->
                         <!-- <button type="button" (click)="cambiarAnalista(item.id)" class="btn btn-sm btn-outline-{{ item.producto.color }} btn-circle m-l-10">
                             <i class="fa fa-user"></i>                            
                         </button> -->
-                        <!-- <br>
+                        <!-- <br> -->
                         <button type="button" (click)="cambiarAnalista(item.id, item.analista._id, item.producto.tipo._id)" class="btn btn-{{ item.producto.color }} btn-sm m-t-10">
                             Analista: {{item.analista.usuario.persona.nombre}}
                             {{item.analista.usuario.persona.apellido_paterno}}
                             {{item.analista.usuario.persona.apellido_materno}}
                             &nbsp; <i class="fa fa-user-circle"></i>
-                        </button> -->
+                        </button>
                     </p>
                 </h4>
                 <hr>

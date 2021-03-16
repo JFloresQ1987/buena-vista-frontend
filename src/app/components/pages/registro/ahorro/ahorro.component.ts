@@ -68,6 +68,7 @@ export class AhorroComponent implements OnInit {
     this.form = this.formBuilder.group({
       tipo: ['', [Validators.required]],
       programacion_pago: [''],
+      analista: ['', [Validators.required]],
       tasa_interes_ganado: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
       monto_ahorro_voluntario: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
       monto_gasto: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
@@ -75,7 +76,7 @@ export class AhorroComponent implements OnInit {
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
-    this.productoService.listar(false)
+    this.productoService.listar(false, false)
       .subscribe(res => {
         this.tipos = res;
       });
@@ -171,10 +172,10 @@ export class AhorroComponent implements OnInit {
         // this.calcularMontoAhorroInicial();
       });
 
-    // this.analistaService.getListaDesplegablexProducto(tipo)
-    // .subscribe(res => {
-    //   this.analistas = res;
-    // });    
+    this.analistaService.getListaDesplegablexProducto(tipo)
+    .subscribe(res => {
+      this.analistas = res;
+    });    
   }
 
   validar() {

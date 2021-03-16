@@ -117,20 +117,20 @@ export class Recibo {
                     doc.write('<td class="detalle">Interés ganado</td><td class="monto derecha">' + data.producto.monto_interes_ganado + '</td>');
                     doc.write('</tr>');
                 }
-                if (Number(data.producto.monto_retiro_interes_ganado) > 0) {
+                if (Number(data.producto.monto_retiro_ahorro_inicial) > 0) {
                     doc.write('<tr>');
-                    doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_interes_ganado + '</td>');
+                    doc.write('<td class="detalle">Retiro Aporte I.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_inicial + '</td>');
                     doc.write('</tr>');
                 }
 
-                if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
-                    doc.write('<tr>');
-                    doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
-                    doc.write('</tr>');
-                }
                 if (Number(data.producto.monto_retiro_ahorro_programado) > 0) {
                     doc.write('<tr>');
                     doc.write('<td class="detalle">Retiro Ahorro P.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_programado + '</td>');
+                    doc.write('</tr>');
+                }
+                if (Number(data.producto.monto_retiro_ahorro_voluntario) > 0) {
+                    doc.write('<tr>');
+                    doc.write('<td class="detalle">Retiro Ahorro V.</td><td class="monto derecha">' + data.producto.monto_retiro_ahorro_voluntario + '</td>');
                     doc.write('</tr>');
                 }
                 if (Number(data.producto.monto_retiro_interes_ganado) > 0) {

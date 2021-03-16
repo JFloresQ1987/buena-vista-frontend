@@ -86,7 +86,7 @@ export class OperacionFinancieraComponent implements OnInit {
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
-    this.productoService.listar(true)
+    this.productoService.listar(false, true)
       .subscribe(res => {
         this.tipos = res;
       });
@@ -548,8 +548,6 @@ export class OperacionFinancieraComponent implements OnInit {
   }
 
   validarCampo(campo: string, validar: string): boolean {
-
-
 
     if (this.form.get(campo).hasError(validar) &&
       (this.formSubmitted || this.form.get(campo).touched))

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UbigeoService } from '../../../../../../services/core/ubigeo.service';
 import { Usuario } from 'src/app/interfaces/core/registro/usuario.interface';
+import { ProductoService } from '../../../../../../services/core/configuracion/producto.service';
 
 declare const $: any;
 
@@ -23,14 +24,19 @@ export class CrearComponent {
   public departamentos: [] = [];
   public provincias: [] = [];
   public distritos: [] = [];
+  public productos: [] = [];
 
   constructor(private service: UsuarioService,
-    private formBuilder: FormBuilder, private el: ElementRef,
-    private activatedRoute: ActivatedRoute, private router: Router, private ubigeoService: UbigeoService) {
+    private formBuilder: FormBuilder,
+    private el: ElementRef,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private ubigeoService: UbigeoService) {
   }
 
   ngOnInit(): void {
-    $(this.el.nativeElement.querySelector('#roles')).multiSelect();
+    // $(this.el.nativeElement.querySelector('#roles')).multiSelect();
+    $("#roles").select2();
     this.form = this.formBuilder.group({
       documento_identidad: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
@@ -75,6 +81,7 @@ export class CrearComponent {
 
     this.cargarDepartamentos();
   }
+
   cargarDepartamentos() {
     this.ubigeoService.listarDepartamentos().subscribe(res => {
       this.departamentos = res['departamentos'];
@@ -108,30 +115,51 @@ export class CrearComponent {
             roles.push("2: 'Analista'")
           }
         });
-        $(this.el.nativeElement.querySelector('#roles')).multiSelect('select', roles);
+        // $(this.el.nativeElement.querySelector('#roles')).multiSelect('select', roles);
+        $("#roles").val(roles).trigger('change');
         this.form.patchValue(data);
         this.form.controls['provincia'].setValue(data.provincia);
         this.form.controls['distrito'].setValue(data.distrito);
       });
-    } else {
-      return;
     }
+    // else {
+    //   return;
+    // }
   }
 
   guardar() {
     this.formSubmitted = true;
+
+    let r = $(this.el.nativeElement.querySelector('#roles')).val();
+
+    console.log(this.form.get('rol').value)
+    console.log(r);
+
+    for (let index = 0; index < r.length; index++) {
+      r[index] = r[index].split("'")[1];
+    }
+
+    this.form.controls['rol'].setValue(r);
+
+    if (!this.form.valid) {
+      Swal.fire({
+        text: "Validar la información proporcionada.", icon: 'warning'
+      });
+      return;
+    }
+
     if (this._id != 'nuevo') {
-      let r = $(this.el.nativeElement.querySelector('#roles')).val();
-      for (let index = 0; index < r.length; index++) {
-        r[index] = r[index].split("'")[1];
-      }
-      this.form.controls['rol'].setValue(r)
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
+      // let r = $(this.el.nativeElement.querySelector('#roles')).val();
+      // for (let index = 0; index < r.length; index++) {
+      //   r[index] = r[index].split("'")[1];
+      // }
+      // this.form.controls['rol'].setValue(r)
+      // if (!this.form.valid) {
+      //   Swal.fire({
+      //     text: "Validar la información proporcionada.", icon: 'warning'
+      //   });
+      //   return;
+      // }
       this.service.editar(this._id, this.form.value)
         .subscribe(res => {
           this.formSubmitted = false;
@@ -149,19 +177,19 @@ export class CrearComponent {
 
         });
     } else {
-      let r = $(this.el.nativeElement.querySelector('#roles')).val();
+      // let r = $(this.el.nativeElement.querySelector('#roles')).val();
 
-      for (let index = 0; index < r.length; index++) {
-        r[index] = r[index].split("'")[1];
-      }
+      // for (let index = 0; index < r.length; index++) {
+      //   r[index] = r[index].split("'")[1];
+      // }
 
-      this.form.controls['rol'].setValue(r);
-      if (!this.form.valid) {
-        Swal.fire({
-          text: "Validar la información proporcionada.", icon: 'warning'
-        });
-        return;
-      }
+      // this.form.controls['rol'].setValue(r);
+      // if (!this.form.valid) {
+      //   Swal.fire({
+      //     text: "Validar la información proporcionada.", icon: 'warning'
+      //   });
+      //   return;
+      // }
 
       const data: Usuario = this.form.value;
 

@@ -197,24 +197,30 @@
                             </b></h3>-->
                         <!-- <hr> -->
                         <!-- <div class="col-md-6"> -->
-
-                        <div class="form-group row m-b-15">
-                            <label class="col-6 col-form-label">Operación:</label>
-                            <div class="col-6">
-                                <!-- <input type="text" class="form-control" formControlName="monto_cancelar" readonly> -->
-
-
-                                <!-- <label for="" class="form-control-label"> Operación </label> -->
-                                <select class="form-control" formControlName="operacion">
-                                    <option value="">--Seleccionar--</option>
-                                    <option value="i">Ahorrar</option>
-                                    <option value="e">Retirar</option>
-                                </select>
+                        <div [ngClass]="{
+                                'has-success': validarSuccess('operacion'),
+                                'has-danger': validarError('operacion')
+                            }">
+                            <div class="form-group row m-b-15">
+                                <label class="col-6 col-form-label">Operación:</label>
+                                <div class="col-6">
+                                    <!-- <input type="text" class="form-control" formControlName="monto_cancelar" readonly> -->
 
 
 
+                                    <!-- <label for="" class="form-control-label"> Operación </label> -->
+                                    <select class="form-control" formControlName="operacion">
+                                        <option value="">--Seleccionar--</option>
+                                        <option value="i">Ahorrar</option>
+                                        <option value="e">Retirar</option>
+                                    </select>
+
+
+
+                                </div>
                             </div>
                         </div>
+
 
                         <div [ngClass]="{
                                 'has-success': validarSuccess('monto_recibido'),
@@ -253,7 +259,7 @@
                     </div> -->
 
                     <div class="text-right">
-                        <button type="button" (click)="realizarPago()" class="btn btn-danger waves-effect waves-light m-r-10">
+                        <button type="button" (click)="realizarPago()" class="btn btn-danger waves-effect waves-light m-r-10" [disabled]="disabled_button">
                             <i class="fa fa-print"></i>
                             &nbsp; Realizar pago
                         </button>

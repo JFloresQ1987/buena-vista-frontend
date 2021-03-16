@@ -77,7 +77,7 @@
                         <!--  // dni, apellidos, nombres, domicili -->
                         <tbody>
                             <tr class="clickable" *ngFor="let item of persona; let i = index" (click)="buscarSocioDni(item.documento_identidad)">
-                                <td class="text-center">{{i+1}}</td>
+                                <td class="text-center">{{ i + 1 + 10*(paginaActual-1) }}</td>
                                 <td>{{item.documento_identidad}}</td>
                                 <td>{{item.nombre}}</td>
                                 <td>{{item.apellido_paterno}}</td>
@@ -95,7 +95,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="!cargando">
                     <div class="col-sm-9" *ngIf="seleccion === 'nombre'">
                         <button (click)="cambiarPaginaNombre(nombre, -15)" class="btn btn-info" *ngIf="paginaActual!=1"><i class="fa fa-angle-left"></i>&nbsp;Anterior</button>&nbsp;
                         <button (click)="cambiarPaginaNombre(nombre,15)" class="btn btn-info" *ngIf="paginaActual!=totalPaginas">Siguiente&nbsp;&nbsp;<i

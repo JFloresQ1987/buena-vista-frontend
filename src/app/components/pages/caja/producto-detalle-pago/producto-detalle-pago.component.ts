@@ -31,6 +31,7 @@ export class ProductoDetallePagoComponent implements OnInit {
   // public modelo: OperaconFinancieraPago;
   public id_operacion_financiera: string;
   public sesionSocio: Socio;
+  public disabled_button: boolean = false;
   // public recibo;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -319,11 +320,14 @@ export class ProductoDetallePagoComponent implements OnInit {
   }
 
   realizarPago() {
-
+    
+    this.disabled_button = true;
+    
     if (this.listaCuotasPagar.length === 0) {
       Swal.fire({
         text: "Seleccionar al menos una cuota a pagar.", icon: 'warning'
       });
+      this.disabled_button = false;
       return;
     }
 
@@ -332,6 +336,7 @@ export class ProductoDetallePagoComponent implements OnInit {
       Swal.fire({
         text: "Validar la información proporcionada.", icon: 'warning'
       });
+      this.disabled_button = false;
       return;
     }
 
@@ -363,6 +368,7 @@ export class ProductoDetallePagoComponent implements OnInit {
         recibo.imprimirRecibo(res)
 
         this.cancelar();
+        this.disabled_button = false;
         // this.form.reset();
         // this.form.reset(this.form.value);
         // this.form.resetForm({resetType:ResetFormType.ControlsOnly});

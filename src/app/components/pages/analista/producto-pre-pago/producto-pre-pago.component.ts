@@ -22,11 +22,13 @@ export class ProductoPrePagoComponent implements OnInit {
 
   public lista = [];
   public listaPago = [];
+  public listaReporte = [];
   public cargando: boolean = true;
   public ultimo_monto_amortizacion: number = 0;
   public ultimo_monto_ahorro: number = 0;
   public tipos = [];
   private seguridad: Seguridad;
+  public analista: string;
 
   constructor(private service: OperacionFinancieraService,
     private serviceOperacionFinancieraPago: OperacionFinancieraPagoService,
@@ -47,7 +49,7 @@ export class ProductoPrePagoComponent implements OnInit {
 
     // this.listarProductos();
 
-    this.productoService.listar(true)
+    this.productoService.listar(false, true)
       .subscribe(res => {
         this.tipos = res;
       });
@@ -61,9 +63,10 @@ export class ProductoPrePagoComponent implements OnInit {
       .pipe(
         delay(100)
       )
-      .subscribe((res: []) => {
-
-        this.lista = res;
+      .subscribe((res: any) => {
+        // console.log(res)
+        this.lista = res.lista;
+        this.analista = res.analista;
         // this.productos = res.lista;
 
         if (this.lista.length > 0)
@@ -162,13 +165,67 @@ export class ProductoPrePagoComponent implements OnInit {
 
   cancelar() {
 
+    this.lista.forEach((item: any) => {
 
+      const amortizacion: any = document.getElementById(item.id + '_amortizacion');
+      const ahorro: any = document.getElementById(item.id + '_ahorro');
+
+      amortizacion.value = '';
+      ahorro.value = '';
+    });
+
+    const total_amortizacion: any = document.getElementById('total_amortizacion');
+    const total_ahorro: any = document.getElementById('total_ahorro');
+
+    total_amortizacion.value = '';
+    total_ahorro.value = '';
   }
 
-  verReporte() {
+  construirReporte() {
+
+    // this.construirReporte();
+
+    // this.listaReporte = [];
+
+    // let i = 0;
+
+    // this.lista.forEach((item: any) => {
+
+    //   const amortizacion: any = document.getElementById(item.id + '_amortizacion');
+    //   const ahorro: any = document.getElementById(item.id + '_ahorro');
+
+    //   if (Number(amortizacion.value) > 0 || Number(ahorro.value) > 0) {
+    //     i++;
+    //     this.listaReporte.push([
+    //       i,
+    //       item.persona.documento_identidad,
+    //       `${item.persona.apellido_paterno}  ${item.persona.apellido_materno}, ${item.persona.nombre}`,
+    //       item.producto.codigo,
+    //       item.producto.codigo_programacion,
+    //       Number(amortizacion.value).toFixed(2),
+    //       Number(ahorro.value).toFixed(2)
+    //     ])
+    //     // this.listaReporte.push([
+    //     //   numeracion: i,
+    //     //   documento_identidad: item.persona.documento_identidad,
+    //     //   socio: `${item.persona.apellido_paterno}  ${item.persona.apellido_materno}, ${ item.persona.nombre }`,
+    //     //   producto: item.producto.codigo,
+    //     //   programacion: item.producto.codigo_programacion,
+    //     //   monto_amortizacion: Number(amortizacion.value),
+    //     //   monto_ahorro_voluntario: Number(ahorro.value)
+    //     // ])
+    //   }
+    // });
+
+    if (this.listaReporte.length === 0) {
+      Swal.fire({
+        text: "No hay ningún pago pendiente de confirmación, guardar antes de ver reporte.", icon: 'warning'
+      });
+      return;
+    }
 
     const opciones: any = {
-      orientation: 'l',
+      orientation: 'p',
       unit: 'mm',
       format: 'a4'
       // format: [16, 16]
@@ -178,7 +235,10 @@ export class ProductoPrePagoComponent implements OnInit {
     var totalPagesExp = '{ total_pages_count_string }';
     const autoTablex: any = {
       styles: { halign: 'center' },
-      html: '#reporte',
+      // html: '#reporte',
+      head: [['#', 'N° Recibo', 'Fecha', 'DNI', 'Socio', 'Producto', 'Programación', 'Monto Amortizado', 'Ah. Voluntario']],
+      body: this.listaReporte,
+
       margin: { top: 30, bottom: 22.5 },
       startY: 50,
       // startY: 105,
@@ -437,6 +497,110 @@ export class ProductoPrePagoComponent implements OnInit {
     }
     else
       this.listarProductos(tipo);
+  }
+
+  verReporte() {
+
+    this.listaReporte = [];
+    // const analista = this.seguridadService.seguridad.id
+
+    // console.log(this.analista)
+
+    // let i = 0;
+
+    // this.lista.forEach((item: any) => {
+
+    //   const amortizacion: any = document.getElementById(item.id + '_amortizacion');
+    //   const ahorro: any = document.getElementById(item.id + '_ahorro');
+
+    //   if (Number(amortizacion.value) > 0 || Number(ahorro.value) > 0) {
+    //     i++;
+    //     this.listaReporte.push([
+    //       i,
+    //       item.persona.documento_identidad,
+    //       `${item.persona.apellido_paterno}  ${item.persona.apellido_materno}, ${item.persona.nombre}`,
+    //       item.producto.codigo,
+    //       item.producto.codigo_programacion,
+    //       Number(amortizacion.value).toFixed(2),
+    //       Number(ahorro.value).toFixed(2)
+    //     ])
+    //     // this.listaReporte.push([
+    //     //   numeracion: i,
+    //     //   documento_identidad: item.persona.documento_identidad,
+    //     //   socio: `${item.persona.apellido_paterno}  ${item.persona.apellido_materno}, ${ item.persona.nombre }`,
+    //     //   producto: item.producto.codigo,
+    //     //   programacion: item.producto.codigo_programacion,
+    //     //   monto_amortizacion: Number(amortizacion.value),
+    //     //   monto_ahorro_voluntario: Number(ahorro.value)
+    //     // ])
+    //   }
+    // });
+
+    // if (this.listaReporte.length === 0) {
+    //   Swal.fire({
+    //     text: "Ingresar al menos un monto a pagar.", icon: 'warning'
+    //   });
+    //   return;
+    // }
+
+    this.serviceOperacionFinancieraPago.listarPagos(this.analista)
+      // .pipe(
+      //   delay(100)
+      // )
+      .subscribe((res: []) => {
+
+        // this.listaReporte = res;
+        // console.log(res)
+
+        if (res.length > 0) {
+          // Swal.fire({
+          //   text: "No hay ningún pago pendiente de confirmación realizado.", icon: 'warning'
+          // });
+          // return;
+          // }
+
+          let i = 0;
+
+          res.forEach((item: any) => {
+
+            // const amortizacion: any = document.getElementById(item.id + '_amortizacion');
+            // const ahorro: any = document.getElementById(item.id + '_ahorro');
+
+            const monto_total = Number(item.producto.monto_ahorro_programado) +
+              Number(item.producto.monto_amortizacion_capital) +
+              Number(item.producto.monto_interes) +
+              Number(item.producto.monto_mora)
+
+            // if (Number(amortizacion.value) > 0 || Number(ahorro.value) > 0) {
+            i++;
+            this.listaReporte.push([
+              i,
+              item.recibo.numero,
+              item.recibo.fecha,
+              item.producto.documento_identidad_persona,
+              item.producto.nombre_persona,
+              item.producto.descripcion,
+              item.producto.descripcion_programacion,
+              Number(monto_total).toFixed(2),
+              Number(item.producto.monto_ahorro_voluntario).toFixed(2)
+            ])
+            // this.listaReporte.push([
+            //   numeracion: i,
+            //   documento_identidad: item.persona.documento_identidad,
+            //   socio: `${item.persona.apellido_paterno}  ${item.persona.apellido_materno}, ${ item.persona.nombre }`,
+            //   producto: item.producto.codigo,
+            //   programacion: item.producto.codigo_programacion,
+            //   monto_amortizacion: Number(amortizacion.value),
+            //   monto_ahorro_voluntario: Number(ahorro.value)
+            // ])
+            // }
+          });
+        }
+        // this.productos = res.lista;
+        // this.cargando = false;
+
+        this.construirReporte();
+      });
   }
 
 }

@@ -19,7 +19,7 @@ import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
-import { FormComponent } from './seguridad/gestion/analista/form.component';
+// import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
@@ -35,6 +35,10 @@ import { AhorroConsultaComponent } from './operaciones/ahorro-consulta/ahorro-co
 import { AhorroDetalleConsultaComponent } from './operaciones/ahorro-detalle-consulta/ahorro-detalle-consulta.component';
 import { ProductoHistoricoComponent } from './operaciones/producto-historico/producto-historico.component';
 import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detalle-historico/producto-detalle-historico.component';
+import { LibroDiarioIngresosComponent } from './caja/libro-diario-ingresos/libro-diario-ingresos.component';
+import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-diario-egresos.component';
+import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
+import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +57,8 @@ import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detall
     CajaComponent,
     CrearCajaComponent,
     AnalistaComponent,
-    FormComponent,
+    // FormComponent,
+    CrearAnalistaComponent,
     CierreCajaIndividualComponent,
     AhorroComponent,
     AhorroDetallePagoComponent,
@@ -70,7 +75,10 @@ import { ProductoDetalleHistoricoComponent } from './operaciones/producto-detall
     AhorroConsultaComponent,
     AhorroDetalleConsultaComponent,
     ProductoHistoricoComponent,
-    ProductoDetalleHistoricoComponent
+    ProductoDetalleHistoricoComponent,
+    LibroDiarioIngresosComponent,
+    LibroDiarioEgresosComponent,
+    SaldoCreditoComponent
   ],
   exports: [
     PagesComponent,
