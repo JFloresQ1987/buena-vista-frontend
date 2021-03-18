@@ -17,7 +17,6 @@ import { ProductoDetallePagoComponent } from './caja/producto-detalle-pago/produ
 import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component'
-// import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
@@ -83,12 +82,6 @@ const childRoutes: Routes = [
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Detalle Analista', roles: ["Administrador"] }
   },
-  // {
-  //   path: 'seguridad/gestion/analista/:id',
-  //   component: FormComponent,
-  //   canActivate: [AuthorizationGuard],
-  //   data: { modulo: 'Seguridad', menu: 'Gestión', item: 'Detalle Analista', roles: ["Administrador"] }
-  // },
   {
     path: 'seguridad/gestion/caja',
     component: CajaComponent,

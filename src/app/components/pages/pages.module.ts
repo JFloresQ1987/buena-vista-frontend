@@ -19,7 +19,6 @@ import { CajaComponent } from './seguridad/gestion/caja/caja.component';
 import { CrearCajaComponent } from './seguridad/gestion/caja/crear/crear.component';
 import { AnalistaComponent } from './seguridad/gestion/analista/analista.component';
 import { CierreCajaIndividualComponent } from './caja/cierre-caja-individual/cierre-caja-individual.component';
-// import { FormComponent } from './seguridad/gestion/analista/form.component';
 import { AhorroComponent } from './registro/ahorro/ahorro.component';
 import { AhorroDetallePagoComponent } from './caja/ahorro-detalle-pago/ahorro-detalle-pago.component';
 import { IngresosEgresosComponent } from './caja/gestion/ingresos-egresos/ingresos-egresos.component';
@@ -58,7 +57,6 @@ import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/p
     CajaComponent,
     CrearCajaComponent,
     AnalistaComponent,
-    // FormComponent,
     CrearAnalistaComponent,
     CierreCajaIndividualComponent,
     AhorroComponent,
