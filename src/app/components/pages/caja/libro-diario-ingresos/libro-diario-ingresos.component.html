@@ -70,7 +70,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of lista; let i = index">
-                                <td class="align-table text-center font-table">{{ i + 1 + 10*(paginaActual-1) }}</td>
+                                <td class="align-table text-center font-table">{{ i + 1 + 50*(paginaActual-1) }}</td>
 
                                 <ng-template [ngIf]="item.recibo.estado==='Vigente'">
                                     <td class="align-table text-center font-table">

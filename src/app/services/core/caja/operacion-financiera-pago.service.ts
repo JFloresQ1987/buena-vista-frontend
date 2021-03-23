@@ -191,4 +191,12 @@ export class OperacionFinancieraPagoService {
       );
   }
 
+  listarRecibosPreVigentesPorAnalista(id_analista: string) {
+
+    return this.http.get(`${base_url}/operacion-financiera-pago/listar-recibos-previgentes/${id_analista}`)
+      .pipe(
+        map((res: { ok: boolean, lista: [] }) => res.lista)
+      );
+  }
+
 }

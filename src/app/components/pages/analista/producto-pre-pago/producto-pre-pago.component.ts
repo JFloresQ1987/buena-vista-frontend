@@ -158,13 +158,31 @@ export class ProductoPrePagoComponent implements OnInit {
               text: 'Los pagos se realizaron satisfactoriamente.', icon: 'success'
             });
 
+            this.cancelar();
+
           });
       }
     })
   }
 
+  // limpiarPago(){
+
+  //   this.listaPago = [];
+
+  //   this.lista.forEach((item: any) => {
+
+  //     const amortizacion: any = document.getElementById(item.id + '_amortizacion');
+  //     const ahorro: any = document.getElementById(item.id + '_ahorro');
+
+  //     amortizacion.value == '';
+  //     ahorro.value == '';
+  //   });
+  // }
+
   cancelar() {
 
+    this.listaPago = [];
+    
     this.lista.forEach((item: any) => {
 
       const amortizacion: any = document.getElementById(item.id + '_amortizacion');
@@ -543,7 +561,7 @@ export class ProductoPrePagoComponent implements OnInit {
     //   return;
     // }
 
-    this.serviceOperacionFinancieraPago.listarPagos(this.analista)
+    this.serviceOperacionFinancieraPago.listarRecibosPreVigentesPorAnalista(this.analista)
       // .pipe(
       //   delay(100)
       // )
