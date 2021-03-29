@@ -32,12 +32,12 @@
 
 .label-cpp {
     color: #ffffff;
-    background-color: #66FF33;
+    background-color: #06d79c;
 }
 
 .label-deficiente {
     color: #ffffff;
-    background-color: #FF9900;
+    background-color: #ffb22b;
 }
 
 .label-dudoso {
@@ -47,5 +47,5 @@
 
 .label-perdida {
     color: #ffffff;
-    background-color: Red;
+    background-color: #ef5350;
 }

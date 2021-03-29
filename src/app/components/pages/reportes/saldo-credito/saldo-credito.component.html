@@ -3,7 +3,7 @@
 <!-- ============================================================== -->
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <div class="card">
             <div class="card-body">
                 <form class="form-horizontal" [formGroup]="form" (submit)=consultarReporte()>
@@ -42,7 +42,7 @@
                             </button>
                             <button type="submit" class="btn btn-info waves-effect waves-light">
                                 <i class="fa fa-search"></i>
-                                &nbsp; Consultar reporte
+                                &nbsp; Consultar
                             </button>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6" *ngIf="!cargando">
+    <div class="col-4" *ngIf="!cargando">
         <div class="card">
             <div class="card-body">
                 <div class="table-resumen m-t-20">
@@ -64,23 +64,31 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="align-table text-left font-table">CPP</td>
+                                <td class="align-table text-left font-table">
+                                    <span class="label label-success">CPP</span>
+                                </td>
                                 <td class="align-table text-right font-table">{{ resumen.total_monto_cpp }}</td>
                                 <td class="align-table text-right font-table">{{ resumen.total_porcentaje_cpp }}</td>
                             </tr>
                             <tr>
-                                <td class="align-table text-left font-table">Deficiente</td>
+                                <td class="align-table text-left font-table">
+                                    <span class="label label-warning">Deficiente</span>
+                                </td>
                                 <td class="align-table text-right font-table">{{ resumen.total_monto_deficiente }}</td>
                                 <td class="align-table text-right font-table">{{ resumen.total_porcentaje_deficiente }}
                                 </td>
                             </tr>
                             <tr>
-                                <td class="align-table text-left font-table">Dudoso</td>
+                                <td class="align-table text-left font-table">
+                                    <span class="label label-dudoso">Dudoso</span>
+                                </td>
                                 <td class="align-table text-right font-table">{{ resumen.total_monto_dudoso }}</td>
                                 <td class="align-table text-right font-table">{{ resumen.total_porcentaje_dudoso }}</td>
                             </tr>
                             <tr>
-                                <td class="align-table text-left font-table">Pérdida</td>
+                                <td class="align-table text-left font-table">
+                                    <span class="label label-danger">Pérdida</span>
+                                </td>
                                 <td class="align-table text-right font-table">{{ resumen.total_monto_perdida }}</td>
                                 <td class="align-table text-right font-table">{{ resumen.total_porcentaje_perdida }}
                                 </td>
@@ -97,6 +105,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-4" *ngIf="!cargando">
+        <app-doughnut-chart [labels]="labels" [data]="data" [colors]="colors">
+        </app-doughnut-chart>
     </div>
 </div>
 

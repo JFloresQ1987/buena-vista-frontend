@@ -18,6 +18,15 @@ export class SaldoCreditoComponent implements OnInit {
   public analistas: [] = [];
   public form: FormGroup;
 
+  public labels = ['CPP', 'Deficiente', 'Dudoso', 'Pérdida'];
+  public data = [];
+  // public data = [
+  //   [350, 450, 100, 50],
+  // ];
+  public colors = [
+    { backgroundColor: ['#06d79c', '#ffb22b', '#ea4c89', '#ef5350'] }
+  ];
+
   constructor(private service: ReporteService,
     private analistaService: AnalistaService,
     private formBuilder: FormBuilder) { }
@@ -73,6 +82,14 @@ export class SaldoCreditoComponent implements OnInit {
         this.lista = res.lista;
         this.resumen = res.resumen;
         // this.productos = res.lista;
+
+        this.data = [[
+          this.resumen.total_monto_cpp,
+          this.resumen.total_monto_deficiente,
+          this.resumen.total_monto_dudoso,
+          this.resumen.total_monto_perdida,
+        ]];
+
         this.cargando = false;
 
         // this.operaconFinancieraDetalle = res;

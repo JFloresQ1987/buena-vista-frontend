@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './inicio/dashboard/dashboard.component';
 import { UsuarioComponent } from './seguridad/gestion/usuario/usuario.component';
 import { RolComponent } from './seguridad/gestion/rol/rol.component';
 import { SharedModule } from '../shared/shared.module';
-import { RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { OperacionFinancieraComponent } from './registro/operacion-financiera/operacion-financiera.component';
 import { SocioComponent } from './registro/socio/socio.component';
@@ -39,6 +39,7 @@ import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-d
 import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
 import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
 import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/producto-retiro-ahorros.component';
+import { CommonsModule } from '../commons/commons.module';
 
 @NgModule({
   declarations: [
@@ -87,14 +88,15 @@ import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/p
     RolComponent,
     CajaComponent,
     SocioComponent,
-    OperacionFinancieraComponent
+    OperacionFinancieraComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
+    CommonsModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,    
   ]
 })
 export class PagesModule { }
