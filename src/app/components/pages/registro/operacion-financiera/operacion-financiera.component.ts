@@ -232,15 +232,16 @@ export class OperacionFinancieraComponent implements OnInit {
         fecha = now.add((i * 14), 'day');
       else if (tipo.codigo === "PEX")
         fecha = now.add((i), 'month');
-      else if (tipo.codigo === "BC" && programacion.tipo_pago === "semanal")
+      else if ((tipo.codigo === "BC" || tipo.codigo === "BCI") && programacion.tipo_pago === "semanal")
         fecha = now.add((i * 7), 'day');
-      else if (tipo.codigo === "BC" && programacion.tipo_pago === "quincenal")
+      else if ((tipo.codigo === "BC" || tipo.codigo === "BCI") && programacion.tipo_pago === "quincenal")
         fecha = now.add((i * 14), 'day');
 
       if (((fecha.format('d') != '0' || this.form.get('incluir_domingos').value) && tipo.codigo === "CD")
         // || (fecha.format('d') != '6' && !this.form.get('incluir_sabados').value && this.form.get('tipo').value == 1))
         || tipo.codigo === "CP"
         || tipo.codigo === "PEX"
+        || tipo.codigo === "BCI"
         || tipo.codigo === "BC") {
 
         if ((((fecha.format('d') != '6'
@@ -248,6 +249,7 @@ export class OperacionFinancieraComponent implements OnInit {
           && tipo.codigo === "CD"))
           || tipo.codigo === "CP"
           || tipo.codigo === "PEX"
+          || tipo.codigo === "BCI"
           || tipo.codigo === "BC") {
 
           if (fecha.format('d') == '0' && !this.form.get('incluir_domingos').value)
@@ -320,7 +322,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // const monto_cuota_capital = (capital * 0.1 * 0.625);
     let monto_cuota_capital = 0;
 
-    if (tipo.codigo === "BC")
+    if (tipo.codigo === "BC" || tipo.codigo === "BCI")
       monto_cuota_capital = (capital * 10 * 62.5) / 10000
     else
       monto_cuota_capital = capital / cantidad_cuotas_calculada;
@@ -331,7 +333,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // const monto_cuota_interes = (capital * (tasa_interes / 100)) / cantidad_cuotas_calculada;
     let monto_cuota_interes = 0;
 
-    if (tipo.codigo === "BC")
+    if (tipo.codigo === "BC" || tipo.codigo === "BCI")
       monto_cuota_interes = (capital * 10 * 10) / 10000;
     else if (tipo.codigo === "CP" && programacion.tipo_pago === "semanal")
       monto_cuota_interes = ((capital * (cantidad_cuotas_calculada / 4) * tasa_interes) / 100) / cantidad_cuotas_calculada;
@@ -343,7 +345,7 @@ export class OperacionFinancieraComponent implements OnInit {
     // const monto_cuota_interes_visual = Math.round(monto_cuota_interes * 100) / 100;
     let monto_cuota = 0;
 
-    if (tipo.codigo === "BC")
+    if (tipo.codigo === "BC" || tipo.codigo === "BCI")
       monto_cuota = Math.ceil((monto_cuota_capital + monto_cuota_interes) * 100) / 100;
     else {
       monto_cuota = Math.ceil((monto_cuota_capital + monto_cuota_interes) * 10) / 10;
@@ -354,7 +356,7 @@ export class OperacionFinancieraComponent implements OnInit {
     const monto_cuota_interes_visual = Math.round(monto_cuota_interes * 100) / 100;
     let monto_cuota_ahorro_programado = 0;
 
-    if (tipo.codigo === "BC")
+    if (tipo.codigo === "BC" || tipo.codigo === "BCI")
       monto_cuota_ahorro_programado = Math.ceil(((capital * 10 * 27.5) / 10000) * 100) / 100;
     else
       monto_cuota_ahorro_programado = Math.ceil(((monto_cuota * tasa_ahorro_programado) / 100) * 10) / 10;
