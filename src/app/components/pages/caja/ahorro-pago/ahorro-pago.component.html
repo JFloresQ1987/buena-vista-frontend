@@ -32,9 +32,15 @@
                     </p>
                 </h4>
                 <!-- <p class="ribbon-content">Duis mollis, est non commodo luctus, nisi erat porttitor ligula</p> -->
-                <button [routerLink]="['/caja/pago/ahorro-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">
+                <button *ngIf="!item.es_congelado" [routerLink]="['/caja/pago/ahorro-detalle-caja', item.id]" class="btn btn-{{ item.producto.color }}">
                     <i class="fa fa-eye"></i> &nbsp; Ver detalle
                 </button>
+
+                <button *ngIf="item.es_congelado" (click)="ver_situacion()" type="button" class="btn btn-danger">
+                    <i class="fa fa-lock"></i>
+                    &nbsp; Congelado
+                </button>
+
                 <!-- <button *ngIf="!item.desembolso.se_desembolso_prestamo" (click)="realizarDesembolsoPago(item.id)" class="btn btn-danger">
                     <i class="fa fa-money"></i> &nbsp; Desembolsar producto
                 </button> -->

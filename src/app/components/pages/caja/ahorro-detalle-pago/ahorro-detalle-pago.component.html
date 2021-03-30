@@ -205,22 +205,18 @@
                                 <label class="col-6 col-form-label">Operación:</label>
                                 <div class="col-6">
                                     <!-- <input type="text" class="form-control" formControlName="monto_cancelar" readonly> -->
-
-
-
                                     <!-- <label for="" class="form-control-label"> Operación </label> -->
-                                    <select class="form-control" formControlName="operacion">
+                                    <select class="form-control" [ngClass]="{
+                                        'form-control-success': validarSuccess('operacion'),
+                                        'form-control-danger': validarError('operacion')
+                                    }" formControlName="operacion">
                                         <option value="">--Seleccionar--</option>
                                         <option value="i">Ahorrar</option>
                                         <option value="e">Retirar</option>
                                     </select>
-
-
-
                                 </div>
                             </div>
                         </div>
-
 
                         <div [ngClass]="{
                                 'has-success': validarSuccess('monto_recibido'),

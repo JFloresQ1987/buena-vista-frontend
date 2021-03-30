@@ -58,6 +58,7 @@ export class AhorroPagoComponent implements OnInit {
       .subscribe((res: []) => {
 
         this.productos = res;
+        console.log(this.productos)
         // this.productos = res.lista;
         this.cargando = false;
 
@@ -174,5 +175,12 @@ export class AhorroPagoComponent implements OnInit {
     // doc.output('datauristring');        //returns the data uri string
     // doc.output('datauri');              //opens the data uri in current window
     // doc.output('dataurlnewwindow');     //opens the data uri in new window
+  }
+
+  ver_situacion(){
+
+    Swal.fire({
+      text: 'Cuenta congelada, coordinar con el administrador.', icon: 'warning'
+    });
   }
 }

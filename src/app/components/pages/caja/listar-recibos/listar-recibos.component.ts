@@ -3,6 +3,7 @@ import { OperacionFinancieraPagoService } from '../../../../services/core/caja/o
 import Swal from 'sweetalert2';
 import { AnalistaService } from '../../../../services/core/registro/analista.service';
 import { UsuarioService } from '../../../../services/core/registro/usuario.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-listar-recibos',
@@ -15,22 +16,31 @@ export class ListarRecibosComponent implements OnInit {
   public lista: [];
   public analistas: [] = [];
   public analista: string = '0';
+  public form: FormGroup;
+  public formSubmitted = false;
 
   constructor(private service: OperacionFinancieraPagoService,
     private analistaService: AnalistaService,
-    private usuarioService: UsuarioService,
-    private operacionFinancieraPagoService: OperacionFinancieraPagoService) { }
+    // private usuarioService: UsuarioService,
+    private operacionFinancieraPagoService: OperacionFinancieraPagoService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
 
+    this.cargarAnalistas();
+
+    this.form = this.formBuilder.group({
+      analista_confirmar: ['', [Validators.required]]
+    });
+
     this.listarRecibos('0');
+  }
+
+  cargarAnalistas() {
 
     this.analistaService.getListaDesplegable().subscribe(res => {
       this.analistas = res;
     })
-    // this.usuarioService.listarxrol("Analista").subscribe(res => {
-    //   this.analistas = res['usuarios'];
-    // })
   }
 
   listarRecibos(analista: string) {
@@ -203,14 +213,28 @@ export class ListarRecibosComponent implements OnInit {
 
     // console.log(this.lista)
 
+    this.formSubmitted = true;
+
+    if (!this.form.valid) {
+      return Swal.fire({
+        text: "Es necesario seleccionar un analista.", icon: 'warning'
+      })
+    }
+
+    if (this.lista.length == 0) {
+      return Swal.fire({
+        text: "Para este analista, no existen pagos a confirmar.", icon: 'warning'
+      })
+    }
+
     Swal.fire({
       // title: '¿Esta seguro de realizar el desembolso?',
-      text: "¿Esta seguro de confirmar el pago?",
+      text: "¿Esta seguro de confirmar los pagos?",
       icon: 'warning',
       showCancelButton: true,
       // confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, confirmar pago',
+      confirmButtonText: 'Si, confirmar pagos',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -222,7 +246,7 @@ export class ListarRecibosComponent implements OnInit {
           .subscribe(res => {
 
             Swal.fire({
-              text: 'La confirmación del pago se realizó satisfactoriamente.', icon: 'success'
+              text: 'La confirmación de los pagos se realizó satisfactoriamente.', icon: 'success'
             });
 
             // this.listarProductos();
@@ -231,6 +255,33 @@ export class ListarRecibosComponent implements OnInit {
           });
       }
     })
+  }
+
+  validarCampo(campo: string, validar: string): boolean {
+
+    if (this.form.get(campo).hasError(validar) &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarError(campo: string): boolean {
+
+    if (this.form.get(campo).invalid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
+  }
+
+  validarSuccess(campo: string): boolean {
+
+    if (this.form.get(campo).valid &&
+      (this.formSubmitted || this.form.get(campo).touched))
+      return true;
+    else
+      return false;
   }
 
 }
