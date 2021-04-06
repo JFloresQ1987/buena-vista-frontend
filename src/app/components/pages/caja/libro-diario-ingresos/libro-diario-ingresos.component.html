@@ -107,14 +107,14 @@
                                     {{ item.producto.bancomunal.descripcion }}</td>
                                 <td class="align-table font-table w100">
                                     {{ item.producto.nombre_analista }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_amortizacion_capital }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_interes }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_programado }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_voluntario }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_ahorro_inicial }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_gasto }}</td>
-                                <td class="align-table font-table w100">{{ item.producto.monto_mora }}</td>
-                                <td class="align-table font-table w100">{{ item.recibo.monto_total }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_amortizacion_capital.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_interes.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_ahorro_programado.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_ahorro_voluntario.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_ahorro_inicial.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_gasto.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.producto.monto_mora.toFixed(2) }}</td>
+                                <td class="align-table text-right font-table w100">{{ item.recibo.monto_total.toFixed(2) }}</td>
 
                                 <!-- <td class="text-nowrap text-center font-table w100">
                                     <a *ngIf="item.recibo.estado!='Anulado'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">

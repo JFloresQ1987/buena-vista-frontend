@@ -43,10 +43,10 @@
                                 <td class="text-center">{{ i + 1 + 10*(paginaActual-1) }}</td>
                                 <td class="text-center">{{ item.apertura.fecha_apertura }}</td>
                                 <td class="text-center">{{ item.cierre.fecha_cierre }}</td>
-                                <td>{{ item.cantidad_operaciones }}</td>
-                                <td>{{item.monto_total_apertura.toFixed(1)}} </td>
-                                <td>{{item.monto_total_operaciones.toFixed(1)}} </td>
-                                <td>{{item.monto_total_efectivo.toFixed(1)}} </td>
+                                <td class="text-right">{{ item.cantidad_operaciones }}</td>
+                                <td class="text-right">{{item.monto_total_apertura.toFixed(1)}} </td>
+                                <td class="text-right">{{item.monto_total_operaciones.toFixed(1)}} </td>
+                                <td class="text-right">{{item.monto_total_efectivo.toFixed(1)}} </td>
                                 <!-- <td>{{item.estado}} </td> -->
                                 <td class="text-center" *ngIf="item.estado == 'Cerrado'  ">
                                     <span class="label label-danger">{{ item.estado}} </span>

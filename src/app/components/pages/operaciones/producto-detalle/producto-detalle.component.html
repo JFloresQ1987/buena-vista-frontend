@@ -367,7 +367,7 @@
                                     {{ cuota.monto_cuota }}
                                 </td>
                                 <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
-                                    0
+                                    {{ cuota.monto_cuota_pagada }}
                                 </td>
                                 <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
                                     {{ cuota.monto_ahorro_voluntario }}
@@ -375,17 +375,24 @@
                                 <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
                                     {{ cuota.monto_mora }}
                                 </td>
+
                                 <td *ngIf="cuota.numero_cuota > 0" class="text-center font-table">
                                     <span *ngIf="cuota.estado == 'Pagado'" class="label label-success">{{ cuota.estado
                                         }}</span>
                                     <span *ngIf="
+                      cuota.estado == 'Amortizado'
+                    " class="label label-danger">{{ cuota.estado }}</span>
+                                    <!-- <span *ngIf="
                       cuota.estado == 'Amortizado' &&
                       validarFechaCuota(cuota.fecha_cuota)
-                    " class="label label-danger">{{ cuota.estado }}</span>
+                    " class="label label-danger">{{ cuota.estado }}</span> -->
                                     <span *ngIf="
+                      cuota.estado == 'Pendiente'
+                    " class="label label-warning">{{ cuota.estado }}</span>
+                                    <!-- <span *ngIf="
                       cuota.estado == 'Pendiente' &&
                       !validarFechaCuota(cuota.fecha_cuota)
-                    " class="label label-warning">{{ cuota.estado }}</span>
+                    " class="label label-warning">{{ cuota.estado }}</span> -->
                                     <!-- <ng-template #pasado_fecha>
                     <span class="label label-warning">{{ cuota.estado }}</span>
                                     </ng-template> -->
@@ -456,7 +463,8 @@
                                                 <small class="form-control-feedback">
                                                     <p *ngIf="validarCampo('cuota_pago_capital', 'required')">El capital
                                                         es un dato obligatorio.</p>
-                                                    <p *ngIf="validarCampo('cuota_pago_capital', 'maxlength')">Ingrese un monto de capital
+                                                    <p *ngIf="validarCampo('cuota_pago_capital', 'maxlength')">Ingrese
+                                                        un monto de capital
                                                         correcto.</p>
                                                 </small>
                                             </div>
@@ -471,7 +479,8 @@
                                                 <small class="form-control-feedback">
                                                     <p *ngIf="validarCampo('cuota_pago_interes', 'required')">El interés
                                                         es un dato obligatorio.</p>
-                                                    <p *ngIf="validarCampo('cuota_pago_interes', 'maxlength')">Ingrese un monto de interés
+                                                    <p *ngIf="validarCampo('cuota_pago_interes', 'maxlength')">Ingrese
+                                                        un monto de interés
                                                         correcto.</p>
                                                 </small>
                                             </div>
@@ -487,9 +496,11 @@
                                                 </label>
                                                 <input type="text" class="form-control" [ngClass]="validarSuccess('cuota_ahorro_programado') ? 'form-control-success' : 'form-control-danger'" formControlName="cuota_ahorro_programado" maxlength="10">
                                                 <small class="form-control-feedback">
-                                                    <p *ngIf="validarCampo('cuota_ahorro_programado', 'required')">El ahorro programado
+                                                    <p *ngIf="validarCampo('cuota_ahorro_programado', 'required')">El
+                                                        ahorro programado
                                                         es un dato obligatorio.</p>
-                                                    <p *ngIf="validarCampo('cuota_ahorro_programado', 'maxlength')">Ingrese un monto de ahorro programado
+                                                    <p *ngIf="validarCampo('cuota_ahorro_programado', 'maxlength')">
+                                                        Ingrese un monto de ahorro programado
                                                         correcto.</p>
                                                 </small>
                                             </div>
@@ -504,7 +515,8 @@
                                                 <small class="form-control-feedback">
                                                     <p *ngIf="validarCampo('cuota_pago_mora', 'required')">La mora
                                                         es un dato obligatorio.</p>
-                                                    <p *ngIf="validarCampo('cuota_pago_mora', 'maxlength')">Ingrese un monto de mora
+                                                    <p *ngIf="validarCampo('cuota_pago_mora', 'maxlength')">Ingrese un
+                                                        monto de mora
                                                         correcto.</p>
                                                 </small>
                                             </div>
