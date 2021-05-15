@@ -37,7 +37,9 @@ export class ProductoDetalleComponent implements OnInit {
   public totalPagoCapital: number = 0;
   public totalPagoInteres: number = 0.0;
   public totalAhorroProgramado: number = 0;
-  public totalCuota: number = 0;
+  // public totalCuota: number = 0;
+  public totalCuota_k_i: number = 0;
+  public totalCuota_pendiente: number = 0;
   public totalCuotaPagada: number = 0;
   public totalAhorroVoluntario: number = 0;
   public totalPagoMora: number = 0;
@@ -303,7 +305,9 @@ export class ProductoDetalleComponent implements OnInit {
     this.totalPagoCapital = 0;
     this.totalPagoInteres = 0;
     this.totalAhorroProgramado = 0;
-    this.totalCuota = 0;
+    // this.totalCuota = 0;
+    this.totalCuota_k_i = 0;
+    this.totalCuota_pendiente = 0;
     this.totalCuotaPagada = 0;
     this.totalAhorroVoluntario = 0;
     this.totalPagoMora = 0;
@@ -312,7 +316,8 @@ export class ProductoDetalleComponent implements OnInit {
         this.totalPagoCapital += parseFloat(cuota['monto_amortizacion_capital_2']);
         this.totalPagoInteres += parseFloat(cuota['monto_interes_2']);
         this.totalAhorroProgramado += parseFloat(cuota['monto_ahorro_programado_2']);
-        this.totalCuota += parseFloat(cuota['monto_cuota_2']);
+        this.totalCuota_k_i += parseFloat(cuota['monto_amortizacion_capital_2']) + parseFloat(cuota['monto_interes_2']);
+        this.totalCuota_pendiente += parseFloat(cuota['monto_cuota_2']);
         this.totalCuotaPagada += parseFloat(cuota['monto_cuota_pagada']);
         this.totalAhorroVoluntario += parseFloat(cuota['monto_ahorro_voluntario']);
         this.totalPagoMora += parseFloat(cuota['monto_pago_mora']);

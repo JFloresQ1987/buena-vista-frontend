@@ -410,16 +410,16 @@
                                 <td>{{ totalPagoCapital.toFixed(2) }}</td>
                                 <td>{{ totalPagoInteres.toFixed(2) }}</td>
                                 <td>{{ totalAhorroProgramado.toFixed(2) }}</td>
-                                <td>{{ totalCuota.toFixed(2) }}</td>
-                                <td>{{ totalCuotaPagada }}</td>
-                                <td>{{ totalAhorroVoluntario }}</td>
-                                <td>{{ totalPagoMora }}</td>
+                                <td>{{ totalCuota_pendiente.toFixed(2) }}</td>
+                                <td>{{ totalCuotaPagada.toFixed(2) }}</td>
+                                <td>{{ totalAhorroVoluntario.toFixed(2) }}</td>
+                                <td>{{ totalPagoMora.toFixed(2) }}</td>
                                 <td></td>
                                 <td></td>
                             </tr>
                             <tr style="font-weight: bold; text-align: center">
                                 <td colspan="6">Total pendiente (S/.)</td>
-                                <td>{{+totalCuota.toFixed(2) - totalCuotaPagada}}</td>
+                                <td>{{(+totalCuota_pendiente - totalCuotaPagada).toFixed(2)}}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -428,7 +428,7 @@
                             <tr style="font-weight: bold; text-align: center">
                                 <td colspan="6">Saldo liquidado (S/.)</td>
                                 <td>
-                                    {{+totalCuota.toFixed(2) - totalCuotaPagada - totalAhorroVoluntario - operaconFinanciera.monto_ahorro_inicial}}
+                                    {{(+totalCuota_k_i - totalCuotaPagada - totalAhorroVoluntario - operaconFinanciera.monto_ahorro_inicial).toFixed(2)}}
                                 </td>
                                 <td></td>
                                 <td></td>

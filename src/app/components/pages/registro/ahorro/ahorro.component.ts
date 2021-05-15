@@ -69,10 +69,10 @@ export class AhorroComponent implements OnInit {
       tipo: ['', [Validators.required]],
       programacion_pago: [''],
       analista: ['', [Validators.required]],
-      tasa_interes_ganado: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      monto_ahorro_voluntario: ['', [Validators.required, Validators.min(1), Validators.maxLength(10)]],
-      monto_gasto: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
-      monto_interes: ['', [Validators.required, Validators.min(0), Validators.maxLength(10)]],
+      tasa_interes_ganado: ['', [Validators.required, Validators.minLength(0), Validators.maxLength(10)]],
+      monto_ahorro_voluntario: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]],
+      monto_gasto: ['', [Validators.required, Validators.minLength(0), Validators.maxLength(10)]],
+      monto_interes: ['', [Validators.required, Validators.minLength(0), Validators.maxLength(10)]],
       comentario: ['', [Validators.required, Validators.maxLength(200)]]
     });
 
