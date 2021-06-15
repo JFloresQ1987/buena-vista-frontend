@@ -1,10 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-./src/assets/config.dev.json
-./src/assets/config.prod.json
+src/assets/config.dev.json
+src/assets/config.prod.json
 
 # variables environments
-/environments
+src/environments
 
 # compiled output
 /dist
