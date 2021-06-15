@@ -300,7 +300,6 @@ export class CierreCajaIndividualComponent {
         // Header
         // =============================================================================
         var img = new Image();
-        // img.src = 'http://localhost:3000/api/upload/buenavista-logo.png'
         img.src = `${environment.base_url}/upload/buenavista-logo.png`
         if (img.src) {
           doc.addImage(img, /* 'PNG', */ data.settings.margin.right + 110, 5, 70, 20);
