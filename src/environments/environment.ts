@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
+  name: 'dev',
   // base_url: 'http://192.168.0.28:3000/api'
-  base_url: 'http://192.168.1.105:3000/api'
+  base_url: 'http://192.168.1.105:3000/api',
   // base_url: 'http://192.168.1.106:3000/api'
 };
 

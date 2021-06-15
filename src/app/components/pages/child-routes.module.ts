@@ -38,6 +38,7 @@ import { LibroDiarioEgresosComponent } from './caja/libro-diario-egresos/libro-d
 import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.component';
 import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
 import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/producto-retiro-ahorros.component';
+import { AhorroPrePagoComponent } from './analista/ahorro-pre-pago/ahorro-pre-pago.component';
 
 
 const childRoutes: Routes = [
@@ -202,6 +203,12 @@ const childRoutes: Routes = [
     component: ProductoPrePagoComponent,
     canActivate: [AuthorizationGuard],
     data: { modulo: 'Analista', menu: 'Gestión', item: 'Recaudación', roles: ["Administrador", "Analista"] }
+  },
+  {
+    path: 'analista/gestion/ahorro-pre-pago',
+    component: AhorroPrePagoComponent,
+    canActivate: [AuthorizationGuard],
+    data: { modulo: 'Analista', menu: 'Gestión', item: 'Recaudación de Ahorros', roles: ["Administrador", "Analista"] }
   },
   {
     path: 'analista/gestion/reporte-pago-analista',

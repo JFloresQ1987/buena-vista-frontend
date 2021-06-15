@@ -19,6 +19,10 @@ export class ProductoRetiroAhorrosComponent implements OnInit {
   public socio: Socio;
   public productos = [];
   public cargando: boolean = true;
+  monto_ahorro_inicial: number = 0;
+  monto_ahorro_programado: number = 0;
+  monto_ahorro_voluntario: number = 0;
+
 
   constructor(private service: OperacionFinancieraService,
     private sesionSocioService: SesionSocioService,
@@ -52,7 +56,7 @@ export class ProductoRetiroAhorrosComponent implements OnInit {
     }
 
     this.service.obtenerProductosConAhorrosPorPersona(this.socio.id)
-    // this.service.listarProductos(this.socio.id, 'credito', 'todos')
+      // this.service.listarProductos(this.socio.id, 'credito', 'todos')
       // .pipe(
       //   delay(100)
       // )
@@ -138,6 +142,10 @@ export class ProductoRetiroAhorrosComponent implements OnInit {
 
         // console.log(res)
 
+        this.monto_ahorro_inicial = res.monto_ahorro_inicial ??= 0;
+        this.monto_ahorro_programado = res.monto_ahorro_programado ??= 0;
+        this.monto_ahorro_voluntario = res.monto_ahorro_voluntario ??= 0;
+
         let controls = '';
 
         // controls += '<label>Ahorro inicial: '+ res.monto_ahorro_inicial +'</label><input type="text" class="form-control">';
@@ -145,23 +153,23 @@ export class ProductoRetiroAhorrosComponent implements OnInit {
         // controls += '<br><label>Ahorro voluntario: '+ res.monto_ahorro_voluntario +'</label><input type="text" class="form-control">';
 
         controls += '<div class="form-group row">'
-        controls += '<label class="col-8 col-form-label text-left">Ah. inicial: S/. ' + res.monto_ahorro_inicial.toFixed(2) + '</label>'
+        controls += '<label class="col-8 col-form-label text-left">Ah. inicial: S/. ' + this.monto_ahorro_inicial.toFixed(1) + '</label>'
         controls += '<div class="col-md-4">'
-        controls += '<input type="text" id="monto_retiro_ahorro_inicial" class="form-control" value=' + res.monto_ahorro_inicial.toFixed(2) + ' disabled>'
+        controls += '<input type="text" id="monto_retiro_ahorro_inicial" class="form-control" value="">'
         controls += '</div>'
         controls += '</div>'
 
         controls += '<div class="form-group row">'
-        controls += '<label class="col-8 col-form-label text-left">Ah. programado: S/. ' + res.monto_ahorro_programado.toFixed(2) + '</label>'
+        controls += '<label class="col-8 col-form-label text-left">Ah. programado: S/. ' + this.monto_ahorro_programado.toFixed(1) + '</label>'
         controls += '<div class="col-md-4">'
-        controls += '<input type="text" id="monto_retiro_ahorro_programado" class="form-control" value=' + res.monto_ahorro_programado.toFixed(2) + ' disabled>'
+        controls += '<input type="text" id="monto_retiro_ahorro_programado" class="form-control" value="">'
         controls += '</div>'
         controls += '</div>'
 
         controls += '<div class="form-group row">'
-        controls += '<label class="col-8 col-form-label text-left">Ah. voluntario: S/. ' + res.monto_ahorro_voluntario.toFixed(2) + '</label>'
+        controls += '<label class="col-8 col-form-label text-left">Ah. voluntario: S/. ' + this.monto_ahorro_voluntario.toFixed(1) + '</label>'
         controls += '<div class="col-md-4">'
-        controls += '<input type="text" id="monto_retiro_ahorro_voluntario" class="form-control" value=' + res.monto_ahorro_voluntario.toFixed(2) + ' disabled>'
+        controls += '<input type="text" id="monto_retiro_ahorro_voluntario" class="form-control" value="">'
         controls += '</div>'
         controls += '</div>'
 
@@ -224,21 +232,42 @@ export class ProductoRetiroAhorrosComponent implements OnInit {
             // const analista = (<HTMLInputElement>document.getElementById('analista')).value;
             // const comentario = (<HTMLInputElement>document.getElementById('comentario')).value;
 
-            const monto_retiro_ahorro_inicial = (<HTMLInputElement>document.getElementById('monto_retiro_ahorro_inicial')).value || 0;
-            const monto_retiro_ahorro_programado = (<HTMLInputElement>document.getElementById('monto_retiro_ahorro_programado')).value || 0;
-            const monto_retiro_ahorro_voluntario = (<HTMLInputElement>document.getElementById('monto_retiro_ahorro_voluntario')).value || 0;
+            const monto_retiro_ahorro_inicial = Number(Number((<HTMLInputElement>document.getElementById('monto_retiro_ahorro_inicial')).value).toFixed(1)) || 0;
+            const monto_retiro_ahorro_programado = Number(Number((<HTMLInputElement>document.getElementById('monto_retiro_ahorro_programado')).value).toFixed(1)) || 0;
+            const monto_retiro_ahorro_voluntario = Number(Number((<HTMLInputElement>document.getElementById('monto_retiro_ahorro_voluntario')).value).toFixed(1)) || 0;
 
-            if (monto_retiro_ahorro_inicial <= 0 &&
-              monto_retiro_ahorro_programado <= 0 &&
-              monto_retiro_ahorro_voluntario <= 0) {
+            if (monto_retiro_ahorro_inicial < 0 ||
+              monto_retiro_ahorro_programado < 0 ||
+              monto_retiro_ahorro_voluntario < 0) {
 
               Swal.fire({
-                text: 'El retiro no se puede realizar, revisar los montos.', icon: 'success'
+                text: 'El retiro no se puede realizar, revisar los montos.', icon: 'warning'
               });
 
               return;
             }
 
+            if (monto_retiro_ahorro_inicial === 0 &&
+              monto_retiro_ahorro_programado === 0 &&
+              monto_retiro_ahorro_voluntario === 0) {
+
+              Swal.fire({
+                text: 'El retiro no se puede realizar, no existe monto a retirar.', icon: 'warning'
+              });
+
+              return;
+            }
+
+            if ((this.monto_ahorro_inicial - monto_retiro_ahorro_inicial) < 0 ||
+              (this.monto_ahorro_programado - monto_retiro_ahorro_programado) < 0 ||
+              (this.monto_ahorro_voluntario - monto_retiro_ahorro_voluntario) < 0) {
+
+              Swal.fire({
+                text: 'El retiro no se puede realizar, los montos de retiro no pueden ser mayor al monto disponible.', icon: 'warning'
+              });
+
+              return;
+            }
 
             // console.log(monto_retiro_ahorro_inicial)
             // console.log(monto_retiro_ahorro_programado)

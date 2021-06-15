@@ -1,0 +1,131 @@
+<!-- <div class="row animated fadeIn fast" *ngIf="cargando">    
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="row" *ngIf="!cargando"> -->
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label class="form-control-label">
+                                Tipo de ahorro: <span class="text-danger">(*)</span>
+                            </label>
+                        <select class="custom-select col-12 form-control" (change)="buscarCarteraSocios($event.target.value)">
+                                <option value="" selected>--Seleccionar--</option>
+                                <option *ngFor="let item of tipos" value="{{item.id}}">{{item.descripcion}}
+                                </option>
+                            </select>
+                    </div>
+                </div>
+
+                <div class="row animated fadeIn fast" *ngIf="cargando">
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <h4 class="alert-heading">Cargando...</h4>
+                            <i class="fa fa-spin fa-refresh fa-2x"></i>
+                            <p class="mb-0">Por favor espere</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="!cargando">
+
+                    <div class="table-responsive">
+                        <table id="reporte" class="table table-bordered color-bordered-table purple-bordered-table">
+                            <thead>
+                                <tr>
+                                    <th class="font-table" width="3%">#</th>
+                                    <th class="text-center font-table">DNI</th>
+                                    <th class="text-center font-table">Socio</th>
+                                    <th class="text-center font-table">Producto</th>
+                                    <th class="text-center font-table">F. inicio</th>
+                                    <!-- <th class="text-center font-table">Programación</th>
+                                    <th class="text-center font-table">Préstamo (S/.)</th> -->
+                                    <th class="text-center font-table w100">Ahorro voluntario (S/.)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of lista; let i = index">
+                                    <td class="text-center font-table">{{ i + 1 }}</td>
+                                    <!-- <td class="text-center" *ngIf="item.recibo.estado==='Vigente'; else estado_recibo">
+                                        <span class="label label-success">{{item.recibo.estado}}</span>
+                                    </td>
+                                    <ng-template #estado_recibo>
+                                        <td class="text-center">
+                                            <span class="label label-danger">{{item.recibo.estado}}</span>
+                                        </td>
+                                    </ng-template> -->
+                                    <!-- <td class="text-center">{{ item.recibo.numero }}</td>
+                                    <td class="text-center">{{ item.recibo.numero }}</td>
+                                    <td class="text-center">{{ item.recibo.fecha }}</td> -->
+
+                                    <td class="text-center font-table">{{ item.persona.documento_identidad }}</td>
+                                    <td class="font-table">{{ item.persona.apellido_paterno }} {{ item.persona.apellido_materno }}, {{ item.persona.nombre }}</td>
+                                    <td class="text-center font-table">{{ item.producto.codigo }}</td>
+                                    <td class="font-table">{{ item.fecha_inicio }}</td>
+                                    <!-- <td class="text-center font-table">{{ item.producto.programacion }}</td>
+                                    <td class="text-center font-table">{{ item.monto_capital }}</td> -->
+                                    <td class="text-center font-table">
+                                        <input [id]="item.id + '_ahorro'" class="form-control input-personalizado" type="text" maxlength="10" (focusin)="setUltimoMontoAhorro(item.id)" (focusout)="calcularTotalAhorro(item.id)">
+                                    </td>
+                                    <!-- <td class="text-nowrap text-center">
+                                        <a *ngIf="item.recibo.estado==='Vigente'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
+                                            <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
+                                        </a>
+                                        <a *ngIf="item.recibo.estado==='Vigente' && item.diario.estado==='Abierto'" (click)="anularRecibo(item.id)" data-toggle="tooltip" data-original-title="Anular recibo">
+                                            <i class="fa fa-ban text-danger pointer"></i>
+                                        </a>
+                                    </td> -->
+                                </tr>
+
+                                <tr>
+                                    <td class="text-center font-table" colspan="5"></td>
+                                    <td class="text-center font-table">
+                                        <input id="total_ahorro" class="form-control input-personalizado" type="text" readonly>
+                                    </td>
+                                    <!-- <td class="text-nowrap text-center">
+                                        <a *ngIf="item.recibo.estado==='Vigente'" (click)="emitirDuplicado(item.id)" data-toggle="tooltip" data-original-title="Emitir duplicado">
+                                            <i class="fa fa-copy text-inverse m-r-10 pointer"></i>
+                                        </a>
+                                        <a *ngIf="item.recibo.estado==='Vigente' && item.diario.estado==='Abierto'" (click)="anularRecibo(item.id)" data-toggle="tooltip" data-original-title="Anular recibo">
+                                            <i class="fa fa-ban text-danger pointer"></i>
+                                        </a>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- <hr> -->
+                    <div class="form-group text-right row m-b-0">
+                        <div class="col-sm-12">
+                            <button type="reset" (click)="cancelar()" class="btn btn-lg btn-inverse waves-effect waves-light m-r-10">
+                                    <i class="fa fa-times-circle"></i>
+                                    &nbsp; Cancelar
+                                </button>
+                            <button type="button" (click)="verReporte()" class="btn btn-lg btn-success waves-effect waves-light m-r-10">
+                                    <i class="fa fa-file-text-o"></i>
+                                    &nbsp; Ver reporte
+                                </button>
+                            <button type="submit" (click)="realizarPago()" class="btn btn-lg btn-info waves-effect waves-light">
+                                    <i class="fa fa-save"></i>
+                                    &nbsp; Guardar
+                                </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

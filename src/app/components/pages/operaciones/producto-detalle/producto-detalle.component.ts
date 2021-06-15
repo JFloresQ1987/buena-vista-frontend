@@ -48,6 +48,7 @@ export class ProductoDetalleComponent implements OnInit {
   public form: FormGroup;
   public cuota_id: string;
   public formSubmitted = false;
+  esAdministrador: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -66,6 +67,9 @@ export class ProductoDetalleComponent implements OnInit {
     });
     this.fecha_actual = dayjs().format('DD/MM/YYYY');
     this.seguridad = this.seguridadService.seguridad;
+
+    this.esAdministrador = this.seguridad.rol.includes("Administrador");
+
     this.activatedRoute.params.subscribe(({ id }) => {
 
       this.listarProducto(id);
@@ -339,7 +343,7 @@ export class ProductoDetalleComponent implements OnInit {
   }
 
   guardar() {
-    
+
     this.formSubmitted = true;
     if (!this.form.valid) {
       Swal.fire({
@@ -347,7 +351,7 @@ export class ProductoDetalleComponent implements OnInit {
       });
       return;
     }
-    
+
     this.serviceOperacionFinancieraDetalle.actualizarOperacionFinancieraDetalle(this.cuota_id, this.form.value).subscribe(res => {
       if (res['ok']) {
         $(this.el.nativeElement.querySelector('#mdlCuota')).modal('hide');

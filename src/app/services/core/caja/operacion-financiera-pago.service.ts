@@ -155,6 +155,25 @@ export class OperacionFinancieraPagoService {
     //   );
   }
 
+  prePagarAhorroPorAnalista(lista: any[]) {
+
+    // return this.http.get(`${base_url}/operacion-financiera-pago/listar/${id_operacion_financiera}`)
+    //   .pipe(
+    //     map((res: { ok: boolean, lista: [] }) => res.lista)
+    //   );
+
+    const model = {
+      lista: lista
+    };
+
+    const url = `${base_url}/operacion-financiera-pago/pre-pagar-ahorro-por-analista`;
+    return this.http.post(url, model);
+    // return this.http.post(url, objeto)
+    //   .pipe(
+    //     map((res: { ok: boolean, recibo: [] }) => res.recibo)
+    //   );
+  }
+
   confirmarPagoAnalista(id_analista: string) {
 
 

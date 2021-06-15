@@ -399,9 +399,9 @@
                                 </td>
                                 <td class="text-center font-table" *ngIf="cuota.numero_cuota > 0">
                                     <a data-toggle="tooltip" data-original-title="Close" class="cursor">
-                                        <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="cargarCuota(cuota.id)" class="fa fa-pencil text-inverse m-r-10"></i>
+                                        <i *ngIf="esAdministrador && cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="cargarCuota(cuota.id)" class="fa fa-pencil text-inverse m-r-10"></i>
                                         <!-- <a *ngIf="cuota.estado!=='Pagado'" type="button" class="btn btn-circle" (click)="cargarCuota(cuota.id)" data-toggle="modal" data-whatever="@mdo"><i class="fa fa-pencil text-info m-r-10"></i></button> -->
-                                        <i *ngIf="cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
+                                        <i *ngIf="esAdministrador && cuota.estado !== 'Pagado' && cuota.estado !== 'Amortizado'" (click)="darBajaCuota(cuota.id)" class="fa fa-thumbs-o-down text-info m-r-10"></i>
                                     </a>
                                 </td>
                             </tr>

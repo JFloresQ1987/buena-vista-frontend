@@ -40,6 +40,7 @@ import { SaldoCreditoComponent } from './reportes/saldo-credito/saldo-credito.co
 import { CrearAnalistaComponent } from './seguridad/gestion/analista/crear/crear.component';
 import { ProductoRetiroAhorrosComponent } from './caja/producto-retiro-ahorros/producto-retiro-ahorros.component';
 import { CommonsModule } from '../commons/commons.module';
+import { AhorroPrePagoComponent } from './analista/ahorro-pre-pago/ahorro-pre-pago.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { CommonsModule } from '../commons/commons.module';
     LibroDiarioIngresosComponent,
     LibroDiarioEgresosComponent,
     SaldoCreditoComponent,
-    ProductoRetiroAhorrosComponent
+    ProductoRetiroAhorrosComponent,
+    AhorroPrePagoComponent
   ],
   exports: [
     PagesComponent,
