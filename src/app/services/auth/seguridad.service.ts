@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { Seguridad } from '../../models/auth/seguridad.model';
 import { environment } from '../../../environments/environment';
-import { identifierModuleUrl } from '@angular/compiler';
+// import { identifierModuleUrl } from '@angular/compiler';
 import { ConfigurationService } from '../configuration/configuration.service';
 // import { SesionSocioService } from '../shared/sesion-socio.service';
 // import { Socio } from 'src/app/models/core/socio.model';
